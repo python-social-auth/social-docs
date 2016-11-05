@@ -39,5 +39,5 @@ POST to `python-social-auth`_::
         });
     </script>
 
-.. _python-social-auth: https://github.com/omab/python-social-auth
+.. _python-social-auth: https://github.com/python-social-auth
 .. _Mozilla Persona: http://www.mozilla.org/persona/

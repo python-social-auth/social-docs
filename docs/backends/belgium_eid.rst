@@ -6,6 +6,6 @@ Belgium EID OpenId doesn't require major settings beside being defined on
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.belgiumeid.BelgiumEIDOpenId',
+        'social_core.backends.belgiumeid.BelgiumEIDOpenId',
         ...
     )

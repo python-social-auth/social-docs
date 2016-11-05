@@ -21,7 +21,7 @@ To enable ``python-social-auth`` support follow this steps:
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.pinterest.PinterestOAuth2',
+        'social_core.backends.pinterest.PinterestOAuth2',
         ...
     )
 

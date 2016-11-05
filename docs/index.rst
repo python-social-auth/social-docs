@@ -12,6 +12,8 @@ the needed tools to bring support to new frameworks.
 django-social-auth_ itself was a product of modified code from
 django-twitter-oauth_ and django-openid-auth_ projects.
 
+The project is now split into smaller modules to isolate and reduce
+responsibilities and improve reusability.
 
 Contents:
 

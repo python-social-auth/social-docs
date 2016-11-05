@@ -13,7 +13,7 @@ OAuth2
 
     AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.arcgis.ArcGISOAuth2',
+        'social_core.backends.arcgis.ArcGISOAuth2',
         ...
     )
 

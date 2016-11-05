@@ -9,7 +9,7 @@ Instagram uses OAuth v2 for Authentication.
 
       AUTHENTICATION_SETTINGS = (
         ...
-        'social.backends.instagram.InstagramOAuth2',
+        'social_core.backends.instagram.InstagramOAuth2',
         ...
       )
 

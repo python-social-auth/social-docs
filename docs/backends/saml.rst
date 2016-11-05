@@ -162,7 +162,7 @@ particular, there are two methods that are designed for subclasses to override:
   on the user's SAML attributes. For example, you can restrict access to your
   application to only accept users who belong to a certain department. After
   inspecting the passed attributes parameter, do nothing to allow the user to
-  login, or raise ``social.exceptions.AuthForbidden`` to reject the user.
+  login, or raise ``social_core.exceptions.AuthForbidden`` to reject the user.
 
 .. _python-saml: https://github.com/onelogin/python-saml
 .. _TestShib: https://www.testshib.org/

@@ -15,7 +15,7 @@ enable ``python-social-auth`` support follow this steps:
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.amazon.AmazonOAuth2',
+        'social_core.backends.amazon.AmazonOAuth2',
         ...
     )
 

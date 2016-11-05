@@ -6,6 +6,6 @@ Fedora OpenId doesn't require major settings beside being defined on
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.fedora.FedoraOpenId',
+        'social_core.backends.fedora.FedoraOpenId',
         ...
     )

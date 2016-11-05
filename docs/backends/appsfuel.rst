@@ -20,7 +20,7 @@ Appsfuel gives you the chance to integrate with **Live** or **Sandbox** env.
 Appsfuel Live
 -------------
 
-- Add 'social.backends.contrib.appsfuel.AppsfuelBackend' into your
+- Add 'social_core.backends.contrib.appsfuel.AppsfuelBackend' into your
   ``AUTHENTICATION_BACKENDS``.
 
 - Then you can start using ``{% url social:begin 'appsfuel' %}`` in your
@@ -30,7 +30,7 @@ Appsfuel Live
 Appsfuel Sandbox
 ----------------
 
-- Add ``'social.backends.appsfuel.AppsfuelOAuth2Sandbox'`` into your
+- Add ``'social_core.backends.appsfuel.AppsfuelOAuth2Sandbox'`` into your
   ``AUTHENTICATION_BACKENDS``.
 
 - Then you can start using ``{% url social:begin 'appsfuel-sandbox' %}`` in

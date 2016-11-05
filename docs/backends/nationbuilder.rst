@@ -22,7 +22,7 @@ steps in order to use it:
 
     AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.nationbuilder.NationBuilderOAuth2'
+        'social_core.backends.nationbuilder.NationBuilderOAuth2'
         ...
     )
 

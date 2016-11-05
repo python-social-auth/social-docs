@@ -80,16 +80,16 @@ This scenario is possible by enabling the ``associate_by_email`` pipeline
 function, like this::
 
     SOCIAL_AUTH_PIPELINE = (
-        'social.pipeline.social_auth.social_details',
-        'social.pipeline.social_auth.social_uid',
-        'social.pipeline.social_auth.auth_allowed',
-        'social.pipeline.social_auth.social_user',
-        'social.pipeline.user.get_username',
-        'social.pipeline.social_auth.associate_by_email',  # <--- enable this one
-        'social.pipeline.user.create_user',
-        'social.pipeline.social_auth.associate_user',
-        'social.pipeline.social_auth.load_extra_data',
-        'social.pipeline.user.user_details',
+        'social_core.pipeline.social_auth.social_details',
+        'social_core.pipeline.social_auth.social_uid',
+        'social_core.pipeline.social_auth.auth_allowed',
+        'social_core.pipeline.social_auth.social_user',
+        'social_core.pipeline.user.get_username',
+        'social_core.pipeline.social_auth.associate_by_email',  # <--- enable this one
+        'social_core.pipeline.user.create_user',
+        'social_core.pipeline.social_auth.associate_user',
+        'social_core.pipeline.social_auth.load_extra_data',
+        'social_core.pipeline.user.user_details',
     )
 
 This feature is disabled by default because it's not 100% secure to automate
@@ -116,7 +116,7 @@ implemented easily)::
 
     from django.contrib.auth import login
 
-    from social.apps.django_app.utils import psa
+    from social_django.utils import psa
 
     # Define an URL entry to point to this view, call it passing the
     # access_token parameter like ?access_token=<token>. The URL entry must
@@ -155,7 +155,7 @@ accomplish that behavior. There are two ways to do it.
 
 1. Overriding ``get_scope()`` method::
 
-    from social.backends.facebook import FacebookOAuth2
+    from social_core.backends.facebook import FacebookOAuth2
 
 
     class CustomFacebookOAuth2(FacebookOauth2):
@@ -194,7 +194,7 @@ accomplish that behavior. There are two ways to do it.
    providers give you the option of defining multiple redirect URLs. To do it
    just add a backend like::
 
-    from social.backends.facebook import FacebookOAuth2
+    from social_core.backends.facebook import FacebookOAuth2
 
 
     class CustomFacebookOAuth2(FacebookOauth2):
@@ -254,16 +254,16 @@ The form is rendered via a partial pipeline item like this::
 Don't forget to add the partial to the pipeline::
 
     SOCIAL_AUTH_PIPELINE = (
-        'social.pipeline.social_auth.social_details',
-        'social.pipeline.social_auth.social_uid',
-        'social.pipeline.social_auth.auth_allowed',
-        'social.pipeline.social_auth.social_user',
-        'social.pipeline.user.get_username',
+        'social_core.pipeline.social_auth.social_details',
+        'social_core.pipeline.social_auth.social_uid',
+        'social_core.pipeline.social_auth.auth_allowed',
+        'social_core.pipeline.social_auth.social_user',
+        'social_core.pipeline.user.get_username',
         'path.to.pick_character_name',
-        'social.pipeline.user.create_user',
-        'social.pipeline.social_auth.associate_user',
-        'social.pipeline.social_auth.load_extra_data',
-        'social.pipeline.user.user_details',
+        'social_core.pipeline.user.create_user',
+        'social_core.pipeline.social_auth.associate_user',
+        'social_core.pipeline.social_auth.load_extra_data',
+        'social_core.pipeline.user.user_details',
     )
 
 It needs to be somewhere before create_user because the partial will change the
@@ -295,18 +295,18 @@ do it with a pipeline function::
 Set this pipeline after ``social_user``::
 
     SOCIAL_AUTH_PIPELINE = (
-        'social.pipeline.social_auth.social_details',
-        'social.pipeline.social_auth.social_uid',
-        'social.pipeline.social_auth.auth_allowed',
-        'social.pipeline.social_auth.social_user',
+        'social_core.pipeline.social_auth.social_details',
+        'social_core.pipeline.social_auth.social_uid',
+        'social_core.pipeline.social_auth.auth_allowed',
+        'social_core.pipeline.social_auth.social_user',
         'path.to.redirect_if_no_refresh_token',
-        'social.pipeline.user.get_username',
-        'social.pipeline.user.create_user',
-        'social.pipeline.social_auth.associate_user',
-        'social.pipeline.social_auth.load_extra_data',
-        'social.pipeline.user.user_details',
+        'social_core.pipeline.user.get_username',
+        'social_core.pipeline.user.create_user',
+        'social_core.pipeline.social_auth.associate_user',
+        'social_core.pipeline.social_auth.load_extra_data',
+        'social_core.pipeline.user.user_details',
     )
 
 
-.. _python-social-auth: https://github.com/omab/python-social-auth
+.. _python-social-auth: https://github.com/python-social-auth
 .. _People API endpoint: https://developers.google.com/+/api/latest/people/list

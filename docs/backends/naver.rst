@@ -9,7 +9,7 @@ Naver uses OAuth v2 for Authentication.
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.naver.NaverOAuth2',
+        'social_core.backends.naver.NaverOAuth2',
         ...
     )
 

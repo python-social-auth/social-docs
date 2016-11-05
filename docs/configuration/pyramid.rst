@@ -8,8 +8,16 @@ details on how to enable this application on Pyramid.
 Dependencies
 ------------
 
-The `Pyramid built-in app`_ depends on sqlalchemy_, there's no support for others
+The `Pyramid app`_ depends on sqlalchemy_, there's no support for others
 ORMs yet but pull-requests are welcome.
+
+
+Installing
+----------
+
+From pypi_::
+
+    $ pip install social-auth-app-pyramid
 
 
 Enabling the application
@@ -19,8 +27,8 @@ The application can be scanned by ``Configurator.scan()``, also it defines an
 ``includeme()`` in the ``__init__.py`` file which will add the needed routes to
 your application configuration. To scan it just add::
 
-    config.include('social.apps.pyramid_app')
-    config.scan('social.apps.pyramid_app')
+    config.include('social_pyramid')
+    config.scan('social_pyramid')
 
 
 Models Setup
@@ -32,7 +40,7 @@ used on your project (check *User model reference* below). Once the Pyramid
 application configuration and database are defined, call ``init_social`` to
 register the models::
 
-    from social.apps.pyramid_app.models import init_social
+    from social_pyramid.models import init_social
 
     init_social(config, Base, DBSession)
 
@@ -110,7 +118,7 @@ Also you can add the backends (associated and not associated to a user) by
 enabling this context function in your project::
 
     from pyramid.events import subscriber, BeforeRender
-    from social.apps.pyramid_app.utils import backends
+    from social_pyramid.utils import backends
 
     @subscriber(BeforeRender)
     def add_social(event):
@@ -131,7 +139,8 @@ names not associated and backends will have all the enabled backends names.
 
 
 .. _Pyramid: http://www.pylonsproject.org/projects/pyramid/about
-.. _python-social-auth: https://github.com/omab/python-social-auth
-.. _Pyramid built-in app: https://github.com/omab/python-social-auth/tree/master/social/apps/pyramid_app
+.. _python-social-auth: https://github.com/python-social-auth
+.. _Pyramid app: https://github.com/python-social-auth/social-app-pyramid
 .. _sqlalchemy: http://www.sqlalchemy.org/
-.. _auth.py: https://github.com/omab/python-social-auth/blob/master/examples/pyramid_example/example/auth.py
+.. _auth.py: https://github.com/python-social-auth/social-examples/blob/master/example-pyramid/example/auth.py
+.. _pypi: http://pypi.python.org/pypi/social-auth-app-pyramid/

@@ -8,8 +8,22 @@ details on how to enable this application on Flask.
 Dependencies
 ------------
 
-The `Flask built-in app` depends on sqlalchemy_, there's initial support for
-MongoEngine_ ORM too (check below for more details).
+The `Flask app` does not depend on any storage backend by
+default. There's support for SQLAlchemy_, MongoEngine_ and Peewee_.
+
+
+Installing
+----------
+
+Install the flask core from pypi_::
+
+    $ pip install social-auth-app-flask
+
+Install any of the storage solutions::
+
+    $ pip install social-auth-app-flask-sqlalchemy
+    $ pip install social-auth-app-flask-mongoengine
+    $ pip install social-auth-app-flask-peewee
 
 
 Enabling the application
@@ -18,13 +32,17 @@ Enabling the application
 The applications define a `Flask Blueprint`_, which needs to be registered once
 the Flask app is configured by::
 
-    from social.apps.flask_app.routes import social_auth
+    from social_flask.routes import social_auth
 
     app.register_blueprint(social_auth)
 
 For MongoEngine_ you need this setting::
 
-    SOCIAL_AUTH_STORAGE = 'social.apps.flask_app.me.models.FlaskStorage'
+    SOCIAL_AUTH_STORAGE = 'social_flask_mongoengine.models.FlaskStorage'
+
+For Peewee_ you need this setting::
+
+    SOCIAL_AUTH_STORAGE = 'social_flask_peewee.models.FlaskStorage'
 
 
 Models Setup
@@ -35,13 +53,19 @@ because they need the reference to the current db instance and the User model
 used on your project (check *User model reference* below). Once the Flask app
 and the database are defined, call ``init_social`` to register the models::
 
-    from social.apps.flask_app.default.models import init_social
+    from social_flask_sqlalchemy.models import init_social
 
     init_social(app, db)
 
 For MongoEngine_::
 
-    from social.apps.flask_app.me.models import init_social
+    from social_flask_mongoengine.models import init_social
+
+    init_social(app, db)
+
+For Peewee_::
+
+    from social_flask_peewee.models import init_social
 
     init_social(app, db)
 
@@ -136,7 +160,7 @@ python-social-auth_. The same can be accomplished (even on a simpler way) in
 Flask by defining an errorhandler_. For example the next code will redirect any
 social-auth exception to a ``/socialerror`` URL::
 
-    from social.exceptions import SocialAuthBaseException
+    from social_core.exceptions import SocialAuthBaseException
 
 
     @app.errorhandler(500)
@@ -152,9 +176,12 @@ handlers won't be called.
 
 .. _Flask Blueprint: http://flask.pocoo.org/docs/blueprints/
 .. _Flask-Login: https://github.com/maxcountryman/flask-login
-.. _python-social-auth: https://github.com/omab/python-social-auth
-.. _Flask built-in app: https://github.com/omab/python-social-auth/tree/master/social/apps/flask_app
+.. _python-social-auth: https://github.com/python-social-auth
+.. _Flask built-in app: https://github.com/python-social-auth/social-app-flask
 .. _sqlalchemy: http://www.sqlalchemy.org/
-.. _exceptions: https://github.com/omab/python-social-auth/blob/master/social/exceptions.py
+.. _exceptions: https://github.com/python-social-auth/social-core/blob/master/social_core/exceptions.py
 .. _errorhandler: http://flask.pocoo.org/docs/api/#flask.Flask.errorhandler
 .. _MongoEngine: http://mongoengine.org
+.. _SQLAlchemy: http://www.sqlalchemy.org/
+.. _Peewee: http://docs.peewee-orm.com/en/latest/
+.. _pypi: http://pypi.python.org/pypi/social-auth-app-flask/

@@ -13,7 +13,7 @@ Box works similar to Facebook (OAuth2).
 - By default the token is not permanent, it will last an hour. To refresh the
   access token just do::
 
-    from social.apps.django_app.utils import load_strategy
+    from social_django.utils import load_strategy
 
     strategy = load_strategy(backend='box')
     user = User.objects.get(pk=foo)

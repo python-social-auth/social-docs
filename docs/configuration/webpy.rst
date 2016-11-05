@@ -9,8 +9,16 @@ it run.
 Dependencies
 ------------
 
-The `Webpy built-in app` depends on sqlalchemy_, there's no support for others
+The `Webpy app` depends on sqlalchemy_, there's no support for others
 ORMs yet but pull-requests are welcome.
+
+
+Installing
+----------
+
+From pypi_::
+
+    $ pip install social-auth-app-webpy
 
 
 Configuration
@@ -19,12 +27,12 @@ Configuration
 Add the needed settings into ``web.config`` store. Settings are prefixed with
 ``SOCIAL_AUTH_`` but there's a helper for it::
 
-    from social.utils import setting_name
+    from social_core.utils import setting_name
 
     web.config[setting_name('USER_MODEL')] = 'models.User'
     web.config[setting_name('LOGIN_REDIRECT_URL')] = '/done/'
     web.config[setting_name('AUTHENTICATION_BACKENDS')] = (
-        'social.backends.google.GoogleOAuth2',
+        'social_core.backends.google.GoogleOAuth2',
         ...
     )
 
@@ -37,7 +45,7 @@ URLs
 
 Add the social application into URLs::
 
-    from social.apps.webpy_app import app as social_app
+    from social_webpy import app as social_app
 
     urls = (
         ...
@@ -68,7 +76,8 @@ a reference to it is kept on ``UserSocialAuth`` instance. Define like this::
 Where the value is the import path to the User model used on your project.
 
 
-.. _python-social-auth: https://github.com/omab/python-social-auth
+.. _python-social-auth: https://github.com/python-social-auth
 .. _Webpy: http://webpy.org/
-.. _Webpy built-in app: https://github.com/omab/python-social-auth/tree/master/social/apps/webpy_app
+.. _Webpy built-in app: https://github.com/python-social-auth/social-app-webpy
 .. _sqlalchemy: http://www.sqlalchemy.org/
+.. _pypi: http://pypi.python.org/pypi/social-auth-app-webpy/

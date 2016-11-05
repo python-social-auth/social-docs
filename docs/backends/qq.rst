@@ -15,7 +15,7 @@ QQ implemented OAuth2 protocol for their authentication mechanism. To enable
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.qq.QQOauth2',
+        'social_core.backends.qq.QQOauth2',
         ...
     )
 

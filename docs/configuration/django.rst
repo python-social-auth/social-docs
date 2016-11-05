@@ -6,6 +6,18 @@ from `django-social-auth`_. Here are some details on configuring this
 application on Django.
 
 
+Installing
+----------
+
+From pypi_::
+
+    $ pip install social-auth-app-django
+
+And for MongoEngine_ ORM::
+
+    $ pip install social-auth-app-django-mongoengine
+
+
 Register the application
 ------------------------
 
@@ -16,7 +28,7 @@ Add the application to ``INSTALLED_APPS`` setting, for default ORM::
 
     INSTALLED_APPS = (
         ...
-        'social.apps.django_app.default',
+        'social_django',
         ...
     )
 
@@ -24,13 +36,13 @@ And for MongoEngine_ ORM::
 
     INSTALLED_APPS = (
         ...
-        'social.apps.django_app.me',
+        'social_django_mongoengine',
         ...
     )
 
 Also ensure to define the MongoEngine_ storage setting::
 
-    SOCIAL_AUTH_STORAGE = 'social.apps.django_app.me.models.DjangoStorage'
+    SOCIAL_AUTH_STORAGE = 'social_django_mongoengine.models.DjangoStorage'
 
 
 Database
@@ -40,19 +52,6 @@ Database
 
     ./manage.py migrate
 
-If you're still using South, you'll need override SOUTH_MIGRATION_MODULES_::
-
-    SOUTH_MIGRATION_MODULES = {
-        'default': 'social.apps.django_app.default.south_migrations'
-    }
-
-Note that Django's app labels take the last part of the import, so
-in this case ``social.apps.django_app.default`` becomes ``default`` here.
-
-Sync database to create needed models::
-
-    ./manage.py syncdb
-
 
 Authentication backends
 -----------------------
@@ -61,12 +60,12 @@ Add desired authentication backends to Django's AUTHENTICATION_BACKENDS_
 setting::
 
     AUTHENTICATION_BACKENDS = (
-        'social.backends.open_id.OpenIdAuth',
-        'social.backends.google.GoogleOpenId',
-        'social.backends.google.GoogleOAuth2',
-        'social.backends.google.GoogleOAuth',
-        'social.backends.twitter.TwitterOAuth',
-        'social.backends.yahoo.YahooOpenId',
+        'social_core.backends.open_id.OpenIdAuth',
+        'social_core.backends.google.GoogleOpenId',
+        'social_core.backends.google.GoogleOAuth2',
+        'social_core.backends.google.GoogleOAuth',
+        'social_core.backends.twitter.TwitterOAuth',
+        'social_core.backends.yahoo.YahooOpenId',
         ...
         'django.contrib.auth.backends.ModelBackend',
     )
@@ -85,7 +84,7 @@ Add URLs entries::
 
     urlpatterns = patterns('',
         ...
-        url('', include('social.apps.django_app.urls', namespace='social'))
+        url('', include('social_django.urls', namespace='social'))
         ...
     )
 
@@ -102,8 +101,8 @@ template context::
 
     TEMPLATE_CONTEXT_PROCESSORS = (
         ...
-        'social.apps.django_app.context_processors.backends',
-        'social.apps.django_app.context_processors.login_redirect',
+        'social_django.context_processors.backends',
+        'social_django.context_processors.login_redirect',
         ...
     )
 
@@ -136,9 +135,8 @@ When using MongoEngine_ make sure you've followed the instructions for
 Alternate storage models implementations currently follow a tight pattern of
 models that behave near or identical to Django ORM models. It is currently
 not decoupled from this pattern by any abstraction layer. If you would like
-to implement your own alternate, please see the
-``social.apps.django_app.default.models`` and
-``social.apps.django_app.me.models`` modules for guidance.
+to implement your own alternate, please see the ``social_django.models`` and
+``social_django_mongoengine.models`` modules for guidance.
 
 
 Exceptions Middleware
@@ -148,7 +146,7 @@ A base middleware is provided that handles ``SocialAuthBaseException`` by
 providing a message to the user via the Django messages framework, and then
 responding with a redirect to a URL defined in one of the middleware methods.
 
-The middleware is at ``social.apps.django_app.middleware.SocialAuthExceptionMiddleware``.
+The middleware is at ``social_django.middleware.SocialAuthExceptionMiddleware``.
 Any method can be overridden, but for simplicity these two are recommended::
 
     get_message(request, exception)
@@ -207,7 +205,8 @@ The fields listed **must** be user models fields.
 .. _MongoEngine: http://mongoengine.org
 .. _MongoEngine Django integration: http://mongoengine-odm.readthedocs.org/en/latest/django.html
 .. _django-social-auth: https://github.com/omab/django-social-auth
-.. _Django built-in app: https://github.com/omab/python-social-auth/tree/master/social/apps/django_app
+.. _Django built-in app: https://github.com/python-social-auth/social-app-django
 .. _AUTHENTICATION_BACKENDS: http://docs.djangoproject.com/en/dev/ref/settings/?from=olddocs#authentication-backends
 .. _django@dc43fbc: https://github.com/django/django/commit/dc43fbc2f21c12e34e309d0e8a121020391aa03a
 .. _SOUTH_MIGRATION_MODULES: http://south.readthedocs.org/en/latest/settings.html#south-migration-modules
+.. _pypi: http://pypi.python.org/pypi/social-auth-app-django/

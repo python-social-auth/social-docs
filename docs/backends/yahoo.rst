@@ -12,7 +12,7 @@ in the ``AUTHENTICATION_BACKENDS`` setting::
 
     AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.yahoo.YahooOpenId',
+        'social_core.backends.yahoo.YahooOpenId',
         ...
     )
 

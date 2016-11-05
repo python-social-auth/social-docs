@@ -22,13 +22,13 @@ Backend settings
     Used to redirect the user to the login/signup form, it must have at least
     one field named ``email``. Form submit should go to ``/complete/email``,
     or if it goes to your view, then your view should complete the process
-    calling ``social.actions.do_complete``.
+    calling ``social_core.actions.do_complete``.
 
 ``SOCIAL_AUTH_EMAIL_FORM_HTML = 'login_form.html'``
     The template will be used to render the login/signup form to the user, it
     must have at least one field named ``email``. Form submit should go to
     ``/complete/email``, or if it goes to your view, then your view should
-    complete the process calling ``social.actions.do_complete``.
+    complete the process calling ``social_core.actions.do_complete``.
 
 
 Email validation
@@ -53,6 +53,6 @@ Here's an example of password handling to add to the pipeline::
             # return {'user': None, 'social': None}
             raise AuthForbidden(backend)
 
-.. _python-social-auth: https://github.com/omab/python-social-auth
-.. _EmailAuth: https://github.com/omab/python-social-auth/blob/master/social/backends/email.py#L5
+.. _python-social-auth: https://github.com/python-social-auth
+.. _EmailAuth: https://github.com/python-social-auth/social-core/blob/master/social_core/backends/email.py
 .. _pipeline docs: ../pipeline.html#email-validation

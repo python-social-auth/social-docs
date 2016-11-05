@@ -12,7 +12,7 @@ Twilio
 - Add desired authentication backends to Django's ``SOCIAL_AUTH_AUTHENTICATION_BACKENDS``
   setting::
 
-    'social.backends.twilio.TwilioAuth',
+    'social_core.backends.twilio.TwilioAuth',
 
 - Usage example::
 

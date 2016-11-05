@@ -10,7 +10,7 @@ To setup Rdio OAuth 1.0a, add the following to your settings page::
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.rdio.RdioOAuth1',
+        'social_core.backends.rdio.RdioOAuth1',
         ...
     )
 
@@ -25,7 +25,7 @@ To setup Rdio OAuth 2.0, add the following to your settings page::
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.rdio.RdioOAuth2',
+        'social_core.backends.rdio.RdioOAuth2',
         ...
     )
 

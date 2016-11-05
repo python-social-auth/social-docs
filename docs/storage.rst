@@ -136,7 +136,7 @@ Validation code
 
 This class is used to keep track of email validations codes following the usual
 email validation mechanism of sending an email to the user with a unique code.
-This model is used by the partial pipeline ``social.pipeline.mail.mail_validation``.
+This model is used by the partial pipeline ``social_core.pipeline.mail.mail_validation``.
 Check the docs at *Email validation* in `pipeline docs`_.
 
 When implementing the model for your framework only one method needs to be
@@ -186,15 +186,15 @@ Check for current implementations for `Django App`_, `Flask App`_, `Pyramid
 App`_, and `Webpy App`_ for examples of implementations.
 
 
-.. _UserMixin: https://github.com/omab/python-social-auth/blob/master/social/storage/base.py#L15
-.. _NonceMixin: https://github.com/omab/python-social-auth/blob/master/social/storage/base.py#L149
-.. _AssociationMixin: https://github.com/omab/python-social-auth/blob/master/social/storage/base.py#L161
-.. _BaseStorage: https://github.com/omab/python-social-auth/blob/master/social/storage/base.py#L201
-.. _SQLAlchemy ORM: https://github.com/omab/python-social-auth/blob/master/social/storage/sqlalchemy_orm.py
-.. _Django ORM: https://github.com/omab/python-social-auth/blob/master/social/storage/django_orm.py
-.. _Django App: https://github.com/omab/python-social-auth/blob/master/social/apps/django_app/default/models.py
-.. _Flask App: https://github.com/omab/python-social-auth/blob/master/social/apps/flask_app/models.py
-.. _Pyramid App: https://github.com/omab/python-social-auth/blob/master/social/apps/pyramid_app/models.py
-.. _Webpy App: https://github.com/omab/python-social-auth/blob/master/social/apps/webpy_app/models.py
+.. _UserMixin: https://github.com/python-social-auth/social-core/blob/master/social_core/storage.py#L21
+.. _NonceMixin: https://github.com/python-social-auth/social-core/blob/master/social_core/storage.py#L166
+.. _AssociationMixin: https://github.com/python-social-auth/social-core/blob/master/social_core/storage.py#L178
+.. _BaseStorage: https://github.com/python-social-auth/social-core/blob/master/social_core/storage.py#L248
+.. _SQLAlchemy ORM: https://github.com/python-social-auth/social-storage-sqlalchemy/blob/master/social_sqlalchemy/storage.py
+.. _Django ORM: https://github.com/python-social-auth/social-app-django/blob/master/social_django/storage.py
+.. _Django App: https://github.com/python-social-auth/social-app-django/blob/master/social_django/models.py
+.. _Flask App: https://github.com/python-social-auth/social-app-django/blob/master/social_flask/models.py
+.. _Pyramid App: https://github.com/python-social-auth/social-app-pyramid/blob/master/social_pyramid/models.py
+.. _Webpy App: https://github.com/python-social-auth/social-app-webpy/blob/master/social_webpy/models.py
 .. _pipeline docs: pipeline.html#email-validation
 .. _transaction: https://pypi.python.org/pypi/transaction

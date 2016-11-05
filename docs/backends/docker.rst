@@ -14,7 +14,7 @@ Docker.io now supports OAuth2 for their API. In order to set it up:
       SOCIAL_AUTH_DOCKER_KEY = ''
       SOCIAL_AUTH_DOCKER_SECRET = ''
 
-- Add ``'social.backends.docker.DockerOAuth2'`` into your
+- Add ``'social_core.backends.docker.DockerOAuth2'`` into your
   ``SOCIAL_AUTH_AUTHENTICATION_BACKENDS``.
 
 .. _Register Your Application: http://docs.docker.io/en/latest/reference/api/docker_io_oauth_api/#register-your-application

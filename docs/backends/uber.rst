@@ -12,7 +12,7 @@ OAuth2
 
       SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
           ...
-          'social.backends.uber.UberOAuth2',
+          'social_core.backends.uber.UberOAuth2',
           ...
       )
 

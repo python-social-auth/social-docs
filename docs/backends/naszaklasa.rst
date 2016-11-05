@@ -18,7 +18,7 @@ steps in order to use it:
 
     AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.nk.NKOAuth2',
+        'social_core.backends.nk.NKOAuth2',
         ...
     )
 

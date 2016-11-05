@@ -9,7 +9,7 @@ The `Mixcloud API`_ offers support for authorization. To this backend support:
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.mixcloud.MixcloudOAuth2',
+        'social_core.backends.mixcloud.MixcloudOAuth2',
     )
 
 - Fill ``Client Id`` and ``Client Secret`` values in the settings::

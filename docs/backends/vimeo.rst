@@ -21,7 +21,7 @@ running follow:
 
     AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.vimeo.VimeoOAuth1',
+        'social_core.backends.vimeo.VimeoOAuth1',
         ...
     )
 

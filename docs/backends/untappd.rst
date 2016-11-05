@@ -17,7 +17,7 @@ Untappd uses OAuth v2 for Authentication, check the `official docs`_.
 
         AUTHENTICATION_BACKENDS = (
             ...
-            'social.backends.untappd.UntappdOAuth2',
+            'social_core.backends.untappd.UntappdOAuth2',
             ...
         )
 

@@ -14,7 +14,7 @@ Add the Dropbox OAuth backend to your settings page::
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.dropbox.DropboxOAuth',
+        'social_core.backends.dropbox.DropboxOAuth',
         ...
     )
 
@@ -30,7 +30,7 @@ Add the Dropbox OAuth2 backend to your settings page::
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.dropbox.DropboxOAuth2',
+        'social_core.backends.dropbox.DropboxOAuth2',
         ...
     )
 

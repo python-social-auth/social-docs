@@ -12,7 +12,7 @@ Add the Upwork OAuth backend to your settings page::
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.upwork.UpworkOAuth',
+        'social_core.backends.upwork.UpworkOAuth',
         ...
     )
 

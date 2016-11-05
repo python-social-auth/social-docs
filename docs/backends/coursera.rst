@@ -17,7 +17,7 @@ Take the following steps in order to use the backend:
 
     AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.coursera.CourseraOAuth2',
+        'social_core.backends.coursera.CourseraOAuth2',
         ...
     )
 

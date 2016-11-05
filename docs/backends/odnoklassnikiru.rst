@@ -18,7 +18,7 @@ If you use OAuth2 workflow, you need to:
     SOCIAL_AUTH_ODNOKLASSNIKI_OAUTH2_SECRET = ''
     SOCIAL_AUTH_ODNOKLASSNIKI_OAUTH2_PUBLIC_NAME = ''
 
-- add ``'social.backends.odnoklassniki.OdnoklassnikiOAuth2'`` into your
+- add ``'social_core.backends.odnoklassniki.OdnoklassnikiOAuth2'`` into your
   ``SOCIAL_AUTH_AUTHENTICATION_BACKENDS``.
 
 
@@ -39,7 +39,7 @@ If you want to authenticate users in your IFrame application,
     SOCIAL_AUTH_ODNOKLASSNIKI_APP_SECRET = ''
     SOCIAL_AUTH_ODNOKLASSNIKI_APP_PUBLIC_NAME = ''
 
-- add ``'social.backends.odnoklassniki.OdnoklassnikiApp'`` into your
+- add ``'social_core.backends.odnoklassniki.OdnoklassnikiApp'`` into your
   ``SOCIAL_AUTH_AUTHENTICATION_BACKENDS``
 
 - sign a public offer and do some bureaucracy

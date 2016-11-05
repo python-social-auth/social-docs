@@ -43,6 +43,6 @@ a lot to work on, like:
     * Frameworks support
 
 .. _HTTPretty: https://github.com/gabrielfalcao/HTTPretty
-.. _tests: https://github.com/omab/python-social-auth/tree/master/tests
-.. _requirements.txt: https://github.com/omab/python-social-auth/blob/master/tests/requirements.txt
+.. _tests: https://github.com/python-social-auth/social-core/tree/master/social_core/tests
+.. _requirements.txt: https://github.com/python-social-auth/social-core/blob/master/social_core/tests/requirements.txt
 .. _tox: http://tox.readthedocs.org/

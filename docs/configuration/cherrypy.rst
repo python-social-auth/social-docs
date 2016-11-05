@@ -22,14 +22,22 @@ Expected values are:
 Dependencies
 ------------
 
-The `CherryPy built-in application` depends on sqlalchemy_, there's no support for
-others ORMs yet but pull-requests are welcome.
+The `CherryPy application` depends on sqlalchemy_, there's no support for
+others ORMs yet.
+
+
+Installing
+----------
+
+From pypi_::
+
+    $ pip install social-auth-app-cherrypy
 
 
 Enabling the application
 ------------------------
 
-The application is defined on ``social.apps.cherrypy_app.views.CherryPyPSAViews``,
+The application is defined on ``social_cherrypy.views.CherryPyPSAViews``,
 register it in the preferred way for your project.
 
 Check the rest of the docs for the other settings like enabling authentication
@@ -39,7 +47,7 @@ backends and backends keys.
 Models Setup
 ------------
 
-The models are located in ``social.apps.cherrypy_app.models``. A reference to
+The models are located in ``social_cherrypy.models``. A reference to
 your ``User`` model is required to be defined in the project settings, it
 should be an import path, for example::
 
@@ -77,5 +85,6 @@ for example::
     cherrypy.tools.authenticate = cherrypy.Tool('before_handler', load_user)
 
 
-.. _CherryPy built-in app: https://github.com/omab/python-social-auth/tree/master/social/apps/cherrypy_app
+.. _CherryPy built-in app: https://github.com/python-social-auth/social-app-cherrypy
 .. _sqlalchemy: http://www.sqlalchemy.org/
+.. _pypi: http://pypi.python.org/pypi/social-auth-app-cherrypy/

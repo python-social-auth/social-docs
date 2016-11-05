@@ -24,7 +24,7 @@ First, lets check the common attributes for all backend types.
 
 ``REQUIRES_EMAIL_VALIDATION = False``
     Flags the backend to enforce email validation during the pipeline (if the
-    corresponding pipeline ``social.pipeline.mail.mail_validation`` was
+    corresponding pipeline ``social_core.pipeline.mail.mail_validation`` was
     enabled).
 
 ``EXTRA_DATA = None``
@@ -123,7 +123,7 @@ The key points on this backends are:
 
 Example code::
 
-    from social.backends.oauth import BaseOAuth2
+    from social_core.backends.oauth import BaseOAuth2
 
     class GithubOAuth2(BaseOAuth2):
         """Github OAuth authentication backend"""
@@ -170,7 +170,7 @@ Example code::
 
     from xml.dom import minidom
 
-    from social.backends.oauth import ConsumerBasedOAuth
+    from social_core.backends.oauth import ConsumerBasedOAuth
 
 
     class TripItOAuth(ConsumerBasedOAuth):
@@ -235,8 +235,8 @@ redirected.
 
 Example code::
 
-    from social.backends.open_id import OpenIdAuth
-    from social.exceptions import AuthMissingParameter
+    from social_core.backends.open_id import OpenIdAuth
+    from social_core.exceptions import AuthMissingParameter
 
 
     class LiveJournalOpenId(OpenIdAuth):
@@ -269,8 +269,8 @@ Example code::
 
     from google.appengine.api import users
 
-    from social.backends.base import BaseAuth
-    from social.exceptions import AuthException
+    from social_core.backends.base import BaseAuth
+    from social_core.exceptions import AuthException
 
 
     class GoogleAppEngineAuth(BaseAuth):

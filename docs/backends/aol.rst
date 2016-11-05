@@ -6,6 +6,6 @@ AOL OpenId doesn't require major settings beside being defined on
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.aol.AOLOpenId',
+        'social_core.backends.aol.AOLOpenId',
         ...
     )

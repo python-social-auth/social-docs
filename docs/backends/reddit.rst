@@ -18,7 +18,7 @@ Reddit implements `OAuth2 authentication workflow`_. To enable it, just follow:
   This will store the ``refresh_token`` in ``UserSocialAuth.extra_data``
   attribute, to refresh the access token just do::
 
-    from social.apps.django_app.utils import load_strategy
+    from social_django.utils import load_strategy
 
     strategy = load_strategy(backend='reddit')
     user = User.objects.get(pk=foo)

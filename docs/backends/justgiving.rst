@@ -11,7 +11,7 @@ application and get the needed keys.
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.justgiving.JustGivingOAuth2',
+        'social_core.backends.justgiving.JustGivingOAuth2',
         ...
     )
 

@@ -13,7 +13,7 @@ Add the Beats OAuth2 backend to your settings page::
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.beats.BeatsOAuth2',
+        'social_core.backends.beats.BeatsOAuth2',
         ...
     )
 

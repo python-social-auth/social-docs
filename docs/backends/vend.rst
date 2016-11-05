@@ -9,7 +9,7 @@ Vend supports OAuth 2.
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.vend.VendOAuth2',
+        'social_core.backends.vend.VendOAuth2',
         ...
     )
 

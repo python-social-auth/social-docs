@@ -13,7 +13,7 @@ Add the Spotify OAuth2 backend to your settings page::
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.spotify.SpotifyOAuth2',
+        'social_core.backends.spotify.SpotifyOAuth2',
         ...
     )
 

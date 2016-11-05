@@ -23,7 +23,7 @@ Moves_ provides an OAuth2 authentication flow. In order to enable it:
 
     AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.moves.MovesOAuth2',
+        'social_core.backends.moves.MovesOAuth2',
         ...
     )
 

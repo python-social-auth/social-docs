@@ -11,7 +11,7 @@ ActionID doesn't require major settings beside being defined on
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.ngpvan.ActionIDOpenID',
+        'social_core.backends.ngpvan.ActionIDOpenID',
         ...
     )
 

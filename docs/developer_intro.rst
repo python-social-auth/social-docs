@@ -11,7 +11,7 @@ Understanding PSA URLs
 If you have not seen namespaced URLs before, you are about to be introduced.
 When you add the PSA entry to your urls.py, it looks like this::
 
-    url(r'', include('social.apps.django_app.urls', namespace='social'))
+    url(r'', include('social_django.urls', namespace='social'))
 
 that "namespace" part on the end is what keeps the names in the PSA-world from
 colliding with the names in your app, or other 3rd-party apps.  So your login
@@ -37,7 +37,7 @@ If you need to implement a different backend (for instance, let's say you
 want to use Intuit's OpenID), you can subclass the nearest one and override
 the "name" attribute::
 
-    from social.backends.open_id import OpenIDAuth
+    from social_core.backends.open_id import OpenIDAuth
 
     class IntuitOpenID(OpenIDAuth):
         name = 'intuit'
@@ -121,7 +121,7 @@ In our pipeline code, we would have::
 
     from django.shortcuts import redirect
     from django.contrib.auth.models import User
-    from social.pipeline.partial import partial
+    from social_core.pipeline.partial import partial
 
     # partial says "we may interrupt, but we will come back here again"
     @partial

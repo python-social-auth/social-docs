@@ -34,44 +34,44 @@ The default pipeline is composed by::
         # format to create the user instance later. On some cases the details are
         # already part of the auth response from the provider, but sometimes this
         # could hit a provider API.
-        'social.pipeline.social_auth.social_details',
+        'social_core.pipeline.social_auth.social_details',
 
         # Get the social uid from whichever service we're authing thru. The uid is
         # the unique identifier of the given user in the provider.
-        'social.pipeline.social_auth.social_uid',
+        'social_core.pipeline.social_auth.social_uid',
 
         # Verifies that the current auth process is valid within the current
         # project, this is where emails and domains whitelists are applied (if
         # defined).
-        'social.pipeline.social_auth.auth_allowed',
+        'social_core.pipeline.social_auth.auth_allowed',
 
         # Checks if the current social-account is already associated in the site.
-        'social.pipeline.social_auth.social_user',
+        'social_core.pipeline.social_auth.social_user',
 
         # Make up a username for this person, appends a random string at the end if
         # there's any collision.
-        'social.pipeline.user.get_username',
+        'social_core.pipeline.user.get_username',
 
         # Send a validation email to the user to verify its email address.
         # Disabled by default.
-        # 'social.pipeline.mail.mail_validation',
+        # 'social_core.pipeline.mail.mail_validation',
 
         # Associates the current social details with another user account with
         # a similar email address. Disabled by default.
-        # 'social.pipeline.social_auth.associate_by_email',
+        # 'social_core.pipeline.social_auth.associate_by_email',
 
         # Create a user account if we haven't found one yet.
-        'social.pipeline.user.create_user',
+        'social_core.pipeline.user.create_user',
 
         # Create the record that associates the social account with the user.
-        'social.pipeline.social_auth.associate_user',
+        'social_core.pipeline.social_auth.associate_user',
 
         # Populate the extra_data field in the social record with the values
         # specified by settings (and the default ones like access_token, etc).
-        'social.pipeline.social_auth.load_extra_data',
+        'social_core.pipeline.social_auth.load_extra_data',
 
         # Update the user record with any changed info from the auth service.
-        'social.pipeline.user.user_details',
+        'social_core.pipeline.user.user_details',
     )
 
 
@@ -80,13 +80,13 @@ For example, a pipeline that won't create users, just accept already registered
 ones would look like this::
 
     SOCIAL_AUTH_PIPELINE = (
-        'social.pipeline.social_auth.social_details',
-        'social.pipeline.social_auth.social_uid',
-        'social.pipeline.social_auth.auth_allowed',
-        'social.pipeline.social_auth.social_user',
-        'social.pipeline.social_auth.associate_user',
-        'social.pipeline.social_auth.load_extra_data',
-        'social.pipeline.user.user_details',
+        'social_core.pipeline.social_auth.social_details',
+        'social_core.pipeline.social_auth.social_uid',
+        'social_core.pipeline.social_auth.auth_allowed',
+        'social_core.pipeline.social_auth.social_user',
+        'social_core.pipeline.social_auth.associate_user',
+        'social_core.pipeline.social_auth.load_extra_data',
+        'social_core.pipeline.user.user_details',
     )
 
 Note that this assumes the user is already authenticated, and thus the ``user`` key
@@ -96,10 +96,10 @@ pipeline method must be provided that populates the ``user`` key. Example::
 
     SOCIAL_AUTH_PIPELINE = (
         'myapp.pipeline.load_user',
-        'social.pipeline.social_auth.social_user',
-        'social.pipeline.social_auth.associate_user',
-        'social.pipeline.social_auth.load_extra_data',
-        'social.pipeline.user.user_details',
+        'social_core.pipeline.social_auth.social_user',
+        'social_core.pipeline.social_auth.associate_user',
+        'social_core.pipeline.social_auth.load_extra_data',
+        'social_core.pipeline.user.user_details',
     )
 
 Each pipeline function will receive the following parameters:
@@ -109,7 +109,7 @@ Each pipeline function will receive the following parameters:
     * ``is_new`` flag (initialized as ``False``)
     * Any arguments passed to ``auth_complete`` backend method, default views
       pass these arguments:
-      
+
       * current logged in user (if it's logged in, otherwise ``None``)
       * current request
 
@@ -136,16 +136,16 @@ In order to override the disconnection pipeline, just define the setting::
         # Verifies that the social association can be disconnected from the current
         # user (ensure that the user login mechanism is not compromised by this
         # disconnection).
-        'social.pipeline.disconnect.allowed_to_disconnect',
+        'social_core.pipeline.disconnect.allowed_to_disconnect',
 
         # Collects the social associations to disconnect.
-        'social.pipeline.disconnect.get_entries',
+        'social_core.pipeline.disconnect.get_entries',
 
         # Revoke any access_token when possible.
-        'social.pipeline.disconnect.revoke_tokens',
+        'social_core.pipeline.disconnect.revoke_tokens',
 
         # Removes the social associations.
-        'social.pipeline.disconnect.disconnect',
+        'social_core.pipeline.disconnect.disconnect',
     )
 
 
@@ -157,7 +157,7 @@ data and resume the process later. To accomplish this decorate the function
 that will cut the process with the ``@partial`` decorator located at
 ``social/pipeline/partial.py``.
 
-The old ``social.pipeline.partial.save_status_to_session`` is now deprecated.
+The old ``social_core.pipeline.partial.save_status_to_session`` is now deprecated.
 
 When it's time to resume the process just redirect the user to ``/complete/<backend>/``
 or ``/disconnect/<backend>/`` view. The pipeline will resume in the same
@@ -178,7 +178,7 @@ Email validation
 There's a pipeline to validate email addresses, but it relies a lot on your
 project.
 
-The pipeline is at ``social.pipeline.mail.mail_validation`` and it's a partial
+The pipeline is at ``social_core.pipeline.mail.mail_validation`` and it's a partial
 pipeline, it will return a redirect to a URL that you can use to tell the
 users that an email validation was sent to them. If you want to mention the
 email address you can get it from the session under the key ``email_validation_address``.
@@ -235,7 +235,7 @@ or even halt the whole process.
 Extending the pipeline implies:
 
     1. Writing a function
-    2. Locating the function in an accessible path 
+    2. Locating the function in an accessible path
        (accessible in the way that it can be imported)
     3. Overriding the default pipeline definition with one that includes
        newly created function.
@@ -243,8 +243,8 @@ Extending the pipeline implies:
 The part of writing the function is quite simple. However please be careful
 when placing your function in the pipeline definition, because order
 does matter in this case! Ordering of functions in ``SOCIAL_AUTH_PIPELINE``
-will determine the value of arguments that each function will receive. 
-For example, adding your function after ``social.pipeline.user.create_user``
+will determine the value of arguments that each function will receive.
+For example, adding your function after ``social_core.pipeline.user.create_user``
 ensures that your function will get the user instance (created or already existent)
 instead of a ``None`` value.
 
@@ -325,24 +325,24 @@ the timezone in our ``Profile`` model::
 
 Now all that's needed is to tell ``python-social-auth`` to use our function in
 the pipeline. Since the function uses user instance, we need to put it after
-``social.pipeline.user.create_user``::
+``social_core.pipeline.user.create_user``::
 
     SOCIAL_AUTH_PIPELINE = (
-        'social.pipeline.social_auth.social_details',
-        'social.pipeline.social_auth.social_uid',
-        'social.pipeline.social_auth.auth_allowed',
-        'social.pipeline.social_auth.social_user',
-        'social.pipeline.user.get_username',
-        'social.pipeline.user.create_user',
+        'social_core.pipeline.social_auth.social_details',
+        'social_core.pipeline.social_auth.social_uid',
+        'social_core.pipeline.social_auth.auth_allowed',
+        'social_core.pipeline.social_auth.social_user',
+        'social_core.pipeline.user.get_username',
+        'social_core.pipeline.user.create_user',
         'path.to.save_profile',  # <--- set the path to the function
-        'social.pipeline.social_auth.associate_user',
-        'social.pipeline.social_auth.load_extra_data',
-        'social.pipeline.user.user_details',
+        'social_core.pipeline.social_auth.associate_user',
+        'social_core.pipeline.social_auth.load_extra_data',
+        'social_core.pipeline.user.user_details',
     )
 
 So far the function we created returns ``None``, which is taken as if ``{}`` was returned.
 If you want the ``profile`` object to be available to the next function in the
 pipeline, all you need to do is return ``{'profile': profile}``.
 
-.. _python-social-auth: https://github.com/omab/python-social-auth
-.. _example applications: https://github.com/omab/python-social-auth/tree/master/examples
+.. _python-social-auth: https://github.com/python-social-auth
+.. _example applications: https://github.com/python-social-auth/social-examples

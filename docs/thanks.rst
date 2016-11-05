@@ -113,7 +113,7 @@ let me know and I'll update the list):
   * browniebroke_
 
 
-.. _python-social-auth: https://github.com/omab/python-social-auth
+.. _python-social-auth: https://github.com/python-social-auth
 .. _django-social-auth: https://github.com/omab/django-social-auth
 .. _kjoconnor: https://github.com/kjoconnor
 .. _krvss: https://github.com/krvss

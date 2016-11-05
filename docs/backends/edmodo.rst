@@ -9,7 +9,7 @@ Edmodo supports OAuth 2.
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.edmodo.EdmodoOAuth2',
+        'social_core.backends.edmodo.EdmodoOAuth2',
         ...
     )
 

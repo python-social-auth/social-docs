@@ -14,7 +14,7 @@ Salesforce uses OAuth v2 for Authentication, check the `official docs`_.
 
         AUTHENTICATION_BACKENDS = (
             ...
-            'social.backends.salesforce.SalesforceOAuth2',
+            'social_core.backends.salesforce.SalesforceOAuth2',
             ...
         )
 
@@ -33,7 +33,7 @@ If using the sandbox mode:
 
         AUTHENTICATION_BACKENDS = (
             ...
-            'social.backends.salesforce.SalesforceOAuth2Sandbox',
+            'social_core.backends.salesforce.SalesforceOAuth2Sandbox',
             ...
         )
 

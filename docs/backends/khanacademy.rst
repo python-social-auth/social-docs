@@ -17,7 +17,7 @@ Follow this steps in order to use the backend:
 
     AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.khanacademy.KhanAcademyOAuth1',
+        'social_core.backends.khanacademy.KhanAcademyOAuth1',
         ...
     )
 

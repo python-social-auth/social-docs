@@ -48,12 +48,12 @@ Register the backends you plan to use, on Django framework use the usual
 ``SOCIAL_AUTH_AUTHENTICATION_BACKENDS``::
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
-        'social.backends.open_id.OpenIdAuth',
-        'social.backends.google.GoogleOpenId',
-        'social.backends.google.GoogleOAuth2',
-        'social.backends.google.GoogleOAuth',
-        'social.backends.twitter.TwitterOAuth',
-        'social.backends.yahoo.YahooOpenId',
+        'social_core.backends.open_id.OpenIdAuth',
+        'social_core.backends.google.GoogleOpenId',
+        'social_core.backends.google.GoogleOAuth2',
+        'social_core.backends.google.GoogleOAuth',
+        'social_core.backends.twitter.TwitterOAuth',
+        'social_core.backends.yahoo.YahooOpenId',
         ...
     )
 
@@ -286,7 +286,7 @@ Miscellaneous settings
     link ``<a href="{% url socialauth_begin 'github' %}?foo=bar">...</a>``.
 
 ``SOCIAL_AUTH_PASSWORDLESS = False``
-    When this setting is ``True`` and ``social.pipeline.mail.send_validation``
+    When this setting is ``True`` and ``social_core.pipeline.mail.send_validation``
     is enabled, it allows the implementation of a `passwordless authentication
     mechanism`_. Example of this implementation can be found at
     psa-passwordless_.

@@ -15,7 +15,7 @@ Zotero implements OAuth1 as their authentication mechanism for their Web API v3.
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.zotero.ZoteroOAuth',
+        'social_core.backends.zotero.ZoteroOAuth',
         ...
     )
 

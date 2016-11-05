@@ -19,7 +19,7 @@ When using the default ORM::
 
     INSTALLED_APPS = (
         ...
-        'social.apps.django_app.default',
+        'social_django',
         ...
     )
 
@@ -27,7 +27,7 @@ And when using MongoEngine::
 
     INSTALLED_APPS = (
         ...
-        'social.apps.django_app.me',
+        'social_django_mongoengine',
         ...
     )
 
@@ -43,7 +43,7 @@ the ``social`` namespace. Replace the old include with::
 
     urlpatterns = patterns('',
         ...
-        url('', include('social.apps.django_app.urls', namespace='social'))
+        url('', include('social_django.urls', namespace='social'))
         ...
     )
 
@@ -94,12 +94,12 @@ have some consistency, check the backends, it should be easy to track the names
 changes. Examples of the new import paths::
 
     AUTHENTICATION_BACKENDS = (
-        'social.backends.open_id.OpenIdAuth',
-        'social.backends.google.GoogleOpenId',
-        'social.backends.google.GoogleOAuth2',
-        'social.backends.google.GoogleOAuth',
-        'social.backends.twitter.TwitterOAuth',
-        'social.backends.facebook.FacebookOAuth2',
+        'social_core.backends.open_id.OpenIdAuth',
+        'social_core.backends.google.GoogleOpenId',
+        'social_core.backends.google.GoogleOAuth2',
+        'social_core.backends.google.GoogleOAuth',
+        'social_core.backends.twitter.TwitterOAuth',
+        'social_core.backends.facebook.FacebookOAuth2',
     )
 
 
@@ -123,7 +123,7 @@ paths aren't valid anymore. Some solutions to this problem are:
     from django.contrib.sessions.models import Session
 
     BACKENDS = {
-        'social_auth.backends.facebook.FacebookBackend': 'social.backends.facebook.FacebookOAuth2'
+        'social_auth.backends.facebook.FacebookBackend': 'social_core.backends.facebook.FacebookOAuth2'
     }
 
     for sess in Session.objects.iterator():
@@ -138,8 +138,8 @@ paths aren't valid anymore. Some solutions to this problem are:
 
 
 .. _django-social-auth: https://github.com/omab/django-social-auth
-.. _python-social-auth: https://github.com/omab/python-social-auth
-.. _example app: https://github.com/omab/python-social-auth/blob/master/examples/django_example/example/urls.py#L17
-.. _Facebook OAuth2 backend: https://github.com/omab/python-social-auth/blob/master/social/backends/facebook.py#L29
+.. _python-social-auth: https://github.com/python-social-auth
+.. _example app: https://github.com/python-social-auth/social-examples/blob/master/example-django/example/urls.py
+.. _Facebook OAuth2 backend: https://github.com/python-social-auth/social-core/blob/master/social_core/backends/facebook.py#L17
 .. _@tomgruner: https://github.com/tomgruner
 .. _here: https://gist.github.com/tomgruner/5ce8bb1f4c55d17b5b25

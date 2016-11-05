@@ -174,10 +174,10 @@ section.
 .. _Rdio: https://www.rdio.com
 .. _Vimeo: https://vimeo.com/
 .. _Tumblr: http://www.tumblr.com/
-.. _Django: https://github.com/omab/python-social-auth/tree/master/social/apps/django_app
-.. _Flask: https://github.com/omab/python-social-auth/tree/master/social/apps/flask_app
+.. _Django: https://github.com/python-social-auth/social-app-django
+.. _Flask: https://github.com/python-social-auth/social-app-flask
 .. _Pyramid: http://www.pylonsproject.org/projects/pyramid/about
-.. _Webpy: https://github.com/omab/python-social-auth/tree/master/social/apps/webpy_app
+.. _Webpy: https://github.com/python-social-auth/social-app-webpy
 .. _Tornado: http://www.tornadoweb.org/
 .. _Authentication Pipeline: pipeline.html
 .. _Upwork: https://www.upwork.com

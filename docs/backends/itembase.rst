@@ -9,8 +9,8 @@ Itembase uses OAuth2 for authentication.
 
       AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.itembase.ItembaseOAuth2',
-        'social.backends.itembase.ItembaseOAuth2Sandbox',
+        'social_core.backends.itembase.ItembaseOAuth2',
+        'social_core.backends.itembase.ItembaseOAuth2Sandbox',
         ...
       )
 

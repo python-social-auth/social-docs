@@ -24,7 +24,7 @@ Stripe uses OAuth2 for its authorization service. To setup Stripe backend:
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.stripe.StripeOAuth2',
+        'social_core.backends.stripe.StripeOAuth2',
         ...
     )
 

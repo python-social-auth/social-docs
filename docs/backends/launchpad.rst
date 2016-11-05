@@ -6,6 +6,6 @@ major settings beside being defined on ``AUTHENTICATION_BACKENDS```::
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.launchpad.LaunchpadOpenId',
+        'social_core.backends.launchpad.LaunchpadOpenId',
         ...
     )

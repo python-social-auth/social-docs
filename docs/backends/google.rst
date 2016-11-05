@@ -72,7 +72,7 @@ auth process.
 
     AUTHENTICATION_BACKENDS = (
         ...
-        'social.backends.google.GooglePlusAuth',
+        'social_core.backends.google.GooglePlusAuth',
     )
 
     SOCIAL_AUTH_GOOGLE_PLUS_KEY = '...'

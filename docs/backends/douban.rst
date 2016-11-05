@@ -20,7 +20,7 @@ documentation at `Douban Services & API`_:
       SOCIAL_AUTH_DOUBAN_KEY = ''
       SOCIAL_AUTH_DOUBAN_SECRET = ''
 
-- Add ``'social.backends.douban.DoubanOAuth'`` into your
+- Add ``'social_core.backends.douban.DoubanOAuth'`` into your
   ``SOCIAL_AUTH_AUTHENTICATION_BACKENDS``.
 
 
@@ -38,7 +38,7 @@ can find documentation at `Douban Developers`_. To setup OAuth2 follow:
       SOCIAL_AUTH_DOUBAN_OAUTH2_KEY = ''
       SOCIAL_AUTH_DOUBAN_OAUTH2_SECRET = ''
 
-- Add ``'social.backends.douban.DoubanOAuth2'`` into your
+- Add ``'social_core.backends.douban.DoubanOAuth2'`` into your
   ``SOCIAL_AUTH_AUTHENTICATION_BACKENDS``.
 
 .. _Douban Services & API: http://www.douban.com/service/
