@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](https://github.com/python-social-auth/social-docs/commits/master)
 
 ### Added
+- Added example of link usage for Django (port from [#1060](https://github.com/omab/python-social-auth/pull/1060)
+  by vladimirnani)
 - Added Quizlet backend (port from [#1012](https://github.com/omab/python-social-auth/pull/1012)
   by s-alexey)
 
