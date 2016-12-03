@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](https://github.com/python-social-auth/social-docs/commits/master)
 
 ### Added
+- Added docs about Mailchimp backend (port from [#1037](https://github.com/omab/python-social-auth/pull/1037)
+  by svvitale)
 - Added docs about Shimmering backend (port from [#1054](https://github.com/omab/python-social-auth/pull/1054)
   by iamkhush)
 - Added example of link usage for Django (port from [#1060](https://github.com/omab/python-social-auth/pull/1060)
