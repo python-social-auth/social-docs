@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/python-social-auth/social-docs/commits/master)
 
+### Added
+- Added Quizlet backend (port from [#1012](https://github.com/omab/python-social-auth/pull/1012)
+  by s-alexey)
+
 ### Changed
 - Updated Dropbox backend (port from [#1018](https://github.com/omab/python-social-auth/pull/1018)
   by illing2005)
