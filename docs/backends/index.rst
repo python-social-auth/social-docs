@@ -122,6 +122,7 @@ Social backends
    reddit
    runkeeper
    salesforce
+   shimmering
    shopify
    sketchfab
    skyrock
