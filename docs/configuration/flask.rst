@@ -49,25 +49,25 @@ Models Setup
 ------------
 
 At the moment the models for python-social-auth_ are defined inside a function
-because they need the reference to the current db instance and the User model
+because they need the reference to the current db session and the User model
 used on your project (check *User model reference* below). Once the Flask app
 and the database are defined, call ``init_social`` to register the models::
 
     from social_flask_sqlalchemy.models import init_social
 
-    init_social(app, db)
+    init_social(app, session)
 
 For MongoEngine_::
 
     from social_flask_mongoengine.models import init_social
 
-    init_social(app, db)
+    init_social(app, session)
 
 For Peewee_::
 
     from social_flask_peewee.models import init_social
 
-    init_social(app, db)
+    init_social(app, session)
 
 So far I wasn't able to find another way to define the models on another way
 rather than making it as a side-effect of calling this function since the
