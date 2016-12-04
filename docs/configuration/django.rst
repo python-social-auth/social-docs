@@ -210,6 +210,11 @@ For example::
 
 The fields listed **must** be user models fields.
 
+It's also possible to define more search fields, not directly related
+to the user model by definig the following setting::
+
+    SOCIAL_AUTH_ADMIN_SEARCH_FIELDS = ['field1', 'field2']
+
 .. _MongoEngine: http://mongoengine.org
 .. _MongoEngine Django integration: http://mongoengine-odm.readthedocs.org/en/latest/django.html
 .. _django-social-auth: https://github.com/omab/django-social-auth

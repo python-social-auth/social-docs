@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](https://github.com/python-social-auth/social-docs/commits/master)
 
 ### Added
+- Added documentation about Django Admin `SOCIAL_AUTH_ADMIN_SEARCH_FIELDS` setting
 - Added docs about Lyft backend (port from [#1036](https://github.com/omab/python-social-auth/pull/1036)
   by iampark)
 - Added docs about per-backend pipeline (port from [#1019](https://github.com/omab/python-social-auth/pull/1019)
