@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   by s-alexey)
 
 ### Changed
+- Removed entry about removed backend (port of [#1046](https://github.com/omab/python-social-auth/pull/1046)
+  by browniebroke)
 - Updated Flask documentation regarding the db session paramter (port fro [#1050](https://github.com/omab/python-social-auth/pull/1050)
   by duffn)
 - Updated Dropbox backend (port from [#1018](https://github.com/omab/python-social-auth/pull/1018)
