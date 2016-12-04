@@ -102,6 +102,10 @@ pipeline method must be provided that populates the ``user`` key. Example::
         'social_core.pipeline.user.user_details',
     )
 
+It is also possible to define pipelines on a per backend basis by defining a setting
+such as ``SOCIAL_AUTH_TWITTER_PIPELINE``. Backend specific pipelines will override
+the non specific pipelines (i.e. the default pipeline and ``SOCIAL_AUTH_PIPELINE``).
+
 Each pipeline function will receive the following parameters:
     * Current strategy (which gives access to current store, backend and request)
     * User ID given by authentication provider
@@ -148,6 +152,8 @@ In order to override the disconnection pipeline, just define the setting::
         'social_core.pipeline.disconnect.disconnect',
     )
 
+Backend specific disconnection pipelines can also be defined with a setting such as
+``SOCIAL_AUTH_TIWTTER_DISCONNECT_PIPELINE``.
 
 Partial Pipeline
 ----------------
