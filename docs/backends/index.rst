@@ -95,6 +95,7 @@ Social backends
    livejournal
    live
    loginradius
+   lyft
    mailchimp
    mailru
    mapmyfitness

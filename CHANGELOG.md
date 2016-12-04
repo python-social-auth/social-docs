@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](https://github.com/python-social-auth/social-docs/commits/master)
 
 ### Added
+- Added docs about Lyft backend (port from [#1036](https://github.com/omab/python-social-auth/pull/1036)
+  by iampark)
 - Added docs about per-backend pipeline (port from [#1019](https://github.com/omab/python-social-auth/pull/1019)
   by keattang)
 - Added docs about Mailchimp backend (port from [#1037](https://github.com/omab/python-social-auth/pull/1037)
