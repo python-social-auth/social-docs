@@ -103,7 +103,7 @@ is not relevant.  This is as simple as::
         # otherwise, do the special steps for your custom backend
 
 Interrupting the Pipeline (and communicating with views)
----------------------------------------------------------
+--------------------------------------------------------
 
 Let's say you want to add a custom step in the pipeline -- you want the user
 to establish a password so that they can come directly to your site in the
@@ -128,8 +128,7 @@ In our pipeline code, we would have::
     def collect_password(strategy, backend, request, details, *args, **kwargs):
         # request['local_password'] is set by the pipeline infrastructure
         # because it exists in FIELDS_STORED_IN_SESSION
-        if not request.get('local_password', None):
-
+        if not strategy.session_get('local_password', None):
             # if we return something besides a dict or None, then that is
             # returned to the user -- in this case we will redirect to a
             # view that can be used to get a password
