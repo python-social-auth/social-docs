@@ -107,13 +107,13 @@ Interrupting the Pipeline (and communicating with views)
 
 Let's say you want to add a custom step in the pipeline -- you want the user
 to establish a password so that they can come directly to your site in the
-future.  We can do that with the @partial decorator, which tells the pipeline
-to keep track of where it is so that it can be restarted.
+future.  We can do that with the `@partial` decorator, which tells the
+pipeline to keep track of where it is so that it can be restarted.
 
 The first thing we need to do is set up a way for our views to communicate with
 the pipeline. That is done by adding a value to the settings file to tell
-us which values should be passed back and forth between the Django session
-and the pipeline::
+us which values should be passed back and forth between the session and the
+pipeline::
 
     SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['local_password',]
 
@@ -126,9 +126,10 @@ In our pipeline code, we would have::
     # partial says "we may interrupt, but we will come back here again"
     @partial
     def collect_password(strategy, backend, request, details, *args, **kwargs):
-        # request['local_password'] is set by the pipeline infrastructure
+        # session 'local_password' is set by the pipeline infrastructure
         # because it exists in FIELDS_STORED_IN_SESSION
-        if not strategy.session_get('local_password', None):
+        local_password = strategy.session_get('local_password', None)
+        if not local_password:
             # if we return something besides a dict or None, then that is
             # returned to the user -- in this case we will redirect to a
             # view that can be used to get a password
@@ -138,7 +139,7 @@ In our pipeline code, we would have::
         # not be logged in yet) and set their password.  (Assumes that the
         # email address was captured in an earlier step.)
         user = User.objects.get(email=kwargs['email'])
-        user.set_password(request['local_password'])
+        user.set_password(local_password)
         user.save()
 
         # continue the pipeline
