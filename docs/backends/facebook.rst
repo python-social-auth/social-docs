@@ -36,6 +36,11 @@ If you define a redirect URL in Facebook setup page, be sure to not define
 http://127.0.0.1:8000 or http://localhost:8000 because it won't work when
 testing. Instead I define http://myapp.com and setup a mapping on ``/etc/hosts``.
 
+Currently the backend uses Facebook API version `2.8`, this value can
+be overridden by the following setting if needed::
+
+    SOCIAL_AUTH_FACEBOOK_API_VERSION = '2.9'
+
 
 Canvas Application
 ------------------
