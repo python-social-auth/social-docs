@@ -29,6 +29,6 @@ URL, this is usually caused by server datetime errors (check miscellaneous
 section). Installing ``ntp`` and syncing the server date with some pool does
 the trick.
 
-.. _Twitter development resources: http://dev.twitter.com/pages/auth
-.. _Twitter App Creation: http://twitter.com/apps/new
+.. _Twitter development resources: https://dev.twitter.com/oauth
+.. _Twitter App Creation: https://apps.twitter.com/apps/new
 .. _Twitter verify credentials: https://dev.twitter.com/rest/reference/get/account/verify_credentials
