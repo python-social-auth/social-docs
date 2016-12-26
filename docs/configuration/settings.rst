@@ -291,6 +291,12 @@ Miscellaneous settings
     mechanism`_. Example of this implementation can be found at
     psa-passwordless_.
 
+``SOCIAL_AUTH_USER_AGENT = None``
+    Define the `User-Agent` header value sent to on every request done
+    to the service provider, used when combined with a backend that
+    sets the `SEND_USER_AGENT` property to `True`. Default value is
+    the string `social-auth-<version>`.
+
 
 Account disconnection
 ---------------------
