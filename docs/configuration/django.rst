@@ -185,6 +185,12 @@ The redirect destination will get two ``GET`` parameters:
 ``backend = ''``
     Backend name that was used, if it was a valid backend.
 
+The middleware will attempt to use the Django built-in `messages`
+application to store the exception message, and tag it with
+`social-auth` and the backend name. If the application is not enabled,
+or a `MessageFailure` error happens, the app will default to the URL
+format described above.
+
 
 Django Admin
 ------------
