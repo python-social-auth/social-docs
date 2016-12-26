@@ -13,7 +13,9 @@ of those two universities can use their campus login to access your app.
 Required Dependency
 -------------------
 
-You must install python-saml_ 2.1.3 or higher in order to use this backend.
+You must install python-saml_ 2.2.0 or higher in order to use this
+backend, if using Python 3, you need to install python3-saml_ 1.2.1 or
+higher.
 
 Required Configuration
 ----------------------
@@ -165,5 +167,6 @@ particular, there are two methods that are designed for subclasses to override:
   login, or raise ``social_core.exceptions.AuthForbidden`` to reject the user.
 
 .. _python-saml: https://github.com/onelogin/python-saml
+.. _python3-saml: https://github.com/onelogin/python3-saml
 .. _TestShib: https://www.testshib.org/
 .. _metadata: https://www.testshib.org/metadata/testshib-providers.xml

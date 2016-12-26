@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](https://github.com/python-social-auth/social-docs/commits/master)
 
 ### Added
+- Added reference to Python3 SAML support
 - Added details about Django `messages` app usage in the exception middleware.
   Refs [#873](https://github.com/omab/python-social-auth/issues/873)
 - Document SOCIAL_AUTH_FACEBOOK_API_VERSION setting
