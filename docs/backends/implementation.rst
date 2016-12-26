@@ -147,10 +147,7 @@ Example code::
             url = 'https://api.github.com/user?' + urlencode({
                 'access_token': access_token
             })
-            try:
-                return json.load(self.urlopen(url))
-            except ValueError:
-                return None
+            return self.get_json(url)
 
 
 OAuth1
