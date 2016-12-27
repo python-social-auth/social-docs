@@ -30,6 +30,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   by s-alexey)
 
 ### Changed
+- Updated reference to username cleanup regular expressions.
+  Refs [#732](https://github.com/omab/python-social-auth/issues/732)
 - Updated backend example using `json.load(urlopen())` instead of `self.get_json()` helper.
   Refs [#767](https://github.com/omab/python-social-auth/issues/767)
 - Removed entry about removed backend (port of [#1046](https://github.com/omab/python-social-auth/pull/1046)

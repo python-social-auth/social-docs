@@ -157,9 +157,9 @@ to control username generation.
     force this option to all projects.
 
 ``SOCIAL_AUTH_CLEAN_USERNAMES = True``
-    By default the regex ``r'[^\w.@+-_]+'`` is applied over usernames to clean
-    them from usual undesired characters like spaces. Set this setting to
-    ``False`` to disable this behavior.
+    By default `a set of regular expressions`_ are applied over
+    usernames to clean them from usual undesired characters like
+    spaces. Set this setting to ``False`` to disable this behavior.
 
 
 Extra arguments on auth processes
@@ -315,3 +315,4 @@ using POST.
 .. _passwordless authentication mechanism: https://medium.com/@ninjudd/passwords-are-obsolete-9ed56d483eb
 .. _psa-passwordless: https://github.com/omab/psa-passwordless
 .. _SESSION_COOKIE_AGE: https://docs.djangoproject.com/en/1.7/ref/settings/#std:setting-SESSION_COOKIE_AGE
+.. _a set of regular expressions: https://github.com/python-social-auth/social-core/blob/master/social_core/storage.py#L18-L19
