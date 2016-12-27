@@ -143,6 +143,12 @@ will be done by AJAX. It doesn't return the user information, but that's
 something that can be extended and filled to suit the project where it's going
 to be used.
 
+**Note**: when dealing with ``OAuth1``, the ``access_token`` is
+          actually a query-string composed by ``oauth_token`` and
+          ``oauth_token_secret``, python-social-auth_ expects this to be a
+          ``dict`` with those keys, but if an string is detected, it will treat
+          it as a query string in the form ``oauth_token=123&oauth_token_secret=456``.
+
 
 Multiple scopes per provider
 ----------------------------
