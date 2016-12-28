@@ -81,6 +81,7 @@ Social backends
    foursquare
    github
    github_enterprise
+   gitlab
    google
    instagram
    itembase
