@@ -94,7 +94,7 @@ HTML template with JavaScript code to authenticate, check below for an example.
 
 - Get an OpenAPI App Id and add it to the settings::
 
-    SOCIAL_AUTH_VK_OPENAPI_ID = ''
+    SOCIAL_AUTH_VK_OPENAPI_APP_ID = ''
 
   This app id will be passed to the template as ``VK_APP_ID``.
 
@@ -125,7 +125,7 @@ Snippet example::
     <a href="javascript:void(0);" onclick="authVK();">Click to authorize</a>
 
 
-.. _VK.com OAuth: http://vk.com/dev/authentication
-.. _VK.com list of permissions: http://vk.com/dev/permissions
-.. _VK.com API: http://vk.com/dev/methods
+.. _VK.com OAuth: https://vk.com/dev/authentication
+.. _VK.com list of permissions: https://vk.com/dev/permissions
+.. _VK.com API: https://vk.com/dev/methods
 .. _authentication for VK.com applications: http://www.ikrvss.ru/2011/11/08/django-social-auh-and-vkontakte-application/
