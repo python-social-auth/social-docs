@@ -17,4 +17,8 @@ To enable OAuth2 support:
   Some of the possible values are: ``https://graph.windows.net`` or
   ``https://<your Sharepoint site name>-my.sharepoint.com``.
 
+  When using Microsoft Graph, the resource needed is::
+
+      SOCIAL_AUTH_AZUREAD_OAUTH2_RESOURCE = 'https://graph.microsoft.com/'
+
 .. _Azure AD Application Registration: https://msdn.microsoft.com/en-us/library/azure/dn132599.aspx
