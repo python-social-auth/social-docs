@@ -50,7 +50,7 @@ or extend current one):
     * Flickr_ OAuth1
     * Foursquare_ OAuth2
     * `Google App Engine`_ Auth
-    * Github_ OAuth2
+    * GitHub_ OAuth2
     * Google_ OAuth1, OAuth2 and OpenId
     * Instagram_ OAuth2
     * Kakao_ OAuth2
@@ -134,7 +134,7 @@ section.
 .. _Flickr: http://www.flickr.com
 .. _Foursquare: https://foursquare.com
 .. _Google App Engine: https://developers.google.com/appengine/
-.. _Github: https://github.com
+.. _GitHub: https://github.com
 .. _Google: http://google.com
 .. _Instagram: https://instagram.com
 .. _Kakao: https://kakao.com

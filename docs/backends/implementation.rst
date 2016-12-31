@@ -125,8 +125,8 @@ Example code::
 
     from social_core.backends.oauth import BaseOAuth2
 
-    class GithubOAuth2(BaseOAuth2):
-        """Github OAuth authentication backend"""
+    class GitHubOAuth2(BaseOAuth2):
+        """GitHub OAuth authentication backend"""
         name = 'github'
         AUTHORIZATION_URL = 'https://github.com/login/oauth/authorize'
         ACCESS_TOKEN_URL = 'https://github.com/login/oauth/access_token'
@@ -137,7 +137,7 @@ Example code::
         ]
 
         def get_user_details(self, response):
-            """Return user details from Github account"""
+            """Return user details from GitHub account"""
             return {'username': response.get('login'),
                     'email': response.get('email') or '',
                     'first_name': response.get('name')}

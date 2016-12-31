@@ -3,13 +3,13 @@
 GitHub Enterprise
 =================
 
-GitHub Enterprise works similar to regular Github, which is in turn based on Facebook (OAuth).
+GitHub Enterprise works similar to regular GitHub, which is in turn based on Facebook (OAuth).
 
 - Register a new application on your instance of `GitHub Enterprise Developers`_,
   set the callback URL to ``http://example.com/complete/github/`` replacing ``example.com``
   with your domain.
 
-- Set the API URL for your Github Enterprise appliance:
+- Set the API URL for your GitHub Enterprise appliance:
 
       SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL = 'https://git.example.com/api/v3/'
 
