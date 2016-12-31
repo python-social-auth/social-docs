@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/python-social-auth/social-docs/commits/master)
 
+## [0.1.0](https://github.com/python-social-auth/social-docs/releases/tag/0.1.0) - 2016-12-31
+
 ### Added
 - Added GitLab OAuth2 backend documentation
 - Added note about OAuth1 expected access_token format.
