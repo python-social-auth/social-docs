@@ -33,7 +33,7 @@ To support OAuth2 authentication for VK.com applications:
 
 - Create your IFrame application at VK.com.
 
-- In application settings specify your IFrame URL ``mysite.com/vk`` (current
+- In application settings specify your IFrame URL ``mysite.com/login/vk-app`` (current
   default).
 
 - Fill ``Application ID`` and ``Application Secret`` settings::
