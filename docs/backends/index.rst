@@ -100,6 +100,7 @@ Social backends
    mailchimp
    mailru
    mapmyfitness
+   mediawiki
    meetup
    mendeley
    mineid
