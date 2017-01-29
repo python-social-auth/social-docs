@@ -6,8 +6,12 @@ GitHub Enterprise
 GitHub Enterprise works similar to regular GitHub, which is in turn based on Facebook (OAuth).
 
 - Register a new application on your instance of `GitHub Enterprise Developers`_,
-  set the callback URL to ``http://example.com/complete/github/`` replacing ``example.com``
+  set the callback URL to ``http://example.com/complete/github-enterprise/`` replacing ``example.com``
   with your domain.
+
+- Set the URL for your GitHub Enterprise appliance:
+
+      SOCIAL_AUTH_GITHUB_ENTERPRISE_URL = 'https://git.example.com/'
 
 - Set the API URL for your GitHub Enterprise appliance:
 
@@ -15,8 +19,8 @@ GitHub Enterprise works similar to regular GitHub, which is in turn based on Fac
 
 - Fill the ``Client ID`` and ``Client Secret`` values from GitHub in the settings:
 
-      SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY = ''
-      SOCIAL_AUTH_GITHUB_ENTERPRISE_SECRET = ''
+      SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY = 'Client_ID'
+      SOCIAL_AUTH_GITHUB_ENTERPRISE_SECRET = 'Client_Secret'
 
 - Also it's possible to define extra permissions with::
 
