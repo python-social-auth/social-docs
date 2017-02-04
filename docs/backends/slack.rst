@@ -18,6 +18,9 @@ Slack
 
   See auth scopes at `Slack OAuth docs`_.
 
+- Limiting by team is possible by::
+
+    SOCIAL_AUTH_SLACK_TEAM = ''
 
 .. _Slack: https://api.slack.com/applications
 .. _Slack OAuth docs: https://api.slack.com/docs/oauth
