@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added note about Microsoft Graph support with AzureAD backend.
 - Added Slack team limit setting
 
+### Changed
+- Update partial-pipeline docs with the new storage solution details.
+
 ## [0.1.0](https://github.com/python-social-auth/social-docs/releases/tag/0.1.0) - 2016-12-31
 
 ### Added

@@ -93,7 +93,6 @@ Note that this assumes the user is already authenticated, and thus the ``user`` 
 in the dict is populated. In cases where the authentication is purely external, a
 pipeline method must be provided that populates the ``user`` key. Example::
 
-
     SOCIAL_AUTH_PIPELINE = (
         'myapp.pipeline.load_user',
         'social_core.pipeline.social_auth.social_user',
@@ -155,25 +154,40 @@ In order to override the disconnection pipeline, just define the setting::
 Backend specific disconnection pipelines can also be defined with a setting such as
 ``SOCIAL_AUTH_TIWTTER_DISCONNECT_PIPELINE``.
 
+
 Partial Pipeline
 ----------------
 
-It's possible to cut the pipeline process to return to the user asking for more
-data and resume the process later. To accomplish this decorate the function
-that will cut the process with the ``@partial`` decorator located at
-``social/pipeline/partial.py``.
+It's possible to pause the pipeline to return to the user asking for
+some action and resume it later.
 
-The old ``social_core.pipeline.partial.save_status_to_session`` is now deprecated.
+To accomplish this decorate the function that will cut the process
+with the ``@partial`` decorator located at ``social/pipeline/partial.py``.
 
 When it's time to resume the process just redirect the user to ``/complete/<backend>/``
 or ``/disconnect/<backend>/`` view. The pipeline will resume in the same
 function that cut the process.
 
-``@partial`` and ``save_status_to_session`` stores needed data into user session
-under the key ``partial_pipeline``. To get the backend in order to redirect to
-any social view, just do::
+``@partial`` stores needed data into a database table name `social_auth_partial`.
+This table holds the needed information to resume it later from any browsers and
+drops the old dependency on browser sessions that made the move between broswsers
+impossible.
 
-    backend = session['partial_pipeline']['backend']
+The partial data is idetified by a UUID token that can be used to store in the
+session or append to any URL using the `partial_token` parameter (default value).
+The lib will pick this value from the request and load the needed partial data to
+let the user continue the process.
+
+The pipeline functions will get a `current_partial` instance that containes the
+partial token and the needed data that will be saved in the database.
+
+To get the backend in order to redirect to any social view, just do::
+
+    backend = current_partial.backend
+
+To override the default parameter name just define::
+
+  SOCIAL_AUTH_PARTIAL_PIPELINE_TOKEN_NAME = '...'
 
 Check the `example applications`_ to check a basic usage.
 
