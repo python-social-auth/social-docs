@@ -107,12 +107,20 @@ Template Context Processors
 There's a context processor that will add backends and associations data to
 template context::
 
-    TEMPLATE_CONTEXT_PROCESSORS = (
-        ...
-        'social_django.context_processors.backends',
-        'social_django.context_processors.login_redirect',
-        ...
-    )
+  TEMPLATES = [
+      {
+          ...
+          'OPTIONS': {
+              ...
+              'context_processors': [
+                  ...
+                  'social_django.context_processors.backends',
+                  'social_django.context_processors.login_redirect',
+                  ...
+              ]
+          }
+      }
+  ]
 
 ``backends`` context processor will load a ``backends`` key in the context with
 three entries on it:

@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Update partial-pipeline docs with the new storage solution details.
+- Update django context-processors format
 
 ## [0.1.0](https://github.com/python-social-auth/social-docs/releases/tag/0.1.0) - 2016-12-31
 
