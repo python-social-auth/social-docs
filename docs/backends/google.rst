@@ -164,7 +164,7 @@ auth process.
 Google OpenId
 -------------
 
-Google OpenId works straightforward, not settings are needed. Domains or emails
+Google OpenId works straightforward, no settings are needed. Domains or emails
 whitelists can be applied too, check the whitelists_ settings for details.
 
 
