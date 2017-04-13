@@ -48,7 +48,8 @@ Also ensure to define the MongoEngine_ storage setting::
 Database
 --------
 
-(For Django 1.7 and higher) sync database to create needed models::
+(For Django 1.7 and higher) you need to sync database to create needed models once you added ``social_django``
+to your installed apps::
 
     ./manage.py migrate
 
@@ -135,6 +136,61 @@ three entries on it:
 
 ``backends``
     A list of all available backend names.
+
+Personalized Configuration
+--------------------------
+
+You can add (or remove) several features on the social auth pipeline.
+
+By default there are some pipelines on social_django:
+
+``social_details`` - Get the information we can about the user and return it in a simple
+format to create the user instance later. On some cases the details are
+already part of the auth response from the provider, but sometimes this
+could hit a provider API.
+
+``social_uid`` - Get the social uid from whichever service we're authing thru. The uid is
+the unique identifier of the given user in the provider.
+
+``auth_allowed`` - Verifies that the current auth process is valid within the current
+project, this is where emails and domains whitelists are applied (if
+defined).
+
+``social_user`` - Checks if the current social-account is already associated in the site.
+
+``get_username``- Make up a username for this person, appends a random string at the end if
+there's any collision.
+
+``create_user`` - Create a user account if we haven't found one yet.
+
+``associate_user`` - Create the record that associated the social account with this user.
+
+``extra_data`` - Populate the extra_data field in the social record with the values
+specified by settings (and the default ones like access_token, etc).
+
+``user_details`` - Update the user record with any changed info from the auth service.
+
+Some other pipelines are available for use as well, but are not included by default:
+
+``associate_by_email`` - Associate current auth with a user with the same email address in the DB.
+Obs: This pipeline entry is not 100% secure unless you know that the providers
+enabled enforce email verification on their side, otherwise a user can
+attempt to take over another user account by using the same (not validated)
+email address on some provider.
+
+Usage example::
+
+    SOCIAL_AUTH_PIPELINE = (
+        'social_core.pipeline.social_auth.social_details',
+        'social_core.pipeline.social_auth.social_uid',
+        'social_core.pipeline.social_auth.social_user',
+        'social_core.pipeline.user.get_username',
+        'social_core.pipeline.user.create_user',
+        'social_core.pipeline.social_auth.associate_user',
+        'social_core.pipeline.social_auth.load_extra_data',
+        'social_core.pipeline.user.user_details',
+        'social_core.pipeline.social_auth.associate_by_email',
+    )
 
 
 ORMs
