@@ -117,8 +117,8 @@ auth process.
             $form.attr("action", "/complete/google-plus");
             $form.attr("method", "post");
             $input = $("<input>");
-            $input.attr("name", "access_token");
-            $input.attr("value", authResponse.access_token);
+            $input.attr("name", "id_token");
+            $input.attr("value", authResponse.id_token);
             $form.append($input);
             // Add csrf-token if needed
             $(document.body).append($form);
