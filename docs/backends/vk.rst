@@ -33,8 +33,15 @@ To support OAuth2 authentication for VK.com applications:
 
 - Create your IFrame application at VK.com.
 
-- In application settings specify your IFrame URL ``mysite.com/login/vk-app`` (current
+- In application settings specify your IFrame URL ``https://mysite.com/complete/vk-app`` (current
   default).
+
+- In application settings specify the first API request. For example::
+
+    method=getProfiles&uids={viewer_id}&format=json&v=5.53&fields=id,first_name,last_name,screen_name,photo
+
+  See the `documentation on available fields`_.
+
 
 - Fill ``Application ID`` and ``Application Secret`` settings::
 
@@ -129,3 +136,4 @@ Snippet example::
 .. _VK.com list of permissions: https://vk.com/dev/permissions
 .. _VK.com API: https://vk.com/dev/methods
 .. _authentication for VK.com applications: http://www.ikrvss.ru/2011/11/08/django-social-auh-and-vkontakte-application/
+.. _documentation on available fields: https://vk.com/pages?oid=-17680044&p=getProfiles
