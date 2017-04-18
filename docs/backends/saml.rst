@@ -173,6 +173,15 @@ Advanced Settings
   your metadata for up to 10 days, but no longer. ``metadataCacheDuration`` must
   be specified as an ISO 8601 duration string (e.g. `P1D` for one day).
 
+- ``SOCIAL_AUTH_SAML_EXTRA_DATA``: This can be set to a list of tuples similar
+  to the OAuth backend setting. It maps IDP attributes to extra_data attributes.
+  Each attribute will be a list of values (even if only 1 value) per how
+  python-saml_ processes attributes::
+
+      SOCIAL_AUTH_SAML_EXTRA_DATA = [('attribute_name', 'extra_data_name_for_attribute'),
+                                   ('department', 'department'),
+                                   ('manager_full_name', 'manager_full_name')]
+
 
 Advanced Usage
 --------------
