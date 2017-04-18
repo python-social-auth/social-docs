@@ -82,6 +82,33 @@ At a minimum, you must add the following to your project's settings:
           }
       }
 
+  Each IDP can define configuration keys to avoid having to use uniform resource
+  name's (ie: ``urn:oid:0.9.2342.19200300.100.1.3`` for email address) as
+  attributes to map user details required to complete account creation. The
+  values associated with the attr_* keys correspond to the keys specified as
+  attributes in the IDP.
+
+  Extending on the "testshib" example::
+
+      {
+          "testshib": {
+              "entity_id": "https://idp.testshib.org/idp/shibboleth",
+              "url": "https://idp.testshib.org/idp/profile/SAML2/Redirect/SSO",
+              "x509cert": "MIIEDjCCAvagAwIBAgIBADA ... 8Bbnl+ev0peYzxFyF5sQA==",
+              "attr_user_permanent_id": "email",
+              "attr_first_name": "first_name",
+              "attr_last_name": "last_name",
+              "attr_username": "email",
+              "attr_email": "email",
+          }
+      }
+
+  In this example, the attr_user_permanent_id and attr_email are both set to the
+  email address passed back in the attribute key 'email'.
+
+  Note: testshib does not provide email as an attribute. This was tested using
+  Okta and G Suite (formerly Google Apps for Business).
+
 Basic Usage
 -----------
 
