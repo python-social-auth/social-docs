@@ -9,7 +9,7 @@ components are:
 
 * social-auth-core_
   Core library that the rest depends on, this contains the basic
-  functionality to stablish an authentication/authorization flow with
+  functionality to establish an authentication/authorization flow with
   the diferent supported providers.
 
 * social-auth-storage-sqlalchemy_, social-auth-storage-peewee_, social-auth-storage-mongoengine_
