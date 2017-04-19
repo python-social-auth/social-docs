@@ -10,7 +10,7 @@ This is the documentation repository for the
 
 ## Documentation
 
-Project documentation is available at http://social-auth.readthedocs.org/.
+Project documentation is available at http://python-social-auth.readthedocs.io/.
 
 ## Contributing
 
