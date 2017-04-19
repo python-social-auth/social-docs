@@ -3,19 +3,27 @@ GitHub
 
 GitHub works similar to Facebook (OAuth).
 
+- On your project settings, you should add Github on your ``AUTHENTICATION_BACKENDS``::
+
+    AUTHENTICATION_BACKENDS = (
+        ...
+        'social_core.backends.github.GithubOAuth2',
+    )
+
 - Register a new application at `GitHub Developers`_, set the callback URL to
   ``http://example.com/complete/github/`` replacing ``example.com`` with your
-  domain.
+  domain. This will generate a Client Key and a Client Secret.
 
-- Fill the ``Client ID`` and ``Client Secret`` values from GitHub in the settings::
+- Add these values of ``Client ID`` and ``Client Secret`` from GitHub in your project settings file. 
+The ``Client ID`` should be added on ``SOCIAL_AUTH_GITHUB_KEY`` and the ``Client Secret`` should be
+added on ``SOCIAL_AUTH_GITHUB_SECRET``::
 
-      SOCIAL_AUTH_GITHUB_KEY = ''
-      SOCIAL_AUTH_GITHUB_SECRET = ''
+      SOCIAL_AUTH_GITHUB_KEY = 'a1b2c3d4'
+      SOCIAL_AUTH_GITHUB_SECRET = 'e5f6g7h8i9'
 
 - Also it's possible to define extra permissions with::
 
       SOCIAL_AUTH_GITHUB_SCOPE = [...]
-
 
 GitHub for Organizations
 ------------------------
