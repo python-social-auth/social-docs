@@ -172,7 +172,7 @@ version, etc).
 You can send extra parameters on auth process by defining settings per backend,
 example to request Facebook to show Mobile authorization page, define::
 
-      FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'display': 'touch'}
+      SOCIAL_AUTH_FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'display': 'touch'}
 
 For other providers, just define settings in the form::
 
