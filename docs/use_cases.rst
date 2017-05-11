@@ -29,7 +29,7 @@ In such cases, add it to ``FIELDS_STORED_IN_SESSION``.
 
 In your settings::
 
-    FIELDS_STORED_IN_SESSION = ['key']
+    SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['key']
 
 In template::
 
