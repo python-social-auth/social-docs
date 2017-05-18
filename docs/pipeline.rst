@@ -94,6 +94,9 @@ in the dict is populated. In cases where the authentication is purely external, 
 pipeline method must be provided that populates the ``user`` key. Example::
 
     SOCIAL_AUTH_PIPELINE = (
+        'social_core.pipeline.social_auth.social_details',
+        'social_core.pipeline.social_auth.social_uid',
+        'social_core.pipeline.social_auth.auth_allowed',
         'myapp.pipeline.load_user',
         'social_core.pipeline.social_auth.social_user',
         'social_core.pipeline.social_auth.associate_user',
