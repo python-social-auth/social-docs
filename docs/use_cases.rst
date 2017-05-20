@@ -173,7 +173,7 @@ accomplish that behavior. There are two ways to do it.
 
 
    This method is quite simple, it overrides the method that returns the scope
-   value in a backend (``get_scope()``) and adds extra values tot he list if it
+   value in a backend (``get_scope()``) and adds extra values to the list if it
    was indicated by a parameter in the ``GET`` or ``POST`` data
    (``self.data``).
 
