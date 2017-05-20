@@ -25,11 +25,11 @@ In some cases, you might need to send data over the URL, and retrieve it while
 processing the after-effect. For example, for conditionally executing code in
 custom pipelines.
 
-In such cases, add it to ``FIELDS_STORED_IN_SESSION``.
+In such cases, add it to ``SOCIAL_AUTH_FIELDS_STORED_IN_SESSION``.
 
 In your settings::
 
-    FIELDS_STORED_IN_SESSION = ['key']
+    SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['key']
 
 In template::
 
