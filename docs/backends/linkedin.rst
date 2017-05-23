@@ -62,6 +62,13 @@ Looks like LinkedIn is forcing the definition of the callback URL in the
 application when OAuth2 is used. Be sure to set the proper values, otherwise
 a ``(400) Client Error: Bad Request`` might be returned by their service.
 
+Django
+------
+
+If the email address is not being saved into the `email_address` field on django's `users` model then add the following line to your `settings.py` file::
+
+    FIELD_SELECTORS = ['email-address',]
+
 .. _LinkedIn fields selectors: http://developer.linkedin.com/docs/DOC-1014
 .. _LinkedIn Scopes: https://developer.linkedin.com/documents/authentication#granting
 .. _LinkedIn Developer Network: https://www.linkedin.com/secure/developer
