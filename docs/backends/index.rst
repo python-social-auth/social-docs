@@ -113,6 +113,7 @@ Social backends
    odnoklassnikiru
    openstreetmap
    orbi
+   orcid
    persona
    pinterest
    pixelpin
@@ -147,6 +148,7 @@ Social backends
    twilio
    twitch
    twitter
+   udata
    uber
    untappd
    upwork
