@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](https://github.com/python-social-auth/social-docs/commits/master)
 
 ### Added
+- Added note on using tenants in Azure AD backend.
 - Added note about Microsoft Graph support with AzureAD backend.
 - Added Slack team limit setting
 
