@@ -9,6 +9,10 @@ To enable OAuth2 support:
       SOCIAL_AUTH_AZUREAD_OAUTH2_KEY = ''
       SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = ''
 
+- If the app is linked to a specific tenant (vs the common tenant) it's possible to define the ``tenant id`` with::
+
+      SOCIAL_AUTH_AZUREAD_OAUTH2_TENANT_ID = ''
+
 - Also it's possible to define extra permissions with::
 
       SOCIAL_AUTH_AZUREAD_OAUTH2_RESOURCE = ''
