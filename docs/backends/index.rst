@@ -59,6 +59,7 @@ Social backends
    belgium_eid
    bitbucket
    box
+   bungie
    changetip
    clef
    coinbase

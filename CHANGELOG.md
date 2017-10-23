@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Added note about Microsoft Graph support with AzureAD backend.
 - Added Slack team limit setting
+- Added Bungie OAuth2 backend documentation
 
 ### Changed
 - Update partial-pipeline docs with the new storage solution details.
