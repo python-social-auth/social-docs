@@ -57,13 +57,16 @@ At a minimum, you must add the following to your project's settings:
   ``givenName`` and ``emailAddress``, describing the name and email of a
   technical contact responsible for your app. Example::
 
-      {"givenName": "Tech Gal", "emailAddress": "technical@example.com"}
+      {
+          "givenName": "Tech Gal", 
+          "emailAddress": "technical@example.com"
+      }
 
-- ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``: A dictionary with two values,
+- ``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``: A dictionary with two values,
   ``givenName`` and ``emailAddress``, describing the name and email of a
   support contact for your app. Example::
 
-      SOCIAL_AUTH_SAML_SUPPORT_CONTACT = {
+      {
           "givenName": "Support Guy",
           "emailAddress": "support@example.com",
       }
