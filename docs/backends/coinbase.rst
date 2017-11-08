@@ -18,5 +18,9 @@ Coinbase uses OAuth2.
     SOCIAL_AUTH_COINBASE_SCOPE = [...]
     
   By default the scope is set to ``balance``.
+  
+- extra scopes can be defined by using::
+
+    SOCIAL_AUTH_COINBASE_AUTH_EXTRA_ARGUMENTS = {'account': 'all'}
 
 .. _Coinbase: https://coinbase.com/oauth/applications
