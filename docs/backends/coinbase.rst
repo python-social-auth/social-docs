@@ -23,4 +23,4 @@ Coinbase uses OAuth2.
 
     SOCIAL_AUTH_COINBASE_AUTH_EXTRA_ARGUMENTS = {'account': 'all'}
 
-.. _Coinbase: https://coinbase.com/oauth/applications
+.. _Coinbase: https://coinbase.com/oauth/applications/new
