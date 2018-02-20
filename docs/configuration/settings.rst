@@ -306,6 +306,14 @@ some CSRF protection is encouraged (and enforced on Django app). Ensure that
 any call to `/disconnect/<backend>/` or `/disconnect/<backend>/<id>/` is done
 using POST.
 
+``SOCIAL_AUTH_REVOKE_TOKENS_ON_DISCONNECT = False``
+    When disconnecting an account, it is recommended to trigger a
+    token revoke action in the authentication provider, that way we
+    inform it that the token won't be used anymore and can be
+    disposed. By default the action is not triggered because it's not
+    a common option on every provider, and tokens should be disposed
+    automatically after a short time.
+
 
 .. _urllib2 documentation: http://docs.python.org/library/urllib2.html#urllib2.urlopen
 .. _OpenID PAPE: http://openid.net/specs/openid-provider-authentication-policy-extension-1_0.html
