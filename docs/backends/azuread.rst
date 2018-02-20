@@ -28,9 +28,7 @@ Tenant Support
 If the app is linked to a specific tenant (vs the common tenant) it's
 possible to use a version of the backend with tenant support.
 
-*Note: The backend are split because of the needed cryptography
-       dependencies which must be installed manually.*
-
+*Note: The backend are split because of the needed cryptography dependencies which must be installed manually.*
 
 To enable OAuth2 Tenant support:
 

@@ -14,7 +14,8 @@ GitHub works similar to Facebook (OAuth).
   ``http://example.com/complete/github/`` replacing ``example.com`` with your
   domain. This will generate a Client Key and a Client Secret.
 
-- Add these values of ``Client ID`` and ``Client Secret`` from GitHub in your project settings file. 
+- Add these values of ``Client ID`` and ``Client Secret`` from GitHub in your project settings file.
+
 The ``Client ID`` should be added on ``SOCIAL_AUTH_GITHUB_KEY`` and the ``Client Secret`` should be
 added on ``SOCIAL_AUTH_GITHUB_SECRET``::
 
