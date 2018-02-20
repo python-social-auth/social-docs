@@ -209,9 +209,14 @@ email address you can get it from the session under the key ``email_validation_a
 In order to send the validation python-social-auth_ needs a function that will
 take care of it, this function is defined by the developer with the setting
 ``SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION``. It should be an import path. This
-function should take three arguments ``strategy``, ``backend`` and ``code``.
-``code`` is a model instance used to validate the email address, it contains
-three fields:
+function should take four arguments ``strategy``, ``backend``, ``code`` and
+``partial_token``.
+
+``partial_token`` is the same token used on other partials functions
+that can be used to restart a halted flow.
+
+``code`` is a model instance used to validate the email address, it
+contains three fields:
 
 ``code = '...'``
     Holds an ``uuid.uuid4()`` value and it's the code used to identify the
