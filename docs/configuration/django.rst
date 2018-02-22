@@ -48,10 +48,15 @@ Also ensure to define the MongoEngine_ storage setting::
 Database
 --------
 
-(For Django 1.7 and higher) you need to sync database to create needed models once you added ``social_django``
-to your installed apps::
+(For Django 1.7 and higher) you need to sync database to create needed
+models once you added ``social_django`` to your installed apps::
 
     ./manage.py migrate
+
+When using PostgreSQL, it's recommended to use the built-in `JSONB`
+field to store the extracted `extra_data`. To enable it define the setting::
+
+  SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
 
 Authentication backends
