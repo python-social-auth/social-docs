@@ -73,6 +73,7 @@ Social backends
    drip
    dropbox
    edmodo
+   eventbrite
    eveonline
    evernote
    facebook
