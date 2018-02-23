@@ -44,6 +44,7 @@ or extend current one):
     * Disqus_ OAuth2
     * Douban_ OAuth1 and OAuth2
     * Dropbox_ OAuth1
+    * Eventbrite_ OAuth2
     * Evernote_ OAuth1
     * Facebook_ OAuth2 and OAuth2 for Applications
     * Fitbit_ OAuth2 and OAuth1
@@ -128,6 +129,7 @@ section.
 .. _Disqus: https://disqus.com
 .. _Douban: http://www.douban.com
 .. _Dropbox: https://dropbox.com
+.. _Eventbrite: https://www.eventbrite.com
 .. _Evernote: https://www.evernote.com
 .. _Facebook: https://www.facebook.com
 .. _Fitbit: https://fitbit.com
