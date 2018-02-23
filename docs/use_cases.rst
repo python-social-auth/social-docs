@@ -131,7 +131,7 @@ implemented easily)::
         # request.backend and request.strategy will be loaded with the current
         # backend and strategy.
         token = request.GET.get('access_token')
-        user = request.backend.do_auth(request.GET.get('access_token'))
+        user = request.backend.do_auth(token)
         if user:
             login(request, user)
             return 'OK'
