@@ -161,6 +161,14 @@ to control username generation.
     usernames to clean them from usual undesired characters like
     spaces. Set this setting to ``False`` to disable this behavior.
 
+``SOCIAL_AUTH_CLEAN_USERNAME_FUNCTION = None``
+    Sometimes extra cleaning up of usernames is needed in order to fit
+    properly in a project, this setting is used to point to a function
+    that will be called with the current username value, the output
+    will be used as the new username. This method can be called
+    multiple times in case of a collision. The setting value must be
+    in the format of an import path.
+
 
 Extra arguments on auth processes
 ---------------------------------

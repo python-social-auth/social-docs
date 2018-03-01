@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added Bungie OAuth2 backend documentation
 - Added documentation about enabling PostgreSQL JSONB field type
 - Added Eventbrite OAuth2 backend documentation
+- Added note about `SOCIAL_AUTH_CLEAN_USERNAME_FUNCTION` option
 
 ### Changed
 - Update partial-pipeline docs with the new storage solution details.
