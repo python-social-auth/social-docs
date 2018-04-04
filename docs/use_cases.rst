@@ -146,7 +146,7 @@ to be used.
 **Note**: when dealing with ``OAuth1``, the ``access_token`` is
           actually a query-string composed by ``oauth_token`` and
           ``oauth_token_secret``, python-social-auth_ expects this to be a
-          ``dict`` with those keys, but if an string is detected, it will treat
+          ``dict`` with those keys, but if a string is detected, it will treat
           it as a query string in the form ``oauth_token=123&oauth_token_secret=456``.
 
 
