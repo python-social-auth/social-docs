@@ -155,7 +155,7 @@ In order to override the disconnection pipeline, just define the setting::
     )
 
 Backend specific disconnection pipelines can also be defined with a setting such as
-``SOCIAL_AUTH_TIWTTER_DISCONNECT_PIPELINE``.
+``SOCIAL_AUTH_TWITTER_DISCONNECT_PIPELINE``.
 
 
 Partial Pipeline
