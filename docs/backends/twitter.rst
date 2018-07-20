@@ -16,9 +16,8 @@ To enable Twitter these two keys are needed. Further documentation at
       SOCIAL_AUTH_TWITTER_KEY = ''
       SOCIAL_AUTH_TWITTER_SECRET = ''
 
-- You need to specify an URL callback or the application will be marked as
-  Client type instead of the Browser. Almost any dummy value will work if
-  you plan some test.
+- You need to specify an URL callback or the OAuth will raise a "403 Client Error".
+  The callback URL should be something like "https://example.com/complete/twitter"
 
 - You can request user's Email address (consult `Twitter verify
   credentials`_), the parameter is sent automatically, but the
