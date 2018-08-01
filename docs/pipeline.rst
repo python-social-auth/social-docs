@@ -155,7 +155,7 @@ In order to override the disconnection pipeline, just define the setting::
     )
 
 Backend specific disconnection pipelines can also be defined with a setting such as
-``SOCIAL_AUTH_TIWTTER_DISCONNECT_PIPELINE``.
+``SOCIAL_AUTH_TWITTER_DISCONNECT_PIPELINE``.
 
 
 Partial Pipeline
@@ -173,15 +173,15 @@ function that cut the process.
 
 ``@partial`` stores needed data into a database table name `social_auth_partial`.
 This table holds the needed information to resume it later from any browsers and
-drops the old dependency on browser sessions that made the move between broswsers
+drops the old dependency on browser sessions that made the move between browsers
 impossible.
 
-The partial data is idetified by a UUID token that can be used to store in the
+The partial data is identified by a UUID token that can be used to store in the
 session or append to any URL using the `partial_token` parameter (default value).
 The lib will pick this value from the request and load the needed partial data to
 let the user continue the process.
 
-The pipeline functions will get a `current_partial` instance that containes the
+The pipeline functions will get a `current_partial` instance that contains the
 partial token and the needed data that will be saved in the database.
 
 To get the backend in order to redirect to any social view, just do::
