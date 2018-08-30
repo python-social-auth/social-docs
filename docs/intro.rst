@@ -48,6 +48,7 @@ or extend current one):
     * Evernote_ OAuth1
     * Facebook_ OAuth2 and OAuth2 for Applications
     * Fitbit_ OAuth2 and OAuth1
+    * Flat_ OAuth2
     * Flickr_ OAuth1
     * Foursquare_ OAuth2
     * `Google App Engine`_ Auth
@@ -133,6 +134,7 @@ section.
 .. _Evernote: https://www.evernote.com
 .. _Facebook: https://www.facebook.com
 .. _Fitbit: https://fitbit.com
+.. _Flat: https://flat.io
 .. _Flickr: http://www.flickr.com
 .. _Foursquare: https://foursquare.com
 .. _Google App Engine: https://developers.google.com/appengine/

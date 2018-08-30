@@ -79,6 +79,7 @@ Social backends
    facebook
    fedora
    fitbit
+   flat
    flickr
    foursquare
    github
