@@ -156,7 +156,7 @@ Exceptions handling
 
 The Django application has a middleware (that fits in the framework
 architecture) to facilitate the different exceptions_ handling raised by
-python-social-auth_. The same can be accomplished (even on a simpler way) in
+python-social-auth_. The same can be accomplished (even in a simple way) in
 Flask by defining an errorhandler_. For example the next code will redirect any
 social-auth exception to a ``/socialerror`` URL::
 

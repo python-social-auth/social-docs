@@ -48,7 +48,7 @@ Also ensure to define the MongoEngine_ storage setting::
 Database
 --------
 
-(For Django 1.7 and higher) you need to sync database to create needed
+(For Django 1.7 and higher) you need to sync the database to create needed
 models once you added ``social_django`` to your installed apps::
 
     ./manage.py migrate
