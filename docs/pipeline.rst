@@ -31,7 +31,7 @@ The default pipeline is composed by::
 
     (
         # Get the information we can about the user and return it in a simple
-        # format to create the user instance later. On some cases the details are
+        # format to create the user instance later. In some cases the details are
         # already part of the auth response from the provider, but sometimes this
         # could hit a provider API.
         'social_core.pipeline.social_auth.social_details',
@@ -293,7 +293,7 @@ responses. To enumerate a few:
 ``response = {} or object()``
     The server user-details response, it depends on the protocol in use (and
     sometimes the provider implementation of such protocol), but usually it's
-    just a ``dict`` with the user profile details in such provider. Lots of
+    just a ``dict`` with the user profile details from the provider. Lots of
     information related to the user is provided here, sometimes the ``scope``
     will increase the amount of information in this response on OAuth
     providers.
