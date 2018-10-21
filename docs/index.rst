@@ -3,7 +3,7 @@ Welcome to Python Social Auth's documentation!
 
 Python Social Auth aims to be an easy to setup social authentication and
 authorization mechanism for Python projects supporting protocols like OAuth (1
-and 2), OpenId and others.
+and 2), OpenID and others.
 
 The initial codebase is derived from django-social-auth_ with the idea of
 generalizing the process to suit the different frameworks around, providing

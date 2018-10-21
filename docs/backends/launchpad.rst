@@ -1,7 +1,7 @@
 Launchpad
 =========
 
-`Ubuntu Launchpad <https://launchpad.net/>`_ OpenId doesn't require
+`Ubuntu Launchpad <https://launchpad.net/>`_ OpenID doesn't require
 major settings beside being defined on ``AUTHENTICATION_BACKENDS```::
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (

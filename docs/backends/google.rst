@@ -161,10 +161,10 @@ auth process.
     </script>
 
 
-Google OpenId
+Google OpenID
 -------------
 
-Google OpenId works straightforward, no settings are needed. Domains or emails
+Google OpenID works straightforward, no settings are needed. Domains or emails
 whitelists can be applied too, check the whitelists_ settings for details.
 
 

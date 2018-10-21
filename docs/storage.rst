@@ -94,7 +94,7 @@ needed methods:
 Nonce
 -----
 
-This is a helper class for OpenId mechanism, it stores a one-use number,
+This is a helper class for OpenID mechanism, it stores a one-use number,
 shouldn't be used by the project since it's for internal use only.
 
 When implementing this model, it must inherits from NonceMixin_, and override
@@ -109,7 +109,7 @@ the needed method::
 Association
 -----------
 
-Another OpenId helper class, it stores basic data to keep the OpenId
+Another OpenID helper class, it stores basic data to keep the OpenID
 association. Like Nonce_ this is for internal use only.
 
 When implementing this model, it must inherits from AssociationMixin_, and
