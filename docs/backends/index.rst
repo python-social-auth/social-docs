@@ -113,6 +113,7 @@ Social backends
    naver
    ngpvan_actionid
    odnoklassnikiru
+   okta
    openstreetmap
    orbi
    orcid
