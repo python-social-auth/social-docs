@@ -63,6 +63,7 @@ Social backends
    changetip
    clef
    coinbase
+   cognito
    coursera
    dailymotion
    digitalocean
