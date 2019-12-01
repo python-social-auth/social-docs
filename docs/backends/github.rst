@@ -67,4 +67,40 @@ Check the docs :ref:`github-enterprise` if planning to use GitHub
 Enterprises.
 
 
+GitHub Apps
+-----------
+
+Similar to the ``GithubOAuth2`` backend but primarily intended for use
+with GitHub applications (non-oauth application type). For GitHub App
+applications there are two primary workflows:
+
+1) A person clicks on an icon/button on your website and initiates the
+   OAuth login procedure. They will be redirected to GitHub to complete
+   the process and then back to your website. The person should be logged-in
+   automatically. This is the same workflow as with standard OAuth GitHub apps.
+
+2) A person visits your GitHub App public URL, e.g. ``https://github.com/apps/my-app``.
+   They click the **Install** button, select onto which account/organization and
+   repositori(es) to install your application and finish the process. GitHub
+   will start sending webhooks to the URL you have configured! It will also
+   redirect the person to ``Setup URL (optional)``.
+
+- Create a new GitHub App application owned by your organization. e.g.
+  ``https://github.com/organizations/python-social-auth/settings/apps/new``
+
+- Set ``User authorization callback URL`` to
+  ``http://example.com/complete/github/`` replacing ``example.com`` with your
+  domain.
+
+- Turn on ``Request user authorization (OAuth) during installation`` if
+  you wish to make ``Setup URL`` equal to ``User authorization callback URL``.
+  The side-effect of this is that after installing your GitHub app the person
+  will be redirected back to your website and logged in automatically. When
+  this is turned on steps 2) and 1) above are executed in sequence.
+
+- Add the values of ``Client ID`` and ``Client Secret`` from GitHub in your
+  project settings file as shown above.
+
+
+
 .. _GitHub Developers: https://github.com/settings/applications/new
