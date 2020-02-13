@@ -36,5 +36,5 @@ Further documentation at `Website Developer Guide`_ and `Getting Started`_.
 .. _Getting Started: https://developer.apple.com/sign-in-with-apple/get-started/
 .. _Authenticating users: https://developer.apple.com/documentation/signinwithapplerestapi/authenticating_users_with_sign_in_with_apple
 .. _Create a Sign Certificate: https://help.apple.com/developer-account/?lang=en#/dev77c875b7e
-.. _Create or select and existing App ID: https://help.apple.com/developer-account/?lang=en#/devde676e696
+.. _Create or select an existing App ID: https://help.apple.com/developer-account/?lang=en#/devde676e696
 .. _Create a Services ID: https://help.apple.com/developer-account/?lang=en#/dev1c0e25352
