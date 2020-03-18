@@ -3,7 +3,9 @@ Discourse
 
 Discourse can serve as a Single Sign On provider for Authentication.
 
-- Deploy a Discourse application and `configure <https://meta.discourse.org/t/using-discourse-as-a-sso-provider/32974>` the application to enable Discourse as an SSO provider.
+- Deploy a Discourse application and `configure
+  <https://meta.discourse.org/t/using-discourse-as-a-sso-provider/32974>` the
+  application to enable Discourse as an SSO provider.
 
 - Fill in the shared secret and url of the Discourse server in the settings::
 
@@ -14,7 +16,9 @@ Discourse can serve as a Single Sign On provider for Authentication.
 Using multiple Discourse instances
 ----------------------------------
 
-Since Discourse is a distributed application, multiple Discourse instances can be used as SSO providers. If this is the case, the DiscourseAuth class can be extended and configured as follows::
+Since Discourse is a distributed application, multiple Discourse instances can
+be used as SSO providers. If this is the case, the DiscourseAuth class can be
+extended and configured as follows::
 
       from social_core.backends.discourse import DiscourseAuth
       
