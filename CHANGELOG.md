@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added Okta backends documentation
 - Added note about `SOCIAL_AUTH_UNTAPPD_USER_AGENT` setting
 - Added `ACCESS_TOKEN_METHOD` backend attribute documentation
+- Added Cognito backend documentation
 
 ### Changed
 - Update partial-pipeline docs with the new storage solution details.

@@ -6,9 +6,11 @@ enable ``python-social-auth`` support follow this steps:
 
 1. Go to `AWS Cognito Console`_ and select ``Manage User Pools``.
 
-2. Choose an existing pool or create a new one following the `Cognito Pool Tutorial`_.
+2. Choose an existing pool or create a new one following the `Cognito Pool
+   Tutorial`_.
 
-3. Create an app (make sure to generate a client secret) and configure a pool domain (`Cognito App Configuration`_)::
+3. Create an app (make sure to generate a client secret) and configure a pool
+   domain (`Cognito App Configuration`_)::
 
     SOCIAL_AUTH_COGNITO_KEY = '...'
     SOCIAL_AUTH_COGNITO_SECRET = '...'
