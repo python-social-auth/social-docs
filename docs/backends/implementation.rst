@@ -37,6 +37,10 @@ First, lets check the common attributes for all backend types.
     data (which should be a ``dict`` instance) and ``alias`` is the name to
     store it on ``extra_data``.
 
+``ACCESS_TOKEN_METHOD = 'GET'``
+    Specifying the method type required to retrieve your access token if it's not
+    the default GET request.
+
 
 OAuth
 -----
@@ -130,6 +134,7 @@ Example code::
         name = 'github'
         AUTHORIZATION_URL = 'https://github.com/login/oauth/authorize'
         ACCESS_TOKEN_URL = 'https://github.com/login/oauth/access_token'
+        ACCESS_TOKEN_METHOD = 'POST'
         SCOPE_SEPARATOR = ','
         EXTRA_DATA = [
             ('id', 'id'),
