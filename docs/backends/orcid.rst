@@ -14,6 +14,7 @@ ORCID_ uses OAuth 2 for authentication.
       SOCIAL_AUTH_ORCID_KEY = ''
       SOCIAL_AUTH_ORCID_SECRET = ''
 
+
 Member API
 ----------
 

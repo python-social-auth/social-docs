@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added Cognito backend documentation
 - Added Flat backend documentation
 - Added Patreon OAuth2 backend documentation
+- Added details about ORCID `Member API` support
 
 ### Changed
 - Update partial-pipeline docs with the new storage solution details.
