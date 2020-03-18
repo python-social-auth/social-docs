@@ -97,12 +97,22 @@ Nonce
 This is a helper class for OpenId mechanism, it stores a one-use number,
 shouldn't be used by the project since it's for internal use only.
 
-When implementing this model, it must inherits from NonceMixin_, and override
-the needed method::
+When implementing this model, it must inherit from NonceMixin_, and override
+the needed methods::
 
     @classmethod
     def use(cls, server_url, timestamp, salt):
         """Create a Nonce instance"""
+        raise NotImplementedError('Implement in subclass')
+
+    @classmethod
+    def get(cls, server_url, salt):
+        """Retrieve a Nonce instance"""
+        raise NotImplementedError('Implement in subclass')
+
+    @classmethod
+    def delete(cls, nonce):
+        """Delete a Nonce instance"""
         raise NotImplementedError('Implement in subclass')
 
 

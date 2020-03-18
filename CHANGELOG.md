@@ -19,12 +19,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added note about `SOCIAL_AUTH_SHOPIFY_API_VERSION` setting
 - Added SimpleLogin backend documentation. 
 - Added GithubApp backend documentation. 
+- Added Discourse backend documentation
 
 ### Changed
 - Update partial-pipeline docs with the new storage solution details.
 - Update django context-processors format
 - Updated Steam documentation
 - Updated LinkedIn documentation
+- Updated NonceMixin documentation for the new `get` and `delete` class methods
 
 ## [0.1.0](https://github.com/python-social-auth/social-docs/releases/tag/0.1.0) - 2016-12-31
 
