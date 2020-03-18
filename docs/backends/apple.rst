@@ -25,7 +25,7 @@ enable ``python-social-auth`` support follow this steps:
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         ...
-        'social_core.backends.amazon.AppleIdAuth',
+        'social_core.backends.apple.AppleIdAuth',
         ...
     )
 
