@@ -1,12 +1,12 @@
 Uber
-=========
+====
 
 Uber uses OAuth v2 for Authentication.
 
 - Register a new application at the `Uber API`_, and follow the instructions below
 
 OAuth2
-=========
+------
 
 1. Add the Uber OAuth2 backend to your settings page::
 
