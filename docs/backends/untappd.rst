@@ -13,6 +13,11 @@ Untappd uses OAuth v2 for Authentication, check the `official docs`_.
         SOCIAL_AUTH_UNTAPPD_KEY = '<App UID>'
         SOCIAL_AUTH_UNTAPPD_SECRET = '<App secret>'
 
+- Optionally include a ``User Agent`` to identify your calls to Untappd (this
+  may become required in the future)::
+
+        SOCIAL_AUTH_UNTAPPD_USER_AGENT = 'My Custom User Agent or App Name'
+
 - Add the backend to the ``AUTHENTICATION_BACKENDS`` setting::
 
         AUTHENTICATION_BACKENDS = (

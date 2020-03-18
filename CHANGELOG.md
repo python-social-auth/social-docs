@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added GithubApp backend documentation. 
 - Added Discourse backend documentation
 - Added Okta backends documentation
+- Added note about `SOCIAL_AUTH_UNTAPPD_USER_AGENT` setting
 
 ### Changed
 - Update partial-pipeline docs with the new storage solution details.
