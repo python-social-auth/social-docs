@@ -1,9 +1,10 @@
 Flat
-===========
+====
 
 `Flat`_ uses OAuth2. In order to enable the backend follow:
 
-- On your project settings, you should add Flat on your ``AUTHENTICATION_BACKENDS``::
+- On your project settings, you should add Flat on your
+  ``AUTHENTICATION_BACKENDS``::
 
     AUTHENTICATION_BACKENDS = (
         ...
