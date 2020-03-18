@@ -31,7 +31,7 @@ Non-social backends
    email
    username
 
-Base OAuth and OpenId classes
+Base OAuth and OpenID classes
 *****************************
 
 .. toctree::

@@ -3,7 +3,7 @@ Introduction
 
 Python Social Auth aims to be an easy to setup social authentication and
 authorization mechanism for Python projects supporting protocols like OAuth_ (1
-and 2), OpenId_ and others.
+and 2), OpenID_ and others.
 
 
 Features
@@ -52,20 +52,20 @@ or extend current one):
     * Foursquare_ OAuth2
     * `Google App Engine`_ Auth
     * GitHub_ OAuth2
-    * Google_ OAuth1, OAuth2 and OpenId
+    * Google_ OAuth1, OAuth2 and OpenID
     * Instagram_ OAuth2
     * Kakao_ OAuth2
     * Linkedin_ OAuth1
     * Live_ OAuth2
-    * Livejournal_ OpenId
+    * Livejournal_ OpenID
     * Mailru_ OAuth2
     * MineID_ OAuth2
     * Mixcloud_ OAuth2
     * `Mozilla Persona`_
     * NaszaKlasa_ OAuth2
-    * `NGPVAN ActionID`_ OpenId
+    * `NGPVAN ActionID`_ OpenID
     * Odnoklassniki_ OAuth2 and Application Auth
-    * OpenId_
+    * OpenID_
     * Podio_ OAuth2
     * Pinterest_ OAuth2
     * Rdio_ OAuth1 and OAuth2
@@ -76,7 +76,7 @@ or extend current one):
     * Spotify_ OAuth2
     * ThisIsMyJam_ OAuth1
     * Stackoverflow_ OAuth2
-    * Steam_ OpenId
+    * Steam_ OpenID
     * Stocktwits_ OAuth2
     * Stripe_ OAuth2
     * Tripit_ OAuth1
@@ -90,9 +90,9 @@ or extend current one):
     * Weibo_ OAuth2
     * Wunderlist_ OAuth2
     * Xing_ OAuth1
-    * Yahoo_ OpenId and OAuth1
+    * Yahoo_ OpenID and OAuth1
     * Yammer_ OAuth2
-    * Yandex_ OAuth1, OAuth2 and OpenId
+    * Yandex_ OAuth1, OAuth2 and OpenID
 
 
 User data
@@ -116,7 +116,7 @@ mechanism in ways that suits your project. Check `Authentication Pipeline`_
 section.
 
 
-.. _OpenId: http://openid.net/
+.. _OpenID: http://openid.net/
 .. _OAuth: http://oauth.net/
 .. _myOpenID: https://www.myopenid.com/
 .. _Angel: https://angel.co

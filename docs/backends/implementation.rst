@@ -218,18 +218,18 @@ Example code::
             }
 
 
-OpenId
+OpenID
 ------
 
-OpenId is fair simpler that OAuth since it's used for authentication rather
+OpenID is far simpler that OAuth since it's used for authentication rather
 than authorization (regardless it's used for authorization too).
 
 A single attribute is usually needed, the authentication URL endpoint.
 
 ``URL = ''``
-    OpenId endpoint where to redirect the user.
+    OpenID endpoint where to redirect the user.
 
-Sometimes the URL is user dependant, like in myOpenId_ where the URL is
+Sometimes the URL is user dependant, like in myOpenID_ where the URL is
 ``https://<user handler>.myopenid.com``. For those cases where the user must
 input it's handle (or full URL). The backend must override the ``openid_url()``
 method to retrieve it and return a full URL to where the user will be
@@ -307,4 +307,4 @@ Example code::
 
 
 .. _Twitter Docs: https://dev.twitter.com/docs/auth/implementing-sign-twitter
-.. _myOpenId: https://www.myopenid.com/
+.. _myOpenID: https://www.myopenid.com/

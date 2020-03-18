@@ -45,7 +45,7 @@ needed. There are some ``extras`` defined to install the corresponding
 dependencies since they require to build extensions that, unless used,
 are undesired.
 
-* OpenIdConnect_ support requires the use of the ``openidconnect`` extra.
+* OpenIDConnect_ support requires the use of the ``openidconnect`` extra.
 * SAML_ support requires the use of ``saml`` extra.
 
 There's also the ``all`` extra that will install all the extra options.
@@ -76,15 +76,15 @@ Using the ``extras`` options
 ----------------------------
 
 To enable any of the ``extras`` options to bring the dependencines for
-OpenIdConnect_, or SAML_, or both::
+OpenIDConnect_, or SAML_, or both::
 
   $ pip install "social-auth-core[openidconnect]"
   $ pip install "social-auth-core[saml]"
   $ pip install "social-auth-core[all]"
 
 
-.. _OpenId: http://openid.net/
-.. _OpenIdConnect: http://openid.net/connect/
+.. _OpenID: http://openid.net/
+.. _OpenIDConnect: http://openid.net/connect/
 .. _OAuth: http://oauth.net/
 .. _SAML: https://www.onelogin.com/saml
 .. _pypi: http://pypi.python.org/pypi/python-social-auth/

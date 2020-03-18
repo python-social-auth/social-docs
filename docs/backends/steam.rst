@@ -1,7 +1,7 @@
-Steam OpenId
+Steam OpenID
 ============
 
-Steam OpenId works quite straightforward, but to retrieve some user data (known
+Steam OpenID works quite straightforward, but to retrieve some user data (known
 as ``player`` on Steam API) a Steam API Key is needed.
 
 Configurable settings:

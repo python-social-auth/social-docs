@@ -1,11 +1,11 @@
-OpenId
+OpenID
 ======
 
-OpenId_ support is simpler to implement than OAuth_. Google and Yahoo
+OpenID_ support is simpler to implement than OAuth_. Google and Yahoo
 providers are supported by default, others are supported by POST method
 providing endpoint URL.
 
-OpenId_ backends can store extra data in ``UserSocialAuth.extra_data`` field
+OpenID_ backends can store extra data in ``UserSocialAuth.extra_data`` field
 by defining a set of values names to retrieve from any of the used schemas,
 AttributeExchange and SimpleRegistration. As their keywords differ we need
 two settings.
@@ -31,7 +31,7 @@ any data.
 Username
 --------
 
-The OpenId_ backend will check for a ``username`` key in the values returned by
+The OpenID_ backend will check for a ``username`` key in the values returned by
 the server, but default to ``first-name`` + ``last-name`` if that key is
 missing. It's possible to indicate the username key in the values If the
 username is under a different key with a setting, but backends should have
@@ -40,7 +40,7 @@ defined a default value. For example::
     SOCIAL_AUTH_FEDORA_USERNAME_KEY = 'nickname'
 
 This setting indicates that the username should be populated by the
-``nickname`` value in the Fedora OpenId_ provider.
+``nickname`` value in the Fedora OpenID_ provider.
 
-.. _OpenId: http://openid.net/
+.. _OpenID: http://openid.net/
 .. _OAuth: http://oauth.net/

@@ -36,7 +36,7 @@ Keys and secrets
     SOCIAL_AUTH_TWITTER_KEY = 'foobar'
     SOCIAL_AUTH_TWITTER_SECRET = 'bazqux'
 
-OpenId backends don't require keys usually, but some need some API Key to
+OpenID backends don't require keys usually, but some need some API Key to
 call any API on the provider. Check Backends_ sections for details.
 
 
