@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added note about `SOCIAL_AUTH_CLEAN_USERNAME_FUNCTION` option
 - Added note about `SOCIAL_AUTH_SHOPIFY_API_VERSION` setting
 - Added SimpleLogin backend documentation. 
+- Added GithubApp backend documentation. 
 
 ### Changed
 - Update partial-pipeline docs with the new storage solution details.
