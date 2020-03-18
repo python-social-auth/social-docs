@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Several grammar changes
 - Correct `OpenID` name
 - Fixed typos on pipeline documentation
+- Use gender-neutral pronouns (his -> their)
 
 ## [0.1.0](https://github.com/python-social-auth/social-docs/releases/tag/0.1.0) - 2016-12-31
 

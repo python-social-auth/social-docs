@@ -19,7 +19,7 @@ enable ``python-social-auth`` support follow this steps:
         ...
     )
 
-Note: If you want to allow the user to choose a username from his own
+Note: If you want to allow the user to choose a username from their own
 characters, some further steps are required, see the use cases part of the
 documentation. To get the account id and battletag use the user_data function, as
 `account id is no longer passed inherently`_.
