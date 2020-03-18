@@ -66,6 +66,7 @@ Social backends
    coursera
    dailymotion
    digitalocean
+   discourse
    disqus
    docker
    douban
