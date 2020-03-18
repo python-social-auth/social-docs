@@ -7,11 +7,11 @@ as ``player`` on Steam API) a Steam API Key is needed.
 Configurable settings:
 
 
-1. Supply a Steam API Key from `Steam Dev`_::
+1. Supply a Steam API Key from `Steam Dev`_
 
 2. Fill key in your project settings::
 
-	SOCIAL_AUTH_STEAM_API_KEY = '...'
+    SOCIAL_AUTH_STEAM_API_KEY = '...'
     
 3. To save ``player`` data provided by Steam into ``extra_data``::
 

@@ -1,10 +1,11 @@
 AppleID
-======
+=======
 
 Apple ID implemented OAuth2 and OpenID Connect protocols for their authentication mechanism. To
 enable ``python-social-auth`` support follow this steps:
 
 1. Go to `Apple Developer Portal`_ and
+
   1. `Create or select an existing App ID`_
   2. `Create a Sign Certificate`_
   3. `Create a Services ID`_, activate "Sign In with Apple" and grant your "return URLs"

@@ -4,14 +4,12 @@ SimpleLogin
 SimpleLogin uses OAuth 2.0 for Authentication.
 
 - On your project settings, you should add SimpleLogin on your
-  ``AUTHENTICATION_BACKENDS``:
+  ``AUTHENTICATION_BACKENDS``::
 
     AUTHENTICATION_BACKENDS = (
         ...
         'social_core.backends.simplelogin.SimpleLoginOAuth2',
     )
-
--
 
 - Register a new app at `SimpleLogin App`_. By default, SimpleLogin whitelists
   ``localhost`` so your app should work locally.

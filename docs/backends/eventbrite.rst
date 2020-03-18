@@ -3,8 +3,7 @@ Eventbrite OAuth
 
 Eventbrite OAuth 2.0 for its authentication workflow.
 
-- Register a new application at `Account Settings`_ `App Management`_.
-    https://www.eventbrite.com/myaccount/apps/
+- Register a new application at `Account Settings` in `App Management`_.
 
 - Fill ``Consumer Key`` and ``Consumer Secret`` values in the settings
   using ``Application Key`` and ``OAuth Client Secret`` provided by
@@ -15,3 +14,4 @@ Eventbrite OAuth 2.0 for its authentication workflow.
 
 
 .. _Eventbrite API docs: https://www.eventbrite.com/developer/v3/
+.. _App Management: https://www.eventbrite.com/myaccount/apps/

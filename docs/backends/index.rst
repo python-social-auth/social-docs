@@ -50,6 +50,7 @@ Social backends
    amazon
    angel
    aol
+   apple
    appsfuel
    arcgis
    azuread
@@ -136,6 +137,7 @@ Social backends
    salesforce
    shimmering
    shopify
+   simplelogin
    sketchfab
    skyrock
    slack
