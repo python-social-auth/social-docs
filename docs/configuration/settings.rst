@@ -16,9 +16,9 @@ Almost all settings are prefixed with ``SOCIAL_AUTH_``, there are some
 exceptions for Django framework like ``AUTHENTICATION_BACKENDS``.
 
 All settings can be defined per-backend by adding the backend name to the
-setting name like ``SOCIAL_AUTH_TWITTER_LOGIN_URL``. Settings discovery is done
-by reducing the name starting with backend setting, then app setting and
-finally global setting, for example::
+setting name, like ``SOCIAL_AUTH_TWITTER_LOGIN_URL``. Settings discovery is done
+by reducing the name starting with the backend setting, then the app setting,
+and finally the global setting, for example::
 
     SOCIAL_AUTH_TWITTER_LOGIN_URL
     SOCIAL_AUTH_LOGIN_URL
@@ -31,7 +31,7 @@ class by uppercasing it and replacing ``-`` with ``_``.
 Keys and secrets
 ----------------
 
-- Setup needed OAuth keys (see OAuth_ section for details)::
+- Set up needed OAuth keys (see OAuth_ section for details)::
 
     SOCIAL_AUTH_TWITTER_KEY = 'foobar'
     SOCIAL_AUTH_TWITTER_SECRET = 'bazqux'
@@ -153,7 +153,7 @@ to control username generation.
 ``SOCIAL_AUTH_SLUGIFY_USERNAMES = False``
     For those that prefer slugged usernames, the ``get_username`` pipeline can
     apply a slug transformation (code borrowed from Django project) by defining
-    this setting to ``True``. The feature is disabled by default to to not
+    this setting to ``True``. The feature is disabled by default to not
     force this option to all projects.
 
 ``SOCIAL_AUTH_CLEAN_USERNAMES = True``

@@ -63,23 +63,23 @@ All python-social-auth_ settings are prefixed with ``SOCIAL_AUTH_``, except for
 some exception on Django framework, ``AUTHENTICATION_BACKENDS`` remains the
 same for obvious reasons.
 
-All backends settings have the backend name into it, all uppercase and with
-dashes replaced with underscores, take for instance Google OAuth2 backend is
-named ``google-oauth2``, any setting name related to that backend should start
-with ``SOCIAL_AUTH_GOOGLE_OAUTH2_``.
+All backends settings have the backend name included in the name, all uppercase
+and with dashes replaced with underscores. For example, the Google OAuth2
+backend is named ``google-oauth2``, so setting names related to that backend
+should start with ``SOCIAL_AUTH_GOOGLE_OAUTH2_``.
 
-Keys and secrets are some mandatory settings needed for OAuth providers, to
-keep consistency the names follow the same naming convention ``*_KEY`` for the
-application key, and ``*_SECRET`` for the secret. OAuth1 backends use to have
-``CONSUMER`` in the setting name, not anymore. Following with the Google OAuth2
-example::
+Keys and secrets are some mandatory settings needed for OAuth providers; to
+keep consistency the names follow the same naming convention: ``*_KEY`` for the
+application key, and ``*_SECRET`` for the secret. OAuth1 backends used to have
+``CONSUMER`` in the setting name but not anymore. Following with the Google
+OAuth2 example::
 
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '...'
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '...'
 
 Remember that the name of the backend is needed in the settings, and names
-differ a little from backend to backend, like `Facebook OAuth2 backend`_ name
-is ``facebook``. So the settings should be::
+differ a little from backend to backend; for instance the
+`Facebook OAuth2 backend`_ name is ``facebook``. So the settings should be::
 
     SOCIAL_AUTH_FACEBOOK_KEY = '...'
     SOCIAL_AUTH_FACEBOOK_SECRET = '...'
@@ -90,7 +90,7 @@ Authentication backends
 
 Import path for authentication backends changed a little, there's no more
 ``contrib`` module, there's no need for it. Some backends changed the names to
-have some consistency, check the backends, it should be easy to track the names
+have some consistency. Check the backends, it should be easy to track the names
 changes. Examples of the new import paths::
 
     AUTHENTICATION_BACKENDS = (
@@ -107,7 +107,7 @@ Session
 -------
 
 Django stores the last authentication backend used in the user session as an
-import path, this can cause import troubles when porting since the old import
+import path; this can cause import troubles when porting since the old import
 paths aren't valid anymore. Some solutions to this problem are:
 
 1. Clean the session and force the users to login again in your site
