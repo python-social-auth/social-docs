@@ -202,9 +202,11 @@ There's a pipeline to validate email addresses, but it relies a lot on your
 project.
 
 The pipeline is at ``social_core.pipeline.mail.mail_validation`` and it's a partial
-pipeline, it will return a redirect to a URL that you can use to tell the
-users that an email validation was sent to them. If you want to mention the
-email address you can get it from the session under the key ``email_validation_address``.
+pipeline, it will return a redirect to the URL defined by the
+`EMAIL_VALIDATION_URL` setting. For Django you can use a view name as the value
+for this setting. You can use this redirect to tell the users that an email
+validation was sent to them. If you want to mention the email address you can
+get it from the session under the key ``email_validation_address``.
 
 In order to send the validation python-social-auth_ needs a function that will
 take care of it, this function is defined by the developer with the setting
