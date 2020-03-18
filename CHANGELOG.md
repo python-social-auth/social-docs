@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Updated LinkedIn documentation
 - Updated NonceMixin documentation for the new `get` and `delete` class methods
 - Fix `associated_by_email` position in `PIPELINE` documentation
+- Several grammar changes
 
 ## [0.1.0](https://github.com/python-social-auth/social-docs/releases/tag/0.1.0) - 2016-12-31
 
