@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Fix `associated_by_email` position in `PIPELINE` documentation
 - Several grammar changes
 - Correct `OpenID` name
+- Fixed typos on pipeline documentation
 
 ## [0.1.0](https://github.com/python-social-auth/social-docs/releases/tag/0.1.0) - 2016-12-31
 
