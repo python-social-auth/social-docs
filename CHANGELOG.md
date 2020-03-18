@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added `ACCESS_TOKEN_METHOD` backend attribute documentation
 - Added Cognito backend documentation
 - Added Flat backend documentation
+- Added Patreon OAuth2 backend documentation
 
 ### Changed
 - Update partial-pipeline docs with the new storage solution details.
