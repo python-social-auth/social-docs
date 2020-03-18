@@ -1,7 +1,7 @@
 Testing python-social-auth
 ==========================
 
-Testing the application is fair simple, just met the dependencies and run the
+Testing the application is fairly simple, just met the dependencies and run the
 testing suite.
 
 The testing suite uses HTTPretty_ to mock server responses, it's not a live

@@ -1,7 +1,8 @@
 LinkedIn
 ========
 
-LinkedIn supports only OAuth2.
+LinkedIn supports only OAuth2. Migration between each type is fairly
+simple since the same Key / Secret pair is used for both authentication types.
 
 LinkedIn OAuth2 setup is similar to any other OAuth2 service. The auth flow is
 explained on `LinkedIn Developers`_ docs. First you will need to register an
