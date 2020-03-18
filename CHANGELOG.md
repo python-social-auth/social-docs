@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added SimpleLogin backend documentation. 
 - Added GithubApp backend documentation. 
 - Added Discourse backend documentation
+- Added Okta backends documentation
 
 ### Changed
 - Update partial-pipeline docs with the new storage solution details.
