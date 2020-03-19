@@ -52,6 +52,7 @@ Social backends
    aol
    apple
    appsfuel
+   apple
    arcgis
    azuread
    battlenet
