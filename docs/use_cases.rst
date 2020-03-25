@@ -314,5 +314,19 @@ Set this pipeline after ``social_user``::
     )
 
 
+Improve unicode cleanup from usernames
+--------------------------------------
+
+It's possible to improve the username cleanup by using an external library like
+Unidecode_ or Text-Unicode_. You can integrate these by using the
+`SOCIAL_AUTH_CLEAN_USERNAME_FUNCTION` documented at `Username Generation`_
+section. For instance, this will do the work::
+
+    SOCIAL_AUTH_CLEAN_USERNAME_FUNCTION = 'unidecode.unidecode'
+
+
 .. _python-social-auth: https://github.com/python-social-auth
 .. _People API endpoint: https://developers.google.com/+/api/latest/people/list
+.. _Unidecode: https://pypi.org/project/Unidecode/
+.. _Text-Unicode: https://github.com/kmike/text-unidecode/
+.. _Username Generation: configuration/settings.html#username-generation

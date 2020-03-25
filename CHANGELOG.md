@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added Flat backend documentation
 - Added Patreon OAuth2 backend documentation
 - Added details about ORCID `Member API` support
+- Added use-case about improved unicode cleanup from usernames
 
 ### Changed
 - Update partial-pipeline docs with the new storage solution details.
