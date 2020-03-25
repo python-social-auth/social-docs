@@ -1,8 +1,8 @@
 Installation
 ============
 
-python-social-auth_ is very modular library looking to provide the
-basics tools to implement social authentication / authorization in
+python-social-auth_ is a very modular library looking to provide the
+basic tools to implement social authentication / authorization in
 Python projects. For that reason, the project is split in smaller
 components that focus on providing a simpler functionality. Some
 components are:
@@ -38,35 +38,31 @@ components are:
 Dependencies
 ------------
 
-Dependencies are properly defined in the requirements files, the
+Dependencies are properly defined in the requirements files; the
 ``setup.py`` script will determine the environment where it's
-installed and sort between Python2 or Python3 packages if
+installed and sort between Python 2 or Python 3 packages if
 needed. There are some ``extras`` defined to install the corresponding
-dependencies since they require to build extensions that, unless used,
-are undesired.
+dependencies since they are required to build extensions that, unless
+used, are undesired.
 
 * OpenIDConnect_ support requires the use of the ``openidconnect`` extra.
-* SAML_ support requires the use of ``saml`` extra.
+* SAML_ support requires the use of the ``saml`` extra.
 
 There's also the ``all`` extra that will install all the extra options.
 
-Several backends demands application registration on their
-corresponding sites and other dependencies like sqlalchemy_ on Flask
+Several backends demand application registration on their
+corresponding sites and other dependencies like SQLAlchemy_ on Flask
 and Webpy.
 
 
 Get a copy
 ----------
 
-From pypi_::
+From PyPI_::
 
     $ pip install social-auth-<component>
 
-Or::
-
-    $ easy_install social-auth-<component>
-
-Or::
+Or, grab the relevant repository from GitHub_, then::
 
     $ cd social-auth-<component>
     $ sudo python setup.py install
@@ -75,7 +71,7 @@ Or::
 Using the ``extras`` options
 ----------------------------
 
-To enable any of the ``extras`` options to bring the dependencines for
+To enable any of the ``extras`` options to bring the dependencies for
 OpenIDConnect_, or SAML_, or both::
 
   $ pip install "social-auth-core[openidconnect]"
@@ -87,11 +83,11 @@ OpenIDConnect_, or SAML_, or both::
 .. _OpenIDConnect: http://openid.net/connect/
 .. _OAuth: http://oauth.net/
 .. _SAML: https://www.onelogin.com/saml
-.. _pypi: http://pypi.python.org/pypi/python-social-auth/
-.. _github: https://github.com/python-social-auth/social-core
-.. _python-openid: http://pypi.python.org/pypi/python-openid/
+.. _PyPI: https://pypi.org/project/social-auth-core/
+.. _GitHub: https://github.com/python-social-auth/
+.. _python-openid: http://pypi.org/project/python-openid/
 .. _requests-oauthlib: https://requests-oauthlib.readthedocs.org/
-.. _sqlalchemy: http://www.sqlalchemy.org/
+.. _SQLAlchemy: http://www.sqlalchemy.org/
 .. _python-social-auth: https://github.com/python-social-auth
 .. _social-auth-core: https://github.com/python-social-auth/social-core
 .. _social-auth-storage-sqlalchemy: https://github.com/python-social-auth/social-storage-sqlalchemy
