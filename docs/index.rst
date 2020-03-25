@@ -1,7 +1,7 @@
 Welcome to Python Social Auth's documentation!
 ==============================================
 
-Python Social Auth aims to be an easy to setup social authentication and
+Python Social Auth aims to be an easy-to-setup social authentication and
 authorization mechanism for Python projects supporting protocols like OAuth (1
 and 2), OpenID and others.
 
@@ -14,6 +14,8 @@ django-twitter-oauth_ and django-openid-auth_ projects.
 
 The project is now split into smaller modules to isolate and reduce
 responsibilities and improve reusability.
+
+Code and other contributions are welcome. The code is hosted on GitHub_.
 
 Contents:
 
@@ -46,3 +48,4 @@ Indices and Tables
 .. _django-social-auth: http://github.com/omab/django-social-auth
 .. _django-twitter-oauth: https://github.com/henriklied/django-twitter-oauth
 .. _django-openid-auth: https://launchpad.net/django-openid-auth
+.. _GitHub: https://github.com/python-social-auth/

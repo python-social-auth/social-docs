@@ -1,7 +1,7 @@
 Backends
 ========
 
-Here's a list and detailed instruction on how to setup the support for each
+Here's a list and detailed instructions on how to set up the support for each
 backend.
 
 Adding new backend support

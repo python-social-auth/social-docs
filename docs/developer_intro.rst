@@ -1,15 +1,15 @@
-Beginners Guide
-===============
+Beginner's Guide
+================
 
 This is an attempt to bring together a number of concepts in python-social-auth
-(psa) so that you will understand how it fits into your system. This definitely
+(PSA) so that you will understand how it fits into your system. This definitely
 has a Django flavor to it (because that's how I learned it).
 
 Understanding PSA URLs
 -----------------------
 
 If you have not seen namespaced URLs before, you are about to be introduced.
-When you add the PSA entry to your urls.py, it looks like this::
+When you add the PSA entry to your ``urls.py``, it looks like this::
 
     url(r'', include('social_django.urls', namespace='social'))
 
@@ -20,7 +20,7 @@ link will look like this::
     <a href="{% url 'social:begin' 'provider-name' %}">Login</a>
 
 (See how "social" in the URL mapping matches the value of "namespace" in the
-urls.py entry?)
+``urls.py`` entry?)
 
 Understanding Backends
 ----------------------
@@ -31,7 +31,7 @@ and if it's there, follow the steps to enable it, which come down to
 1) Set up SOCIAL_AUTH_{backend} variables in settings.py.  (The
    settings vary, based on the backends)
 
-2) Adding your backend to AUTHENTICATION_BACKENDS in settings.py.
+2) Adding your backend to AUTHENTICATION_BACKENDS in ``settings.py``.
 
 If you need to implement a different backend (for instance, let's say you
 want to use Intuit's OpenID), you can subclass the nearest one and override
