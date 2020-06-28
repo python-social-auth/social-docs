@@ -84,5 +84,5 @@ If you need to perform authentication from Facebook Canvas application:
 More info on the topic at `Facebook Canvas Application Authentication`_.
 
 .. _Facebook development resources: http://developers.facebook.com/docs/authentication/
-.. _Facebook App Creation: http://developers.facebook.com/setup/
+.. _Facebook App Creation: https://developers.facebook.com/apps/
 .. _Facebook Canvas Application Authentication: http://www.ikrvss.ru/2011/09/22/django-social-auth-and-facebook-canvas-applications/
