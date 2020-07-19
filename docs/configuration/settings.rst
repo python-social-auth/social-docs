@@ -222,6 +222,12 @@ allow some tweaks to the behavior of these.
     ``next`` GET argument. If this setting is ``True``, this application will
     vary the domain of the final URL and only redirect to it if it's on the
     same domain.
+    
+``SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = ['foo', 'bar']``
+    To allow redirection to certain domains while keeping the more restrictive
+    ``SOCIAL_AUTH_SANITIZE_REDIRECTS = True`` setting. This will redirect to the
+    ``next`` GET argument if the hostname is on the list, otherwise it defaults
+    to the value of ``SOCIAL_AUTH_LOGIN_REDIRECT_URL``.
 
 ``SOCIAL_AUTH_REDIRECT_IS_HTTPS = False``
     On projects behind a reverse proxy that uses HTTPS, the redirect URIs
