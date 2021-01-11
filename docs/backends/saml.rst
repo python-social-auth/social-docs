@@ -166,7 +166,15 @@ Advanced Settings
   pairs specified here will be passed to the underlying ``python-saml`` library
   configuration's ``sp`` setting. Refer to the ``python-saml`` documentation for
   details.
+  
+  To publish a rollover certificate in advance of changing, use 
+  ``SOCIAL_AUTH_SAML_SP_EXTRA`` to set ``['sp']['x509certNew']`` of ``python-saml``::
 
+      {
+          "x509certNew": "MIIEDjCCAvagAwIBAgIBADA ... 8Bbnl+ev0peYzxFyF5sQA==",
+      }
+
+   
 - ``SOCIAL_AUTH_SAML_SECURITY_CONFIG``: This can be set to a dict, and any
   key/value pairs specified here will be passed to the underlying
   ``python-saml`` library configuration's ``security`` setting. Two useful keys
