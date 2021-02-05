@@ -1,5 +1,5 @@
 Mail.ru OAuth
--------------
+=============
 
 Mail.ru uses OAuth2 workflow. `Register new application`_ to use it and fill in settings::
 
