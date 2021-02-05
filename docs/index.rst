@@ -21,6 +21,7 @@ Contents:
    :maxdepth: 2
 
    intro
+   maintainers
    installing
    configuration/index
    pipeline
