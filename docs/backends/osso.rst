@@ -34,9 +34,9 @@ the user to the correct IDP. If you don't include one of these parameters, and i
 will display a hosted login page. Here's an example login form with ``email``:
 
 
-    <form action="{% url 'social:begin' 'osso' %}" method="post" class="login-form">
-        <label>Email</label>
-        <input type="email" name="email" />
-        {% csrf_token %}
-        <button type="submit">Sign in with SSO</button>
-    </div>  
+      <form action="{% url 'social:begin' 'osso' %}" method="post" class="login-form">
+          <label>Email</label>
+          <input type="email" name="email" />
+          {% csrf_token %}
+          <button type="submit">Sign in with SSO</button>
+      </form>  
