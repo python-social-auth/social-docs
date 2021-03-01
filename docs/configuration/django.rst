@@ -216,6 +216,41 @@ to implement your own alternate, please see the ``social_django.models`` and
 ``social_django_mongoengine.models`` modules for guidance.
 
 
+JSON field support
+------------------
+
+Django 3.1 introduces `JSONField` support for all backends and adds a
+deprecation warning.
+
+These are the related settings to enabling this integration:
+
+- `SOCIAL_AUTH_JSONFIELD_ENABLED` (boolean)
+
+  Same behavior, setting name updated to match `JSONField` being supported by
+  all systems::
+
+    SOCIAL_AUTH_POSTGRES_JSONFIELD = True  # Before
+    SOCIAL_AUTH_JSONFIELD_ENABLED = True  # After
+
+- `SOCIAL_AUTH_JSONFIELD_CUSTOM` (import path)
+  Allows specifying an import string. This gives better control to setting a
+  custom JSONField.
+
+  For django systems < 3.1 (technically <4), you can set the old `JSONField`
+  to maintain behavior with earlier social-app-django releases::
+
+    SOCIAL_AUTH_JSONFIELD_CUSTOM = 'django.contrib.postgres.fields.JSONField'
+
+  For sites running or upgrading to django 3.1+, then can set this so the new
+  value::
+
+    SOCIAL_AUTH_JSONFIELD_CUSTOM = 'django.db.models.JSONField'
+
+- Deprecating setting: `SOCIAL_AUTH_POSTGRES_JSONFIELD` (bool)
+  Rename this to `SOCIAL_AUTH_JSONFIELD_ENABLED`. The setting will be deprecated
+  in a future release.
+
+
 Exceptions Middleware
 ---------------------
 
