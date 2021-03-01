@@ -121,6 +121,7 @@ Social backends
    openstreetmap
    orbi
    orcid
+   osso
    patreon
    persona
    pinterest
