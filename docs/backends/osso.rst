@@ -17,7 +17,7 @@ To enable Osso as a backend:
     )
 
 - Create or update an OAuth Client in your Osso instance, adding a redirect URI to your allow
-  ``http://example.com/complete/osso/`` replacing ``http://example.com`` with your Osso instance URL. 
+  ``http://example.com/complete/osso/`` replacing ``http://example.com`` with your application's domain. 
   Grab the ``Client ID`` and ``Client Secret`` to use in your application.
 
 - Add these values of ``Client ID`` and ``Client Secret`` from Osso in your project settings file.
