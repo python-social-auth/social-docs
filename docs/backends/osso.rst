@@ -34,6 +34,8 @@ the user to the correct IDP. If you don't include one of these parameters, and i
 will display a hosted login page. Here's an example login form with ``email``:
 
 
+.. code-block:: html+django
+
       <form action="{% url 'social:begin' 'osso' %}" method="post" class="login-form">
           <label>Email</label>
           <input type="email" name="email" />
