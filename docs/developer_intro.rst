@@ -98,7 +98,7 @@ logic, you have to make your pipeline steps smart enough to skip the step if it
 is not relevant.  This is as simple as::
 
     def my_custom_step(strategy, backend, request, details, *args, **kwargs):
-        if backend_name != 'my_custom_backend':
+        if backend.name != 'my_custom_backend':
             return
         # otherwise, do the special steps for your custom backend
 
