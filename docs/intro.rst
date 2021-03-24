@@ -56,6 +56,7 @@ or extend current one):
     * Google_ OAuth1, OAuth2 and OpenID
     * Instagram_ OAuth2
     * Kakao_ OAuth2
+    * Keycloak_ OpenID
     * Linkedin_ OAuth1
     * Live_ OAuth2
     * Livejournal_ OpenID
