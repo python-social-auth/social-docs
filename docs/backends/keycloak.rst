@@ -5,7 +5,7 @@ Keycloak is an open source IAM and SSO system.
 
 To enable Keycloak as a backend:
 
-- On your project settings, add Osso on your ``AUTHENTICATION_BACKENDS``::
+- On your project settings, add Keycloak on your ``AUTHENTICATION_BACKENDS``::
 
     AUTHENTICATION_BACKENDS = (
         ...
