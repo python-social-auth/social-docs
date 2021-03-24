@@ -94,6 +94,7 @@ Social backends
    jawbone
    justgiving
    kakao
+   keycloak
    khanacademy
    lastfm
    launchpad
