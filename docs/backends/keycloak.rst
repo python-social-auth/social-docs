@@ -1,5 +1,5 @@
 Keycloak - Open Source Red Hat SSO
-================================
+==================================
 
 Keycloak is an open source IAM and SSO system.
 
