@@ -42,6 +42,7 @@ To support OAuth2 authentication for VK.com applications:
 
   See the `documentation on available fields`_.
 
+- Add ``'social_core.backends.vk.VKAppOAuth2'`` into your ``SOCIAL_AUTH_AUTHENTICATION_BACKENDS``.
 
 - Fill ``Application ID`` and ``Application Secret`` settings::
 
@@ -104,6 +105,8 @@ HTML template with JavaScript code to authenticate, check below for an example.
     SOCIAL_AUTH_VK_OPENAPI_APP_ID = ''
 
   This app id will be passed to the template as ``VK_APP_ID``.
+
+- Add ``'social_core.backends.vk.VKontakteOpenAPI'`` into your ``SOCIAL_AUTH_AUTHENTICATION_BACKENDS``.
 
 Snippet example::
 
