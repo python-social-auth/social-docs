@@ -88,6 +88,7 @@ Social backends
    github
    github_enterprise
    gitlab
+   gitea
    google
    instagram
    itembase
