@@ -10,9 +10,9 @@ To use this backend, you must:
     pip install --upgrade ShopifyAPI
 
 - Register a new application at `Shopify Partners`_
-- Set the Application URL to `https://[your domain]/login/shopify/`
-- Set the callback URL to `https://[your domain]/complete/shopify/`
-- Add the backendm to your AUTHENTICATION_BACKENDS config::
+- Configure your Shopify app to use the application URL of `https://[your domain]/login/shopify/`
+- Configure your Shopify app to use the callback URL of `https://[your domain]/complete/shopify/`
+- If you're using Django, add the backend to your AUTHENTICATION_BACKENDS configuration::
   
     AUTHENTICATION_BACKENDS = (
         ...,
