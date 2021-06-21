@@ -32,7 +32,7 @@ To use this backend, you must:
                                    'write_customers',
                                    'read_products']
 
-- Set your desired Shopify API version in your settings. The backend default of `2019-04` is no longer supported by the Shopify python library::
+- If you'd like to, you can set your desired Shopify API version in your settings::
       
       SOCIAL_AUTH_SHOPIFY_API_VERSION = '2020-10'
       
