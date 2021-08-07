@@ -111,6 +111,7 @@ Social backends
    mediawiki
    meetup
    mendeley
+   microsoftgraph
    mineid
    mixcloud
    moves
