@@ -49,7 +49,7 @@ Database
 --------
 
 When using PostgreSQL, it's recommended to use the built-in `JSONB`
-field to store the extracted `extra_data`. To enable it define the setting::
+field to store the extracted ``extra_data``. To enable it define the setting::
 
   SOCIAL_AUTH_JSONFIELD_ENABLED = True
 
