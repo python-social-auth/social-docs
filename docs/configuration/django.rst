@@ -82,6 +82,8 @@ or Django won't pick them when trying to authenticate the user.
 Don't miss ``django.contrib.auth.backends.ModelBackend`` if using ``django.contrib.auth``
 application or users won't be able to login by username / password method.
 
+Also, note that `'social_core.backends.google.GoogleOpenId'` has been deprecated.
+
 
 URLs entries
 ------------
