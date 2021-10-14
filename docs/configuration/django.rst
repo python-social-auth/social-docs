@@ -82,7 +82,9 @@ or Django won't pick them when trying to authenticate the user.
 Don't miss ``django.contrib.auth.backends.ModelBackend`` if using ``django.contrib.auth``
 application or users won't be able to login by username / password method.
 
-Also, note that `'social_core.backends.google.GoogleOpenId'` has been deprecated.
+Also, note that ``social_core.backends.google.GoogleOpenId`` has been deprecated.
+
+For more documentation about setting backends to specific social applications, please see the `backend documentation`_.
 
 
 URLs entries
@@ -335,3 +337,4 @@ to the user model by definig the following setting::
 .. _django@dc43fbc: https://github.com/django/django/commit/dc43fbc2f21c12e34e309d0e8a121020391aa03a
 .. _SOUTH_MIGRATION_MODULES: http://south.readthedocs.org/en/latest/settings.html#south-migration-modules
 .. _pypi: http://pypi.python.org/pypi/social-auth-app-django/
+.. _backend documentation: https://python-social-auth.readthedocs.io/en/latest/backends/index.html
