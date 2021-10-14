@@ -84,7 +84,7 @@ application or users won't be able to login by username / password method.
 
 Also, note that ``social_core.backends.google.GoogleOpenId`` has been deprecated.
 
-For more documentation about setting backends to specific social applications, please see the :doc:`backends/index`.
+For more documentation about setting backends to specific social applications, please see the :doc:`/backends/index`.
 
 
 URLs entries
