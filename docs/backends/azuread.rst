@@ -62,4 +62,4 @@ To enable OAuth2 Tenant support:
           ...
       )
 
-.. _Azure AD Application Registration: https://msdn.microsoft.com/en-us/library/azure/dn132599.aspx
+.. _Azure AD Application Registration: https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app
