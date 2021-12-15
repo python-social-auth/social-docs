@@ -23,11 +23,15 @@ To enable Twitter these two keys are needed. Further documentation at
   credentials`_), the parameter is sent automatically, but the
   applicaton needs to be whitelisted in order to get a valid value.
 
+- You’ll need to apply for Elevated access via the Developer Portal, see `Twitter access levels`_ for more info.
+
 Twitter usually fails with a 401 error when trying to call the request-token
 URL, this is usually caused by server datetime errors (check miscellaneous
 section). Installing ``ntp`` and syncing the server date with some pool does
 the trick.
 
+
 .. _Twitter development resources: https://dev.twitter.com/oauth
 .. _Twitter App Creation: https://apps.twitter.com/apps/new
-.. _Twitter verify credentials: https://dev.twitter.com/rest/reference/get/account/verify_credentials
+.. _Twitter verify credentials: https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/manage-account-settings/api-reference/get-account-verify_credentials
+.. _Twitter access levels: https://developer.twitter.com/en/docs/twitter-api/getting-started/about-twitter-api#v2-access-level
