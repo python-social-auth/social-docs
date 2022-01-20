@@ -2,7 +2,7 @@ Adding a new backend
 ====================
 
 Adding new backends is quite easy.  Usually just all that's required is to add
-a ``class`` with a couple settings and method overrides to retrieve user data
+a ``class`` with a couple of settings and method overrides to retrieve user data
 from a services API. Follow the details below:
 
 
@@ -89,7 +89,7 @@ OAuth2
 OAuth2 backends are fairly simple to implement; just a few settings, a method
 override and it's mostly ready to go.
 
-The key points on this backends are:
+The key points on these backends are:
 
 ``AUTHORIZATION_URL``
     This is the entry point for the authorization mechanism, users must be
@@ -104,7 +104,7 @@ The key points on this backends are:
 ``REFRESH_TOKEN_URL``
     Some providers give the option to renew the ``access_token`` since they are
     usually limited in time, once that time runs out, the token is invalidated
-    and cannot be used any more. This attribute should point to that API
+    and cannot be used anymore. This attribute should point to that API
     endpoint.
 
 ``RESPONSE_TYPE``
@@ -113,7 +113,7 @@ The key points on this backends are:
     the provider implementation.
 
 ``STATE_PARAMETER``
-    OAuth2 defines that an ``state`` parameter can be passed in order to
+    OAuth2 defines that a ``state`` parameter can be passed in order to
     validate the process, it's kind of a CSRF check to avoid man in the middle
     attacks. Some don't recognise it or don't return it which will make the
     auth process invalid. Set this attribute to ``False`` in that case.
@@ -159,7 +159,7 @@ OAuth1
 ******
 
 OAuth1 process is a bit more trickier, `Twitter Docs`_ explains it quite well.
-Beside the ``AUTHORIZATION_URL`` and ``ACCESS_TOKEN_URL`` attributes, a third
+Besides the ``AUTHORIZATION_URL`` and ``ACCESS_TOKEN_URL`` attributes, a third
 one is needed used when starting the process.
 
 ``REQUEST_TOKEN_URL = ''``
@@ -221,7 +221,7 @@ Example code::
 OpenID
 ------
 
-OpenID is far simpler that OAuth since it's used for authentication rather
+OpenID is far simpler than OAuth since it's used for authentication rather
 than authorization (regardless it's used for authorization too).
 
 A single attribute is usually needed, the authentication URL endpoint.
