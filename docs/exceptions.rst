@@ -17,7 +17,7 @@ than just the ``ValueError`` usually raised.
     Authentication was canceled by the user.
 
 ``AuthUnknownError``
-    An unknown error stoped the authentication process.
+    An unknown error stopped the authentication process.
 
 ``AuthTokenError``
     Unauthorized or access token error, it was invalid, impossible to
