@@ -167,6 +167,7 @@ Social backends
    uber
    untappd
    upwork
+   vault
    vend
    vimeo
    vk
