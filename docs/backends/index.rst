@@ -123,6 +123,7 @@ Social backends
    odnoklassnikiru
    okta
    openstreetmap
+   oidc
    orbi
    orcid
    osso
