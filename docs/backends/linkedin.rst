@@ -56,8 +56,8 @@ App Setup`_ to add a redirect url/callback url. Be sure to set the proper
 values, otherwise a ``(400) Client Error: Bad Request`` might be returned by
 their service.
 
-.. _LinkedIn fields selectors: http://developer.linkedin.com/docs/DOC-1014
+.. _LinkedIn fields selectors: https://docs.microsoft.com/en-us/linkedin/shared/references/v2/profile/lite-profile
 .. _LinkedIn Scopes: https://docs.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin
 .. _LinkedIn Developer Network: https://www.linkedin.com/secure/developer
-.. _LinkedIn Developers: http://developer.linkedin.com/documents/authentication
+.. _LinkedIn Developers: https://docs.microsoft.com/en-us/linkedin/shared/authentication/authentication
 .. _Linkedin App Setup: https://docs.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow
