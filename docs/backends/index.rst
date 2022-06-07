@@ -90,6 +90,7 @@ Social backends
    gitlab
    gitea
    google
+   grafana
    instagram
    itembase
    jawbone

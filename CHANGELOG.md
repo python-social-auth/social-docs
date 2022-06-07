@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](https://github.com/python-social-auth/social-docs/commits/master)
 
 ### Added
+- Added Grafana OAuth2 backend documentation.
 - Added note on using extra auth arguments in Coinbase backend.
 - Added note on using tenants in Azure AD backend.
 - Added note about Microsoft Graph support with AzureAD backend.
