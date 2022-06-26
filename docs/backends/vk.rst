@@ -136,7 +136,7 @@ Snippet example::
 
 
 .. _VK.com OAuth: https://vk.com/dev/authentication
-.. _VK.com list of permissions: https://vk.com/dev/permissions
-.. _VK.com API: https://vk.com/dev/methods
+.. _VK.com list of permissions: https://dev.vk.com/reference/access-rights
+.. _VK.com API: https://dev.vk.com/method
 .. _authentication for VK.com applications: http://www.ikrvss.ru/2011/11/08/django-social-auh-and-vkontakte-application/
 .. _documentation on available fields: https://vk.com/pages?oid=-17680044&p=getProfiles
