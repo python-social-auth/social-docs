@@ -18,6 +18,11 @@ Qiita
 
   See auth scopes at `Qiita Scopes docs`_.
 
+- Default behavior is to identify users by their `id`. However, this can be changed by renaming accounts, etc.
+
+  If you want to identify each user with a unique `permanent_id`, set the following::
+
+      SOCIAL_AUTH_QIITA_IDENTIFIED_BY_PERMANENT_ID = True
 
 .. _Qiita: https://qiita.com/settings/applications
 .. _Qiita Scopes docs: https://qiita.com/api/v2/docs#スコープ
