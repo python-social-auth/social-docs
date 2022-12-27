@@ -141,6 +141,7 @@ Social backends
    reddit
    runkeeper
    salesforce
+   seznam
    shimmering
    shopify
    simplelogin
