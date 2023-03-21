@@ -127,7 +127,7 @@ The policy should start with `b2c_`. For more information see `Azure AD B2C User
 - If you are using an authority host other than the default ``AZURE_PUBLIC_CLOUD`` ('b2clogin.com')
   then you can override the default with the  ``AUTHORITY_HOST`` setting.
 
-    SOCIAL_AUTH_AZUREAD_B2C_OAUTH2_AUTHORITY_HOST = ''
+      SOCIAL_AUTH_AZUREAD_B2C_OAUTH2_AUTHORITY_HOST = ''
 
 .. _Azure AD Application Registration: https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app
 .. _Azure AD B2C User flows and custom policies overview: https://docs.microsoft.com/en-us/azure/active-directory-b2c/user-flow-overview
