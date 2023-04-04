@@ -61,6 +61,7 @@ Social backends
    bitbucket
    box
    bungie
+   cas
    changetip
    clef
    coinbase
