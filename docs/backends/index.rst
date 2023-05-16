@@ -165,6 +165,7 @@ Social backends
    twilio
    twitch
    twitter
+   twitter_oauth2
    udata
    uber
    untappd
