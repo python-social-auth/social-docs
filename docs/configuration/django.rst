@@ -103,6 +103,14 @@ In case you need a custom namespace, this setting is also needed::
     SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 
+Requiring POST only login
+-------------------------
+
+By default login url ``social:begin`` uses ``GET`` request if you would like to require ``POST`` only (for example to comply with SOC audits) logging in then please use::
+
+    SOCIAL_AUTH_REQUIRE_POST = True
+
+
 Templates
 ---------
 
