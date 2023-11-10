@@ -25,7 +25,7 @@ To enable OAuth2 support:
 
       AUTHENTICATION_BACKENDS = (
           ...
-          'social_core.backends.azuread_tenant.AzureADOAuth2',
+          'social_core.backends.azuread.AzureADOAuth2',
           ...
       )
 
