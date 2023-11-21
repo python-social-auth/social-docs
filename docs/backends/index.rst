@@ -59,6 +59,7 @@ Social backends
    behance
    belgium_eid
    bitbucket
+   bitbucket_datacenter_oauth2
    box
    bungie
    cas
