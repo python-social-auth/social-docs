@@ -155,6 +155,21 @@ Example code::
             return self.get_json(url)
 
 
+OAuth2 with PKCE
+*****************
+
+This is simply an extension of OAuth2 adding `Proof Key for Code Exchange (PKCE)`_ which provides security against authorization code interception attack.
+
+Use the ``BaseOAuth2PKCE`` class as a drop-in replacement for ``BaseOAuth2`` for implementing backends that support PKCE. For reference, you may refer to `Bitbucket Data Center OAuth2`_ and `Twitter OAuth2`_ as example implementations.
+
+Only a single key atttribute is needed on these backends:
+
+``PKCE_DEFAULT_CODE_CHALLENGE_METHOD``
+    Depends on which code challenge method is supported by the provider.
+    The possible values for this are ``s256`` and ``plain``.
+    By default, ``s256`` is set.
+
+
 OAuth1
 ******
 
@@ -308,3 +323,6 @@ Example code::
 
 .. _Twitter Docs: https://dev.twitter.com/docs/auth/implementing-sign-twitter
 .. _myOpenID: https://www.myopenid.com/
+.. _Proof Key for Code Exchange (PKCE): https://datatracker.ietf.org/doc/html/rfc7636
+.. _Bitbucket Data Center OAuth2: https://github.com/python-social-auth/social-core/blob/master/social_core/backends/bitbucket_datacenter.py
+.. _Twitter OAuth2: https://github.com/python-social-auth/social-core/blob/master/social_core/backends/twitter_oauth2.py
