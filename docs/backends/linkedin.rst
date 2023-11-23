@@ -1,7 +1,10 @@
 LinkedIn
 ========
 
-LinkedIn supports only OAuth2. Migration between each type is fairly
+Sign In with LinkedIn only support OpenID Connect since August 1, 2023. The previous
+OAuth2 has been deprecated. See `LinkedIn OpenID Connect`_ for more details.
+
+LinkedIn previously supported OAuth2. Migration between each type is fairly
 simple since the same Key / Secret pair is used for both authentication types.
 
 LinkedIn OAuth2 setup is similar to any other OAuth2 service. The auth flow is
