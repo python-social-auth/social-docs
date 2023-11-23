@@ -1,13 +1,23 @@
 LinkedIn
 ========
 
-LinkedIn supports only OAuth2. Migration between each type is fairly
+Sign In with LinkedIn only support OpenID Connect since August 1, 2023. The previous
+OAuth2 has been deprecated. See `LinkedIn OpenID Connect`_ for more details.
+
+LinkedIn previously supported OAuth2. Migration between each type is fairly
 simple since the same Key / Secret pair is used for both authentication types.
 
 LinkedIn OAuth2 setup is similar to any other OAuth2 service. The auth flow is
 explained on `LinkedIn Developers`_ docs. First you will need to register an
 app att `LinkedIn Developer Network`_.
 
+OpenID Connect
+--------------
+
+- Fill the application key and secret in your settings::
+
+    SOCIAL_AUTH_LINKEDIN_OPENIDCONNECT_KEY = ''
+    SOCIAL_AUTH_LINKEDIN_OPENIDCONNECT_SECRET = ''
 
 OAuth2
 ------
@@ -56,6 +66,7 @@ App Setup`_ to add a redirect url/callback url. Be sure to set the proper
 values, otherwise a ``(400) Client Error: Bad Request`` might be returned by
 their service.
 
+.. _Linkedin OpenID Connect: https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin-v2
 .. _LinkedIn fields selectors: https://docs.microsoft.com/en-us/linkedin/shared/references/v2/profile/lite-profile
 .. _LinkedIn Scopes: https://docs.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin
 .. _LinkedIn Developer Network: https://www.linkedin.com/secure/developer
