@@ -11,6 +11,13 @@ LinkedIn OAuth2 setup is similar to any other OAuth2 service. The auth flow is
 explained on `LinkedIn Developers`_ docs. First you will need to register an
 app att `LinkedIn Developer Network`_.
 
+OpenID Connect
+--------------
+
+- Fill the application key and secret in your settings::
+
+    SOCIAL_AUTH_LINKEDIN_OPENIDCONNECT_KEY = ''
+    SOCIAL_AUTH_LINKEDIN_OPENIDCONNECT_SECRET = ''
 
 OAuth2
 ------
