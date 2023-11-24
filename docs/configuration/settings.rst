@@ -210,8 +210,8 @@ For OAuth backends::
     ]
 
 
-Processing redirects and urlopen
---------------------------------
+Processing requests and redirects
+---------------------------------
 
 The application issues several redirects and API calls. The following settings
 allow some tweaks to the behavior of these.
@@ -236,19 +236,23 @@ allow some tweaks to the behavior of these.
     the auth process. To force HTTPS in the final URIs set this setting to
     ``True``
 
-``SOCIAL_AUTH_URLOPEN_TIMEOUT = 30``
-    Any ``urllib2.urlopen`` call will be performed with the default timeout
+``SOCIAL_AUTH_REQUESTS_TIMEOUT = 10``
+    Any ``requests.request`` call will be performed with the default timeout
     value, to change it without affecting the global socket timeout define this
     setting (the value specifies timeout seconds).
 
-    ``urllib2.urlopen`` uses ``socket.getdefaulttimeout()`` value by default, so
-    setting ``socket.setdefaulttimeout(...)`` will affect ``urlopen`` when this
-    setting is not defined, otherwise this setting takes precedence. Also this
-    might affect other places in Django.
+``SOCIAL_AUTH_URLOPEN_TIMEOUT``
+    Deprecated: this was the old timeout setting before the move to ``requests``
+    If it's defined, it will be used as the fallback for the above setting.
+    If the above setting is defined, this one will be ignored.
 
-    ``timeout`` argument was introduced in python 2.6 according to `urllib2
-    documentation`_
+``SOCIAL_AUTH_VERIFY_SSL``
+    If set, it will be passed as the ``verify`` parameter to ``requests.request``
+    calls. To learn more, check the `Requests' SSL verification page`_.
 
+``SOCIAL_AUTH_PROXIES``
+    If set, it will be passed as the ``proxies`` parameter to ``requests.request``
+    calls. To learn more, check the `Requests' Proxies page`_.
 
 Whitelists
 ----------
@@ -339,7 +343,6 @@ using POST.
     automatically after a short time.
 
 
-.. _urllib2 documentation: http://docs.python.org/library/urllib2.html#urllib2.urlopen
 .. _OpenID PAPE: http://openid.net/specs/openid-provider-authentication-policy-extension-1_0.html
 .. _Installation: ../installing.html
 .. _Backends: ../backends/index.html
@@ -348,3 +351,5 @@ using POST.
 .. _psa-passwordless: https://github.com/omab/psa-passwordless
 .. _SESSION_COOKIE_AGE: https://docs.djangoproject.com/en/1.7/ref/settings/#std:setting-SESSION_COOKIE_AGE
 .. _a set of regular expressions: https://github.com/python-social-auth/social-core/blob/master/social_core/storage.py#L18-L19
+.. _Requests' SSL verification page: https://requests.readthedocs.io/en/latest/user/advanced/#ssl-cert-verification
+.. _Requests' Proxies page: https://requests.readthedocs.io/en/latest/user/advanced/#proxies
