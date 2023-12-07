@@ -25,4 +25,4 @@ If your GitLab setup resides in another domain, then add the following setting::
 
 it must be the **full url** to your GitLab setup.
 
-.. _GitLab Applications: https://gitlab.com/profile/applications
+.. _GitLab Applications: https://gitlab.com/-/profile/applications
