@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added Twitter API v2 backend documentation
 - Added "OAuth2 with PKCE" instructions under "Adding a new backend"
 - Added Bitbucket Data Center OAuth2 backend documentation
+- Added Etsy OAuth2 backend documentation
 
 ### Changed
 - Update partial-pipeline docs with the new storage solution details.

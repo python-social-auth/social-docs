@@ -79,6 +79,7 @@ Social backends
    drip
    dropbox
    edmodo
+   etsy
    eventbrite
    eveonline
    evernote
