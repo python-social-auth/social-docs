@@ -127,6 +127,7 @@ Social backends
    odnoklassnikiru
    okta
    openstreetmap
+   openstreetmap_oauth2
    oidc
    orbi
    orcid
