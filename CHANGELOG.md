@@ -19,8 +19,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added Eventbrite OAuth2 backend documentation
 - Added note about `SOCIAL_AUTH_CLEAN_USERNAME_FUNCTION` option
 - Added note about `SOCIAL_AUTH_SHOPIFY_API_VERSION` setting
-- Added SimpleLogin backend documentation. 
-- Added GithubApp backend documentation. 
+- Added SimpleLogin backend documentation.
+- Added GithubApp backend documentation.
 - Added Discourse backend documentation
 - Added Okta backends documentation
 - Added note about `SOCIAL_AUTH_UNTAPPD_USER_AGENT` setting
@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added "OAuth2 with PKCE" instructions under "Adding a new backend"
 - Added Bitbucket Data Center OAuth2 backend documentation
 - Added Etsy OAuth2 backend documentation
+- Added OpenStreetMap OAuth2 backend documentation.
 
 ### Changed
 - Update partial-pipeline docs with the new storage solution details.
