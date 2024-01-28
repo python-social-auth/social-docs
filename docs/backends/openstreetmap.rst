@@ -1,5 +1,7 @@
-OpenStreetMap
-=============
+OpenStreetMap (Legacy OAuth 1.0a)
+=================================
+
+**Note: OAuth 1.0(a) support will be sunset in Summer 2024. Please use OAuth 2.0 instead.**
 
 OpenStreetMap supports OAuth 1.0 and 1.0a but 1.0a should be used for the new
 applications, as 1.0 is for support of legacy clients only.
