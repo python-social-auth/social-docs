@@ -21,11 +21,26 @@ Set the ``SOCIAL_AUTH_FACEBOOK_LIMITED_LOGIN_KEY`` to the value
 of the ``App Id``.  This field is required for verifying the
 Facebook access token received from the iOS SDK.
 
-For example in Django ``settings.py``:
+
+Django Configuration
+--------------------
+
+Set the Facebook Limited Login Key in ``settings.py``:
 
 .. code-block:: python
 
   SOCIAL_AUTH_FACEBOOK_LIMITED_LOGIN_KEY = "{app_id}"
+
+
+Enable the auth backend:
+
+.. code-block:: python
+
+  AUTHENTICATION_BACKENDS = (
+    ...
+    "social_core.backends.facebook_limited.FacebookLimitedLogin",
+    ...
+  )
 
 .. _Facebook App Creation: https://developers.facebook.com/apps/creation/
 .. _Facebook Limited Login: https://developers.facebook.com/docs/facebook-login/limited-login/
