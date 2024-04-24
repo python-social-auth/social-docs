@@ -84,6 +84,7 @@ Social backends
    eveonline
    evernote
    facebook
+   facebook_limited_login
    fedora
    fitbit
    flat

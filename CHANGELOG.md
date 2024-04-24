@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](https://github.com/python-social-auth/social-docs/commits/master)
 
 ### Added
+- Added Facebook Limited Login backend documentation.
 - Added Seznam OAuth2 backend documentation.
 - Added Grafana OAuth2 backend documentation.
 - Added note on using extra auth arguments in Coinbase backend.
