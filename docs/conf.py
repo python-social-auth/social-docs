@@ -32,4 +32,6 @@ man_pages = [
         1,
     )
 ]
-intersphinx_mapping = {"http://docs.python.org/": None}
+intersphinx_mapping = {
+    "python": ("http://docs.python.org/", None),
+}
