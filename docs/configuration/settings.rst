@@ -325,6 +325,11 @@ Miscellaneous settings
     sets the `SEND_USER_AGENT` property to `True`. Default value is
     the string `social-auth-<version>`.
 
+``SOCIAL_AUTH_FORCE_EMAIL_LOWERCASE = False``
+    When this setting is ``True`` it is enabled. Once enabled, it will
+    force all emails to be lowercase if they are provided using the 
+    `email` property by the backend. Default value is false.
+
 
 Account disconnection
 ---------------------
