@@ -17,10 +17,9 @@ responsibilities and improve reusability.
 
 Code and other contributions are welcome. The code is hosted on GitHub_.
 
-Contents:
-
 .. toctree::
    :maxdepth: 2
+   :hidden:
 
    intro
    maintainers
@@ -37,14 +36,9 @@ Contents:
    use_cases
    thanks
    copyright
+   genindex
+   modindex
 
-
-Indices and Tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
 .. _django-social-auth: http://github.com/omab/django-social-auth
 .. _django-twitter-oauth: https://github.com/henriklied/django-twitter-oauth
