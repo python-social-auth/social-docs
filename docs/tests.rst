@@ -40,7 +40,7 @@ At the moment only OAuth1, OAuth2 and OpenID backends are being tested, and
 just login and partial pipeline features are covered by the test. There's still
 a lot to work on, like:
 
-    * Frameworks support
+* Frameworks support
 
 .. _HTTPretty: https://github.com/gabrielfalcao/HTTPretty
 .. _tests: https://github.com/python-social-auth/social-core/tree/master/social_core/tests

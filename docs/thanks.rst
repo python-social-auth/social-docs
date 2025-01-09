@@ -9,110 +9,110 @@ improvements, report bugs and hunt them down to propose a fix. So, here is
 a big list of users that helped to build this library (if somebody is missed
 let me know and I'll update the list):
 
-  * kjoconnor_
-  * krvss_
-  * estebistec_
-  * mrmch_
-  * uruz_
-  * maraujop_
-  * bacher09_
-  * dokterbob_
-  * hassek_
-  * andrusha_
-  * vicalloy_
-  * caioariede_
-  * danielgtaylor_
-  * stephenmcd_
-  * gugu_
-  * yrik_
-  * dhendo_
-  * yekibud_
-  * tmackenzie_
-  * LuanP_
-  * jezdez_
-  * serdardalgic_
-  * Jolmberg_
-  * ChrisCooper_
-  * marselester_
-  * eshellman_
-  * micrypt_
-  * revolunet_
-  * dasevilla_
-  * seansay_
-  * hepochen_
-  * gibuloto_
-  * crodjer_
-  * sidmitra_
-  * ryr_
-  * inve1_
-  * mback2k_
-  * hannesstruss_
-  * NorthIsUp_
-  * tonyxiao_
-  * dhepper_
-  * Troytft_
-  * gardaud_
-  * oinopion_
-  * gameguy43_
-  * vinigracindo_
-  * syabro_
-  * bashmish_
-  * ggreer_
-  * avillavi_
-  * r4vi_
-  * roderyc_
-  * daonb_
-  * slon7_
-  * JasonGiedymin_
-  * tymofij_
-  * Cassus_
-  * martey_
-  * t0m_
-  * johnthedebs_
-  * jammons_
-  * stefanw_
-  * maxgrosse_
-  * mattucf_
-  * tadeo_
-  * haxoza_
-  * bradbeattie_
-  * henward0_
-  * bernardokyotoku_
-  * czpython_
-  * glasscube42_
-  * assiotis_
-  * dbaxa_
-  * JasonSanford_
-  * originell_
-  * cihann_
-  * niftynei_
-  * mikesun_
-  * 1st_
-  * betonimig_
-  * ozexpert_
-  * stephenLee_
-  * julianvargasalvarez_
-  * youngrok_
-  * garrypolley_
-  * amirouche_
-  * fmoga_
-  * pydanny_
-  * pygeek_
-  * dgouldin_
-  * kotslon_
-  * kirkchris_
-  * barracel_
-  * sayar_
-  * kulbir_
-  * Morgul_
-  * spstpl_
-  * bluszcz_
-  * vbsteven_
-  * sbassi_
-  * aspcanada_
-  * browniebroke_
-  * eshaan7_
-  * amitray007_
+* kjoconnor_
+* krvss_
+* estebistec_
+* mrmch_
+* uruz_
+* maraujop_
+* bacher09_
+* dokterbob_
+* hassek_
+* andrusha_
+* vicalloy_
+* caioariede_
+* danielgtaylor_
+* stephenmcd_
+* gugu_
+* yrik_
+* dhendo_
+* yekibud_
+* tmackenzie_
+* LuanP_
+* jezdez_
+* serdardalgic_
+* Jolmberg_
+* ChrisCooper_
+* marselester_
+* eshellman_
+* micrypt_
+* revolunet_
+* dasevilla_
+* seansay_
+* hepochen_
+* gibuloto_
+* crodjer_
+* sidmitra_
+* ryr_
+* inve1_
+* mback2k_
+* hannesstruss_
+* NorthIsUp_
+* tonyxiao_
+* dhepper_
+* Troytft_
+* gardaud_
+* oinopion_
+* gameguy43_
+* vinigracindo_
+* syabro_
+* bashmish_
+* ggreer_
+* avillavi_
+* r4vi_
+* roderyc_
+* daonb_
+* slon7_
+* JasonGiedymin_
+* tymofij_
+* Cassus_
+* martey_
+* t0m_
+* johnthedebs_
+* jammons_
+* stefanw_
+* maxgrosse_
+* mattucf_
+* tadeo_
+* haxoza_
+* bradbeattie_
+* henward0_
+* bernardokyotoku_
+* czpython_
+* glasscube42_
+* assiotis_
+* dbaxa_
+* JasonSanford_
+* originell_
+* cihann_
+* niftynei_
+* mikesun_
+* 1st_
+* betonimig_
+* ozexpert_
+* stephenLee_
+* julianvargasalvarez_
+* youngrok_
+* garrypolley_
+* amirouche_
+* fmoga_
+* pydanny_
+* pygeek_
+* dgouldin_
+* kotslon_
+* kirkchris_
+* barracel_
+* sayar_
+* kulbir_
+* Morgul_
+* spstpl_
+* bluszcz_
+* vbsteven_
+* sbassi_
+* aspcanada_
+* browniebroke_
+* eshaan7_
+* amitray007_
 
 
 .. _python-social-auth: https://github.com/python-social-auth
