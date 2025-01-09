@@ -5,14 +5,14 @@ extensions = [
     "sphinx.ext.viewcode",
 ]
 templates_path = ["_templates"]
-source_suffix = ".rst"
 master_doc = "index"
 project = "Python Social Auth"
-copyright = "2012, Matías Aguirre"
+project_copyright = "Python Social Auth team"
 exclude_patterns = ["build"]
 pygments_style = "sphinx"
-html_theme = "pyramid"
-html_static_path = []
+html_theme = "furo"
+html_logo = "images/logo.svg"
+html_title = project
 htmlhelp_basename = "PythonSocialAuthdoc"
 latex_documents = [
     (
