@@ -265,11 +265,9 @@ or even halt the whole process.
 
 Extending the pipeline implies:
 
-    1. Writing a function
-    2. Locating the function in an accessible path
-       (accessible in the way that it can be imported)
-    3. Overriding the default pipeline definition with one that includes
-       newly created function.
+1. Writing a function
+2. Locating the function in an accessible path (accessible in the way that it can be imported)
+3. Overriding the default pipeline definition with one that includes newly created function.
 
 The part of writing the function is quite simple. However please be careful
 when placing your function in the pipeline definition, because order
