@@ -16,9 +16,11 @@ slightly different enterprise versions.
     SOCIAL_AUTH_SEZNAM_OAUTH2_SECRET = '<client_secret>'
 
 - If you would like to access some additional information from the user,
-    you can set the ``SOCIAL_AUTH_SEZNAM_OAUTH2_SCOPE`` setting to a list
-    of extra scopes that are supported according to the `scope documentation`_.
-    For example, to request access to the user's phone number and avatar::
+  you can set the ``SOCIAL_AUTH_SEZNAM_OAUTH2_SCOPE`` setting to a list of
+  extra scopes that are supported according to the `scope documentation`_.  For
+  example, to request access to the user's phone number and avatar:
+
+  .. code-block:: python
     
     SOCIAL_AUTH_SEZNAM_OAUTH2_SCOPE = ['contact-phone', 'avatar']
 
@@ -29,7 +31,9 @@ Seznam recommends the use of ``oauth_user_id`` as the user identifier instead
 of some immutable data as ``username`` or ``email`` because
 it can impose security risks if the user changes it.
 For that reason ``oauth_user_id`` is used by default, but for compatibility
-with the enterprise backed version, you can override this behavior by setting::
+with the enterprise backed version, you can override this behavior by setting:
+
+.. code-block:: python
 
     SOCIAL_AUTH_SEZNAM_OAUTH2_ID_KEY = 'id'
 

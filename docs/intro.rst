@@ -18,11 +18,11 @@ Supported frameworks
 
 Multiple frameworks support:
 
-    * Django_
-    * Flask_
-    * Pyramid_
-    * Webpy_
-    * Tornado_
+* Django_
+* Flask_
+* Pyramid_
+* Webpy_
+* Tornado_
 
 More frameworks can be added easily (and should be even easier in the future
 once the code matures).
@@ -34,67 +34,67 @@ Auth providers
 Several supported service by simple backends definition (easy to add new ones
 or extend current one):
 
-    * Angel_ OAuth2
-    * Beats_ OAuth2
-    * Behance_ OAuth2
-    * Bitbucket_ OAuth1
-    * Box_ OAuth2
-    * Dailymotion_ OAuth2
-    * Deezer_ OAuth2
-    * Disqus_ OAuth2
-    * Douban_ OAuth1 and OAuth2
-    * Dropbox_ OAuth1
-    * Eventbrite_ OAuth2
-    * Evernote_ OAuth1
-    * Facebook_ OAuth2 and OAuth2 for Applications
-    * Fitbit_ OAuth2 and OAuth1
-    * Flat_ OAuth2
-    * Flickr_ OAuth1
-    * Foursquare_ OAuth2
-    * `Google App Engine`_ Auth
-    * GitHub_ OAuth2
-    * Google_ OAuth1, OAuth2 and OpenID
-    * Instagram_ OAuth2
-    * Kakao_ OAuth2
-    * Keycloak_ OpenID
-    * Linkedin_ OAuth1
-    * Live_ OAuth2
-    * Livejournal_ OpenID
-    * Mailru_ OAuth2
-    * MineID_ OAuth2
-    * Mixcloud_ OAuth2
-    * `Mozilla Persona`_
-    * NaszaKlasa_ OAuth2
-    * `NGPVAN ActionID`_ OpenID
-    * Odnoklassniki_ OAuth2 and Application Auth
-    * OpenID_
-    * Podio_ OAuth2
-    * Pinterest_ OAuth2
-    * Rdio_ OAuth1 and OAuth2
-    * Readability_ OAuth1
-    * Shopify_ OAuth2
-    * Skyrock_ OAuth1
-    * Soundcloud_ OAuth2
-    * Spotify_ OAuth2
-    * ThisIsMyJam_ OAuth1
-    * Stackoverflow_ OAuth2
-    * Steam_ OpenID
-    * Stocktwits_ OAuth2
-    * Stripe_ OAuth2
-    * Tripit_ OAuth1
-    * Tumblr_ OAuth1
-    * Twilio_ Auth
-    * Twitch_ OAuth2
-    * Twitter_ OAuth1
-    * Upwork_ OAuth1
-    * Vimeo_ OAuth1
-    * VK.com_ OpenAPI, OAuth2 and OAuth2 for Applications
-    * Weibo_ OAuth2
-    * Wunderlist_ OAuth2
-    * Xing_ OAuth1
-    * Yahoo_ OpenID and OAuth1
-    * Yammer_ OAuth2
-    * Yandex_ OAuth1, OAuth2 and OpenID
+* Angel_ OAuth2
+* Beats_ OAuth2
+* Behance_ OAuth2
+* Bitbucket_ OAuth1
+* Box_ OAuth2
+* Dailymotion_ OAuth2
+* Deezer_ OAuth2
+* Disqus_ OAuth2
+* Douban_ OAuth1 and OAuth2
+* Dropbox_ OAuth1
+* Eventbrite_ OAuth2
+* Evernote_ OAuth1
+* Facebook_ OAuth2 and OAuth2 for Applications
+* Fitbit_ OAuth2 and OAuth1
+* Flat_ OAuth2
+* Flickr_ OAuth1
+* Foursquare_ OAuth2
+* `Google App Engine`_ Auth
+* GitHub_ OAuth2
+* Google_ OAuth1, OAuth2 and OpenID
+* Instagram_ OAuth2
+* Kakao_ OAuth2
+* Keycloak_ OpenID
+* Linkedin_ OAuth1
+* Live_ OAuth2
+* Livejournal_ OpenID
+* Mailru_ OAuth2
+* MineID_ OAuth2
+* Mixcloud_ OAuth2
+* `Mozilla Persona`_
+* NaszaKlasa_ OAuth2
+* `NGPVAN ActionID`_ OpenID
+* Odnoklassniki_ OAuth2 and Application Auth
+* OpenID_
+* Podio_ OAuth2
+* Pinterest_ OAuth2
+* Rdio_ OAuth1 and OAuth2
+* Readability_ OAuth1
+* Shopify_ OAuth2
+* Skyrock_ OAuth1
+* Soundcloud_ OAuth2
+* Spotify_ OAuth2
+* ThisIsMyJam_ OAuth1
+* Stackoverflow_ OAuth2
+* Steam_ OpenID
+* Stocktwits_ OAuth2
+* Stripe_ OAuth2
+* Tripit_ OAuth1
+* Tumblr_ OAuth1
+* Twilio_ Auth
+* Twitch_ OAuth2
+* Twitter_ OAuth1
+* Upwork_ OAuth1
+* Vimeo_ OAuth1
+* VK.com_ OpenAPI, OAuth2 and OAuth2 for Applications
+* Weibo_ OAuth2
+* Wunderlist_ OAuth2
+* Xing_ OAuth1
+* Yahoo_ OpenID and OAuth1
+* Yammer_ OAuth2
+* Yandex_ OAuth1, OAuth2 and OpenID
 
 
 User data
@@ -143,6 +143,7 @@ section.
 .. _Google: http://google.com
 .. _Instagram: https://instagram.com
 .. _Kakao: https://kakao.com
+.. _Keycloak: https://www.keycloak.org
 .. _Linkedin: https://www.linkedin.com
 .. _Live: https://www.live.com
 .. _Livejournal: http://livejournal.com

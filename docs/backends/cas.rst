@@ -1,5 +1,5 @@
 CAS (OpenID Connect via Apereo CAS)
-=====================
+===================================
 
 The CAS_ backend allows authentication against an Apereo CAS OIDC provider.
 The backend class is `CASOpenIdConnectAuth` with name `cas`.  A minimum
