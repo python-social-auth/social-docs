@@ -10,11 +10,11 @@ Description
 
 A strategy's responsibility is to provide access to:
 
-    * Request data and host information and URI building
-    * Session access
-    * Project settings
-    * Response types (HTML and redirects)
-    * HTML rendering
+* Request data and host information and URI building
+* Session access
+* Project settings
+* Response types (HTML and redirects)
+* HTML rendering
 
 Different frameworks implement these features on different ways, thus the need
 for these interfaces.

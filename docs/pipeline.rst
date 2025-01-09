@@ -109,15 +109,16 @@ such as ``SOCIAL_AUTH_TWITTER_PIPELINE``. Backend specific pipelines will overri
 the non specific pipelines (i.e. the default pipeline and ``SOCIAL_AUTH_PIPELINE``).
 
 Each pipeline function will receive the following parameters:
-    * Current strategy (which gives access to current store, backend and request)
-    * User ID given by authentication provider
-    * User details given by authentication provider
-    * ``is_new`` flag (initialized as ``False``)
-    * Any arguments passed to ``auth_complete`` backend method, default views
-      pass these arguments:
 
-      * current logged in user (if it's logged in, otherwise ``None``)
-      * current request
+* Current strategy (which gives access to current store, backend and request)
+* User ID given by authentication provider
+* User details given by authentication provider
+* ``is_new`` flag (initialized as ``False``)
+* Any arguments passed to ``auth_complete`` backend method, default views
+  pass these arguments:
+
+  * current logged in user (if it's logged in, otherwise ``None``)
+  * current request
 
 
 Disconnection Pipeline
