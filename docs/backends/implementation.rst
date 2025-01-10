@@ -162,7 +162,7 @@ This is simply an extension of OAuth2 adding `Proof Key for Code Exchange (PKCE)
 
 Use the ``BaseOAuth2PKCE`` class as a drop-in replacement for ``BaseOAuth2`` for implementing backends that support PKCE. For reference, you may refer to `Bitbucket Data Center OAuth2`_ and `Twitter OAuth2`_ as example implementations.
 
-Only a single key atttribute is needed on these backends:
+Only a single key attribute is needed on these backends:
 
 ``PKCE_DEFAULT_CODE_CHALLENGE_METHOD``
     Depends on which code challenge method is supported by the provider.
@@ -244,7 +244,7 @@ A single attribute is usually needed, the authentication URL endpoint.
 ``URL = ''``
     OpenID endpoint where to redirect the user.
 
-Sometimes the URL is user dependant, like in myOpenID_ where the URL is
+Sometimes the URL is user dependent, like in myOpenID_ where the URL is
 ``https://<user handler>.myopenid.com``. For those cases where the user must
 input it's handle (or full URL). The backend must override the ``openid_url()``
 method to retrieve it and return a full URL to where the user will be

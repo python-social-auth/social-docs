@@ -58,7 +58,7 @@ Bungie uses OAuth 2.0 for authentication.
 - Set the ``Callback URL`` in the Bungie.net Application Registration
   page to ``https://<your domain>/complete/bungie`` This **must** be
   ``https``. During development you can use stunnel to proxy the request
-  or you cna install sslserver from pip.
+  or you can install sslserver from pip.
 
 - Set the ``Authentication Backend``, ``Client ID (aka OAuth Key)``,
   ``OAuth Secret``, and ``X-API-KEY`` values in your Django settings::

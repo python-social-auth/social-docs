@@ -17,7 +17,7 @@ This class functions identically to the generic OIDC backend, but hides
 the differences in implementation details of the OIDC implementation in
 Apereo CAS.
 
-Note that dispite the naming of the backend, this is NOT an implementation
+Note that despite the naming of the backend, this is NOT an implementation
 of the CAS protocol, also supported by Apereo CAS. The CAS backend is only
 intended as a way to use the Apereo CAS identity provider as an
 authentication service, but via OIDC.

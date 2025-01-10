@@ -9,7 +9,7 @@ announcement_).
 OAuth1
 ------
 
-In order to support OAuth1 (not recomended, use OAuth2 instead):
+In order to support OAuth1 (not recommended, use OAuth2 instead):
 
 - Register a new application at `Mendeley Application Registration`_
 

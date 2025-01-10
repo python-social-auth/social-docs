@@ -65,7 +65,7 @@ Global user
 -----------
 
 The application expects the current logged in user accessible at ``request.user``,
-the example application ensures that with this hander::
+the example application ensures that with this handler::
 
     def get_user(request):
         user_id = request.session.get('user_id')
@@ -100,7 +100,7 @@ load the user from the database (check the snippet above in *Global User*).
 
 The second one is used to ensure that there's a user logged in when calling the
 disconnect view. It must accept a ``User`` instance and return ``True`` or
-``Flase``.
+``False``.
 
 Check the auth.py_ in the example application for details on how it's done
 there.

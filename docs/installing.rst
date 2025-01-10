@@ -10,10 +10,10 @@ components are:
 * social-auth-core_
   Core library that the rest depends on, this contains the basic
   functionality to establish an authentication/authorization flow with
-  the diferent supported providers.
+  the different supported providers.
 
 * social-auth-storage-sqlalchemy_, social-auth-storage-peewee_, social-auth-storage-mongoengine_
-  Different storage solutions that can be reused accross the supported
+  Different storage solutions that can be reused across the supported
   frameworks or newer implementations.
 
 * social-auth-app-django_, social-auth-app-django-mongoengine_

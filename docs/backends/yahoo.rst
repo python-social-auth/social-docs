@@ -22,7 +22,7 @@ Yahoo OAuth2
 OAuth 2.0 workflow, useful if you are planning to use Yahoo's API.
 
 - Register a new application at `Yahoo Developer Center`_, set your app domain
-  and configure scopes (they can't be overriden by application).
+  and configure scopes (they can't be overridden by application).
 
 - Fill ``Consumer Key`` and ``Consumer Secret`` values in the settings::
 

@@ -10,7 +10,7 @@ Stripe uses OAuth2 for its authorization service. To setup Stripe backend:
 
     SOCIAL_AUTH_STRIPE_KEY = 'ca_...'
 
-- Grab the ``Test Secret Key`` in the ``API Keys`` tab and fille the ``App
+- Grab the ``Test Secret Key`` in the ``API Keys`` tab and fill the ``App
   Secret`` setting::
 
     SOCIAL_AUTH_STRIPE_SECRET = '...'

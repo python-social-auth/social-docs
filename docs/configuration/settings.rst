@@ -286,11 +286,11 @@ Miscellaneous settings
 
 ``SOCIAL_AUTH_IMMUTABLE_USER_FIELDS = ['email',]``
     Set any field name that requires *protection* in this setting, and it won't
-    be updated after inital population. This setting is similar to
+    be updated after initial population. This setting is similar to
     ``SOCIAL_AUTH_PROTECTED_USER_FIELDS`` in that they both do not allow changes
     of the data - however this one allows it to be set if no prior value exists.
     An example use case might be an application that seeds data from a social
-    plaform but allows the users to override it locally.
+    platform but allows the users to override it locally.
 
 
 ``SOCIAL_AUTH_SESSION_EXPIRATION = False``

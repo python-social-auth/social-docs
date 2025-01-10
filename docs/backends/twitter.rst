@@ -21,7 +21,7 @@ To enable Twitter these two keys are needed. Further documentation at
 
 - You can request user's Email address (consult `Twitter verify
   credentials`_), the parameter is sent automatically, but the
-  applicaton needs to be whitelisted in order to get a valid value.
+  application needs to be whitelisted in order to get a valid value.
 
 - You’ll need to apply for Elevated access via the Developer Portal, see `Twitter access levels`_ for more info.
 

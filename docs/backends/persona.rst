@@ -17,7 +17,7 @@ POST to `python-social-auth`_::
         <a rel="nofollow" id="persona" href="#">Mozilla Persona</a>
     </form>
 
-    <!-- Setup click handler that retieves Persona assertion code and sends POST data -->
+    <!-- Setup click handler that retrieves Persona assertion code and sends POST data -->
     <script type="text/javascript">
         $(function () {
             $('#persona').click(function (e) {

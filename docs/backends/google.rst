@@ -134,7 +134,7 @@ auth process.
   can trigger an automatic sign-in when listening to the user status
   change. With the method show above, that won't happen, but if the UI
   depends more in the SDK values than the backend, then things can get
-  out of sync easilly. To prevent this, the user should be logged-out
+  out of sync easily. To prevent this, the user should be logged-out
   from Google+ platform too. This can be accomplished by doing::
 
     <script type="text/javascript">

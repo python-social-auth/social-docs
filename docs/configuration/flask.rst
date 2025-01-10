@@ -89,7 +89,7 @@ The value must be the import path to the User model.
 Global user
 -----------
 
-The application expects the current logged in user accesible at ``g.user``,
+The application expects the current logged in user accessible at ``g.user``,
 define a handler like this to ensure that::
 
     @app.before_request
