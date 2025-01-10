@@ -21,7 +21,7 @@ slightly different enterprise versions.
   example, to request access to the user's phone number and avatar:
 
   .. code-block:: python
-    
+
     SOCIAL_AUTH_SEZNAM_OAUTH2_SCOPE = ['contact-phone', 'avatar']
 
 User ID

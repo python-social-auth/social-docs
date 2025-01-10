@@ -239,7 +239,7 @@ If you are using Django, you can do it with::
     url = strategy.build_absolute_uri(
         reverse('social:complete', args=(strategy.backend_name,))
     ) + '?verification_code=' + code.code + '&partial_token=' + partial_token
-    
+
 
 On Flask::
 

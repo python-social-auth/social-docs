@@ -17,7 +17,7 @@ To enable Osso as a backend:
     )
 
 - Create or update an OAuth Client in your Osso instance, adding a redirect URI to your allow
-  ``http://example.com/complete/osso/`` replacing ``http://example.com`` with your application's domain. 
+  ``http://example.com/complete/osso/`` replacing ``http://example.com`` with your application's domain.
   Grab the ``Client ID`` and ``Client Secret`` to use in your application.
 
 - Add these values of ``Client ID`` and ``Client Secret`` from Osso in your project settings file.
@@ -28,9 +28,9 @@ added on ``SOCIAL_AUTH_OSSO_SECRET``. You also need to add your Osso instance ba
       SOCIAL_AUTH_OSSO_KEY = os.getenv('SOCIAL_AUTH_OSSO_KEY')
       SOCIAL_AUTH_OSSO_SECRET = os.getenv('SOCIAL_AUTH_OSSO_SECRET')
       SOCIAL_AUTH_OSSO_BASE_URL = 'https://demo.ossoapp.com'
-      
-When constructing your sign in flow, Osso supports passing an ``email`` or ``domain`` parameter in order to route 
-the user to the correct IDP. If you don't include one of these parameters, and instead implement a button, Osso 
+
+When constructing your sign in flow, Osso supports passing an ``email`` or ``domain`` parameter in order to route
+the user to the correct IDP. If you don't include one of these parameters, and instead implement a button, Osso
 will display a hosted login page. Here's an example login form with ``email``:
 
 
@@ -41,4 +41,4 @@ will display a hosted login page. Here's an example login form with ``email``:
           <input type="email" name="email" />
           {% csrf_token %}
           <button type="submit">Sign in with SSO</button>
-      </form>  
+      </form>

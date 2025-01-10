@@ -4,7 +4,7 @@ Vend
 Vend supports OAuth 2.
 
 - Register a new application at `Vend Developers Portal`_
-  
+
 - Add the Vend OAuth2 backend to your settings page::
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (

@@ -222,7 +222,7 @@ allow some tweaks to the behavior of these.
     ``next`` GET argument. If this setting is ``True``, this application will
     vary the domain of the final URL and only redirect to it if it's on the
     same domain.
-    
+
 ``SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = ['foo', 'bar']``
     To allow redirection to certain domains while keeping the more restrictive
     ``SOCIAL_AUTH_SANITIZE_REDIRECTS = True`` setting. This will redirect to the
@@ -286,11 +286,11 @@ Miscellaneous settings
 
 ``SOCIAL_AUTH_IMMUTABLE_USER_FIELDS = ['email',]``
     Set any field name that requires *protection* in this setting, and it won't
-    be updated after inital population. This setting is similar to 
-    ``SOCIAL_AUTH_PROTECTED_USER_FIELDS`` in that they both do not allow changes 
+    be updated after inital population. This setting is similar to
+    ``SOCIAL_AUTH_PROTECTED_USER_FIELDS`` in that they both do not allow changes
     of the data - however this one allows it to be set if no prior value exists.
-    An example use case might be an application that seeds data from a social 
-    plaform but allows the users to override it locally.    
+    An example use case might be an application that seeds data from a social
+    plaform but allows the users to override it locally.
 
 
 ``SOCIAL_AUTH_SESSION_EXPIRATION = False``
@@ -327,7 +327,7 @@ Miscellaneous settings
 
 ``SOCIAL_AUTH_FORCE_EMAIL_LOWERCASE = False``
     When this setting is ``True`` it is enabled. Once enabled, it will
-    force all emails to be lowercase if they are provided using the 
+    force all emails to be lowercase if they are provided using the
     `email` property by the backend. Default value is false.
 
 

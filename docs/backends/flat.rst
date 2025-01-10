@@ -17,7 +17,7 @@ Flat
 
     SOCIAL_AUTH_FLAT_KEY = ''
     SOCIAL_AUTH_FLAT_SECRET = ''
-    
+
 - Set the ``Callback URL`` to ``http://<your hostname>/complete/flat/``
 
 - Specify `scopes`_ with::

@@ -13,5 +13,5 @@ order to enable the support for it just:
     SOCIAL_AUTH_LASTFM_SECRET = ''
 
 - Enable the backend in ``AUTHENTICATION_BACKENDS`` setting.
-    
+
 .. _Get an API Account: http://www.last.fm/api/account/create

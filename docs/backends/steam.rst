@@ -12,11 +12,11 @@ Configurable settings:
 2. Fill key in your project settings::
 
     SOCIAL_AUTH_STEAM_API_KEY = '...'
-    
+
 3. To save ``player`` data provided by Steam into ``extra_data``::
 
 	SOCIAL_AUTH_STEAM_EXTRA_DATA = ['player']
-    
+
 4. Enable the backend::
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (

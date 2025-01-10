@@ -2,7 +2,7 @@ Microsoft Graph
 ===============
 
 
-1. Go to `Azure portal`_ and create an application. 
+1. Go to `Azure portal`_ and create an application.
 
 2. Fill App Id and Secret in your project settings::
 
@@ -22,4 +22,3 @@ Microsoft Graph
 
 .. _Azure portal: https://portal.azure.com/
 .. _Register an application with the Microsoft identity platform: https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app
-

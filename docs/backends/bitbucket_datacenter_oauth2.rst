@@ -50,7 +50,7 @@ Extra Configuration
   The possible values for this are ``s256`` and ``plain``.
   By default, ``s256`` is set.
 
-  You can see more information about PKCE at `RFC7636`_. 
+  You can see more information about PKCE at `RFC7636`_.
 
 - You can specify the user's avatar size::
 

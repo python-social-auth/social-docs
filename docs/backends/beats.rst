@@ -5,7 +5,7 @@ Beats supports OAuth 2.
 
 - Register a new application at `Beats Music API`_, and follow the
   instructions below.
-  
+
 OAuth2
 ------
 

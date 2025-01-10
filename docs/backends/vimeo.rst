@@ -12,7 +12,7 @@ running follow:
 
     SOCIAL_AUTH_VIMEO_KEY = ''
     SOCIAL_AUTH_VIMEO_SECRET = ''
-    
+
 - Specify scopes with::
 
     SOCIAL_AUTH_VIMEO_SCOPE = [...]

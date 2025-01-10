@@ -10,11 +10,11 @@ Jawbone uses OAuth2. In order to enable the backend follow:
 
     SOCIAL_AUTH_JAWBONE_KEY = ''
     SOCIAL_AUTH_JAWBONE_SECRET = ''
-    
+
 - Specify scopes with::
 
     SOCIAL_AUTH_JAWBONE_SCOPE = [...]
-    
+
   Available scopes are listed in the `Jawbone Authentication Reference`_,
   "socpes" section.
 

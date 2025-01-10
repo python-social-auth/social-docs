@@ -15,7 +15,7 @@ Legacy OAuth2 authorization
 Also available ``social_core.backends.mailru.MailruOAuth2`` for authorization with ``connect.mail.ru`` server.
 
 `Create an app`_ and set following settings::
-    
+
     SOCIAL_AUTH_MAILRU_OAUTH2_KEY = ''
     SOCIAL_AUTH_MAILRU_OAUTH2_SECRET = ''
 

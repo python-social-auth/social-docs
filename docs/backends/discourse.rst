@@ -21,10 +21,10 @@ be used as SSO providers. If this is the case, the DiscourseAuth class can be
 extended and configured as follows::
 
       from social_core.backends.discourse import DiscourseAuth
-      
+
       class DiscourseAuthFoo(DiscourseAuth):
           name = 'discourse-foo'
-      
+
       class DiscourseAuthBar(DiscourseAuth):
           name = 'discourse-bar'
 
@@ -34,4 +34,3 @@ Fill in the settings like so::
       SOCIAL_AUTH_DISCOURSE_FOO_SERVER_URL = "https://my-discourse-foo-site.com"
       SOCIAL_AUTH_DISCOURSE_BAR_SECRET = "myDiscourseBarSecret"
       SOCIAL_AUTH_DISCOURSE_BAR_SERVER_URL = "https://my-discourse-bar-site.com"
-

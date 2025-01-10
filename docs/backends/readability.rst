@@ -17,7 +17,7 @@ That's it! By default you'll get back::
     last_name
 
 with EXTRA_DATA, you can get::
-    
+
     date_joined
     kindle_email_address
     avatar_url

@@ -10,5 +10,5 @@ Foursquare uses OAuth2. In order to enable the backend follow:
 
     SOCIAL_AUTH_FOURSQUARE_KEY = ''
     SOCIAL_AUTH_FOURSQUARE_SECRET = ''
-    
+
 .. _Foursquare Developers Portal: https://foursquare.com/developers/register

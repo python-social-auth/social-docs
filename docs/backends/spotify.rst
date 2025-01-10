@@ -5,7 +5,7 @@ Spotify supports OAuth 2.
 
 - Register a new application at `Spotify Web API`_, and follow the
   instructions below.
-  
+
 OAuth2
 ------
 

@@ -25,7 +25,7 @@ OAuth2
   By default the setting is set to ``False`` since it's possible for a
   project to gather this information by other methods.
 
-  
+
 OAuth1
 ------
 

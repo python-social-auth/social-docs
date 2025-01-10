@@ -9,13 +9,13 @@ DailyMotion uses OAuth2. In order to enable the backend follow:
 
     SOCIAL_AUTH_DAILYMOTION_KEY = ''
     SOCIAL_AUTH_DAILYMOTION_SECRET = ''
-    
+
 - Set the ``Callback URL`` to ``http://<your hostname>/complete/dailymotion/``
 
 - Specify scopes with::
 
     SOCIAL_AUTH_DAILYMOTION_SCOPE = [...]
-    
+
   Available scopes are listed in the `Requesting Extended Permissions`_
   section.
 

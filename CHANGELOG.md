@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](https://github.com/python-social-auth/social-docs/commits/master)
 
 ### Added
+
 - Added Facebook Limited Login backend documentation.
 - Added Seznam OAuth2 backend documentation.
 - Added Grafana OAuth2 backend documentation.
@@ -39,6 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added OpenStreetMap OAuth2 backend documentation.
 
 ### Changed
+
 - Update partial-pipeline docs with the new storage solution details.
 - Update django context-processors format
 - Updated Steam documentation
@@ -56,6 +58,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.1.0](https://github.com/python-social-auth/social-docs/releases/tag/0.1.0) - 2016-12-31
 
 ### Added
+
 - Added GitLab OAuth2 backend documentation
 - Added note about OAuth1 expected access_token format.
   Refs [#647](https://github.com/omab/python-social-auth/issues/647)
@@ -79,6 +82,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   by s-alexey)
 
 ### Changed
+
 - Updated the documentation about installing the library
 - Updated reference to username cleanup regular expressions.
   Refs [#732](https://github.com/omab/python-social-auth/issues/732)

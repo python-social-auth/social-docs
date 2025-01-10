@@ -6,20 +6,20 @@ Shopify uses OAuth 2 for authentication.
 To use this backend, you must:
 
 - Install the `Shopify python library`_::
-  
+
     pip install --upgrade ShopifyAPI
 
 - Register a new application at `Shopify Partners`_
 - Configure your Shopify app to use the application URL of `https://[your domain]/login/shopify/`
 - Configure your Shopify app to use the callback URL of `https://[your domain]/complete/shopify/`
 - If you're using Django, add the backend to your AUTHENTICATION_BACKENDS configuration::
-  
+
     AUTHENTICATION_BACKENDS = (
         ...,
         'social_core.backends.shopify.ShopifyOAuth2',
         ...,
     )
-    
+
 - fill ``API Key`` and ``Shared Secret`` values in your django settings::
 
       SOCIAL_AUTH_SHOPIFY_KEY   = ''
@@ -33,9 +33,9 @@ To use this backend, you must:
                                    'read_products']
 
 - If you'd like to, you can set your desired Shopify API version in your settings::
-      
+
       SOCIAL_AUTH_SHOPIFY_API_VERSION = '2020-10'
-      
+
 `ShopifyAPI 5.0.0`_ introduced a non backward compatible change in order to
 support Shopify API versioning. The backend will default to value `2019-04` but
 it's possible to override the default with the following setting::
