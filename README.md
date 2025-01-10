@@ -10,11 +10,15 @@ This is the documentation repository for the
 
 ## Documentation
 
-Project documentation is available at http://python-social-auth.readthedocs.io/.
+Project documentation is available at https://python-social-auth.readthedocs.io/.
 
 ## Contributing
 
-See the [CONTRIBUTING.md](CONTRIBUTING.md) document for details.
+Contributions are welcome!
+
+Only the core and Django modules are currently in development. All others are in maintenance only mode, and maintainers are especially welcome there.
+
+See the [https://github.com/python-social-auth/.github/blob/main/CONTRIBUTING.md](CONTRIBUTING.md) document for details.
 
 ## Versioning
 
