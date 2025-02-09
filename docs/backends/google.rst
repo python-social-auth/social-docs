@@ -56,6 +56,52 @@ To enable OAuth2 support:
 Check which applications can be included in their `Google Data Protocol Directory`_
 
 
+Google One Tap
+---------------
+
+`Google One Tap`_ is a bit different from the OAuth2 flow as the login process is started
+on the client side. Because of this `start` url is not available, only a `complete` one.
+
+
+* To enable the backend create an application using the `Google
+  console`_ to retrieve your `Google Client ID`.
+  Make sure sure to add your website's URL to ``Authorized JavaScript origins`` and
+  ``Authorized redirect URIs``
+  (don't forget to also include the port number if you are using localhost).
+
+* Fill in the key setting looking inside the Google console the subsection
+  ``Credentials`` inside ``API & auth``::
+
+    AUTHENTICATION_BACKENDS = (
+        ...
+        'social_core.backends.google_onetap.GoogleOneTap',
+    )
+
+    SOCIAL_AUTH_GOOGLE_ONETAP_KEY = '...'
+    SOCIAL_AUTH_GOOGLE_ONETAP_IGNORE_MISSING_CSRF_COOKIE = True / False
+
+  ``SOCIAL_AUTH_GOOGLE_ONETAP_KEY`` corresponds to the variable ``CLIENT ID``.
+  ``SOCIAL_AUTH_GOOGLE_ONETAP_IGNORE_MISSING_CSRF_COOKIE`` disabled the CSRF checks
+  if the token is missing from the cookies. This is an optional setting
+  because the cookie is not being set if authentication process started on a different
+  domain (for more details check out the `related issue`_).
+
+
+* Add the `One Tap snippet`_ to your page::
+
+    <div id="g_id_onload"
+        data-client_id="YOUR_GOOGLE_CLIENT_ID"
+        data-login_uri="{% url 'social:complete' 'google-onetap' %}"
+        data-your_own_param_1_to_login="any_value"
+        data-your_own_param_2_to_login="any_value">
+    </div>
+
+* And `load the client library`_::
+
+    <script src="https://accounts.google.com/gsi/client" async></script>
+
+
+
 Google+ Sign-In
 ---------------
 
@@ -250,3 +296,7 @@ supporting them you can default to the old values by defining this setting::
 .. _Sept 1, 2014: https://developers.google.com/+/api/auth-migration#timetable
 .. _e3525187: https://github.com/omab/python-social-auth/commit/e35251878a88954cecf8e575eca27c63164b9f67
 .. _Google+ Identity Sign-In: https://developers.google.com/identity/sign-in/web/sign-in
+.. _Google One Tap: https://developers.google.com/identity/gsi/web/guides/features
+.. _related issue: https://issuetracker.google.com/issues/226157137
+.. _One Tap snippet: https://developers.google.com/identity/gsi/web/guides/display-google-one-tap
+.. _load the client library: https://developers.google.com/identity/gsi/web/guides/client-library
