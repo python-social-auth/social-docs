@@ -13,9 +13,21 @@ of those two universities can use their campus login to access your app.
 Required Dependency
 -------------------
 
-You must install python-saml_ 2.2.0 or higher in order to use this
-backend, if using Python 3, you need to install python3-saml_ 1.2.1 or
-higher.
+You need to install python3-saml_, this is included in the ``saml`` extra when
+installing ``socil-core``.
+
+In case you run into ``lxml & xmlsec libxml2 library version mismatch`` error,
+it is caused by ``lxml`` being built against a different version of ``libxml2``
+than ``xmlsec``. To avoid this, please install both packages from the source
+and build them against system libraries:
+
+.. code-block:: sh
+
+   # Install system dependencies
+   sudo apt install libxmlsec1-dev
+
+   # Install Python packages from the source
+   pip install --no-binary lxml --no-binary xmlsec -e 'social-core[saml]'
 
 Required Configuration
 ----------------------
@@ -187,7 +199,7 @@ Advanced Settings
 - ``SOCIAL_AUTH_SAML_EXTRA_DATA``: This can be set to a list of tuples similar
   to the OAuth backend setting. It maps IDP attributes to extra_data attributes.
   Each attribute will be a list of values (even if only 1 value) per how
-  python-saml_ processes attributes::
+  python3-saml_ processes attributes::
 
       SOCIAL_AUTH_SAML_EXTRA_DATA = [('attribute_name', 'extra_data_name_for_attribute'),
                                    ('department', 'department'),
@@ -213,7 +225,6 @@ particular, there are two methods that are designed for subclasses to override:
   inspecting the passed attributes parameter, do nothing to allow the user to
   login, or raise ``social_core.exceptions.AuthForbidden`` to reject the user.
 
-.. _python-saml: https://github.com/onelogin/python-saml
 .. _python3-saml: https://github.com/onelogin/python3-saml
 .. _TestShib: https://www.testshib.org/
 .. _metadata: https://www.testshib.org/metadata/testshib-providers.xml
