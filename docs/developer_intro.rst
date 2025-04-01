@@ -11,7 +11,7 @@ Understanding PSA URLs
 If you have not seen namespaced URLs before, you are about to be introduced.
 When you add the PSA entry to your ``urls.py``, it looks like this::
 
-    url(r'', include('social_django.urls', namespace='social'))
+    path("", include('social_django.urls', namespace="social")),
 
 that "namespace" part on the end is what keeps the names in the PSA-world from
 colliding with the names in your app, or other 3rd-party apps.  So your login
@@ -21,6 +21,11 @@ link will look like this::
 
 (See how "social" in the URL mapping matches the value of "namespace" in the
 ``urls.py`` entry?)
+
+
+.. seealso::
+
+   :ref:`django-urls`
 
 Understanding Backends
 ----------------------
