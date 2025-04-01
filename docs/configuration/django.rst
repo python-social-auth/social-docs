@@ -67,11 +67,8 @@ setting::
 
     AUTHENTICATION_BACKENDS = (
         'social_core.backends.open_id.OpenIdAuth',
-        'social_core.backends.google.GoogleOpenId',
         'social_core.backends.google.GoogleOAuth2',
-        'social_core.backends.google.GoogleOAuth',
         'social_core.backends.twitter.TwitterOAuth',
-        'social_core.backends.yahoo.YahooOpenId',
         ...
         'django.contrib.auth.backends.ModelBackend',
     )
@@ -82,10 +79,9 @@ or Django won't pick them when trying to authenticate the user.
 Don't miss ``django.contrib.auth.backends.ModelBackend`` if using ``django.contrib.auth``
 application or users won't be able to login by username / password method.
 
-Also, note that ``social_core.backends.google.GoogleOpenId`` has been deprecated.
-
 For more documentation about setting backends to specific social applications, please see the :doc:`/backends/index`.
 
+.. _django-urls:
 
 URLs entries
 ------------
@@ -94,13 +90,20 @@ Add URLs entries::
 
     urlpatterns = patterns('',
         ...
-        url('', include('social_django.urls', namespace='social'))
+        path("", include('social_django.urls', namespace="social")),
         ...
     )
 
 In case you need a custom namespace, this setting is also needed::
 
     SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+.. hint::
+
+   In case you include the namespace from another namespace, you need to adjust
+   the configuration accordingly to include the parent namespace::
+
+      SOCIAL_AUTH_URL_NAMESPACE = 'accounts:social'
 
 
 Requiring POST only login
@@ -116,7 +119,7 @@ Templates
 
 Example of google-oauth2 backend usage in template::
 
-    <a href="{% url "social:begin" "google-oauth2" %}">Google+</a>
+    <a href="{% url "social:begin" "google-oauth2" %}">Google</a>
 
 
 Template Context Processors
