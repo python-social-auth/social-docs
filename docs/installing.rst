@@ -45,8 +45,10 @@ needed. There are some ``extras`` defined to install the corresponding
 dependencies since they are required to build extensions that, unless
 used, are undesired.
 
-* OpenIDConnect_ support requires the use of the ``openidconnect`` extra.
-* SAML_ support requires the use of the ``saml`` extra.
+* :doc:`backends/saml` support requires the use of the ``saml`` extra.
+* :doc:`backends/shopify` support requires the use of the ``shopify`` extra.
+* :doc:`backends/google` One Tap support requires the use of the ``google-onetap`` extra.
+* :doc:`backends/azuread` support requires the use of the ``azuread`` extra.
 
 There's also the ``all`` extra that will install all the extra options.
 
@@ -72,9 +74,8 @@ Using the ``extras`` options
 ----------------------------
 
 To enable any of the ``extras`` options to bring the dependencies for
-OpenIDConnect_, or SAML_, or both::
+SAML_, or all::
 
-  $ pip install "social-auth-core[openidconnect]"
   $ pip install "social-auth-core[saml]"
   $ pip install "social-auth-core[all]"
 
