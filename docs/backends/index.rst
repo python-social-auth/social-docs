@@ -103,6 +103,7 @@ Social backends
    kakao
    keycloak
    khanacademy
+   kick
    lastfm
    launchpad
    line
