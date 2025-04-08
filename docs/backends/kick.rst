@@ -1,5 +1,5 @@
 Kick
-======
+====
 
 Kick works similar to Facebook (OAuth) but with Oauth2.1.
 
