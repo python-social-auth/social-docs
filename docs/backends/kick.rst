@@ -18,5 +18,5 @@ Kick works similar to Facebook (OAuth) but with Oauth2.1.
 
 Further documentation at `Developer Guide`_.
 
-.. _connections tab: https://kick.com/settings/developer
+.. _developer tab: https://kick.com/settings/developer
 .. _Developer Guide: https://docs.kick.com/getting-started/generating-tokens-oauth2-flow
