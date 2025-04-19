@@ -106,6 +106,7 @@ Social backends
    kick
    lastfm
    launchpad
+   lifescience
    line
    linkedin
    livejournal
