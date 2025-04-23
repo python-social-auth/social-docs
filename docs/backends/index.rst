@@ -125,6 +125,7 @@ Social backends
    naszaklasa
    nationbuilder
    naver
+   nfdi
    ngpvan_actionid
    odnoklassnikiru
    okta
