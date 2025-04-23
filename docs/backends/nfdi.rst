@@ -1,13 +1,14 @@
 NFDI (OpenID Connect)
 =====================
 
-The NFDI_ backend allows authentication against all OIDC providers of NFDI
+The NFDI_ backend allows authentication against all OIDC providers of `NFDI`
 (German National Research Data Infrastructure) and also for the Helmholtz
 AAI. These backends provides their endpoints, as well as the
 default scopes.
 
-```
 The provided backends are:
+
+```
 XcsOpenIdConnect
 TextplusOpenIdConnect
 MardiOpenIdConnect
@@ -40,7 +41,7 @@ The remaining configuration will be auto-detected, by fetching::
     <OIDC_ENDPOINT>/.well-known/openid-configuration
 
 This class can be used standalone, but may also be used as the base class for some other
-backends.
+backends. Find more information at the NFDI_AAI_WEBSITE_
 
 Username
 --------
@@ -63,4 +64,5 @@ cleass. You can request additional claims, for example::
     SOCIAL_AUTH_OIDC_SCOPE = ['groups']
 
 
-.. _NFDI Documentation Website: https://doc.nfdi-aai.de
+.. _NFDI: https://nfdi.de
+.. _NFDI_AAI_WEBSITE: https://doc.nfdi-aai.de
