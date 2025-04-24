@@ -23,7 +23,6 @@ select = ["ALL"]
 [tool.ruff.lint.per-file-ignores]
 "docs/conf.py" = ["INP001"]
 
-
 [tool.tomlsort]
 ignore_case = true
 sort_inline_arrays = true
