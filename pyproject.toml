@@ -5,18 +5,18 @@ version = "2025.0"
 
 [tool.ruff.lint]
 ignore = [
+  "ANN",  # TODO: missing type annotations
   "COM",  # CONFIG: No trailing commas
+  "D",  # TODO: missing documentation
   "D203",  # CONFIG: incompatible with D211
   "D212",  # CONFIG: incompatible with D213
   "E501",  # WONTFIX: we accept long strings (rest is formatted by ruff)
-  'ISC001',  # CONFIG: formatter
-  "T201",  # CONFIG: print is used
-  "S603",  # CONFIG: subprocess is being used
-  "S607",  # CONFIG: subprocess executes system tools
-  "ANN",  # TODO: missing type annotations
   "N",  # TODO: wrong naming conventions
   "PTH",  # TODO: not using pathlib
-  "D"  # TODO: missing documentation
+  "S603",  # CONFIG: subprocess is being used
+  "S607",  # CONFIG: subprocess executes system tools
+  "T201",  # CONFIG: print is used
+  'ISC001'  # CONFIG: formatter
 ]
 select = ["ALL"]
 
