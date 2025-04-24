@@ -22,3 +22,11 @@ select = ["ALL"]
 
 [tool.ruff.lint.per-file-ignores]
 "docs/conf.py" = ["INP001"]
+
+
+[tool.tomlsort]
+ignore_case = true
+sort_inline_arrays = true
+sort_inline_tables = true
+sort_table_keys = true
+spaces_before_inline_comment = 2
