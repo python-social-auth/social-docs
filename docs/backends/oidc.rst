@@ -16,6 +16,25 @@ The remaining configuration will be auto-detected, by fetching::
 This class can be used standalone, but is also the base class for some other
 backends.
 
+Authentication Request Parameters
+---------------------------------
+
+All this parameters are optional and they might not be supported by the OIDC provider.
+
+Prompt
+^^^^^^
+
+This informs the OIDC provider whether the OIDC provider prompts the user for reauthentication and consent. ::
+
+    SOCIAL_AUTH_OIDC_PROMPT = '<prompt> ...'
+
+Defined values are
+
+- ``none``
+- ``login``
+- ``consent``
+- ``select_account``
+
 Username
 --------
 
