@@ -62,7 +62,7 @@ Google One Tap
 `Google One Tap`_ is a bit different from the OAuth2 flow as the login process is started
 on the client side. Because of this `start` url is not available, only a `complete` one.
 
-
+* Additional dependencies are needed, these will be automatically installed by the ``google-onetap`` extra, for example: ``uv pip install 'social-core[google-onetap]``.
 * To enable the backend create an application using the `Google
   console`_ to retrieve your `Google Client ID`.
   Make sure sure to add your website's URL to ``Authorized JavaScript origins`` and
