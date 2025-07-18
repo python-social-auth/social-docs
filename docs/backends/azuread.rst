@@ -129,6 +129,49 @@ The policy should start with `b2c_`. For more information see `Azure AD B2C User
 
       SOCIAL_AUTH_AZUREAD_B2C_OAUTH2_AUTHORITY_HOST = ''
 
+OID Support
+----------
+This works exactly like Tenant support, but here we use the OID from Azure AD to make the SSO association.
+Note: you can use this even if your tenant uses the common tenant ID, just be sure to fill in the environment variable with whatever tenant ID you use.
+
+To enable OAuth2 OID support:
+
+- Fill in ``Client ID`` and ``Client Secret`` settings. These values can be
+  obtained easily as described in `Azure AD Application Registration`_ doc::
+
+      SOCIAL_AUTH_AZUREAD_OID_OAUTH2_KEY = ''
+      SOCIAL_AUTH_AZUREAD_OID_OAUTH2_SECRET = ''
+
+- Fill in the tenant id::
+
+      SOCIAL_AUTH_AZUREAD_OID_OAUTH2_TENANT_ID = ''
+
+- Also it's possible to define extra permissions with::
+
+      SOCIAL_AUTH_AZUREAD_OID_OAUTH2_RESOURCE = ''
+
+  This is the resource you would like to access after authentication succeeds.
+  Some of the possible values are: ``https://graph.windows.net`` or
+  ``https://<your Sharepoint site name>-my.sharepoint.com``.
+
+  When using Microsoft Graph, the resource needed is::
+
+      SOCIAL_AUTH_AZUREAD_OID_OAUTH2_RESOURCE = 'https://graph.microsoft.com/'
+
+- Add the backend to the authentication backends setting::
+
+      AUTHENTICATION_BACKENDS = (
+          ...
+          'social_core.backends.azuread_oid.AzureADOIDOAuth2',
+          ...
+      )
+
+- If you are using an authority host other than the default ``AZURE_PUBLIC_CLOUD`` ('login.microsoftonline.com')
+  then you can override the default with the  ``AUTHORITY_HOST`` setting. The Azure authority hosts are listed
+  in the `Azure Authority Hosts`_ doc::
+
+      SOCIAL_AUTH_AZUREAD_OID_OAUTH2_AUTHORITY_HOST = ''
+
 .. _Azure AD Application Registration: https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app
 .. _Azure AD B2C User flows and custom policies overview: https://docs.microsoft.com/en-us/azure/active-directory-b2c/user-flow-overview
 .. _Azure Authority Hosts: https://docs.microsoft.com/en-us/python/api/azure-identity/azure.identity.azureauthorityhosts?view=azure-python
