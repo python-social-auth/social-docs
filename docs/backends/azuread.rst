@@ -130,7 +130,8 @@ The policy should start with `b2c_`. For more information see `Azure AD B2C User
       SOCIAL_AUTH_AZUREAD_B2C_OAUTH2_AUTHORITY_HOST = ''
 
 OID Support
-----------
+-----------
+
 This works exactly like Tenant support, but here we use the OID from Azure AD to make the SSO association.
 Note: you can use this even if your tenant uses the common tenant ID, just be sure to fill in the environment variable with whatever tenant ID you use.
 
