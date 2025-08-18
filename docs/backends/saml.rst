@@ -14,7 +14,7 @@ Required Dependency
 -------------------
 
 You need to install python3-saml_, this is included in the ``saml`` extra when
-installing ``socil-core``.
+installing ``social-core``.
 
 In case you run into ``lxml & xmlsec libxml2 library version mismatch`` error,
 it is caused by ``lxml`` being built against a different version of ``libxml2``
