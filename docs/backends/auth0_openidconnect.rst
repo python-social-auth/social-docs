@@ -21,4 +21,3 @@ The default scope is ``["openid", "profile", "email"]``. In order to support
 refresh tokens/long-lived logins, you may want to add the ``offline_access`` scope::
 
     SOCIAL_AUTH_AUTH0_OPENIDCONNECT_SCOPE = 'openid profile email offline_access'
-
