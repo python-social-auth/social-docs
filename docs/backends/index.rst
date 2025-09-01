@@ -53,6 +53,7 @@ Social backends
    apple
    appsfuel
    arcgis
+   auth0_openidconnect
    azuread
    battlenet
    beats
