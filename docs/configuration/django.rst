@@ -230,6 +230,24 @@ not decoupled from this pattern by any abstraction layer. If you would like
 to implement your own alternate, please see the ``social_django.models`` and
 ``social_django_mongoengine.models`` modules for guidance.
 
+Active users filtering
+----------------------
+
+By default the model allows only active users to authenticate. This can be
+customised by ``SOCIAL_AUTH_ACTIVE_USERS_FILTER`` setting which is passed as
+kwargs to the query set filter method.
+
+.. code-block:: python
+   :caption: Disable filtering for active users
+
+   SOCIAL_AUTH_ACTIVE_USERS_FILTER = {}
+
+.. code-block:: python
+   :caption: Use custom field to filter active users
+
+   SOCIAL_AUTH_ACTIVE_USERS_FILTER = {"deleted_account": False}
+
+
 
 JSON field support
 ------------------
