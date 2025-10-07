@@ -55,6 +55,10 @@ To enable OAuth2 support:
 
 Check which applications can be included in their `Google Data Protocol Directory`_
 
+To allow user selecting Google account to use, add the ``prompt`` parameter with ``select_account`` value::
+
+      SOCIAL_AUTH_GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {'prompt': 'select_account'}
+
 
 Google One Tap
 ---------------
