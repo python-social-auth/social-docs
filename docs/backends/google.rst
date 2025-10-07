@@ -55,13 +55,9 @@ To enable OAuth2 support:
 
 Check which applications can be included in their `Google Data Protocol Directory`_
 
-- to force Google to display the account selection screen, add the ``prompt``
-  parameter with ``select_account`` value::
+To allow user selecting Google account to use, add the ``prompt`` parameter with ``select_account`` value::
 
       SOCIAL_AUTH_GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {'prompt': 'select_account'}
-
-  This is particularly useful when users need to select between multiple Google accounts
-  or switch accounts. See `python-social-auth/social-app-django#200`_ for more details.
 
 
 Google One Tap
@@ -308,4 +304,3 @@ supporting them you can default to the old values by defining this setting::
 .. _related issue: https://issuetracker.google.com/issues/226157137
 .. _One Tap snippet: https://developers.google.com/identity/gsi/web/guides/display-google-one-tap
 .. _load the client library: https://developers.google.com/identity/gsi/web/guides/client-library
-.. _python-social-auth/social-app-django#200: https://github.com/python-social-auth/social-app-django/issues/200
