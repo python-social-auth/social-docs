@@ -305,6 +305,29 @@ available at ``request.strategy.backend`` and ``process_exception()`` will
 use it to build a backend-dependent redirect URL but fallback to default if not
 defined.
 
+Backend-specific settings
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Both the ``LOGIN_ERROR_URL`` and ``RAISE_EXCEPTIONS`` settings can be configured
+on a per-backend basis. This allows you to customize error handling behavior for
+specific authentication backends.
+
+To define backend-specific error URLs, use the backend name in the setting::
+
+    SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'  # Default for all backends
+    SOCIAL_AUTH_FACEBOOK_LOGIN_ERROR_URL = '/facebook-error/'  # Specific to Facebook
+    SOCIAL_AUTH_GOOGLE_OAUTH2_LOGIN_ERROR_URL = '/google-error/'  # Specific to Google OAuth2
+
+Similarly, you can control exception raising on a per-backend basis::
+
+    SOCIAL_AUTH_RAISE_EXCEPTIONS = False  # Default for all backends
+    SOCIAL_AUTH_FACEBOOK_RAISE_EXCEPTIONS = True  # Raise exceptions only for Facebook
+
+This is particularly useful when you want different error handling strategies for
+different authentication providers, such as showing a custom error page for certain
+providers or raising exceptions for debugging specific backends while keeping
+others in production mode.
+
 Exception processing is disabled if any of this settings is defined with a
 ``True`` value::
 
