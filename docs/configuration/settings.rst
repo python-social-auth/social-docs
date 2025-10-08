@@ -191,6 +191,42 @@ settings in the same way explained above but with this other suffix::
 
       SOCIAL_AUTH_<uppercase backend name>_REQUEST_TOKEN_EXTRA_ARGUMENTS = {...}
 
+
+OAuth2 provider URLs override
+------------------------------
+
+By default, OAuth2 backends have hardcoded URLs for authorization and access token
+endpoints. However, these can be overridden via settings to support custom OAuth2
+providers or alternate deployments of the same provider (e.g., OpenHistoricalMap
+instead of OpenStreetMap, or self-hosted instances).
+
+``SOCIAL_AUTH_AUTHORIZATION_URL``
+    Override the authorization URL for OAuth2 backends globally or per-backend.
+    Example::
+
+      SOCIAL_AUTH_KEYCLOAK_AUTHORIZATION_URL = 'https://auth.example.com/auth/realms/myrealm/protocol/openid-connect/auth'
+
+``SOCIAL_AUTH_ACCESS_TOKEN_URL``
+    Override the access token URL for OAuth2 backends globally or per-backend.
+    Example::
+
+      SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL = 'https://auth.example.com/auth/realms/myrealm/protocol/openid-connect/token'
+
+``SOCIAL_AUTH_REVOKE_TOKEN_URL``
+    Override the token revocation URL for OAuth2 backends globally or per-backend.
+    Example::
+
+      SOCIAL_AUTH_GITHUB_REVOKE_TOKEN_URL = 'https://github.example.com/api/revoke'
+
+These settings allow you to use backends with custom deployments. For example,
+to use the OpenStreetMap backend with OpenHistoricalMap::
+
+    SOCIAL_AUTH_OPENSTREETMAP_AUTHORIZATION_URL = 'https://www.openhistoricalmap.org/oauth/authorize'
+    SOCIAL_AUTH_OPENSTREETMAP_ACCESS_TOKEN_URL = 'https://www.openhistoricalmap.org/oauth/access_token'
+
+Note that backend-specific settings (with the backend name) take precedence over
+generic settings, following the same pattern as other settings in this library.
+
 Basic information is requested to the different providers in order to create
 a coherent user instance (with first and last name, email and full name), this
 could be too intrusive for some sites that want to ask users the minimum data
