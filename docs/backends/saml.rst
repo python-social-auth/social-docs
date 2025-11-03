@@ -232,9 +232,9 @@ Advanced Settings
                                    ('department', 'department'),
                                    ('manager_full_name', 'manager_full_name')]
 
-- In ``SOCIAL_AUTH_SAML_ENABLED_IDPS``: ``x509certMulti`` is a dict that can
-  be used instead of ``x509cert`` For example, when the IdP certificate is
-  rotated, use::
+- In ``SOCIAL_AUTH_SAML_ENABLED_IDPS``: ``x509certMulti["signing"]`` is a list
+  that can be used instead of ``x509cert`` For example, when the IdP
+  certificate is rotated, use::
 
       SOCIAL_AUTH_SAML_ENABLED_IDPS = {
           "my_idp": {
