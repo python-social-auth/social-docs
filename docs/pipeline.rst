@@ -5,27 +5,88 @@ python-social-auth_ uses an extendible pipeline mechanism where developers can
 introduce their functions during the authentication, association and
 disconnection flows.
 
+Pipeline Overview
+-----------------
+
+The pipeline is a sequence of functions that are executed in order during the
+authentication process. Each function receives data from the previous steps and
+can pass data to the next steps.
+
+**Key Concepts:**
+
+* **Pipeline functions** are called sequentially in the order they are defined
+* **Each function** receives arguments from the authentication process and previous pipeline steps
+* **Functions can pass data forward** by returning a dictionary
+* **Functions can interrupt the flow** by returning an HTTP response (e.g., redirect)
+* **All functions should accept** ``**kwargs`` to handle unexpected arguments gracefully
+
+Understanding Return Values
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Pipeline functions can return three types of values, each with different behavior:
+
+1. **Return** ``None`` **or nothing**: The pipeline continues to the next function. This is 
+   equivalent to returning an empty dict ``{}``.
+
+2. **Return a** ``dict``: The values in the dictionary are merged into the ``kwargs`` for 
+   all subsequent pipeline functions. This is how you pass data forward in the pipeline.
+   
+   Example::
+   
+       def my_pipeline_function(backend, user, **kwargs):
+           # Calculate something
+           custom_value = "some data"
+           # Pass it to next functions
+           return {'custom_value': custom_value}
+
+3. **Return any other value** (HTTP response, redirect, etc.): The pipeline is interrupted 
+   and the value is returned directly to the client. This is useful for partial pipelines 
+   where you need user input.
+   
+   Example::
+   
+       def my_pipeline_function(backend, user, **kwargs):
+           if some_condition:
+               # Interrupt pipeline and redirect user
+               return redirect('/some-form/')
+
+Common Function Parameters
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 The functions will receive a variable set of arguments related to the current
-process, common arguments are the current ``strategy``, ``user`` (if any) and
-``request``. It's recommended that all the function also define an ``**kwargs``
-in the parameters to avoid errors for unexpected arguments.
+process. Common arguments include:
 
-Each pipeline entry can return a ``dict`` or ``None``, any other type of return
-value is treated as a response instance and returned directly to the client,
-check *Partial Pipeline* below for details.
+* ``strategy`` - The current strategy instance (provides access to storage, settings, and request)
+* ``backend`` - The current backend instance (the social authentication provider)
+* ``user`` - The user instance (``None`` if not yet created or retrieved)
+* ``request`` - The current HTTP request object
+* ``social`` - The ``UserSocialAuth`` instance (``None`` until created)
+* ``uid`` - The unique user ID from the provider
+* ``response`` - The raw response from the authentication provider
+* ``details`` - Processed user details (username, email, etc.)
+* ``is_new`` - Boolean indicating if a user was just created
+* Any values returned as dicts by previous pipeline functions
 
-If a ``dict`` is returned, the value in the set will be merged into the
-``kwargs`` argument for the next pipeline entry, ``None`` is taken as if ``{}``
-was returned.
+**Important:** Always include ``**kwargs`` in your function signature to handle additional 
+arguments that may be passed from other pipeline functions or future versions::
+
+    def my_custom_pipeline(strategy, backend, user, **kwargs):
+        # Your code here
+        pass
 
 
 Authentication Pipeline
 -----------------------
 
-The final process of the authentication workflow is handled by an operations
-pipeline where custom functions can be added or default items can be removed to
-provide a custom behavior. The default pipeline is a mechanism that creates
-user instances and gathers basic data from providers.
+The authentication workflow is handled by a pipeline where custom functions can 
+be added or default items can be removed to provide custom behavior. The default 
+pipeline creates user instances and gathers basic data from providers.
+
+Understanding the Default Pipeline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The pipeline executes in order, with each step depending on data from previous steps.
+Here's what happens at each stage:
 
 The default pipeline is composed by::
 
@@ -74,10 +135,27 @@ The default pipeline is composed by::
         'social_core.pipeline.user.user_details',
     )
 
+**What Data is Available When?**
 
-It's possible to override it by defining the setting ``SOCIAL_AUTH_PIPELINE``.
-For example, a pipeline that won't create users, just accept already registered
-ones would look like this::
+Understanding which data is available at each stage is crucial for placing your 
+custom functions correctly:
+
+* **After** ``social_details``: ``details`` dict is populated with user info
+* **After** ``social_uid``: ``uid`` contains the provider's user ID
+* **After** ``social_user``: ``social`` may contain the UserSocialAuth instance (if user was previously authenticated)
+* **After** ``get_username``: ``username`` is available
+* **After** ``create_user``: ``user`` contains the User instance (new or existing)
+* **After** ``associate_user``: ``social`` contains the UserSocialAuth instance
+* **After** ``load_extra_data``: ``social.extra_data`` contains access tokens and additional provider data
+
+Customizing the Pipeline
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can override the default pipeline by defining the setting ``SOCIAL_AUTH_PIPELINE``.
+
+**Example 1: Preventing New User Creation**
+
+A pipeline that won't create users, just accepts already registered ones would look like this::
 
     SOCIAL_AUTH_PIPELINE = (
         'social_core.pipeline.social_auth.social_details',
@@ -89,36 +167,41 @@ ones would look like this::
         'social_core.pipeline.user.user_details',
     )
 
-Note that this assumes the user is already authenticated, and thus the ``user`` key
-in the dict is populated. In cases where the authentication is purely external, a
-pipeline method must be provided that populates the ``user`` key. Example::
+**Note:** This example removes ``get_username`` and ``create_user`` steps, so only 
+users who have previously authenticated can log in.
+
+**Example 2: Custom User Loading**
+
+When authentication is purely external, you need a custom pipeline function that 
+populates the ``user`` key. This function should load or identify the user before 
+the ``social_user`` step::
 
     SOCIAL_AUTH_PIPELINE = (
         'social_core.pipeline.social_auth.social_details',
         'social_core.pipeline.social_auth.social_uid',
         'social_core.pipeline.social_auth.auth_allowed',
-        'myapp.pipeline.load_user',
+        'myapp.pipeline.load_user',  # Custom function to load the user
         'social_core.pipeline.social_auth.social_user',
         'social_core.pipeline.social_auth.associate_user',
         'social_core.pipeline.social_auth.load_extra_data',
         'social_core.pipeline.user.user_details',
     )
+
+Your ``load_user`` function might look like::
+
+    def load_user(strategy, backend, uid, user=None, **kwargs):
+        if user:
+            return {'user': user}
+        # Load user from your custom authentication system
+        user = MyUserModel.get_by_external_id(uid)
+        return {'user': user}
+
+Per-Backend Pipelines
+~~~~~~~~~~~~~~~~~~~~~
 
 It is also possible to define pipelines on a per backend basis by defining a setting
-such as ``SOCIAL_AUTH_TWITTER_PIPELINE``. Backend specific pipelines will override
-the non specific pipelines (i.e. the default pipeline and ``SOCIAL_AUTH_PIPELINE``).
-
-Each pipeline function will receive the following parameters:
-
-* Current strategy (which gives access to current store, backend and request)
-* User ID given by authentication provider
-* User details given by authentication provider
-* ``is_new`` flag (initialized as ``False``)
-* Any arguments passed to ``auth_complete`` backend method, default views
-  pass these arguments:
-
-  * current logged in user (if it's logged in, otherwise ``None``)
-  * current request
+such as ``SOCIAL_AUTH_TWITTER_PIPELINE``. Backend-specific pipelines will override
+the default and ``SOCIAL_AUTH_PIPELINE`` settings.
 
 
 Disconnection Pipeline
@@ -162,38 +245,86 @@ Backend specific disconnection pipelines can also be defined with a setting such
 Partial Pipeline
 ----------------
 
-It's possible to pause the pipeline to return to the user asking for
-some action and resume it later.
+The partial pipeline feature allows you to pause the authentication process to 
+request additional information from the user, then resume where you left off.
 
-To accomplish this decorate the function that will cut the process
-with the ``@partial`` decorator located at ``social/pipeline/partial.py``.
+How Partial Pipelines Work
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When it's time to resume the process just redirect the user to ``/complete/<backend>/``
-or ``/disconnect/<backend>/`` view. The pipeline will resume in the same
-function that cut the process.
+1. **Pause the pipeline**: Use the ``@partial`` decorator on your function
+2. **Return an HTTP response**: Redirect the user to a form or page
+3. **User completes the action**: User fills out a form and submits it
+4. **Resume the pipeline**: User is redirected back to ``/complete/<backend>/`` and 
+   the pipeline resumes from the same function
 
-``@partial`` stores needed data into a database table name `social_auth_partial`.
-This table holds the needed information to resume it later from any browsers and
-drops the old dependency on browser sessions that made the move between browsers
-impossible.
+Basic Example
+~~~~~~~~~~~~~
 
-The partial data is identified by a UUID token that can be used to store in the
-session or append to any URL using the `partial_token` parameter (default value).
-The lib will pick this value from the request and load the needed partial data to
-let the user continue the process.
+Here's a simple example of collecting additional user information::
 
-The pipeline functions will get a `current_partial` instance that contains the
-partial token and the needed data that will be saved in the database.
+    from social_core.pipeline.partial import partial
 
-To get the backend in order to redirect to any social view, just do::
+    @partial
+    def require_email(strategy, backend, details, user=None, **kwargs):
+        if user and user.email:
+            # User already has email, continue
+            return
+        
+        # Check if email was submitted in this request
+        if strategy.request_data().get('email'):
+            # Email was provided, pass it forward
+            return {'details': {'email': strategy.request_data()['email']}}
+        
+        # No email yet - interrupt pipeline and show form
+        return strategy.render_html('email_form.html')
 
-    backend = current_partial.backend
+In your template, the form should POST to ``/complete/<backend>/``::
 
-To override the default parameter name just define::
+    <form method="post" action="{% url 'social:complete' backend %}">
+        {% csrf_token %}
+        <input type="email" name="email" required>
+        <button type="submit">Continue</button>
+    </form>
 
-  SOCIAL_AUTH_PARTIAL_PIPELINE_TOKEN_NAME = '...'
+How Partial Data is Stored
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Check the `example applications`_ to check a basic usage.
+``@partial`` stores the pipeline state in a database table named ``social_auth_partial``.
+This allows:
+
+* **Cross-browser support**: The process can resume from any browser
+* **No session dependency**: More reliable than session-based approaches
+* **UUID tokens**: Each partial process is identified by a unique token
+
+The partial token is passed via the ``partial_token`` parameter (by default). The library
+automatically picks this value from the request to resume the process.
+
+Accessing Partial Data
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Pipeline functions receive a ``current_partial`` instance containing:
+
+* ``current_partial.token`` - The unique token for this partial process
+* ``current_partial.backend`` - The backend name
+* Other saved data from the pipeline
+
+Example of using the partial token in a redirect::
+
+    @partial
+    def my_partial_function(strategy, backend, current_partial=None, **kwargs):
+        if needs_user_input:
+            # Include partial_token in the URL
+            url = f'/my-form/?partial_token={current_partial.token}'
+            return redirect(url)
+
+Configuration
+~~~~~~~~~~~~~
+
+To override the default parameter name::
+
+    SOCIAL_AUTH_PARTIAL_PIPELINE_TOKEN_NAME = 'my_token_name'
+
+Check the `example applications`_ for more detailed usage examples.
 
 
 Email validation
@@ -258,28 +389,44 @@ Or individually by defining the setting per backend basis like
 Extending the Pipeline
 ======================
 
-The main purpose of the pipeline (either creation or deletion pipelines) is to
-allow extensibility for developers. You can jump in the middle of it, do
-changes to the data, create other models instances, ask users for extra data,
-or even halt the whole process.
+The pipeline system is designed for extensibility. You can add custom functions to:
 
-Extending the pipeline implies:
+* Modify authentication data
+* Create or update related model instances  
+* Request additional user information
+* Implement custom authorization logic
+* Integrate with external systems
 
-1. Writing a function
-2. Locating the function in an accessible path (accessible in the way that it can be imported)
-3. Overriding the default pipeline definition with one that includes newly created function.
+Steps to Add a Custom Pipeline Function
+----------------------------------------
 
-The part of writing the function is quite simple. However please be careful
-when placing your function in the pipeline definition, because order
-does matter in this case! Ordering of functions in ``SOCIAL_AUTH_PIPELINE``
-will determine the value of arguments that each function will receive.
-For example, adding your function after ``social_core.pipeline.user.create_user``
-ensures that your function will get the user instance (created or already existent)
-instead of a ``None`` value.
+1. **Write your function** with the appropriate signature
+2. **Place it in an importable location** in your project
+3. **Add it to the pipeline** in your settings at the appropriate position
 
-The pipeline functions will get quite a lot of arguments, ranging from the
-backend in use, different model instances, server requests and provider
-responses. To enumerate a few:
+**Important:** Function placement matters! The order determines what data is available.
+For example, placing your function after ``create_user`` ensures you receive a ``user`` 
+instance rather than ``None``.
+
+Writing Custom Pipeline Functions
+----------------------------------
+
+Function Signature
+~~~~~~~~~~~~~~~~~~
+
+Your function should accept the common parameters and ``**kwargs``::
+
+    def my_pipeline_function(strategy, backend, user=None, **kwargs):
+        # Your code here
+        pass
+
+**Tip:** Always include ``**kwargs`` to handle additional parameters from other 
+pipeline functions or future versions.
+
+Common Parameters Available
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Depending on where you place your function in the pipeline, these parameters may be available:
 
 ``strategy``
     The current strategy instance.
@@ -305,22 +452,25 @@ responses. To enumerate a few:
     ``email``, ``first_name``, ``last_name`` and ``fullname``).
 
 ``user = None``
-    The user instance (or ``None`` if it wasn't created or retrieved from the
-    database yet).
+    The user instance (or ``None`` if not yet created or retrieved).
 
 ``social = None``
-    This is the associated ``UserSocialAuth`` instance for the given user (or
-    ``None`` if it wasn't created or retrieved from the DB yet).
+    The ``UserSocialAuth`` instance for the user (or ``None`` if not yet created).
 
-Usually when writing your custom pipeline function, you just want to get some
-values from the ``response`` parameter. But you can do even more, like call
-other APIs endpoints to retrieve even more details about the user, store them
-on some other place, etc.
+``is_new``
+    Boolean flag indicating if the user was just created (``True``) or already existed (``False``).
 
-Here's an example of a simple pipeline function that will create a ``Profile``
-class instance, related to the current user. This profile will store some simple details
-returned by the provider (``Facebook`` in this example). The usual Facebook
-``response`` looks like this::
+``request``
+    The current HTTP request object.
+
+Practical Example: Saving User Profile Data
+--------------------------------------------
+
+This example creates a ``Profile`` instance to store additional user information from Facebook.
+
+**Understanding the Facebook Response**
+
+The ``response`` parameter from Facebook typically looks like::
 
     {
         'username': 'foobar',
@@ -369,9 +519,69 @@ the pipeline. Since the function uses user instance, we need to put it after
         'social_core.pipeline.user.user_details',
     )
 
-So far the function we created returns ``None``, which is taken as if ``{}`` was returned.
-If you want the ``profile`` object to be available to the next function in the
-pipeline, all you need to do is return ``{'profile': profile}``.
+**Passing Data Forward**
+
+The function above returns ``None``, which is fine if subsequent functions don't need 
+the profile. To make the ``profile`` available to later pipeline functions, return a dict::
+
+    def save_profile(backend, user, response, *args, **kwargs):
+        if backend.name == 'facebook':
+            profile = user.get_profile()
+            if profile is None:
+                profile = Profile(user_id=user.id)
+            profile.gender = response.get('gender')
+            profile.link = response.get('link')
+            profile.timezone = response.get('timezone')
+            profile.save()
+            return {'profile': profile}  # Make profile available to next functions
+
+Common Patterns and Tips
+------------------------
+
+**Conditional Execution**
+
+Check the backend name to run logic for specific providers::
+
+    def my_function(backend, **kwargs):
+        if backend.name == 'google-oauth2':
+            # Google-specific logic
+            pass
+        elif backend.name == 'facebook':
+            # Facebook-specific logic
+            pass
+
+**Accessing Settings**
+
+Use the strategy to access settings::
+
+    def my_function(strategy, **kwargs):
+        custom_setting = strategy.setting('MY_CUSTOM_SETTING')
+        
+**Making API Calls**
+
+Use the access token from ``response`` to call provider APIs::
+
+    def fetch_additional_data(backend, response, **kwargs):
+        access_token = response.get('access_token')
+        # Make API call using the token
+        import requests
+        api_response = requests.get(
+            'https://provider-api.com/endpoint',
+            headers={'Authorization': f'Bearer {access_token}'}
+        )
+        return {'additional_data': api_response.json()}
+
+**Debugging**
+
+Log pipeline execution to understand the flow::
+
+    import logging
+    logger = logging.getLogger(__name__)
+    
+    def my_function(user, **kwargs):
+        logger.debug(f'Pipeline function called for user: {user}')
+        logger.debug(f'Available kwargs: {kwargs.keys()}')
+        # Your logic here
 
 .. _python-social-auth: https://github.com/python-social-auth
 .. _example applications: https://github.com/python-social-auth/social-examples
