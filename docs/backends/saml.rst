@@ -233,7 +233,7 @@ Advanced Settings
                                    ('manager_full_name', 'manager_full_name')]
 
 - In ``SOCIAL_AUTH_SAML_ENABLED_IDPS``: ``x509certMulti["signing"]`` is a list
-  that can be used instead of ``x509cert`` For example, when the IdP
+  that can be used instead of ``x509cert``. For example, when the IdP
   certificate is rotated, use::
 
       SOCIAL_AUTH_SAML_ENABLED_IDPS = {
@@ -247,7 +247,7 @@ Advanced Settings
         -----BEGIN CERTIFICATE-----
         MIIEDjCCAvagAwIBAgIBADA ...
         -----END CERTIFICATE-----
-                     """ ,
+                     """,
                      # New certificate
                      """
         -----BEGIN CERTIFICATE-----
