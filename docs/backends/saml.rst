@@ -234,29 +234,30 @@ Advanced Settings
 
 - In ``SOCIAL_AUTH_SAML_ENABLED_IDPS``: ``x509certMulti`` is a dict that can
   be used instead of ``x509cert`` For example, when the IdP certificate is
-  rotated, use:
-  ``SOCIAL_AUTH_SAML_ENABLED_IDPS = {
-      "my_idp": {
-        "entity_id": "https://...",
-        "url": "https://...",
-        "x509certMulti": {
-             "signing": [
-                 # Old certificate
-                 """
-    -----BEGIN CERTIFICATE-----
-    MIIEDjCCAvagAwIBAgIBADA ...
-    -----END CERTIFICATE-----
-                 """ ,
-                 # New certificate
-                 """
-    -----BEGIN CERTIFICATE-----
-    8Bbnl+ev0peYzxFyF5sQA ...
-    -----END CERTIFICATE-----
-                 """
-             ]
+  rotated, use::
+
+      SOCIAL_AUTH_SAML_ENABLED_IDPS = {
+          "my_idp": {
+            "entity_id": "https://...",
+            "url": "https://...",
+            "x509certMulti": {
+                 "signing": [
+                     # Old certificate
+                     """
+        -----BEGIN CERTIFICATE-----
+        MIIEDjCCAvagAwIBAgIBADA ...
+        -----END CERTIFICATE-----
+                     """ ,
+                     # New certificate
+                     """
+        -----BEGIN CERTIFICATE-----
+        8Bbnl+ev0peYzxFyF5sQA ...
+        -----END CERTIFICATE-----
+                     """
+                 ]
+             }
          }
-     }
-   }``
+       }
 
 Advanced Usage
 --------------
