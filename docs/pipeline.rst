@@ -271,9 +271,10 @@ Here's a simple example of collecting additional user information::
             return
         
         # Check if email was submitted in this request
-        if strategy.request_data().get('email'):
+        email = strategy.request_data().get('email')
+        if email:
             # Email was provided, pass it forward
-            return {'details': {'email': strategy.request_data()['email']}}
+            return {'details': {'email': email}}
         
         # No email yet - interrupt pipeline and show form
         return strategy.render_html('email_form.html')
@@ -310,11 +311,15 @@ Pipeline functions receive a ``current_partial`` instance containing:
 
 Example of using the partial token in a redirect::
 
+    from urllib.parse import urlencode
+    
     @partial
     def my_partial_function(strategy, backend, current_partial=None, **kwargs):
-        if needs_user_input:
+        # Check if user needs to provide additional information
+        if not kwargs.get('phone_number'):
             # Include partial_token in the URL
-            url = f'/my-form/?partial_token={current_partial.token}'
+            params = urlencode({'partial_token': current_partial.token})
+            url = f'/my-form/?{params}'
             return redirect(url)
 
 Configuration
