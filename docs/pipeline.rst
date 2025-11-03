@@ -25,26 +25,26 @@ Understanding Return Values
 
 Pipeline functions can return three types of values, each with different behavior:
 
-1. **Return** ``None`` **or nothing**: The pipeline continues to the next function. This is 
+1. **Return** ``None`` **or nothing**: The pipeline continues to the next function. This is
    equivalent to returning an empty dict ``{}``.
 
-2. **Return a** ``dict``: The values in the dictionary are merged into the ``kwargs`` for 
+2. **Return a** ``dict``: The values in the dictionary are merged into the ``kwargs`` for
    all subsequent pipeline functions. This is how you pass data forward in the pipeline.
-   
+
    Example::
-   
+
        def my_pipeline_function(backend, user, **kwargs):
            # Calculate something
            custom_value = "some data"
            # Pass it to next functions
            return {'custom_value': custom_value}
 
-3. **Return any other value** (HTTP response, redirect, etc.): The pipeline is interrupted 
-   and the value is returned directly to the client. This is useful for partial pipelines 
+3. **Return any other value** (HTTP response, redirect, etc.): The pipeline is interrupted
+   and the value is returned directly to the client. This is useful for partial pipelines
    where you need user input.
-   
+
    Example::
-   
+
        def my_pipeline_function(backend, user, **kwargs):
            if some_condition:
                # Interrupt pipeline and redirect user
@@ -69,7 +69,7 @@ process. Common arguments include:
 * ``is_new`` - Boolean indicating if a user was just created
 * Any values returned as dicts by previous pipeline functions
 
-**Important:** Always include ``**kwargs`` in your function signature to handle additional 
+**Important:** Always include ``**kwargs`` in your function signature to handle additional
 arguments that may be passed from other pipeline functions or future versions::
 
     def my_custom_pipeline(strategy, backend, user, **kwargs):
@@ -80,8 +80,8 @@ arguments that may be passed from other pipeline functions or future versions::
 Authentication Pipeline
 -----------------------
 
-The authentication workflow is handled by a pipeline where custom functions can 
-be added or default items can be removed to provide custom behavior. The default 
+The authentication workflow is handled by a pipeline where custom functions can
+be added or default items can be removed to provide custom behavior. The default
 pipeline creates user instances and gathers basic data from providers.
 
 Understanding the Default Pipeline
@@ -139,7 +139,7 @@ The default pipeline is composed by::
 
 **What Data is Available When?**
 
-Understanding which data is available at each stage is crucial for placing your 
+Understanding which data is available at each stage is crucial for placing your
 custom functions correctly:
 
 * **After** ``social_details``: ``details`` dict is populated with user info
@@ -171,13 +171,13 @@ A pipeline that won't create users, just accepts already registered ones would l
 
 .. note::
 
-   This example removes ``get_username`` and ``create_user`` steps, so only 
+   This example removes ``get_username`` and ``create_user`` steps, so only
    users who have previously authenticated can log in.
 
 **Example 2: Custom User Loading**
 
-When authentication is purely external, you need a custom pipeline function that 
-populates the ``user`` key. This function should load or identify the user before 
+When authentication is purely external, you need a custom pipeline function that
+populates the ``user`` key. This function should load or identify the user before
 the ``social_user`` step::
 
     SOCIAL_AUTH_PIPELINE = (
@@ -249,7 +249,7 @@ Backend specific disconnection pipelines can also be defined with a setting such
 Partial Pipeline
 ----------------
 
-The partial pipeline feature allows you to pause the authentication process to 
+The partial pipeline feature allows you to pause the authentication process to
 request additional information from the user, then resume where you left off.
 
 How Partial Pipelines Work
@@ -258,7 +258,7 @@ How Partial Pipelines Work
 1. **Pause the pipeline**: Use the ``@partial`` decorator on your function
 2. **Return an HTTP response**: Redirect the user to a form or page
 3. **User completes the action**: User fills out a form and submits it
-4. **Resume the pipeline**: User is redirected back to ``/complete/<backend>/`` and 
+4. **Resume the pipeline**: User is redirected back to ``/complete/<backend>/`` and
    the pipeline resumes from the same function
 
 Basic Example
@@ -273,13 +273,13 @@ Here's a simple example of collecting additional user information::
         if user and user.email:
             # User already has email, continue
             return
-        
+
         # Check if email was submitted in this request
         email = strategy.request_data().get('email')
         if email:
             # Email was provided, pass it forward
             return {'details': {'email': email}}
-        
+
         # No email yet - interrupt pipeline and show form
         return strategy.render_html('email_form.html')
 
@@ -318,7 +318,7 @@ Pipeline functions receive a ``current_partial`` instance containing:
 Example of using the partial token in a redirect::
 
     from urllib.parse import urlencode
-    
+
     @partial
     def my_partial_function(strategy, backend, current_partial=None, **kwargs):
         # Check if user needs to provide additional information
@@ -403,7 +403,7 @@ Extending the Pipeline
 The pipeline system is designed for extensibility. You can add custom functions to:
 
 * Modify authentication data
-* Create or update related model instances  
+* Create or update related model instances
 * Request additional user information
 * Implement custom authorization logic
 * Integrate with external systems
@@ -418,7 +418,7 @@ Steps to Add a Custom Pipeline Function
 .. important::
 
    Function placement matters! The order determines what data is available.
-   For example, placing your function after ``create_user`` ensures you receive a ``user`` 
+   For example, placing your function after ``create_user`` ensures you receive a ``user``
    instance rather than ``None``.
 
 Writing Custom Pipeline Functions
@@ -435,7 +435,7 @@ Your function should accept the common parameters and ``**kwargs``::
 
 .. tip::
 
-   Always include ``**kwargs`` to handle additional parameters from other 
+   Always include ``**kwargs`` to handle additional parameters from other
    pipeline functions or future versions.
 
 See :ref:`common-function-parameters` for details on the parameters available to pipeline functions.
@@ -498,7 +498,7 @@ the pipeline. Since the function uses user instance, we need to put it after
 
 **Passing Data Forward**
 
-The function above returns ``None``, which is fine if subsequent functions don't need 
+The function above returns ``None``, which is fine if subsequent functions don't need
 the profile. To make the ``profile`` available to later pipeline functions, return a dict::
 
     def save_profile(backend, user, response, *args, **kwargs):
@@ -533,7 +533,7 @@ Use the strategy to access settings::
 
     def my_function(strategy, **kwargs):
         custom_setting = strategy.setting('MY_CUSTOM_SETTING')
-        
+
 **Making API Calls**
 
 Use the access token from ``response`` to call provider APIs::
@@ -554,7 +554,7 @@ Log pipeline execution to understand the flow::
 
     import logging
     logger = logging.getLogger(__name__)
-    
+
     def my_function(user, **kwargs):
         logger.debug(f'Pipeline function called for user: {user}')
         logger.debug(f'Available kwargs: {kwargs.keys()}')
