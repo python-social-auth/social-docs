@@ -5,6 +5,11 @@ Django framework has a little more support since this application was derived
 from `django-social-auth`_. Here are some details on configuring this
 application on Django.
 
+.. note::
+   **New to Python Social Auth?** Check out the :doc:`django_quickstart` guide 
+   for a step-by-step tutorial on setting up social authentication in a fresh 
+   Django project.
+
 
 Installing
 ----------
