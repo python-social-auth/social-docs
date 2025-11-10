@@ -1,13 +1,37 @@
 Microsoft Azure Active Directory
 ================================
 
-To enable OAuth2 support:
+IdP Setup
+---------
 
-- Fill in ``Client ID`` and ``Client Secret`` settings. These values can be
-  obtained easily as described in `Azure AD Application Registration`_ doc::
+To configure Azure AD:
 
-      SOCIAL_AUTH_AZUREAD_OAUTH2_KEY = ''
-      SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = ''
+1. Log into the Azure Portal
+2. Navigate to **Azure Active Directory** > **App registrations** > **New registration**
+3. Configure:
+
+   * **Name**: Your application name
+   * **Redirect URI**: Select **Web** and enter ``https://your-domain.com/complete/azuread-oauth2/``
+
+4. After registration, note the **Application (client) ID** and **Directory (tenant) ID**
+5. Create a client secret:
+
+   * Go to **Certificates & secrets** > **New client secret**
+   * Copy the secret value immediately (you won't be able to see it again)
+
+6. Configure API Permissions:
+
+   * Go to **API permissions** > **Add a permission** > **Microsoft Graph**
+   * Add delegated permissions: ``User.Read``, ``email``, ``openid``, ``profile``
+   * Click **Grant admin consent** if required
+
+Application Configuration
+-------------------------
+
+Fill in ``Client ID`` and ``Client Secret`` settings with values from Azure AD::
+
+    SOCIAL_AUTH_AZUREAD_OAUTH2_KEY = ''
+    SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = ''
 
 - Also it's possible to define extra permissions with::
 
@@ -44,17 +68,21 @@ possible to use a version of the backend with tenant support.
 
 *Note: The backends are split because of the needed cryptography dependencies which must be installed manually.*
 
-To enable OAuth2 Tenant support:
+IdP Setup for Tenant
+^^^^^^^^^^^^^^^^^^^^^
 
-- Fill in ``Client ID`` and ``Client Secret`` settings. These values can be
-  obtained easily as described in `Azure AD Application Registration`_ doc::
+Follow the same IdP setup steps as above, but use redirect URI::
 
-      SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = ''
-      SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = ''
+    https://your-domain.com/complete/azuread-tenant-oauth2/
 
-- Fill in the tenant id::
+Application Configuration for Tenant
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-      SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = ''
+Fill in ``Client ID``, ``Client Secret``, and ``Tenant ID`` settings::
+
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = ''
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = ''
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = ''
 
 - Also it's possible to define extra permissions with::
 

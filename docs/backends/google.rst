@@ -38,16 +38,33 @@ Recently Google launched OAuth2 support following the definition at `OAuth2 draf
 It works in a similar way to plain OAuth mechanism, but developers **must** register
 an application and apply for a set of keys. Check `Google OAuth2`_ document for details.
 
-When creating the application in the Google Console be sure to fill the
-``PRODUCT NAME`` at ``API & auth -> Consent screen`` form.
+IdP Setup
+^^^^^^^^^
 
-To enable OAuth2 support:
+To configure Google OAuth2:
 
-- fill ``Client ID`` and ``Client Secret`` settings, these values can be obtained
-  easily as described on `OAuth2 Registering`_ doc::
+1. Go to the `Google Cloud Console <https://console.cloud.google.com/>`_
+2. Create a new project or select an existing one
+3. Navigate to **APIs & Services** > **Credentials**
+4. Click **Create Credentials** > **OAuth client ID**
+5. Configure:
 
-      SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ''
-      SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
+   * **Application type**: Web application
+   * **Authorized redirect URIs**: ``https://your-domain.com/complete/google-oauth2/``
+
+6. Note the **Client ID** and **Client Secret**
+7. Configure the **OAuth consent screen** (``API & auth -> Consent screen``):
+
+   * Set the **PRODUCT NAME** and other required fields
+   * Add scopes: ``email``, ``profile``, ``openid``
+
+Application Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Fill in ``Client ID`` and ``Client Secret`` settings with values from Google::
+
+    SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ''
+    SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
 
 - setup any needed extra scope::
 

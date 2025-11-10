@@ -24,7 +24,6 @@ Code and other contributions are welcome. The code is hosted on GitHub_.
    intro
    maintainers
    installing
-   idp_setup_guide
    configuration/index
    pipeline
    strategies
