@@ -53,7 +53,7 @@ To configure Google OAuth2:
    * **Authorized redirect URIs**: ``https://your-domain.com/complete/google-oauth2/``
 
 6. Note the **Client ID** and **Client Secret**
-7. Configure the **OAuth consent screen** (``API & auth -> Consent screen``):
+7. Configure the **OAuth consent screen** (``APIs & Services > OAuth consent screen``):
 
    * Set the **PRODUCT NAME** and other required fields
    * Add scopes: ``email``, ``profile``, ``openid``

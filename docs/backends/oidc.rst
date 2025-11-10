@@ -29,7 +29,7 @@ To configure your OIDC Identity Provider for use with this backend:
    Replace ``your-domain.com`` with your actual application domain.
 
 3. Configure scopes to include at minimum: ``openid``, ``profile``, ``email``
-4. Note the generated **Client ID** and **Client Secret** for use in your Django settings above
+4. Note the generated **Client ID** and **Client Secret** for use in your Django settings
 5. Ensure your IdP exposes the OpenID Connect discovery endpoint at: ``https://your-idp-domain/.well-known/openid-configuration``
 
 .. note::

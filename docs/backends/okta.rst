@@ -26,8 +26,8 @@ To configure Okta for OAuth2:
 Application Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Fill ``Client ID``, ``Client Secret`` and `API URL (e.g.
-https://dev-000000.oktapreview.com/oauth2)` settings with the values from the IdP setup above::
+Fill ``Client ID``, ``Client Secret`` and ``API URL (e.g.
+https://dev-000000.oktapreview.com/oauth2)`` settings with the values from the IdP setup above::
 
     SOCIAL_AUTH_OKTA_OAUTH2_KEY = ''
     SOCIAL_AUTH_OKTA_OAUTH2_SECRET = ''
@@ -46,8 +46,8 @@ Follow the same steps as OAuth2 above, but use the redirect URI::
 Application Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Fill ``Client ID``, ``Client Secret`` and `API URL (e.g.
-https://dev-000000.oktapreview.com/oauth2)` settings with the values from the IdP setup::
+Fill ``Client ID``, ``Client Secret`` and ``API URL (e.g.
+https://dev-000000.oktapreview.com/oauth2)`` settings with the values from the IdP setup::
 
     SOCIAL_AUTH_OKTA_OPENIDCONNECT_KEY = ''
     SOCIAL_AUTH_OKTA_OPENIDCONNECT_SECRET = ''

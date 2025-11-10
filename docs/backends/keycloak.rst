@@ -18,7 +18,7 @@ To configure Keycloak:
    * **Valid Redirect URIs**: ``https://your-domain.com/complete/keycloak/``
 
 4. Save and go to the **Credentials** tab to get the **Client Secret**
-5. Under **Fine Grain OpenID Connect Configuration**, set:
+5. Under **Fine Grain OpenID Connect Configuration** (found in the client's Settings or Advanced Settings tab; location may vary depending on Keycloak version), set:
 
    * **User Info Signed Response Algorithm**: ``RS256``
    * **Request Object Signature Algorithm**: ``RS256``

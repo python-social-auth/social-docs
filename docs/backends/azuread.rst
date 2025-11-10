@@ -71,7 +71,7 @@ possible to use a version of the backend with tenant support.
 IdP Setup for Tenant
 ^^^^^^^^^^^^^^^^^^^^^
 
-Follow the same IdP setup steps as above, but use redirect URI::
+Follow the same IdP setup steps from the 'IdP Setup' section above, but use redirect URI::
 
     https://your-domain.com/complete/azuread-tenant-oauth2/
 
