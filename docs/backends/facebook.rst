@@ -1,6 +1,12 @@
 Facebook
 ========
 
+Python Social Auth provides multiple backends for Facebook authentication:
+
+- **FacebookOAuth2** (``social_core.backends.facebook.FacebookOAuth2``) - Standard Facebook OAuth2 authentication
+- **FacebookAppOAuth2** (``social_core.backends.facebook.FacebookAppOAuth2``) - For Facebook Canvas Applications
+- **FacebookLimitedLogin** (``social_core.backends.facebook_limited.FacebookLimitedLogin``) - For Facebook Limited Login (iOS SDK)
+
 OAuth2
 ------
 
@@ -11,6 +17,14 @@ development resources`_:
   ``localhost`` as ``App Domains`` and ``Site URL`` since Facebook won't allow
   them. Use a placeholder like ``myapp.com`` and define that domain in your
   ``/etc/hosts`` or similar file.
+
+- Add the Facebook OAuth2 backend to your ``AUTHENTICATION_BACKENDS`` setting::
+
+    AUTHENTICATION_BACKENDS = (
+        ...
+        'social_core.backends.facebook.FacebookOAuth2',
+        ...
+    )
 
 - fill ``App Id`` and ``App Secret`` values in values::
 
@@ -63,6 +77,14 @@ If you need to perform authentication from Facebook Canvas application:
 
 - In Facebook application settings specify your canvas URL ``mysite.com/fb``
   (current default)
+
+- Add the Facebook Canvas Application backend to your ``AUTHENTICATION_BACKENDS`` setting::
+
+    AUTHENTICATION_BACKENDS = (
+        ...
+        'social_core.backends.facebook.FacebookAppOAuth2',
+        ...
+    )
 
 - Setup your Python Social Auth settings and your application namespace::
 
