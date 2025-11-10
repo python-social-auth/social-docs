@@ -36,10 +36,10 @@ If you define a redirect URL in Facebook setup page, be sure to not define
 http://127.0.0.1:8000 or http://localhost:8000 because it won't work when
 testing. Instead I define http://myapp.com and setup a mapping on ``/etc/hosts``.
 
-Currently the backend uses Facebook API version `2.9` by default, but this can
+Currently the backend uses Facebook API version `18.0` by default, but this can
 be overridden by the following setting::
 
-    SOCIAL_AUTH_FACEBOOK_API_VERSION = '2.10'
+    SOCIAL_AUTH_FACEBOOK_API_VERSION = '19.0'
 
 .. note::
     If you're using Facebook Graph API v3.0 or later, be aware that several
