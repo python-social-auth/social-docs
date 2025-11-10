@@ -84,15 +84,7 @@ For other providers, the pattern is ``SOCIAL_AUTH_<PROVIDER>_KEY``, ``SOCIAL_AUT
 
        SOCIAL_AUTH_UID_LENGTH = 223
 
-**Common settings you may need**:
-
-- Email as username: ``SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True``
-- Domain whitelist: ``SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = ['example.com']``
-- Email whitelist: ``SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS = ['user@example.com']``
-- PostgreSQL JSON field: ``SOCIAL_AUTH_JSONFIELD_ENABLED = True``
-- Force HTTPS: ``SOCIAL_AUTH_REDIRECT_IS_HTTPS = True``
-
-For complete configuration options, see :doc:`/configuration/settings`.
+For additional configuration options, see :doc:`/configuration/settings`.
 
 
 Register the application
