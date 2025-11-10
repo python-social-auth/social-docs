@@ -36,10 +36,22 @@ If you define a redirect URL in Facebook setup page, be sure to not define
 http://127.0.0.1:8000 or http://localhost:8000 because it won't work when
 testing. Instead I define http://myapp.com and setup a mapping on ``/etc/hosts``.
 
-Currently the backend uses Facebook API version `2.9`, this value can
-be overridden by the following setting if needed::
+Currently the backend uses Facebook API version `2.9` by default, but this can
+be overridden by the following setting::
 
     SOCIAL_AUTH_FACEBOOK_API_VERSION = '2.10'
+
+.. note::
+    If you're using Facebook Graph API v3.0 or later, be aware that several
+    parameters have been deprecated:
+    
+    - The ``display`` parameter (e.g., ``{'display': 'touch'}``) is no longer
+      supported. Facebook now automatically detects mobile devices based on
+      the user agent.
+    - Make sure to check Facebook's `Graph API Changelog`_ for other deprecated
+      features when upgrading to newer API versions.
+
+.. _Graph API Changelog: https://developers.facebook.com/docs/graph-api/changelog
 
 
 Canvas Application
