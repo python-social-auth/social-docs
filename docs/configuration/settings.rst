@@ -178,9 +178,15 @@ during the auth process, usually used to show different dialog types (mobile
 version, etc).
 
 You can send extra parameters on auth process by defining settings per backend,
-example to request Facebook to show Mobile authorization page, define::
+example to request Facebook to re-authenticate the user, define::
 
-      SOCIAL_AUTH_FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'display': 'touch'}
+      SOCIAL_AUTH_FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'auth_type': 'reauthenticate'}
+
+.. note::
+    The ``display`` parameter (e.g., ``{'display': 'touch'}``) was deprecated in
+    Facebook Graph API v3.0+. Facebook now automatically detects mobile devices
+    based on the user agent. If you're using Graph API v3.0 or later, avoid using
+    the ``display`` parameter as it will cause authentication errors.
 
 For other providers, just define settings in the form::
 
