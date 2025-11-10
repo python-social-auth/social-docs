@@ -214,7 +214,6 @@ Advanced Settings
           "x509certNew": "MIIEDjCCAvagAwIBAgIBADA ... 8Bbnl+ev0peYzxFyF5sQA==",
       }
 
-
 - ``SOCIAL_AUTH_SAML_SECURITY_CONFIG``: This can be set to a dict, and any
   key/value pairs specified here will be passed to the underlying
   ``python-saml`` library configuration's ``security`` setting. Two useful keys
@@ -233,6 +232,32 @@ Advanced Settings
                                    ('department', 'department'),
                                    ('manager_full_name', 'manager_full_name')]
 
+- In ``SOCIAL_AUTH_SAML_ENABLED_IDPS``: ``x509certMulti["signing"]`` is a list
+  that can be used instead of ``x509cert``. For example, when the IdP
+  certificate is rotated, use::
+
+      SOCIAL_AUTH_SAML_ENABLED_IDPS = {
+          "my_idp": {
+            "entity_id": "https://...",
+            "url": "https://...",
+            "x509certMulti": {
+                 "signing": [
+                     # Old certificate
+                     """
+        -----BEGIN CERTIFICATE-----
+        MIIEDjCCAvagAwIBAgIBADA ...
+        -----END CERTIFICATE-----
+                     """,
+                     # New certificate
+                     """
+        -----BEGIN CERTIFICATE-----
+        8Bbnl+ev0peYzxFyF5sQA ...
+        -----END CERTIFICATE-----
+                     """
+                 ]
+             }
+         }
+       }
 
 Advanced Usage
 --------------
