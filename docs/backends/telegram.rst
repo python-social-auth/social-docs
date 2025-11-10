@@ -5,7 +5,7 @@ Telegram uses a widget-based authentication method for login.
 
 - Create a bot using `BotFather`_ on Telegram to get a bot token.
 
-- Add Telegram backend to ``AUTHENTICATION_BACKENDS``::
+- Add the Telegram backend to ``AUTHENTICATION_BACKENDS``::
 
     AUTHENTICATION_BACKENDS = (
         ...
