@@ -20,11 +20,11 @@ development resources`_:
 
 - Add the Facebook OAuth2 backend to your ``AUTHENTICATION_BACKENDS`` setting::
 
-      AUTHENTICATION_BACKENDS = (
-          ...
-          'social_core.backends.facebook.FacebookOAuth2',
-          ...
-      )
+    AUTHENTICATION_BACKENDS = (
+        ...
+        'social_core.backends.facebook.FacebookOAuth2',
+        ...
+    )
 
 - fill ``App Id`` and ``App Secret`` values in values::
 
