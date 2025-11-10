@@ -16,7 +16,6 @@ Contents:
    :maxdepth: 2
 
    settings
-   django_quickstart
    django
    flask
    pyramid

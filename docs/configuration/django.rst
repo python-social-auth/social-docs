@@ -5,11 +5,6 @@ Django framework has a little more support since this application was derived
 from `django-social-auth`_. Here are some details on configuring this
 application on Django.
 
-.. note::
-   **New to Python Social Auth?** Check out the :doc:`django_quickstart` guide 
-   for a step-by-step tutorial on setting up social authentication in a fresh 
-   Django project.
-
 
 Installing
 ----------
@@ -21,6 +16,83 @@ From pypi_::
 And for MongoEngine_ ORM::
 
     $ pip install social-auth-app-django-mongoengine
+
+
+Quickstart
+----------
+
+This quickstart covers the essential configuration to get social authentication working in your Django project.
+
+**1. Add to INSTALLED_APPS**::
+
+    INSTALLED_APPS = (
+        ...
+        'social_django',
+    )
+
+**2. Configure authentication backends** (example for Google OAuth2)::
+
+    AUTHENTICATION_BACKENDS = (
+        'social_core.backends.google.GoogleOAuth2',
+        'django.contrib.auth.backends.ModelBackend',  # Keep for username/password login
+    )
+
+**3. Add OAuth credentials to settings.py**:
+
+This is where you configure your ``client_id``, ``client_secret``, and ``scope`` for each provider::
+
+    # Google OAuth2
+    SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'your-client-id.apps.googleusercontent.com'
+    SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'your-client-secret'
+    SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+        'https://www.googleapis.com/auth/userinfo.email',
+        'https://www.googleapis.com/auth/userinfo.profile',
+    ]
+
+For other providers, the pattern is ``SOCIAL_AUTH_<PROVIDER>_KEY``, ``SOCIAL_AUTH_<PROVIDER>_SECRET``, and ``SOCIAL_AUTH_<PROVIDER>_SCOPE``. See :doc:`/backends/index` for provider-specific settings.
+
+.. warning::
+   Never commit credentials to version control. Use environment variables instead::
+
+       import os
+       SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('GOOGLE_OAUTH2_KEY')
+       SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('GOOGLE_OAUTH2_SECRET')
+
+**4. Add URLs to urls.py**::
+
+    urlpatterns = [
+        ...
+        path('', include('social_django.urls', namespace='social')),
+    ]
+
+**5. Configure redirect URLs**::
+
+    LOGIN_URL = '/login/'
+    LOGIN_REDIRECT_URL = '/'
+    LOGOUT_REDIRECT_URL = '/'
+
+**6. Run migrations**::
+
+    python manage.py migrate
+
+**7. Add login link in template**::
+
+    <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+
+.. note::
+   **Database considerations**: SQLite has field length limitations that can cause issues. For production, use PostgreSQL or MySQL. If using MySQL InnoDB or SQLite, add::
+
+       SOCIAL_AUTH_UID_LENGTH = 223
+
+**Common settings you may need**:
+
+- Email as username: ``SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True``
+- Domain whitelist: ``SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = ['example.com']``
+- Email whitelist: ``SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS = ['user@example.com']``
+- PostgreSQL JSON field: ``SOCIAL_AUTH_JSONFIELD_ENABLED = True``
+- Force HTTPS: ``SOCIAL_AUTH_REDIRECT_IS_HTTPS = True``
+
+For complete configuration options, see :doc:`/configuration/settings`.
 
 
 Register the application
