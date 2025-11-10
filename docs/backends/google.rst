@@ -59,6 +59,8 @@ To allow user selecting Google account to use, add the ``prompt`` parameter with
 
       SOCIAL_AUTH_GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {'prompt': 'select_account'}
 
+To restrict authentication to specific domains (useful for G Suite/Google Workspace organizations), use domain whitelisting. Check the whitelists_ settings for details
+
 
 Google One Tap
 ---------------
