@@ -339,15 +339,6 @@ overridden to customize behavior. Here are some key methods:
     special logic for determining the ID key. Instead, use the
     ``SOCIAL_AUTH_<BACKEND_NAME>_ID_KEY`` setting to configure it.
 
-    Example of special handling::
-
-        def get_user_id(self, details, response):
-            """Custom user ID retrieval"""
-            id_key = self.id_key()  # Gets configured or default ID_KEY
-            if self.setting("USERNAME_AS_ID", False):
-                id_key = "username"
-            return response.get(id_key)
-
 ``get_user_id(details, response)``
     Returns a unique ID for the current user from the provider's response or
     from the details dict. This method uses ``id_key()`` to determine which
@@ -356,6 +347,15 @@ overridden to customize behavior. Here are some key methods:
 
     Override this method if you need custom logic for extracting the user ID,
     such as combining multiple fields or performing transformations.
+
+    Example of custom user ID retrieval::
+
+        def get_user_id(self, details, response):
+            """Custom user ID retrieval"""
+            id_key = self.id_key()  # Gets configured or default ID_KEY
+            if self.setting("USERNAME_AS_ID", False):
+                id_key = "username"
+            return response.get(id_key)
 
 ``get_user_details(response)``
     Extracts user details (username, email, first_name, last_name, fullname)
