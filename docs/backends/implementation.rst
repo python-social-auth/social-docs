@@ -334,13 +334,13 @@ overridden to customize behavior. Here are some key methods:
     if the ``ID_KEY`` has been configured via settings (using
     ``SOCIAL_AUTH_<BACKEND_NAME>_ID_KEY``) and returns that value if present,
     otherwise it falls back to the ``ID_KEY`` class attribute.
-    
+
     Most backends should not need to override this method unless they have
     special logic for determining the ID key. Instead, use the
     ``SOCIAL_AUTH_<BACKEND_NAME>_ID_KEY`` setting to configure it.
-    
+
     Example of special handling::
-    
+
         def get_user_id(self, details, response):
             """Custom user ID retrieval"""
             id_key = self.id_key()  # Gets configured or default ID_KEY
@@ -353,7 +353,7 @@ overridden to customize behavior. Here are some key methods:
     from the details dict. This method uses ``id_key()`` to determine which
     field to extract from the response. The default implementation checks
     both ``details`` and ``response`` dicts for the configured ID key.
-    
+
     Override this method if you need custom logic for extracting the user ID,
     such as combining multiple fields or performing transformations.
 
