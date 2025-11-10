@@ -205,7 +205,7 @@ App`_, and `Webpy App`_ for examples of implementations.
 .. _SQLAlchemy ORM: https://github.com/python-social-auth/social-storage-sqlalchemy/blob/master/social_sqlalchemy/storage.py
 .. _Django ORM: https://github.com/python-social-auth/social-app-django/blob/master/social_django/storage.py
 .. _Django App: https://github.com/python-social-auth/social-app-django/blob/master/social_django/models.py
-.. _Flask App: https://github.com/python-social-auth/social-app-django/blob/master/social_flask/models.py
+.. _Flask App: https://github.com/python-social-auth/social-app-flask/blob/master/social_flask/models.py
 .. _Pyramid App: https://github.com/python-social-auth/social-app-pyramid/blob/master/social_pyramid/models.py
 .. _Webpy App: https://github.com/python-social-auth/social-app-webpy/blob/master/social_webpy/models.py
 .. _pipeline docs: pipeline.html#email-validation
