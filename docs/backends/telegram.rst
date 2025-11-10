@@ -13,7 +13,7 @@ Telegram uses a widget-based authentication method for login.
         ...
     )
 
-- Fill ``Bot Token`` value in the settings::
+- Fill the ``Bot Token`` value in the settings::
 
     SOCIAL_AUTH_TELEGRAM_BOT_TOKEN = ''
 
