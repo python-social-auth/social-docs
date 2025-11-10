@@ -29,7 +29,7 @@ User ID
 
 Seznam recommends the use of ``oauth_user_id`` as the user identifier instead
 of mutable data such as ``username`` or ``email`` because using mutable identifiers
-can impose security risks if the user changes them.
+can pose security risks if the user changes them.
 
 For that reason ``oauth_user_id`` is used by default, but for compatibility
 with enterprise backend versions or other use cases, you can override this behavior
