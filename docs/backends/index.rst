@@ -167,6 +167,7 @@ Social backends
    strava
    stripe
    taobao
+   telegram
    thisismyjam
    trello
    tripit
