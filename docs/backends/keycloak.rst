@@ -33,9 +33,25 @@ added on ``SOCIAL_AUTH_KEYCLOAK_SECRET``. You also need to add your keycloak ins
 
 Lastly you need to ensure the ``client_id`` is in your JWT's ``aud`` key. On your client go to Mappers -> Create. Create an ``Audience Mapper`` and ensure the ``Included Client Audience`` is your ``client_id``.
 
-Thereafter go to: ``<app_url>/login/keycloak`` and the authorization code flow should commense.
+Thereafter go to: ``<app_url>/login/keycloak`` and the authorization code flow should commence.
 
-The default behaviour is to associate users via username field, but you
-       can change the key with e.g.
+User ID Configuration
+---------------------
 
-``SOCIAL_AUTH_KEYCLOAK_ID_KEY = 'email'``
+The default behavior is to associate users via the ``sub`` (subject) field from the
+JWT token. However, you can configure which field to use as the unique user identifier
+by setting::
+
+    SOCIAL_AUTH_KEYCLOAK_ID_KEY = 'email'
+
+This can be useful if you want to use email, username, or another field as the unique
+identifier instead of the ``sub`` field.
+
+.. warning::
+    Changing the ID key after users have already authenticated will prevent them from
+    logging in, as their stored ``uid`` will not match the new identifier. Configure
+    this setting before users start authenticating, or perform a data migration.
+
+See the `Configurable User ID Key`_ documentation for more information about this feature.
+
+.. _Configurable User ID Key: ../configuration/settings.html#configurable-user-id-key

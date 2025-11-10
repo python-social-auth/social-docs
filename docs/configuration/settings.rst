@@ -227,6 +227,38 @@ to use the OpenStreetMap backend with OpenHistoricalMap::
 Note that backend-specific settings (with the backend name) take precedence over
 generic settings, following the same pattern as other settings in this library.
 
+
+Configurable User ID Key
+-------------------------
+
+By default, each backend defines an ``ID_KEY`` class attribute that specifies which
+field in the provider's response should be used as the unique user identifier. This
+identifier is stored in the ``UserSocialAuth.uid`` field.
+
+However, some providers may return different user identifier fields depending on the
+API version, configuration, or deployment (e.g., enterprise vs. cloud versions). To
+support these scenarios, the ``ID_KEY`` can be configured per-backend via settings:
+
+``SOCIAL_AUTH_<BACKEND_NAME>_ID_KEY = 'field_name'``
+    Override the default ID key for a specific backend. The value should be the
+    name of the field in the provider's response that contains the unique user
+    identifier.
+
+Example: Configure Seznam backend to use ``id`` instead of the default ``oauth_user_id``::
+
+    SOCIAL_AUTH_SEZNAM_OAUTH2_ID_KEY = 'id'
+
+Example: Configure Keycloak backend to use ``email`` instead of the default ``sub``::
+
+    SOCIAL_AUTH_KEYCLOAK_ID_KEY = 'email'
+
+.. warning::
+    Changing the ``ID_KEY`` for an existing backend will affect how users are
+    identified. Existing users may not be able to log in if the identifier
+    changes. This setting should be configured before users start authenticating
+    with the backend, or a data migration should be performed to update existing
+    ``UserSocialAuth`` records.
+
 Basic information is requested to the different providers in order to create
 a coherent user instance (with first and last name, email and full name), this
 could be too intrusive for some sites that want to ask users the minimum data

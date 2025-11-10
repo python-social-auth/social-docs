@@ -20,7 +20,9 @@ First, let's check the common attributes for all backend types.
 ``ID_KEY = None``
     Defines the attribute in the service response that identifies the user as
     unique to the service, the value is later stored in the ``uid`` attribute
-    in the ``UserSocialAuth`` instance.
+    in the ``UserSocialAuth`` instance. This can be overridden per-backend
+    via the ``SOCIAL_AUTH_<BACKEND_NAME>_ID_KEY`` setting (see
+    `Configurable User ID Key`_).
 
 ``REQUIRES_EMAIL_VALIDATION = False``
     Flags the backend to enforce email validation during the pipeline (if the
@@ -321,8 +323,49 @@ Example code::
             return self.strategy.authenticate(*args, **kwargs)
 
 
+Common backend methods
+----------------------
+
+All backends inherit from ``BaseAuth`` which provides several methods that can be
+overridden to customize behavior. Here are some key methods:
+
+``id_key()``
+    Returns the ID key to use for this backend. By default, this method checks
+    if the ``ID_KEY`` has been configured via settings (using
+    ``SOCIAL_AUTH_<BACKEND_NAME>_ID_KEY``) and returns that value if present,
+    otherwise it falls back to the ``ID_KEY`` class attribute.
+
+    Most backends should not need to override this method unless they have
+    special logic for determining the ID key. Instead, use the
+    ``SOCIAL_AUTH_<BACKEND_NAME>_ID_KEY`` setting to configure it.
+
+``get_user_id(details, response)``
+    Returns a unique ID for the current user from the provider's response or
+    from the details dict. This method uses ``id_key()`` to determine which
+    field to extract from the response. The default implementation checks
+    both ``details`` and ``response`` dicts for the configured ID key.
+
+    Override this method if you need custom logic for extracting the user ID,
+    such as combining multiple fields or performing transformations.
+
+    Example of custom user ID retrieval::
+
+        def get_user_id(self, details, response):
+            """Custom user ID retrieval"""
+            id_key = self.id_key()  # Gets configured or default ID_KEY
+            if self.setting("USERNAME_AS_ID", False):
+                id_key = "username"
+            return response.get(id_key)
+
+``get_user_details(response)``
+    Extracts user details (username, email, first_name, last_name, fullname)
+    from the provider's API response. This method should return a dictionary
+    with the extracted values.
+
+
 .. _Twitter Docs: https://dev.twitter.com/docs/auth/implementing-sign-twitter
 .. _myOpenID: https://www.myopenid.com/
 .. _Proof Key for Code Exchange (PKCE): https://datatracker.ietf.org/doc/html/rfc7636
 .. _Bitbucket Data Center OAuth2: https://github.com/python-social-auth/social-core/blob/master/social_core/backends/bitbucket_datacenter.py
 .. _Twitter OAuth2: https://github.com/python-social-auth/social-core/blob/master/social_core/backends/twitter_oauth2.py
+.. _Configurable User ID Key: ../configuration/settings.html#configurable-user-id-key
