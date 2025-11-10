@@ -44,7 +44,7 @@ be overridden by the following setting::
 .. note::
     If you're using Facebook Graph API v3.0 or later, be aware that several
     parameters have been deprecated:
-    
+
     - The ``display`` parameter (e.g., ``{'display': 'touch'}``) is no longer
       supported. Facebook now automatically detects mobile devices based on
       the user agent.
