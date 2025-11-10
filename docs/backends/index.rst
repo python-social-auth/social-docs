@@ -72,6 +72,7 @@ Social backends
    dailymotion
    digitalocean
    discogs
+   discord
    discourse
    disqus
    docker
