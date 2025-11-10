@@ -3,9 +3,34 @@ Keycloak - Open Source Red Hat SSO
 
 Keycloak is an open source IAM and SSO system.
 
-To enable Keycloak as a backend:
+IdP Setup
+---------
 
-- On your project settings, add Keycloak on your ``AUTHENTICATION_BACKENDS``::
+To configure Keycloak:
+
+1. Log into your Keycloak Admin Console and select your Realm
+2. Navigate to **Clients** > **Create**
+3. Configure the client:
+
+   * **Client ID**: Choose a meaningful name (e.g., ``django-app``)
+   * **Client Protocol**: ``openid-connect``
+   * **Access Type**: ``confidential``
+   * **Valid Redirect URIs**: ``https://your-domain.com/complete/keycloak/``
+
+4. Save and go to the **Credentials** tab to get the **Client Secret**
+5. Under **Fine Grain OpenID Connect Configuration** (found in the client's Settings or Advanced Settings tab; location may vary depending on Keycloak version), set:
+
+   * **User Info Signed Response Algorithm**: ``RS256``
+   * **Request Object Signature Algorithm**: ``RS256``
+
+6. Get the public key from **Realm Settings** > **Keys** > **RS256**
+7. Create an **Audience Mapper** (**Mappers** > **Create**) to ensure your ``client_id`` is in the JWT's ``aud`` claim
+8. Note the **Authorization URL** and **Token URL** from the Realm OpenID Endpoint Configuration
+
+Application Configuration
+-------------------------
+
+Add Keycloak to your ``AUTHENTICATION_BACKENDS``::
 
     AUTHENTICATION_BACKENDS = (
         ...
@@ -13,14 +38,7 @@ To enable Keycloak as a backend:
         'django.contrib.auth.backends.ModelBackend',
     )
 
-- Create a Client in your Keycloak realm
-
-- On your client under ``Fine Grain OpenID Connect Configuration`` ensure that ``User Info Signed Response Algorithm`` and ``Request Object Signature Algorithm`` is set to ``RS256``. Save. Then go to: Realm Settings -> Keys -> RS256 and copy your Public key to ``SOCIAL_AUTH_KEYCLOAK_PUBLIC_KEY`` in your django settings
-
-- Add these values of ``Client ID`` and ``Client Secret`` from client in your project settings file.
-
-The ``Client ID`` should be added on ``SOCIAL_AUTH_KEYCLOAK_KEY`` and the ``Client Secret`` should be
-added on ``SOCIAL_AUTH_KEYCLOAK_SECRET``. You also need to add your keycloak instance auth and token URL's found in the Realm OpenID Endpoint Configuration::
+Configure with values from your Keycloak client::
 
     SOCIAL_AUTH_KEYCLOAK_KEY = 'test-django-oidc'
     SOCIAL_AUTH_KEYCLOAK_SECRET = 'a7a41-245e-...'
@@ -30,10 +48,6 @@ added on ``SOCIAL_AUTH_KEYCLOAK_SECRET``. You also need to add your keycloak ins
         'https://iam.example.com/auth/realms/voxcloud-staff/protocol/openid-connect/auth'
     SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL = \
         'https://iam.example.com/auth/realms/voxcloud-staff/protocol/openid-connect/token'
-
-Lastly you need to ensure the ``client_id`` is in your JWT's ``aud`` key. On your client go to Mappers -> Create. Create an ``Audience Mapper`` and ensure the ``Included Client Audience`` is your ``client_id``.
-
-Thereafter go to: ``<app_url>/login/keycloak`` and the authorization code flow should commence.
 
 User ID Configuration
 ---------------------
