@@ -100,7 +100,6 @@ Social backends
    google
    grafana
    instagram
-   itembase
    jawbone
    justgiving
    kakao
