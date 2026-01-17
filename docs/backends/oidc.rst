@@ -16,6 +16,25 @@ The remaining configuration will be auto-detected, by fetching::
 This class can be used standalone, but is also the base class for some other
 backends.
 
+IdP Setup
+---------
+
+To configure your OIDC Identity Provider for use with this backend:
+
+1. Create a new application/client in your IdP with type "Web Application"
+2. Set the **Redirect URI** (also called Callback URL) to::
+
+    https://your-domain.com/complete/oidc/
+
+   Replace ``your-domain.com`` with your actual application domain.
+
+3. Configure scopes to include at minimum: ``openid``, ``profile``, ``email``
+4. Note the generated **Client ID** and **Client Secret** for use in your Django settings
+5. Ensure your IdP exposes the OpenID Connect discovery endpoint at: ``https://your-idp-domain/.well-known/openid-configuration``
+
+.. note::
+   For development, you can use ``http://localhost:8000/complete/oidc/`` as the redirect URI.
+
 Authentication Request Parameters
 ---------------------------------
 
