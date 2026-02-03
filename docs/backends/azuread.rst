@@ -35,6 +35,48 @@ To enable OAuth2 support:
 
       SOCIAL_AUTH_AZUREAD_OAUTH2_AUTHORITY_HOST = ''
 
+- Federated identity credentials (client assertions) are supported when you do not want to use a client secret. After
+      adding a federated credential to your Entra ID app, point the backend at the OIDC token that your workload issues
+      (for example, Kubernetes service account tokens, GitHub Actions OIDC tokens, or Azure Workload Identity). The backend
+      will automatically use a client assertion instead of ``CLIENT_SECRET`` when the secret is omitted::
+
+            # Default path exported by Azure Workload Identity and GitHub Actions
+            AZURE_FEDERATED_TOKEN_FILE=/var/run/secrets/azure/tokens/azure-identity-token
+
+            # Or configure explicitly via the backend setting
+            SOCIAL_AUTH_AZUREAD_OAUTH2_FEDERATED_TOKEN_FILE = '/path/to/oidc/token'
+
+      You can also provide a pre-built client assertion JWT::
+
+            SOCIAL_AUTH_AZUREAD_OAUTH2_CLIENT_ASSERTION = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...'
+            SOCIAL_AUTH_AZUREAD_OAUTH2_CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
+
+      Kubernetes projected service account token volume example::
+
+            apiVersion: v1
+            kind: Pod
+            metadata:
+                  name: mypod
+            spec:
+                  serviceAccountName: myserviceaccount
+                  containers:
+                  - name: mycontainer
+                        image: myimage
+                        volumeMounts:
+                        - name: azure-identity-token
+                              mountPath: /var/run/secrets/azure/tokens
+                              readOnly: true
+                  volumes:
+                  - name: azure-identity-token
+                        projected:
+                              sources:
+                              - serviceAccountToken:
+                                          path: azure-identity-token
+                                          audience: api://AzureADTokenExchange
+                                          expirationSeconds: 3600
+
+      These settings apply to all Azure AD/Entra ID variants in this doc (common, tenant-specific, v2, and B2C). For more
+      information on workload identity, see `Workload Identity Federation`_ and `Federated identity credentials (Workload Identity)`_ docs.
 
 Tenant Support
 --------------
@@ -132,3 +174,6 @@ The policy should start with `b2c_`. For more information see `Azure AD B2C User
 .. _Azure AD Application Registration: https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app
 .. _Azure AD B2C User flows and custom policies overview: https://docs.microsoft.com/en-us/azure/active-directory-b2c/user-flow-overview
 .. _Azure Authority Hosts: https://docs.microsoft.com/en-us/python/api/azure-identity/azure.identity.azureauthorityhosts?view=azure-python
+.. _Federated identity credentials: https://learn.microsoft.com/en-us/graph/api/resources/federatedidentitycredentials-overview
+.. _Workload Identity Federation: https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation
+.. _Federated identity credentials (Workload Identity): https://azure.github.io/azure-workload-identity/docs/topics/federated-identity-credential.html
