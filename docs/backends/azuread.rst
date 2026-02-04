@@ -174,6 +174,5 @@ The policy should start with `b2c_`. For more information see `Azure AD B2C User
 .. _Azure AD Application Registration: https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app
 .. _Azure AD B2C User flows and custom policies overview: https://docs.microsoft.com/en-us/azure/active-directory-b2c/user-flow-overview
 .. _Azure Authority Hosts: https://docs.microsoft.com/en-us/python/api/azure-identity/azure.identity.azureauthorityhosts?view=azure-python
-.. _Federated identity credentials: https://learn.microsoft.com/en-us/graph/api/resources/federatedidentitycredentials-overview
 .. _Workload Identity Federation: https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation
 .. _Federated identity credentials (Workload Identity): https://azure.github.io/azure-workload-identity/docs/topics/federated-identity-credential.html
