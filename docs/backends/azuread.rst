@@ -40,10 +40,12 @@ To enable OAuth2 support:
   (for example, Kubernetes service account tokens, GitHub Actions OIDC tokens, or Azure Workload Identity). The backend
   will automatically use a client assertion instead of ``CLIENT_SECRET`` when the secret is omitted::
 
-      # Default path exported by Azure Workload Identity and GitHub Actions
+  Default path exported by Azure Workload Identity and GitHub Actions::
+
       AZURE_FEDERATED_TOKEN_FILE=/var/run/secrets/azure/tokens/azure-identity-token
 
-      # Or configure explicitly via the backend setting
+  Or configure explicitly via the backend setting::
+
       SOCIAL_AUTH_AZUREAD_OAUTH2_FEDERATED_TOKEN_FILE = '/path/to/oidc/token'
 
   You can also provide a pre-built client assertion JWT::
@@ -62,6 +64,9 @@ To enable OAuth2 support:
         containers:
         - name: mycontainer
           image: myimage
+          env:
+          - name: AZURE_FEDERATED_TOKEN_FILE
+            value: /var/run/secrets/azure/tokens/azure-identity-token
           volumeMounts:
           - name: azure-identity-token
             mountPath: /var/run/secrets/azure/tokens
@@ -75,8 +80,7 @@ To enable OAuth2 support:
               audience: api://AzureADTokenExchange
               expirationSeconds: 3600
 
-  These settings apply to all Azure AD/Entra ID variants in this doc (common, tenant-specific, v2, and B2C). For more
-  information on workload identity, see `Workload Identity Federation`_ and `Federated identity credentials (Workload Identity)`_ docs.
+  These settings apply to Azure AD/Entra ID scenarios. For more information on workload identity, see `Workload Identity Federation`_ and `Federated identity credentials (Workload Identity)`_.
 
 Tenant Support
 --------------
