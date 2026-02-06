@@ -37,10 +37,11 @@ To enable OAuth2 support:
 
 - Federated identity credentials (client assertions) are supported when you do not want to use a client secret. After
   adding a federated credential to your Entra ID app, point the backend at the OIDC token that your workload issues
-  (for example, Kubernetes service account tokens, GitHub Actions OIDC tokens, or Azure Workload Identity). The backend
-  will automatically use a client assertion instead of ``CLIENT_SECRET`` when the secret is omitted::
+  (for example, Kubernetes service account tokens issued via Azure Workload Identity, or other OIDC tokens where you manage
+  writing the token to a file). The backend will automatically use a client assertion instead of ``CLIENT_SECRET`` when the
+  secret is omitted::
 
-  Default path exported by Azure Workload Identity and GitHub Actions::
+  Default path used by Azure Workload Identity on Kubernetes::
 
       AZURE_FEDERATED_TOKEN_FILE=/var/run/secrets/azure/tokens/azure-identity-token
 
