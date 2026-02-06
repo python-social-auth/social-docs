@@ -52,10 +52,21 @@ To enable OAuth2 support:
 
       SOCIAL_AUTH_AZUREAD_OAUTH2_FEDERATED_TOKEN_FILE = '/path/to/oidc/token'
 
-  You can also provide a pre-built client assertion JWT::
+  You can also provide a pre-built client assertion JWT (preferred when you already create the assertion yourself)::
 
       SOCIAL_AUTH_AZUREAD_OAUTH2_CLIENT_ASSERTION = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...'
+      # Optional: defaults to the standard JWT bearer URN shown here
       SOCIAL_AUTH_AZUREAD_OAUTH2_CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
+
+  Minimal configs by approach:
+
+  - Token file (workload-issued OIDC token): leave ``SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET`` unset; set either
+    ``AZURE_FEDERATED_TOKEN_FILE`` (or ``OAUTH2_FIC_TOKEN_FILE``) or ``SOCIAL_AUTH_AZUREAD_OAUTH2_FEDERATED_TOKEN_FILE``
+    to the token path. ``CLIENT_ASSERTION_TYPE`` is not needed for this mode.
+
+  - Pre-built client assertion: leave ``SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET`` unset; set
+    ``SOCIAL_AUTH_AZUREAD_OAUTH2_CLIENT_ASSERTION`` (and optionally ``SOCIAL_AUTH_AZUREAD_OAUTH2_CLIENT_ASSERTION_TYPE``
+    if you use a non-standard type). ``FEDERATED_TOKEN_FILE`` is not read in this mode because the explicit assertion wins.
 
   Kubernetes projected service account token volume example::
 
