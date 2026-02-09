@@ -42,7 +42,7 @@ To enable OAuth2 support:
   secret and does not send a client assertion; otherwise it prefers an explicit ``SOCIAL_AUTH_AZUREAD_OAUTH2_CLIENT_ASSERTION``;
   if no assertion is provided, it reads a token file from ``AZURE_FEDERATED_TOKEN_FILE`` (or ``OAUTH2_FIC_TOKEN_FILE``) or
   ``SOCIAL_AUTH_AZUREAD_OAUTH2_FEDERATED_TOKEN_FILE``. The backend will automatically use a client assertion instead of
-  ``CLIENT_SECRET`` when the secret is omitted::
+  ``CLIENT_SECRET`` when the secret is omitted.
 
   Default path used by Azure Workload Identity on Kubernetes::
 
