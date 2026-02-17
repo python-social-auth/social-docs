@@ -33,12 +33,12 @@ Key requirements:
   * They must **not** be blindly trusted from direct client requests.
   * They must be configured explicitly in the proxy configuration.
 
-.. note:: 
+.. note::
 
    Configuration syntax varies across reverse
    proxy implementations. Consult your proxy's documentation for Host header
    validation and forwarded header handling.
-   
+
 
 Django configuration
 --------------------
