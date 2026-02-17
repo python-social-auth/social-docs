@@ -1,7 +1,7 @@
 Security considerations
 =======================
 
-The library may use the incoming HTTP Host header when generating absolute URLs
+The library may use the incoming HTTP ``Host`` header when generating absolute URLs
 or redirects during the authentication and authorization flow. If the Host
 header is not validated by the deployment stack, it may allow host header
 injection attacks.
