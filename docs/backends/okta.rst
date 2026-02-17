@@ -27,13 +27,13 @@ Application Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Fill ``Client ID``, ``Client Secret`` and ``API URL (e.g.
-https://dev-000000.oktapreview.com/oauth2)`` settings with the values from the IdP setup above::
+https://dev-123456.okta.com/oauth2)`` settings with the values from the IdP setup above::
 
     SOCIAL_AUTH_OKTA_OAUTH2_KEY = ''
     SOCIAL_AUTH_OKTA_OAUTH2_SECRET = ''
     SOCIAL_AUTH_OKTA_OAUTH2_API_URL = ''
 
-Okta OpenId Connect
+Okta OpenID Connect
 -------------------
 
 IdP Setup
@@ -47,7 +47,7 @@ Application Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Fill ``Client ID``, ``Client Secret`` and ``API URL (e.g.
-https://dev-000000.oktapreview.com/oauth2)`` settings with the values from the IdP setup::
+https://dev-123456.okta.com/oauth2)`` settings with the values from the IdP setup::
 
     SOCIAL_AUTH_OKTA_OPENIDCONNECT_KEY = ''
     SOCIAL_AUTH_OKTA_OPENIDCONNECT_SECRET = ''
