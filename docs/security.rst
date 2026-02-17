@@ -9,7 +9,7 @@ injection attacks.
 This is a deployment and configuration concern rather than a defect in the
 library itself. The behavior is intentional, as the library needs to construct
 absolute URLs for OAuth callbacks and redirects. Proper upstream validation is
-required to ensure that only legitimate Host header values are accepted by your
+required to ensure that only legitimate ``Host`` header values are accepted by your
 application.
 
 
