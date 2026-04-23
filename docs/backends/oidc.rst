@@ -66,6 +66,54 @@ be overridden::
 This setting indicates that the username should be populated by the
 ``nickname`` claim instead.
 
+First Name
+----------
+
+The OIDC_ backend will check for a ``given_name`` key in the values
+returned by the server.  If the first name is under a different key, this can
+be overridden::
+
+    SOCIAL_AUTH_OIDC_FIRST_NAME_KEY = 'first_name'
+
+This setting indicates that the first name should be populated by the
+``first_name`` claim instead.
+
+Last Name
+---------
+
+The OIDC_ backend will check for a ``family_name`` key in the values
+returned by the server.  If the last name is under a different key, this can
+be overridden::
+
+    SOCIAL_AUTH_OIDC_LAST_NAME_KEY = 'last_name'
+
+This setting indicates that the last name should be populated by the
+``last_name`` claim instead.
+
+Full Name
+---------
+
+The OIDC_ backend will check for a ``name`` key in the values
+returned by the server.  If the full name is under a different key, this can
+be overridden::
+
+    SOCIAL_AUTH_OIDC_FULLNAME_KEY = 'full_name'
+
+This setting indicates that the full name should be populated by the
+``full_name`` claim instead.
+
+Email
+-----
+
+The OIDC_ backend will check for a ``email`` key in the values
+returned by the server.  If the email is under a different key, this can
+be overridden::
+
+    SOCIAL_AUTH_OIDC_EMAIL_KEY = 'mail'
+
+This setting indicates that the email should be populated by the
+``mail`` claim instead.
+
 Scopes
 ------
 
