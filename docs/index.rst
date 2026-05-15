@@ -24,6 +24,7 @@ Code and other contributions are welcome. The code is hosted on GitHub_.
    intro
    maintainers
    installing
+   security
    configuration/index
    pipeline
    strategies

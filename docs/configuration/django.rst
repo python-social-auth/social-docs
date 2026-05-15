@@ -18,6 +18,75 @@ And for MongoEngine_ ORM::
     $ pip install social-auth-app-django-mongoengine
 
 
+Quickstart
+----------
+
+This quickstart covers the essential configuration to get social authentication working in your Django project.
+
+**1. Add to INSTALLED_APPS**::
+
+    INSTALLED_APPS = (
+        ...
+        'social_django',
+    )
+
+**2. Configure authentication backends** (example for Google OAuth2)::
+
+    AUTHENTICATION_BACKENDS = (
+        'social_core.backends.google.GoogleOAuth2',
+        'django.contrib.auth.backends.ModelBackend',  # Keep for username/password login
+    )
+
+**3. Add OAuth credentials to settings.py**:
+
+This is where you configure your ``client_id``, ``client_secret``, and ``scope`` for each provider::
+
+    # Google OAuth2
+    SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'your-client-id.apps.googleusercontent.com'
+    SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'your-client-secret'
+    SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+        'https://www.googleapis.com/auth/userinfo.email',
+        'https://www.googleapis.com/auth/userinfo.profile',
+    ]
+
+For other providers, the pattern is ``SOCIAL_AUTH_<PROVIDER>_KEY``, ``SOCIAL_AUTH_<PROVIDER>_SECRET``, and ``SOCIAL_AUTH_<PROVIDER>_SCOPE``. See :doc:`/backends/index` for provider-specific settings.
+
+.. warning::
+   Never commit credentials to version control. Use environment variables instead::
+
+       import os
+       SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('GOOGLE_OAUTH2_KEY')
+       SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('GOOGLE_OAUTH2_SECRET')
+
+**4. Add URLs to urls.py**::
+
+    urlpatterns = [
+        ...
+        path('', include('social_django.urls', namespace='social')),
+    ]
+
+**5. Configure redirect URLs**::
+
+    LOGIN_URL = '/login/'
+    LOGIN_REDIRECT_URL = '/'
+    LOGOUT_REDIRECT_URL = '/'
+
+**6. Run migrations**::
+
+    python manage.py migrate
+
+**7. Add login link in template**::
+
+    <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+
+.. note::
+   **Database considerations**: SQLite has field length limitations that can cause issues. For production, use PostgreSQL or MySQL. If using MySQL InnoDB or SQLite, add::
+
+       SOCIAL_AUTH_UID_LENGTH = 223
+
+For additional configuration options, see :doc:`/configuration/settings`.
+
+
 Register the application
 ------------------------
 
@@ -230,6 +299,24 @@ not decoupled from this pattern by any abstraction layer. If you would like
 to implement your own alternate, please see the ``social_django.models`` and
 ``social_django_mongoengine.models`` modules for guidance.
 
+Active users filtering
+----------------------
+
+By default the model allows only active users to authenticate. This can be
+customised by ``SOCIAL_AUTH_ACTIVE_USERS_FILTER`` setting which is passed as
+kwargs to the query set filter method.
+
+.. code-block:: python
+   :caption: Disable filtering for active users
+
+   SOCIAL_AUTH_ACTIVE_USERS_FILTER = {}
+
+.. code-block:: python
+   :caption: Use custom field to filter active users
+
+   SOCIAL_AUTH_ACTIVE_USERS_FILTER = {"deleted_account": False}
+
+
 
 JSON field support
 ------------------
@@ -286,6 +373,29 @@ If a valid backend was detected by ``strategy()`` decorator, it will be
 available at ``request.strategy.backend`` and ``process_exception()`` will
 use it to build a backend-dependent redirect URL but fallback to default if not
 defined.
+
+Backend-specific settings
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Both the ``LOGIN_ERROR_URL`` and ``RAISE_EXCEPTIONS`` settings can be configured
+on a per-backend basis. This allows you to customize error handling behavior for
+specific authentication backends.
+
+To define backend-specific error URLs, use the backend name in the setting::
+
+    SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'  # Default for all backends
+    SOCIAL_AUTH_FACEBOOK_LOGIN_ERROR_URL = '/facebook-error/'  # Specific to Facebook
+    SOCIAL_AUTH_GOOGLE_OAUTH2_LOGIN_ERROR_URL = '/google-error/'  # Specific to Google OAuth2
+
+Similarly, you can control exception raising on a per-backend basis::
+
+    SOCIAL_AUTH_RAISE_EXCEPTIONS = False  # Default for all backends
+    SOCIAL_AUTH_FACEBOOK_RAISE_EXCEPTIONS = True  # Raise exceptions only for Facebook
+
+This is particularly useful when you want different error handling strategies for
+different authentication providers, such as showing a custom error page for certain
+providers or raising exceptions for debugging specific backends while keeping
+others in production mode.
 
 Exception processing is disabled if any of this settings is defined with a
 ``True`` value::

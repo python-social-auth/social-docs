@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended",
+    "config:best-practices",
     ":dependencyDashboard",
     "helpers:pinGitHubActionDigests"
   ],
@@ -12,11 +12,22 @@
   "pre-commit": {
     "enabled": true
   },
+  "poetry": {
+    "enabled": false
+  },
+  "packageRules": [
+    {
+      "matchDatasources": [
+        "pypi"
+      ],
+      "rangeStrategy": "widen"
+    }
+  ],
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
-        "\\.pre-commit-config\\.yaml"
+      "managerFilePatterns": [
+        "/\\.pre-commit-config\\.yaml/"
       ],
       "matchStrings": [
         "(?<depName>[^'\" ]+)==(?<currentValue>[^'\" ,\\s]+)"
@@ -26,8 +37,8 @@
     },
     {
       "customType": "regex",
-      "fileMatch": [
-        "\\.pre-commit-config\\.yaml"
+      "managerFilePatterns": [
+        "/\\.pre-commit-config\\.yaml/"
       ],
       "matchStrings": [
         "(?<depName>[^'\" ]+)@(?<currentValue>[^'\" ,\\s]+)"

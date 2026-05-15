@@ -38,10 +38,8 @@ components are:
 Dependencies
 ------------
 
-Dependencies are properly defined in the requirements files; the
-``setup.py`` script will determine the environment where it's
-installed and sort between Python 2 or Python 3 packages if
-needed. There are some ``extras`` defined to install the corresponding
+Dependencies are properly defined in the requirements files.
+There are some ``extras`` defined to install the corresponding
 dependencies since they are required to build extensions that, unless
 used, are undesired.
 

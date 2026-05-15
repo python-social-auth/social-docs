@@ -28,14 +28,20 @@ User ID
 -------
 
 Seznam recommends the use of ``oauth_user_id`` as the user identifier instead
-of some immutable data as ``username`` or ``email`` because
-it can impose security risks if the user changes it.
+of mutable data such as ``username`` or ``email`` because using mutable identifiers
+can pose security risks if the user changes them.
+
 For that reason ``oauth_user_id`` is used by default, but for compatibility
-with the enterprise backed version, you can override this behavior by setting:
+with enterprise backend versions or other use cases, you can override this behavior
+by configuring the ID key via settings:
 
 .. code-block:: python
 
     SOCIAL_AUTH_SEZNAM_OAUTH2_ID_KEY = 'id'
+
+See the `Configurable User ID Key`_ documentation for more information about this feature.
+
+.. _Configurable User ID Key: ../configuration/settings.html#configurable-user-id-key
 
 .. _Seznam OAuth documentation: https://vyvojari.seznam.cz/oauth/doc?lang=en
 .. _Application management: https://vyvojari.seznam.cz/oauth/admin

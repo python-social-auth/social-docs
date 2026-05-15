@@ -53,6 +53,8 @@ Social backends
    apple
    appsfuel
    arcgis
+   auth0
+   auth0_openidconnect
    azuread
    battlenet
    beats
@@ -71,6 +73,7 @@ Social backends
    dailymotion
    digitalocean
    discogs
+   discord
    discourse
    disqus
    docker
@@ -97,7 +100,6 @@ Social backends
    google
    grafana
    instagram
-   itembase
    jawbone
    justgiving
    kakao
@@ -166,6 +168,7 @@ Social backends
    strava
    stripe
    taobao
+   telegram
    thisismyjam
    trello
    tripit

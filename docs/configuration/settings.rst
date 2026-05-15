@@ -178,9 +178,15 @@ during the auth process, usually used to show different dialog types (mobile
 version, etc).
 
 You can send extra parameters on auth process by defining settings per backend,
-example to request Facebook to show Mobile authorization page, define::
+example to request Facebook to re-authenticate the user, define::
 
-      SOCIAL_AUTH_FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'display': 'touch'}
+      SOCIAL_AUTH_FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'auth_type': 'reauthenticate'}
+
+.. note::
+    The ``display`` parameter (e.g., ``{'display': 'touch'}``) was deprecated in
+    Facebook Graph API v3.0+. Facebook now automatically detects mobile devices
+    based on the user agent. If you're using Graph API v3.0 or later, avoid using
+    the ``display`` parameter as it will cause authentication errors.
 
 For other providers, just define settings in the form::
 
@@ -190,6 +196,74 @@ Also, you can send extra parameters on request token process by defining
 settings in the same way explained above but with this other suffix::
 
       SOCIAL_AUTH_<uppercase backend name>_REQUEST_TOKEN_EXTRA_ARGUMENTS = {...}
+
+
+OAuth2 provider URLs override
+------------------------------
+
+By default, OAuth2 backends have hardcoded URLs for authorization and access token
+endpoints. However, these can be overridden via settings to support custom OAuth2
+providers or alternate deployments of the same provider (e.g., OpenHistoricalMap
+instead of OpenStreetMap, or self-hosted instances).
+
+``SOCIAL_AUTH_AUTHORIZATION_URL``
+    Override the authorization URL for OAuth2 backends globally or per-backend.
+    Example::
+
+      SOCIAL_AUTH_KEYCLOAK_AUTHORIZATION_URL = 'https://auth.example.com/auth/realms/myrealm/protocol/openid-connect/auth'
+
+``SOCIAL_AUTH_ACCESS_TOKEN_URL``
+    Override the access token URL for OAuth2 backends globally or per-backend.
+    Example::
+
+      SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL = 'https://auth.example.com/auth/realms/myrealm/protocol/openid-connect/token'
+
+``SOCIAL_AUTH_REVOKE_TOKEN_URL``
+    Override the token revocation URL for OAuth2 backends globally or per-backend.
+    Example::
+
+      SOCIAL_AUTH_GITHUB_REVOKE_TOKEN_URL = 'https://github.example.com/api/revoke'
+
+These settings allow you to use backends with custom deployments. For example,
+to use the OpenStreetMap backend with OpenHistoricalMap::
+
+    SOCIAL_AUTH_OPENSTREETMAP_AUTHORIZATION_URL = 'https://www.openhistoricalmap.org/oauth/authorize'
+    SOCIAL_AUTH_OPENSTREETMAP_ACCESS_TOKEN_URL = 'https://www.openhistoricalmap.org/oauth/access_token'
+
+Note that backend-specific settings (with the backend name) take precedence over
+generic settings, following the same pattern as other settings in this library.
+
+
+Configurable User ID Key
+-------------------------
+
+By default, each backend defines an ``ID_KEY`` class attribute that specifies which
+field in the provider's response should be used as the unique user identifier. This
+identifier is stored in the ``UserSocialAuth.uid`` field.
+
+However, some providers may return different user identifier fields depending on the
+API version, configuration, or deployment (e.g., enterprise vs. cloud versions). To
+support these scenarios, the ``ID_KEY`` can be configured per-backend via settings:
+
+``SOCIAL_AUTH_<BACKEND_NAME>_ID_KEY = 'field_name'``
+    Override the default ID key for a specific backend. The value should be the
+    name of the field in the provider's response that contains the unique user
+    identifier.
+
+Example: Configure Seznam backend to use ``id`` instead of the default ``oauth_user_id``::
+
+    SOCIAL_AUTH_SEZNAM_OAUTH2_ID_KEY = 'id'
+
+Example: Configure Keycloak backend to use ``email`` instead of the default ``sub``::
+
+    SOCIAL_AUTH_KEYCLOAK_ID_KEY = 'email'
+
+.. warning::
+    Changing the ``ID_KEY`` for an existing backend will affect how users are
+    identified. Existing users may not be able to log in if the identifier
+    changes. This setting should be configured before users start authenticating
+    with the backend, or a data migration should be performed to update existing
+    ``UserSocialAuth`` records.
 
 Basic information is requested to the different providers in order to create
 a coherent user instance (with first and last name, email and full name), this

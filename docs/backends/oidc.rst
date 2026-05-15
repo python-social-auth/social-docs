@@ -16,6 +16,25 @@ The remaining configuration will be auto-detected, by fetching::
 This class can be used standalone, but is also the base class for some other
 backends.
 
+IdP Setup
+---------
+
+To configure your OIDC Identity Provider for use with this backend:
+
+1. Create a new application/client in your IdP with type "Web Application"
+2. Set the **Redirect URI** (also called Callback URL) to::
+
+    https://your-domain.com/complete/oidc/
+
+   Replace ``your-domain.com`` with your actual application domain.
+
+3. Configure scopes to include at minimum: ``openid``, ``profile``, ``email``
+4. Note the generated **Client ID** and **Client Secret** for use in your Django settings
+5. Ensure your IdP exposes the OpenID Connect discovery endpoint at: ``https://your-idp-domain/.well-known/openid-configuration``
+
+.. note::
+   For development, you can use ``http://localhost:8000/complete/oidc/`` as the redirect URI.
+
 Authentication Request Parameters
 ---------------------------------
 
@@ -46,6 +65,54 @@ be overridden::
 
 This setting indicates that the username should be populated by the
 ``nickname`` claim instead.
+
+First Name
+----------
+
+The OIDC_ backend will check for a ``given_name`` key in the values
+returned by the server.  If the first name is under a different key, this can
+be overridden::
+
+    SOCIAL_AUTH_OIDC_FIRST_NAME_KEY = 'first_name'
+
+This setting indicates that the first name should be populated by the
+``first_name`` claim instead.
+
+Last Name
+---------
+
+The OIDC_ backend will check for a ``family_name`` key in the values
+returned by the server.  If the last name is under a different key, this can
+be overridden::
+
+    SOCIAL_AUTH_OIDC_LAST_NAME_KEY = 'last_name'
+
+This setting indicates that the last name should be populated by the
+``last_name`` claim instead.
+
+Full Name
+---------
+
+The OIDC_ backend will check for a ``name`` key in the values
+returned by the server.  If the full name is under a different key, this can
+be overridden::
+
+    SOCIAL_AUTH_OIDC_FULLNAME_KEY = 'full_name'
+
+This setting indicates that the full name should be populated by the
+``full_name`` claim instead.
+
+Email
+-----
+
+The OIDC_ backend will check for a ``email`` key in the values
+returned by the server.  If the email is under a different key, this can
+be overridden::
+
+    SOCIAL_AUTH_OIDC_EMAIL_KEY = 'mail'
+
+This setting indicates that the email should be populated by the
+``mail`` claim instead.
 
 Scopes
 ------

@@ -1,6 +1,12 @@
 Facebook
 ========
 
+Python Social Auth provides multiple backends for Facebook authentication:
+
+- **FacebookOAuth2** (``social_core.backends.facebook.FacebookOAuth2``) - Standard Facebook OAuth2 authentication
+- **FacebookAppOAuth2** (``social_core.backends.facebook.FacebookAppOAuth2``) - For Facebook Canvas Applications
+- **FacebookLimitedLogin** (``social_core.backends.facebook_limited.FacebookLimitedLogin``) - For Facebook Limited Login (iOS SDK)
+
 OAuth2
 ------
 
@@ -11,6 +17,14 @@ development resources`_:
   ``localhost`` as ``App Domains`` and ``Site URL`` since Facebook won't allow
   them. Use a placeholder like ``myapp.com`` and define that domain in your
   ``/etc/hosts`` or similar file.
+
+- Add the Facebook OAuth2 backend to your ``AUTHENTICATION_BACKENDS`` setting::
+
+    AUTHENTICATION_BACKENDS = (
+        ...
+        'social_core.backends.facebook.FacebookOAuth2',
+        ...
+    )
 
 - fill ``App Id`` and ``App Secret`` values in values::
 
@@ -36,10 +50,22 @@ If you define a redirect URL in Facebook setup page, be sure to not define
 http://127.0.0.1:8000 or http://localhost:8000 because it won't work when
 testing. Instead I define http://myapp.com and setup a mapping on ``/etc/hosts``.
 
-Currently the backend uses Facebook API version `2.9`, this value can
-be overridden by the following setting if needed::
+Currently the backend uses Facebook API version `18.0` by default, but this can
+be overridden by the following setting::
 
-    SOCIAL_AUTH_FACEBOOK_API_VERSION = '2.10'
+    SOCIAL_AUTH_FACEBOOK_API_VERSION = '19.0'
+
+.. note::
+    If you're using Facebook Graph API v3.0 or later, be aware that several
+    parameters have been deprecated:
+
+    - The ``display`` parameter (e.g., ``{'display': 'touch'}``) is no longer
+      supported. Facebook now automatically detects mobile devices based on
+      the user agent.
+    - Make sure to check Facebook's `Graph API Changelog`_ for other deprecated
+      features when upgrading to newer API versions.
+
+.. _Graph API Changelog: https://developers.facebook.com/docs/graph-api/changelog
 
 
 Canvas Application
@@ -51,6 +77,14 @@ If you need to perform authentication from Facebook Canvas application:
 
 - In Facebook application settings specify your canvas URL ``mysite.com/fb``
   (current default)
+
+- Add the Facebook Canvas Application backend to your ``AUTHENTICATION_BACKENDS`` setting::
+
+    AUTHENTICATION_BACKENDS = (
+        ...
+        'social_core.backends.facebook.FacebookAppOAuth2',
+        ...
+    )
 
 - Setup your Python Social Auth settings and your application namespace::
 

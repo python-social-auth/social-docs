@@ -134,7 +134,7 @@ paths aren't valid anymore. Some solutions to this problem are:
             if session_dict['_auth_user_backend'].startswith('social_auth'):
                 session_dict['_auth_user_backend'] = BACKENDS[session_dict['_auth_user_backend']]
                 new_sess = Session.objects.save(sess.session_key, session_dict, sess.expire_date)
-                print 'New session saved {}'.format(new_sess.pk)
+                print('New session saved {}'.format(new_sess.pk))
 
 
 .. _django-social-auth: https://github.com/omab/django-social-auth
