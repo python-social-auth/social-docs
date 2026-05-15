@@ -51,13 +51,11 @@ Social backends
    angel
    aol
    apple
-   appsfuel
    arcgis
    auth0
    auth0_openidconnect
    azuread
    battlenet
-   beats
    behance
    belgium_eid
    bitbucket
@@ -65,8 +63,6 @@ Social backends
    box
    bungie
    cas
-   changetip
-   clef
    coinbase
    cognito
    coursera
@@ -81,7 +77,6 @@ Social backends
    dribbble
    drip
    dropbox
-   edmodo
    etsy
    eventbrite
    eveonline
@@ -100,7 +95,6 @@ Social backends
    google
    grafana
    instagram
-   jawbone
    justgiving
    kakao
    keycloak
@@ -124,7 +118,6 @@ Social backends
    microsoftgraph
    mineid
    mixcloud
-   moves
    naszaklasa
    nationbuilder
    naver
@@ -139,7 +132,6 @@ Social backends
    orcid
    osso
    patreon
-   persona
    pinterest
    pixelpin
    pocket
@@ -148,7 +140,6 @@ Social backends
    qq
    quizlet
    rdio
-   readability
    reddit
    runkeeper
    salesforce
@@ -187,7 +178,6 @@ Social backends
    vk
    weibo
    withings
-   wunderlist
    xing
    yahoo
    yammer
