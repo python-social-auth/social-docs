@@ -35,7 +35,6 @@ Several supported service by simple backends definition (easy to add new ones
 or extend current one):
 
 * Angel_ OAuth2
-* Beats_ OAuth2
 * Behance_ OAuth2
 * Bitbucket_ OAuth1
 * Box_ OAuth2
@@ -51,7 +50,6 @@ or extend current one):
 * Flat_ OAuth2
 * Flickr_ OAuth1
 * Foursquare_ OAuth2
-* `Google App Engine`_ Auth
 * GitHub_ OAuth2
 * Google_ OAuth1, OAuth2 and OpenID
 * Instagram_ OAuth2
@@ -63,7 +61,6 @@ or extend current one):
 * Mailru_ OAuth2
 * MineID_ OAuth2
 * Mixcloud_ OAuth2
-* `Mozilla Persona`_
 * NaszaKlasa_ OAuth2
 * `NGPVAN ActionID`_ OpenID
 * Odnoklassniki_ OAuth2 and Application Auth
@@ -71,7 +68,6 @@ or extend current one):
 * Podio_ OAuth2
 * Pinterest_ OAuth2
 * Rdio_ OAuth1 and OAuth2
-* Readability_ OAuth1
 * Shopify_ OAuth2
 * Skyrock_ OAuth1
 * Soundcloud_ OAuth2
@@ -90,7 +86,6 @@ or extend current one):
 * Vimeo_ OAuth1
 * VK.com_ OpenAPI, OAuth2 and OAuth2 for Applications
 * Weibo_ OAuth2
-* Wunderlist_ OAuth2
 * Xing_ OAuth1
 * Yahoo_ OpenID and OAuth1
 * Yammer_ OAuth2
@@ -122,7 +117,6 @@ section.
 .. _OAuth: http://oauth.net/
 .. _myOpenID: https://www.myopenid.com/
 .. _Angel: https://angel.co
-.. _Beats: https://www.beats.com
 .. _Behance: https://www.behance.net
 .. _Bitbucket: https://bitbucket.org
 .. _Box: https://www.box.com
@@ -138,7 +132,6 @@ section.
 .. _Flat: https://flat.io
 .. _Flickr: http://www.flickr.com
 .. _Foursquare: https://foursquare.com
-.. _Google App Engine: https://developers.google.com/appengine/
 .. _GitHub: https://github.com
 .. _Google: http://google.com
 .. _Instagram: https://instagram.com
@@ -150,7 +143,6 @@ section.
 .. _Mailru: https://mail.ru
 .. _MineID: https://www.mineid.org
 .. _Mixcloud: https://www.mixcloud.com
-.. _Mozilla Persona: http://www.mozilla.org/persona/
 .. _NaszaKlasa: https://developers.nk.pl/
 .. _NGPVAN ActionID: http://developers.ngpvan.com/action-id
 .. _Odnoklassniki: http://www.odnoklassniki.ru
@@ -168,13 +160,11 @@ section.
 .. _Twitter: http://twitter.com
 .. _VK.com: http://vk.com
 .. _Weibo: http://weibo.com
-.. _Wunderlist: http://wunderlist.com
 .. _Xing: https://www.xing.com
 .. _Yahoo: http://yahoo.com
 .. _Yammer: https://www.yammer.com
 .. _Yandex: https://yandex.ru
 .. _Pinterest: https://www.pinterest.com
-.. _Readability: http://www.readability.com/
 .. _Stackoverflow: http://stackoverflow.com/
 .. _Steam: http://steamcommunity.com/
 .. _Rdio: https://www.rdio.com
