@@ -49,11 +49,10 @@ Register the backends you plan to use, on Django framework use the usual
 
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         'social_core.backends.open_id.OpenIdAuth',
-        'social_core.backends.google.GoogleOpenId',
         'social_core.backends.google.GoogleOAuth2',
         'social_core.backends.google.GoogleOAuth',
         'social_core.backends.twitter.TwitterOAuth',
-        'social_core.backends.yahoo.YahooOpenId',
+        'social_core.backends.yahoo.YahooOAuth2',
         ...
     )
 
@@ -225,10 +224,10 @@ instead of OpenStreetMap, or self-hosted instances).
       SOCIAL_AUTH_GITHUB_REVOKE_TOKEN_URL = 'https://github.example.com/api/revoke'
 
 These settings allow you to use backends with custom deployments. For example,
-to use the OpenStreetMap backend with OpenHistoricalMap::
+to use the OpenStreetMap OAuth2 backend with OpenHistoricalMap::
 
-    SOCIAL_AUTH_OPENSTREETMAP_AUTHORIZATION_URL = 'https://www.openhistoricalmap.org/oauth/authorize'
-    SOCIAL_AUTH_OPENSTREETMAP_ACCESS_TOKEN_URL = 'https://www.openhistoricalmap.org/oauth/access_token'
+    SOCIAL_AUTH_OPENSTREETMAP_OAUTH2_AUTHORIZATION_URL = 'https://www.openhistoricalmap.org/oauth2/authorize'
+    SOCIAL_AUTH_OPENSTREETMAP_OAUTH2_ACCESS_TOKEN_URL = 'https://www.openhistoricalmap.org/oauth2/token'
 
 Note that backend-specific settings (with the backend name) take precedence over
 generic settings, following the same pattern as other settings in this library.

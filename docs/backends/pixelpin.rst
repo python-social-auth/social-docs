@@ -1,13 +1,13 @@
 PixelPin
 ========
 
-PixelPin only supports OAuth2.
+PixelPin supports OpenID Connect.
 
-PixelPin OAuth2
----------------
+PixelPin OpenID Connect
+-----------------------
 
 Developer documentation for PixelPin can be found at
-http://developer.pixelpin.co.uk/. To setup OAuth2 do the following:
+http://developer.pixelpin.co.uk/. To setup OpenID Connect do the following:
 
 - Register a new developer account at `PixelPin Developers`_.
 
@@ -25,7 +25,7 @@ http://developer.pixelpin.co.uk/. To setup OAuth2 do the following:
       SOCIAL_AUTH_PIXELPIN_OAUTH2_KEY = ''
       SOCIAL_AUTH_PIXELPIN_OAUTH2_SECRET = ''
 
-- Add ``'social_core.backends.pixelpin.PixelPinOAuth2'`` into your
+- Add ``'social_core.backends.pixelpin.PixelPinOpenIDConnect'`` into your
   ``SOCIAL_AUTH_AUTHENTICATION_BACKENDS``.
 
 .. _PixelPin homepage: http://pixelpin.co.uk/
