@@ -1,6 +1,61 @@
 NFDI (OpenID Connect)
 =====================
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``helmholtz``
+     - ``social_core.backends.nfdi.NFDIOpenIdConnect``
+   * - ``xcs``
+     - ``social_core.backends.nfdi.XcsOpenIdConnect``
+   * - ``textplus``
+     - ``social_core.backends.nfdi.TextplusOpenIdConnect``
+   * - ``mardi``
+     - ``social_core.backends.nfdi.MardiOpenIdConnect``
+   * - ``objects``
+     - ``social_core.backends.nfdi.ObjectsOpenIdConnect``
+   * - ``culture``
+     - ``social_core.backends.nfdi.CultureOpenIdConnect``
+   * - ``cat``
+     - ``social_core.backends.nfdi.CatOpenIdConnect``
+   * - ``chem``
+     - ``social_core.backends.nfdi.ChemOpenIdConnect``
+   * - ``datascience``
+     - ``social_core.backends.nfdi.DatascienceOpenIdConnect``
+   * - ``energy``
+     - ``social_core.backends.nfdi.EnergyOpenIdConnect``
+   * - ``ing``
+     - ``social_core.backends.nfdi.IngOpenIdConnect``
+   * - ``matWerk``
+     - ``social_core.backends.nfdi.MatWerkOpenIdConnect``
+   * - ``daphne``
+     - ``social_core.backends.nfdi.DaphneOpenIdConnect``
+   * - ``fairmat``
+     - ``social_core.backends.nfdi.FairmatOpenIdConnect``
+   * - ``immuno``
+     - ``social_core.backends.nfdi.ImmunoOpenIdConnect``
+   * - ``punch``
+     - ``social_core.backends.nfdi.PunchOpenIdConnect``
+   * - ``helmholtz``
+     - ``social_core.backends.nfdi.HelmholtzOpenIdConnect``
+   * - ``infraproxy-staging``
+     - ``social_core.backends.nfdi.InfraproxyStagingOpenIdConnect``
+   * - ``infraproxy``
+     - ``social_core.backends.nfdi.InfraproxyOpenIdConnect``
+   * - ``eduid``
+     - ``social_core.backends.nfdi.EduidOpenIdConnect``
+   * - ``eduid-staging``
+     - ``social_core.backends.nfdi.EduidStagingOpenIdConnect``
+
 The NFDI_ backend allows authentication against all OIDC providers of `NFDI`
 (German National Research Data Infrastructure) and also for the Helmholtz
 AAI. These backends provides their endpoints, as well as the

@@ -1,6 +1,21 @@
 OpenID
 ======
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``openid``
+     - ``social_core.backends.open_id.OpenIdAuth``
+
 OpenID_ support is simpler to implement than OAuth_. Google and Yahoo
 providers are supported by default, others are supported by POST method
 providing endpoint URL.

@@ -1,6 +1,21 @@
 Twitter API v2
 ==============
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``twitter-oauth2``
+     - ``social_core.backends.twitter_oauth2.TwitterOAuth2``
+
 Twitter offers per application keys named ``Client ID`` and ``Client Secret``.
 To enable Twitter these two keys are needed. Further documentation at
 `Twitter development resources`_:

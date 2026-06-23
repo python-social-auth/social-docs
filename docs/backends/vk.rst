@@ -1,6 +1,25 @@
 VK.com (former Vkontakte)
 =========================
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``vk-openapi``
+     - ``social_core.backends.vk.VKontakteOpenAPI``
+   * - ``vk-oauth2``
+     - ``social_core.backends.vk.VKOAuth2``
+   * - ``vk-app``
+     - ``social_core.backends.vk.VKAppOAuth2``
+
 VK.com (former Vkontakte) auth service support.
 
 OAuth2

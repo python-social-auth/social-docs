@@ -1,6 +1,21 @@
 Mixcloud OAuth2
 ===============
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``mixcloud``
+     - ``social_core.backends.mixcloud.MixcloudOAuth2``
+
 The `Mixcloud API`_ offers support for authorization. To this backend support:
 
 - Register a new application at `Mixcloud Developers`_

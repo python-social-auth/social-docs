@@ -1,6 +1,21 @@
 Stripe
 ======
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``stripe``
+     - ``social_core.backends.stripe.StripeOAuth2``
+
 Stripe uses OAuth2 for its authorization service. To setup Stripe backend:
 
 - Register a new application at `Stripe App Creation`_, and

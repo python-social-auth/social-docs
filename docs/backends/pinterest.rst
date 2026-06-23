@@ -1,6 +1,21 @@
 Pinterest
 =========
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``pinterest``
+     - ``social_core.backends.pinterest.PinterestOAuth2``
+
 Pinterest implemented OAuth2 protocol for their authentication mechanism.
 To enable ``python-social-auth`` support follow this steps:
 

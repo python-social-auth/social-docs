@@ -1,6 +1,21 @@
 Bitbucket
 =========
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``bitbucket-oauth2``
+     - ``social_core.backends.bitbucket.BitbucketOAuth2``
+
 Bitbucket supports both OAuth2 and OAuth1 logins.
 
 1. Register a new OAuth Consumer by following the instructions in the

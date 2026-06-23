@@ -1,6 +1,21 @@
 OpenStreetMap OAuth 2
 =====================
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``openstreetmap-oauth2``
+     - ``social_core.backends.openstreetmap_oauth2.OpenStreetMapOAuth2``
+
 OpenStreetMap supports the OAuth 2.0 protocol. It supports two types of OAuth 2.0 flows:
 
 1. Authorization code with `Proof Key for Code Exchange (PKCE)`_

@@ -1,6 +1,21 @@
 Bitbucket Data Center OAuth2
 =============================
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``bitbucket-datacenter-oauth2``
+     - ``social_core.backends.bitbucket_datacenter.BitbucketDataCenterOAuth2``
+
 Bitbucket Data Center (previously Bitbucket Server) supports the `OAuth 2.0`_ protocol. It supports two types of OAuth 2.0 flows:
 
 1. Authorization code with `Proof Key for Code Exchange (PKCE)`_

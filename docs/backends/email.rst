@@ -1,6 +1,21 @@
 Email Auth
 ==========
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``email``
+     - ``social_core.backends.email.EmailAuth``
+
 python-social-auth_ comes with an EmailAuth_ backend which comes handy when
 your site uses requires the plain old email and password authentication
 mechanism.

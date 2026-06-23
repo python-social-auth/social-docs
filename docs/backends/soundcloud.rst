@@ -1,6 +1,21 @@
 SoundCloud
 ==========
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``soundcloud``
+     - ``social_core.backends.soundcloud.SoundcloudOAuth2``
+
 SoundCloud uses OAuth2 for its auth mechanism.
 
 - Register a new application at `SoundCloud App Registration`_, set your

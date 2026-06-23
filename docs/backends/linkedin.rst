@@ -1,6 +1,25 @@
 LinkedIn
 ========
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``linkedin-openidconnect``
+     - ``social_core.backends.linkedin.LinkedinOpenIdConnect``
+   * - ``linkedin-oauth2``
+     - ``social_core.backends.linkedin.LinkedinOAuth2``
+   * - ``linkedin-mobile-oauth2``
+     - ``social_core.backends.linkedin.LinkedinMobileOAuth2``
+
 Sign In with LinkedIn only support OpenID Connect since August 1, 2023. The previous
 OAuth2 has been deprecated. See `LinkedIn OpenID Connect`_ for more details.
 

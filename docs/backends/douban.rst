@@ -1,6 +1,21 @@
 Douban
 ======
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``douban-oauth2``
+     - ``social_core.backends.douban.DoubanOAuth2``
+
 Douban supports OAuth2.
 
 Recently Douban launched their OAuth2 support and the new developer site, you

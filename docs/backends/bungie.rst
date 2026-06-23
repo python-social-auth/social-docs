@@ -1,6 +1,21 @@
 Bungie
 ======
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``bungie``
+     - ``social_core.backends.bungie.BungieOAuth2``
+
 Bungie uses OAuth 2.0 for authentication.
 
 - Bungie does not return username, email or name information. They

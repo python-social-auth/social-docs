@@ -1,6 +1,21 @@
 Shopify
 =======
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``shopify``
+     - ``social_core.backends.shopify.ShopifyOAuth2``
+
 Shopify uses OAuth 2 for authentication.
 
 To use this backend, you must:

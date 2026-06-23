@@ -1,6 +1,21 @@
 OIDC (OpenID Connect)
 =====================
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``oidc``
+     - ``social_core.backends.open_id_connect.OpenIdConnectAuth``
+
 The OIDC_ backend allows authentication against a generic OIDC provider.
 The backend class is `OpenIdConnectAuth` with name `oidc`.  A minimum
 configuration is::

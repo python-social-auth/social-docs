@@ -1,6 +1,21 @@
 Coursera
 ============
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``coursera``
+     - ``social_core.backends.coursera.CourseraOAuth2``
+
 Coursera uses a variant of OAuth2 authentication. The details of the API
 can be found at `OAuth2-based APIs - Coursera Technology`_.
 

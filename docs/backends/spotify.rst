@@ -1,6 +1,21 @@
 Spotify
 =======
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``spotify``
+     - ``social_core.backends.spotify.SpotifyOAuth2``
+
 Spotify supports OAuth 2.
 
 - Register a new application at `Spotify Web API`_, and follow the

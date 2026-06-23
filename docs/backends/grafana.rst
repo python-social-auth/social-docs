@@ -1,6 +1,21 @@
 Grafana
 =======
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``grafana``
+     - ``social_core.backends.grafana.GrafanaOAuth2``
+
 Grafana works similar to Facebook (OAuth).
 
 - On your project settings, you should add Grafana on your ``AUTHENTICATION_BACKENDS``::

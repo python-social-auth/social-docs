@@ -1,6 +1,23 @@
 Okta
 ====
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``okta-oauth2``
+     - ``social_core.backends.okta.OktaOAuth2``
+   * - ``okta-openidconnect``
+     - ``social_core.backends.okta_openidconnect.OktaOpenIdConnect``
+
 This section describes how to setup the different services provided by Okta.
 
 Okta OAuth2

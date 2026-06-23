@@ -1,5 +1,24 @@
 .. _github-enterprise:
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``github-enterprise``
+     - ``social_core.backends.github_enterprise.GithubEnterpriseOAuth2``
+   * - ``github-enterprise-org``
+     - ``social_core.backends.github_enterprise.GithubEnterpriseOrganizationOAuth2``
+   * - ``github-enterprise-team``
+     - ``social_core.backends.github_enterprise.GithubEnterpriseTeamOAuth2``
+
 GitHub Enterprise
 =================
 

@@ -1,6 +1,21 @@
 Strava
 =========
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``strava``
+     - ``social_core.backends.strava.StravaOAuth``
+
 Strava uses OAuth v2 for Authentication.
 
 - Register a new application at the `Strava API`_, and

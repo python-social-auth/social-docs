@@ -1,6 +1,21 @@
 Uber
 ====
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``uber``
+     - ``social_core.backends.uber.UberOAuth2``
+
 Uber uses OAuth v2 for Authentication.
 
 - Register a new application at the `Uber API`_, and follow the instructions below

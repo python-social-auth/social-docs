@@ -1,6 +1,21 @@
 Mendeley
 ========
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``mendeley-oauth2``
+     - ``social_core.backends.mendeley.MendeleyOAuth2``
+
 Mendeley supports OAuth2.
 
 In order to support OAuth2:

@@ -1,6 +1,21 @@
 Auth0 OpenID Connect
 =======================
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``auth0_openidconnect``
+     - ``social_core.backends.auth0_openidconnect.Auth0OpenIdConnectAuth``
+
 Auth0 OpenID Connect (OIDC) implementation. Separate from
 the previous ``Auth0OAuth2`` backend, as it builds on the base
 OIDC backend.

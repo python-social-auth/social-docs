@@ -1,6 +1,21 @@
 Hashicorp Vault
 ===============
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``vault``
+     - ``social_core.backends.vault.VaultOpenIdConnect``
+
 The Vault_ backend allows authentication against the OIDC provider_ in
 Hashicorp Vault_ version 1.9 and later.
 

@@ -1,6 +1,23 @@
 ORCID
 =====
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``orcid``
+     - ``social_core.backends.orcid.ORCIDOAuth2``
+   * - ``orcid-sandbox``
+     - ``social_core.backends.orcid.ORCIDOAuth2Sandbox``
+
 ORCID_ uses OAuth 2 for authentication.
 
 - Register an ORCID account, go to `Developer tools`_, enable the public API,

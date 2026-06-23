@@ -1,6 +1,23 @@
 Twitch
 ======
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``twitch``
+     - ``social_core.backends.twitch.TwitchOpenIdConnect``
+   * - ``twitch``
+     - ``social_core.backends.twitch.TwitchOAuth2``
+
 Twitch works similar to Facebook (OAuth).
 
 - Register a new application in the `connections tab`_ of your Twitch settings

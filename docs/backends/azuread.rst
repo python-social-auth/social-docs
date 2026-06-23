@@ -1,6 +1,29 @@
 Microsoft Azure Active Directory
 ================================
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``azuread-oauth2``
+     - ``social_core.backends.azuread.AzureADOAuth2``
+   * - ``azuread-oauth2-v2``
+     - ``social_core.backends.azuread.AzureADOAuth2V2``
+   * - ``azuread-tenant-oauth2``
+     - ``social_core.backends.azuread_tenant.AzureADTenantOAuth2``
+   * - ``azuread-v2-tenant-oauth2``
+     - ``social_core.backends.azuread_tenant.AzureADV2TenantOAuth2``
+   * - ``azuread-b2c-oauth2``
+     - ``social_core.backends.azuread_b2c.AzureADB2COAuth2``
+
 IdP Setup
 ---------
 

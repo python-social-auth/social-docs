@@ -1,6 +1,23 @@
 Fedora
 ======
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``fedora-oidc``
+     - ``social_core.backends.fedora.FedoraOpenIdConnect``
+   * - ``fedora``
+     - ``social_core.backends.fedora.FedoraOpenId``
+
 Fedora's OpenID Connect (OIDC) backend requires the following minimum
 configuration::
 

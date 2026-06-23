@@ -1,6 +1,21 @@
 MailChimp
 =========
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``mailchimp``
+     - ``social_core.backends.mailchimp.MailChimpOAuth2``
+
 MailChimp uses OAuth v2 for Authentication, check the `official docs`_.
 
 - Create an app by filling out the form here: `Add App`_
