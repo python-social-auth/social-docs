@@ -1,6 +1,21 @@
 Lyft
 ====
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``lyft``
+     - ``social_core.backends.lyft.LyftOAuth2``
+
 Lyft implements OAuth2 as its authorization service. To setup a Lyft backend:
 
 1. Register a new application via the `Lyft Developer Portal`_.

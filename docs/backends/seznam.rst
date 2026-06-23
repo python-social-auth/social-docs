@@ -1,6 +1,21 @@
 Seznam
 =========
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``seznam-oauth2``
+     - ``social_core.backends.seznam.SeznamOAuth2``
+
 Seznam supports OAuth2 for developers to authenticate users for their apps.
 The documentation for the API can be found at `Seznam OAuth documentation`_.
 This backend also provides additional configuration options to support

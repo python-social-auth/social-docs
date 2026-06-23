@@ -1,6 +1,21 @@
 Auth0
 =====
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``auth0``
+     - ``social_core.backends.auth0.Auth0OAuth2``
+
 Auth0 OAuth2
 ------------
 

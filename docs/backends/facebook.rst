@@ -1,6 +1,23 @@
 Facebook
 ========
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``facebook``
+     - ``social_core.backends.facebook.FacebookOAuth2``
+   * - ``facebook-app``
+     - ``social_core.backends.facebook.FacebookAppOAuth2``
+
 Python Social Auth provides multiple backends for Facebook authentication:
 
 - **FacebookOAuth2** (``social_core.backends.facebook.FacebookOAuth2``) - Standard Facebook OAuth2 authentication

@@ -1,6 +1,21 @@
 Skyrock
 =======
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``skyrock``
+     - ``social_core.backends.skyrock.SkyrockOAuth``
+
 OAuth based Skyrock Connect.
 
 Skyrock offers per application keys named ``Consumer Key`` and ``Consumer

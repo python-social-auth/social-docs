@@ -1,6 +1,21 @@
 Zotero
 ======
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``zotero``
+     - ``social_core.backends.zotero.ZoteroOAuth``
+
 Zotero implements OAuth1 as their authentication mechanism for their Web API v3.
 
 

@@ -1,6 +1,21 @@
 Discogs
 =======
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``discogs``
+     - ``social_core.backends.discogs.DiscogsOAuth1``
+
 Discogs uses OAuth v1 for Authentication.
 
 - Register a new application int the `Discogs API settings <_discogs_settings>`_, and

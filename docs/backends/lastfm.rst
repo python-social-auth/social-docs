@@ -1,6 +1,21 @@
 Last.fm
 =======
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``lastfm``
+     - ``social_core.backends.lastfm.LastFmAuth``
+
 Last.fm uses a similar authentication process than OAuth2 but it's not. In
 order to enable the support for it just:
 

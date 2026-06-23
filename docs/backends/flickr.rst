@@ -1,6 +1,21 @@
 Flickr
 ======
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``flickr``
+     - ``social_core.backends.flickr.FlickrOAuth``
+
 Flickr uses OAuth v1.0 for authentication.
 
 - Register a new application at the `Flickr App Garden`_, and

@@ -1,6 +1,23 @@
 Vimeo
 =====
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``vimeo``
+     - ``social_core.backends.vimeo.VimeoOAuth1``
+   * - ``vimeo-oauth2``
+     - ``social_core.backends.vimeo.VimeoOAuth2``
+
 Vimeo uses OAuth1 to grant access to their API. In order to get the backend
 running follow:
 

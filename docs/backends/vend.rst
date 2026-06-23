@@ -1,6 +1,21 @@
 Vend
 ====
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``vend``
+     - ``social_core.backends.vend.VendOAuth2``
+
 Vend supports OAuth 2.
 
 - Register a new application at `Vend Developers Portal`_

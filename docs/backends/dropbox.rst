@@ -1,6 +1,21 @@
 Dropbox
 =======
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``dropbox-oauth2``
+     - ``social_core.backends.dropbox.DropboxOAuth2V2``
+
 Dropbox supports OAuth2.
 
 - Register a new application at `Dropbox Developers`_.

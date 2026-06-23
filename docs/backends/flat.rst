@@ -1,6 +1,21 @@
 Flat
 ====
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``flat``
+     - ``social_core.backends.flat.FlatOAuth2``
+
 `Flat`_ uses OAuth2. In order to enable the backend follow:
 
 - On your project settings, you should add Flat on your

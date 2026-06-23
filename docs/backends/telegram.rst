@@ -1,6 +1,21 @@
 Telegram
 ========
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``telegram``
+     - ``social_core.backends.telegram.TelegramAuth``
+
 Telegram uses a widget-based authentication method for login.
 
 - Create a bot using `BotFather`_ on Telegram to get a bot token.

@@ -1,6 +1,21 @@
 GitLab
 ======
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``gitlab``
+     - ``social_core.backends.gitlab.GitLabOAuth2``
+
 GitLab supports OAuth2 protocol.
 
 - Register a new application at `GitLab Applications`_.

@@ -1,6 +1,25 @@
 Google
 ======
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``google-oauth2``
+     - ``social_core.backends.google.GoogleOAuth2``
+   * - ``google-oauth``
+     - ``social_core.backends.google.GoogleOAuth``
+   * - ``google-onetap``
+     - ``social_core.backends.google_onetap.GoogleOneTap``
+
 This section describes how to setup the different services provided by Google.
 
 Google OAuth

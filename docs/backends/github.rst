@@ -1,6 +1,27 @@
 GitHub
 ======
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``github``
+     - ``social_core.backends.github.GithubOAuth2``
+   * - ``github-org``
+     - ``social_core.backends.github.GithubOrganizationOAuth2``
+   * - ``github-team``
+     - ``social_core.backends.github.GithubTeamOAuth2``
+   * - ``github-app``
+     - ``social_core.backends.github.GithubAppAuth``
+
 GitHub works similar to Facebook (OAuth).
 
 - On your project settings, you should add Github on your ``AUTHENTICATION_BACKENDS``::

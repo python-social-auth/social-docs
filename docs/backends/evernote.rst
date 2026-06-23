@@ -1,6 +1,23 @@
 Evernote OAuth
 ==============
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``evernote``
+     - ``social_core.backends.evernote.EvernoteOAuth``
+   * - ``evernote-sandbox``
+     - ``social_core.backends.evernote.EvernoteSandboxOAuth``
+
 Evernote OAuth 1.0 for its authentication workflow.
 
 - Register a new application at `Evernote API Key form`_.

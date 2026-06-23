@@ -1,6 +1,21 @@
 Twilio
 ======
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``twilio``
+     - ``social_core.backends.twilio.TwilioAuth``
+
 - Register a new application at `Twilio Connect Api`_
 
 - Fill ``SOCIAL_AUTH_TWILIO_KEY`` and ``SOCIAL_AUTH_TWILIO_SECRET`` values in

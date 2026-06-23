@@ -1,6 +1,21 @@
 EVE Online Single Sign-On (SSO)
 ===============================
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``eveonline``
+     - ``social_core.backends.eveonline.EVEOnlineOAuth2``
+
 The EVE Single Sign-On (SSO) works similar to GitHub (OAuth2).
 
 - Register a new application at `EVE Developers`_, set the callback URL to

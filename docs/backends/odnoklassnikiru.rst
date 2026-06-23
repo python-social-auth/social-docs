@@ -1,6 +1,23 @@
 Odnoklassniki.ru
 ================
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``odnoklassniki-oauth2``
+     - ``social_core.backends.odnoklassniki.OdnoklassnikiOAuth2``
+   * - ``odnoklassniki-app``
+     - ``social_core.backends.odnoklassniki.OdnoklassnikiApp``
+
 There are two options with Odnoklassniki: either you use OAuth2 workflow to
 authenticate odnoklassniki users at external site, or you authenticate users
 within your IFrame application.

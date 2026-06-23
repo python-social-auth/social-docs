@@ -1,6 +1,21 @@
 Dribbble
 ========
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``dribbble``
+     - ``social_core.backends.dribbble.DribbbleOAuth2``
+
 Dribbble
 
 - Register a new application at Dribbble_, set the callback URL

@@ -1,6 +1,21 @@
 Eventbrite OAuth
 ================
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``eventbrite``
+     - ``social_core.backends.eventbrite.EventbriteOAuth2``
+
 Eventbrite OAuth 2.0 for its authentication workflow.
 
 - Register a new application at `Account Settings` in `App Management`_.

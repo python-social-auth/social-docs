@@ -1,6 +1,23 @@
 Fitbit
 ======
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``fitbit``
+     - ``social_core.backends.fitbit.FitbitOAuth1``
+   * - ``fitbit``
+     - ``social_core.backends.fitbit.FitbitOAuth2``
+
 Fitbit supports both OAuth 2.0 and OAuth 1.0a logins. OAuth 2 is
 preferred for new integrations, as OAuth 1.0a does not support getting
 heartrate or location and will be deprecated in the future.

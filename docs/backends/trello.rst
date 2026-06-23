@@ -1,6 +1,21 @@
 Trello
 ======
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``trello``
+     - ``social_core.backends.trello.TrelloOAuth``
+
 Trello provides OAuth1 support for their authentication process.
 
 In order to enable it, follow:

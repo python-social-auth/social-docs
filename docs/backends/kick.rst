@@ -1,6 +1,21 @@
 Kick
 ====
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``kick``
+     - ``social_core.backends.kick.KickOAuth2``
+
 Kick works similar to Facebook (OAuth) but with Oauth2.1.
 
 - Register a new application in the `developer tab`_ of your Kick settings

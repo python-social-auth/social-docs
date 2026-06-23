@@ -1,6 +1,21 @@
 MediaWiki OAuth1 backend
 ========================
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``mediawiki``
+     - ``social_core.backends.mediawiki.MediaWiki``
+
 Usage
 -----
 

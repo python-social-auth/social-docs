@@ -1,6 +1,21 @@
 Box.net
 =======
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``box``
+     - ``social_core.backends.box.BoxOAuth2``
+
 Box works similar to Facebook (OAuth2).
 
 - Register an application at `Manage Box Applications`_

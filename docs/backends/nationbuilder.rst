@@ -1,6 +1,21 @@
 NationBuilder
 =============
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``nationbuilder``
+     - ``social_core.backends.nationbuilder.NationBuilderOAuth2``
+
 `NationBuilder supports OAuth2`_ as their authentication mechanism. Follow these
 steps in order to use it:
 

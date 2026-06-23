@@ -1,6 +1,21 @@
 Keycloak - Open Source Red Hat SSO
 ==================================
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``keycloak``
+     - ``social_core.backends.keycloak.KeycloakOAuth2``
+
 Keycloak is an open source IAM and SSO system.
 
 IdP Setup

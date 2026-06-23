@@ -1,6 +1,21 @@
 StockTwits
 ==========
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``stocktwits``
+     - ``social_core.backends.stocktwits.StocktwitsOAuth2``
+
 StockTwits uses OAuth 2 for authentication.
 
 - Register a new application at https://stocktwits.com/developers/apps

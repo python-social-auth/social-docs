@@ -1,6 +1,21 @@
 NGP VAN ActionID
 ================
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``actionid-openid``
+     - ``social_core.backends.ngpvan.ActionIDOpenID``
+
 `NGP VAN`_'s ActionID_ service provides an OpenID 1.1 endpoint, which provides
 first name, last name, email address, and phone number.
 

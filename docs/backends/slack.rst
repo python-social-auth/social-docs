@@ -1,6 +1,21 @@
 Slack
 =====
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``slack``
+     - ``social_core.backends.slack.SlackOAuth2``
+
 Slack
 
 - Register a new application at Slack_, set the callback URL to

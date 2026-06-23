@@ -1,6 +1,23 @@
 Yammer
 ======
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``yammer``
+     - ``social_core.backends.yammer.YammerOAuth2``
+   * - ``yammer-staging``
+     - ``social_core.backends.yammer.YammerStagingOAuth2``
+
 Yammer users OAuth2 for their auth mechanism, this application supports Yammer
 OAuth2 in production and staging modes.
 

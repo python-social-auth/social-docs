@@ -1,6 +1,21 @@
 Drip
 ====
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``drip``
+     - ``social_core.backends.drip.DripOAuth``
+
 Drip uses OAuth v2 for Authentication.
 
 - Register a new application with `Drip`_, and

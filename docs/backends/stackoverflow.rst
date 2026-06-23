@@ -1,6 +1,21 @@
 Stackoverflow
 =============
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``stackoverflow``
+     - ``social_core.backends.stackoverflow.StackoverflowOAuth2``
+
 Stackoverflow uses OAuth 2.0
 
 - "Register For An App Key" at the `Stack Exchange API`_ site. Set your OAuth

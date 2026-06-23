@@ -1,6 +1,21 @@
 Microsoft Graph
 ===============
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``microsoft-graph``
+     - ``social_core.backends.microsoft.MicrosoftOAuth2``
+
 
 1. Go to `Azure portal`_ and create an application.
 

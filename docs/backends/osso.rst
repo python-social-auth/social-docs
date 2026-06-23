@@ -1,6 +1,21 @@
 Osso - Open Source SAML SSO
 ================================
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``osso``
+     - ``social_core.backends.osso.OssoOAuth2``
+
 Osso is an open source service that handles SAML tenant onboarding, documentation and authentication.
 
 Your application can then consume normalized user profile resources as part of an OAuth 2.0 authorization code grant flow.

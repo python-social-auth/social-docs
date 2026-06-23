@@ -1,6 +1,21 @@
 CAS (OpenID Connect via Apereo CAS)
 ===================================
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``cas``
+     - ``social_core.backends.cas.CASOpenIdConnectAuth``
+
 The CAS_ backend allows authentication against an Apereo CAS OIDC provider.
 The backend class is `CASOpenIdConnectAuth` with name `cas`.  A minimum
 configuration is::

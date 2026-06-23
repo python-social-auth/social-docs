@@ -1,6 +1,21 @@
 DailyMotion
 ===========
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``dailymotion``
+     - ``social_core.backends.dailymotion.DailymotionOAuth2``
+
 DailyMotion uses OAuth2. In order to enable the backend follow:
 
 - Register an application at `DailyMotion Developer Portal`_

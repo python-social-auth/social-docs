@@ -1,6 +1,21 @@
 XING
 ====
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``xing``
+     - ``social_core.backends.xing.XingOAuth``
+
 XING uses OAuth1 for their auth mechanism, in order to enable the backend
 follow:
 

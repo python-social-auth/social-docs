@@ -1,6 +1,21 @@
 Discourse
 =========
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``discourse``
+     - ``social_core.backends.discourse.DiscourseAuth``
+
 Discourse can serve as a Single Sign On provider for Authentication.
 
 - Deploy a Discourse application and `configure

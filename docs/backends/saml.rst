@@ -1,6 +1,21 @@
 SAML
 ====
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``saml``
+     - ``social_core.backends.saml.SAMLAuth``
+
 The SAML backend allows users to authenticate with any provider that supports
 the SAML 2.0 protocol (commonly used for corporate or academic single sign on).
 

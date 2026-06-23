@@ -1,6 +1,21 @@
 Weibo OAuth
 ===========
 
+Backend class
+-------------
+
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``weibo``
+     - ``social_core.backends.weibo.WeiboOAuth2``
+
 Weibo OAuth 2.0 workflow.
 
 - Register a new application at Weibo_.

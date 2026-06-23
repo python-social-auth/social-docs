@@ -1,6 +1,23 @@
 Salesforce
 ==========
 
+Backend classes
+---------------
+
+For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
+For other integrations, use the same class paths in the
+framework-specific backend setting.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Class path
+   * - ``salesforce-oauth2``
+     - ``social_core.backends.salesforce.SalesforceOAuth2``
+   * - ``salesforce-oauth2-sandbox``
+     - ``social_core.backends.salesforce.SalesforceOAuth2Sandbox``
+
 Salesforce uses OAuth v2 for Authentication, check the `official docs`_.
 
 - Create an app following the steps in the `Defining Connected Apps`_ docs.
