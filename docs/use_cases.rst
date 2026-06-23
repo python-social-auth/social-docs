@@ -40,31 +40,6 @@ In your custom pipeline, retrieve it using::
     strategy.session_get('key')
 
 
-
-Retrieve Google+ Friends
-------------------------
-
-Google provides a `People API endpoint`_ to retrieve the people in your circles
-on Google+. In order to access that API first we need to define the needed
-scope::
-
-    SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
-        'https://www.googleapis.com/auth/plus.login'
-    ]
-
-Once we have the ``access token`` we can call the API like this::
-
-    import requests
-
-    user = User.objects.get(...)
-    social = user.social_auth.get(provider='google-oauth2')
-    response = requests.get(
-        'https://www.googleapis.com/plus/v1/people/me/people/visible',
-        params={'access_token': social.extra_data['access_token']}
-    )
-    friends = response.json()['items']
-
-
 Associate users by email
 ------------------------
 

@@ -65,7 +65,7 @@ Bungie uses OAuth 2.0 for authentication.
 
       AUTHENTICATION_BACKENDS = (
           ...
-          'social_core.backends.bungie.BungieBaseAuth',
+          'social_core.backends.bungie.BungieOAuth2',
           ...
       )
 

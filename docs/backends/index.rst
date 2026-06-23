@@ -49,7 +49,6 @@ Social backends
 
    amazon
    angel
-   aol
    apple
    arcgis
    auth0
@@ -98,7 +97,6 @@ Social backends
    justgiving
    kakao
    keycloak
-   khanacademy
    kick
    lastfm
    launchpad
@@ -118,14 +116,12 @@ Social backends
    microsoftgraph
    mineid
    mixcloud
-   naszaklasa
    nationbuilder
    naver
    nfdi
    ngpvan_actionid
    odnoklassnikiru
    okta
-   openstreetmap
    openstreetmap_oauth2
    oidc
    orbi
@@ -139,12 +135,10 @@ Social backends
    qiita
    qq
    quizlet
-   rdio
    reddit
    runkeeper
    salesforce
    seznam
-   shimmering
    shopify
    simplelogin
    sketchfab
@@ -160,7 +154,6 @@ Social backends
    stripe
    taobao
    telegram
-   thisismyjam
    trello
    tripit
    tumblr

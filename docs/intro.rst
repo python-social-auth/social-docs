@@ -41,8 +41,8 @@ or extend current one):
 * Dailymotion_ OAuth2
 * Deezer_ OAuth2
 * Disqus_ OAuth2
-* Douban_ OAuth1 and OAuth2
-* Dropbox_ OAuth1
+* Douban_ OAuth2
+* Dropbox_ OAuth2
 * Eventbrite_ OAuth2
 * Evernote_ OAuth1
 * Facebook_ OAuth2 and OAuth2 for Applications
@@ -51,7 +51,7 @@ or extend current one):
 * Flickr_ OAuth1
 * Foursquare_ OAuth2
 * GitHub_ OAuth2
-* Google_ OAuth1, OAuth2 and OpenID
+* Google_ OAuth1 and OAuth2
 * Instagram_ OAuth2
 * Kakao_ OAuth2
 * Keycloak_ OpenID
@@ -61,18 +61,15 @@ or extend current one):
 * Mailru_ OAuth2
 * MineID_ OAuth2
 * Mixcloud_ OAuth2
-* NaszaKlasa_ OAuth2
 * `NGPVAN ActionID`_ OpenID
 * Odnoklassniki_ OAuth2 and Application Auth
 * OpenID_
 * Podio_ OAuth2
 * Pinterest_ OAuth2
-* Rdio_ OAuth1 and OAuth2
 * Shopify_ OAuth2
 * Skyrock_ OAuth1
 * Soundcloud_ OAuth2
 * Spotify_ OAuth2
-* ThisIsMyJam_ OAuth1
 * Stackoverflow_ OAuth2
 * Steam_ OpenID
 * Stocktwits_ OAuth2
@@ -87,7 +84,7 @@ or extend current one):
 * VK.com_ OpenAPI, OAuth2 and OAuth2 for Applications
 * Weibo_ OAuth2
 * Xing_ OAuth1
-* Yahoo_ OpenID and OAuth1
+* Yahoo_ OAuth2
 * Yammer_ OAuth2
 * Yandex_ OAuth1, OAuth2 and OpenID
 
@@ -143,7 +140,6 @@ section.
 .. _Mailru: https://mail.ru
 .. _MineID: https://www.mineid.org
 .. _Mixcloud: https://www.mixcloud.com
-.. _NaszaKlasa: https://developers.nk.pl/
 .. _NGPVAN ActionID: http://developers.ngpvan.com/action-id
 .. _Odnoklassniki: http://www.odnoklassniki.ru
 .. _Podio: https://podio.com
@@ -151,7 +147,6 @@ section.
 .. _Skyrock: https://skyrock.com
 .. _Soundcloud: https://soundcloud.com
 .. _Spotify: https://www.spotify.com
-.. _ThisIsMyJam: https://thisismyjam.com
 .. _Stocktwits: https://stocktwits.com
 .. _Stripe: https://stripe.com
 .. _Tripit: https://www.tripit.com
@@ -167,7 +162,6 @@ section.
 .. _Pinterest: https://www.pinterest.com
 .. _Stackoverflow: http://stackoverflow.com/
 .. _Steam: http://steamcommunity.com/
-.. _Rdio: https://www.rdio.com
 .. _Vimeo: https://vimeo.com/
 .. _Tumblr: http://www.tumblr.com/
 .. _Django: https://github.com/python-social-auth/social-app-django
