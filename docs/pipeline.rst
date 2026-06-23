@@ -348,11 +348,12 @@ only for those flows::
     def my_external_validation(strategy, backend, current_partial=None, **kwargs):
         ...
 
-Externally resumed partials do not resume immediately when the link is opened in
-a different browser session. The first request stores pending resume state in
-the current browser session and asks the Strategy to render a local confirmation
-response. A later confirmation request from the same browser resumes the
-pipeline and replays the original link request data in ``kwargs['request']``.
+Externally resumed partials do not resume immediately when a request supplies
+the partial token, even in the browser session that created the partial. The
+first request stores pending resume state in the current browser session and
+asks the Strategy to render a local confirmation response. A later confirmation
+request from the same browser resumes the pipeline and replays the original
+link request data in ``kwargs['request']``.
 
 The confirmation request must include the parameter configured by
 ``SOCIAL_AUTH_PARTIAL_PIPELINE_EXTERNAL_RESUME_CONFIRMATION_PARAMETER``. The
@@ -406,10 +407,9 @@ function should take four arguments ``strategy``, ``backend``, ``code`` and
 that can be used to restart a halted flow.
 
 The built-in mail validation step is an externally resumable partial. Opening
-the validation link from a different browser session will first show the local
-confirmation response provided by the active Strategy. After confirmation, the
-pipeline receives the original ``verification_code`` and ``partial_token`` in
-``kwargs['request']``.
+the validation link will first show the local confirmation response provided by
+the active Strategy. After confirmation, the pipeline receives the original
+``verification_code`` and ``partial_token`` in ``kwargs['request']``.
 
 ``code`` is a model instance used to validate the email address, it
 contains three fields:
