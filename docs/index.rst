@@ -31,6 +31,7 @@ Code and other contributions are welcome. The code is hosted on GitHub_.
    storage
    exceptions
    backends/index
+   api/index
    developer_intro
    logging_out
    tests
