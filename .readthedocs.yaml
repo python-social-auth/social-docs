@@ -6,7 +6,10 @@ sphinx:
 
 python:
   install:
-  - requirements: docs/requirements.txt
+  - method: uv
+    command: sync
+    groups:
+    - docs
 
 build:
   os: ubuntu-24.04
