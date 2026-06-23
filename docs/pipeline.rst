@@ -258,8 +258,8 @@ How Partial Pipelines Work
 1. **Pause the pipeline**: Use the ``@partial`` decorator on your function
 2. **Return an HTTP response**: Redirect the user to a form or page
 3. **User completes the action**: User fills out a form and submits it
-4. **Resume the pipeline**: User is redirected back to ``/complete/<backend>/`` and
-   the pipeline resumes from the same function
+4. **Resume the pipeline**: User is redirected back to ``/complete/<backend>/`` from
+   the same browser session and the pipeline resumes from the same function
 
 Basic Example
 ~~~~~~~~~~~~~
@@ -296,15 +296,15 @@ In your template, the form should POST to ``/complete/<backend>/``.
 How Partial Data is Stored
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``@partial`` stores the pipeline state in a database table named ``social_auth_partial``.
-This allows:
+``@partial`` stores the pipeline state in a database table named
+``social_auth_partial`` and stores the current partial token in the browser
+session. By default, the stored pipeline can resume only from the browser
+session that created it. This prevents a ``partial_token`` copied into another
+browser from acting as a bearer login credential.
 
-* **Cross-browser support**: The process can resume from any browser
-* **No session dependency**: More reliable than session-based approaches
-* **UUID tokens**: Each partial process is identified by a unique token
-
-The partial token is passed via the ``partial_token`` parameter (by default). The library
-automatically picks this value from the request to resume the process.
+The partial token is passed via the ``partial_token`` parameter (by default).
+The library automatically picks this value from the request, but it resumes the
+process only when the token belongs to the current session.
 
 Accessing Partial Data
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -335,6 +335,51 @@ To override the default parameter name::
 
     SOCIAL_AUTH_PARTIAL_PIPELINE_TOKEN_NAME = 'my_token_name'
 
+External resume links
+~~~~~~~~~~~~~~~~~~~~~
+
+Some partial flows intentionally send the partial token out of band, for
+example by e-mail or SMS. Use ``partial_step`` with ``allow_external_resume``
+only for those flows::
+
+    from social_core.pipeline.partial import partial_step
+
+    @partial_step(save_to_session=True, allow_external_resume=True)
+    def my_external_validation(strategy, backend, current_partial=None, **kwargs):
+        ...
+
+Externally resumed partials do not resume immediately when the link is opened in
+a different browser session. The first request stores pending resume state in
+the current browser session and asks the Strategy to render a local confirmation
+response. A later confirmation request from the same browser resumes the
+pipeline and replays the original link request data in ``kwargs['request']``.
+
+The confirmation request must include the parameter configured by
+``SOCIAL_AUTH_PARTIAL_PIPELINE_EXTERNAL_RESUME_CONFIRMATION_PARAMETER``. The
+default parameter name is ``partial_pipeline_confirm``. A hidden field such as
+``partial_pipeline_confirm=1`` is enough for core to select the pending external
+resume; your Strategy should still verify any local confirmation state it
+created, such as a nonce stored in the browser session.
+
+If your pipeline step needs the original link parameters after confirmation,
+read them like this::
+
+    data = kwargs.get('request') or strategy.request_data()
+
+For Django, ``social-auth-app-django`` provides the default confirmation page.
+Override the ``social_django/partial_pipeline_external_resume.html`` template to
+customize it. The confirmation form must require an explicit user action and
+must not send ``partial_token`` or validation codes again. Custom templates must
+still include the confirmation parameter described above. They must also include
+the nonce field from the template context, using ``confirmation_nonce_parameter``
+as the field name and ``confirmation_nonce`` as the value. The default nonce
+field name is ``partial_pipeline_confirm_nonce``.
+
+Other integrations should implement both Strategy hooks:
+``partial_pipeline_external_resume_confirmation()`` to render the local
+confirmation response and ``partial_pipeline_external_resume_confirmed()`` to
+verify the follow-up request.
+
 Check the `example applications`_ for more detailed usage examples.
 
 
@@ -360,6 +405,12 @@ function should take four arguments ``strategy``, ``backend``, ``code`` and
 ``partial_token`` is the same token used on other partials functions
 that can be used to restart a halted flow.
 
+The built-in mail validation step is an externally resumable partial. Opening
+the validation link from a different browser session will first show the local
+confirmation response provided by the active Strategy. After confirmation, the
+pipeline receives the original ``verification_code`` and ``partial_token`` in
+``kwargs['request']``.
+
 ``code`` is a model instance used to validate the email address, it
 contains three fields:
 
@@ -374,7 +425,8 @@ contains three fields:
     Flag marking if the email was verified or not.
 
 You should use the code in this instance to build the link for email
-validation which should go to ``/complete/email?verification_code=<code here>&partial_token=<token here>``.
+validation which should go to
+``/complete/email?verification_code=<code here>&partial_token=<token here>``.
 If you are using Django, you can do it with::
 
     from django.core.urlresolvers import reverse
