@@ -8,22 +8,26 @@ Return the user to the original page
 ------------------------------------
 
 There's a common scenario to return the user back to the original page from
-where they requested to login. For that purpose, the usual ``next`` query-string
-argument is used. The value of this parameter will be stored in the session and
-later used to redirect the user when login was successful.
+where they requested to login. For that purpose, the usual ``next`` argument is
+used. The value of this parameter will be stored in the session and later used
+to redirect the user when login was successful.
 
-In order to use it, just define it with your link. For instance, when using
-Django::
+In order to use it, just define it with your login request. For instance, when
+using Django::
 
-    <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Login with Facebook</a>
+    <form method="post" action="{% url 'social:begin' 'facebook' %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.path }}">
+        <button type="submit">Login with Facebook</button>
+    </form>
 
 
 Pass custom GET/POST parameters and retrieve them on authentication
 -------------------------------------------------------------------
 
-In some cases, you might need to send data over the URL, and retrieve it while
-processing the after-effect. For example, for conditionally executing code in
-custom pipelines.
+In some cases, you might need to send data with the login request, and retrieve
+it while processing the after-effect. For example, for conditionally executing
+code in custom pipelines.
 
 In such cases, add it to ``SOCIAL_AUTH_FIELDS_STORED_IN_SESSION``.
 
@@ -31,9 +35,13 @@ In your settings::
 
     SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['key']
 
-In template::
+In a Django template::
 
-    <a href="{% url 'social:begin' 'facebook' %}?key={{ value }}">Login with Facebook</a>
+    <form method="post" action="{% url 'social:begin' 'facebook' %}">
+        {% csrf_token %}
+        <input type="hidden" name="key" value="{{ value }}">
+        <button type="submit">Login with Facebook</button>
+    </form>
 
 In your custom pipeline, retrieve it using::
 
@@ -97,8 +105,9 @@ implemented easily)::
     # access_token parameter like ?access_token=<token>. The URL entry must
     # contain the backend, like this:
     #
-    #   url(r'^register-by-token/(?P<backend>[^/]+)/$',
-    #       'register_by_access_token')
+    #   path('register-by-token/<str:backend>/',
+    #        register_by_access_token,
+    #        name='register_by_access_token')
 
     @psa('social:complete')
     def register_by_access_token(request, backend):
@@ -195,10 +204,16 @@ accomplish that behavior. There are two ways to do it.
     SOCIAL_AUTH_FACEBOOK_CUSTOM_SECRET = '...'
     SOCIAL_AUTH_FACEBOOK_CUSTOM_SCOPE = [...]
 
-   When the extra permissions are needed, just redirect the user to
-   ``/login/facebook-custom`` and then get the social auth entry for this new
-   backend with ``user.social_auth.get(provider='facebook-custom')`` and use
-   the ``access_token`` in it.
+   When the extra permissions are needed, start authentication with the new
+   backend and then get the social auth entry for it with
+   ``user.social_auth.get(provider='facebook-custom')`` and use the
+   ``access_token`` in it. In Django templates, start the flow with a POST
+   form::
+
+    <form method="post" action="{% url 'social:begin' 'facebook-custom' %}">
+        {% csrf_token %}
+        <button type="submit">Connect Facebook</button>
+    </form>
 
 
 Enable a user to choose a username from their World of Warcraft characters
@@ -263,15 +278,25 @@ to do so, set this setting::
         'approval_prompt': 'auto'
     }
 
-Then link the users to ``/login/google-oauth2?approval_prompt=force``. If you
-want to refresh the ``refresh_token`` only on those users that don't  have it,
-do it with a pipeline function::
+Then show users a form that starts Google OAuth2 with
+``approval_prompt=force``. In Django templates, submit the value in the POST
+body::
+
+    <form method="post" action="{% url 'social:begin' 'google-oauth2' %}">
+        {% csrf_token %}
+        <input type="hidden" name="approval_prompt" value="force">
+        <button type="submit">Refresh Google access</button>
+    </form>
+
+If you want to refresh the ``refresh_token`` only on those users that don't
+have it, redirect them to a page that renders the form above with a pipeline
+function::
 
     def redirect_if_no_refresh_token(backend, response, social, *args, **kwargs):
         if backend.name == 'google-oauth2' and social and \
            response.get('refresh_token') is None and \
            social.extra_data.get('refresh_token') is None:
-            return redirect('/login/google-oauth2?approval_prompt=force')
+            return redirect('/refresh-google-access/')
 
 Set this pipeline after ``social_user``::
 

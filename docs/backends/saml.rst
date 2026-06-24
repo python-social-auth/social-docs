@@ -193,22 +193,19 @@ Basic Usage
   must install and configure your metadata on their system before it will work.
 
 - Now everything is set! To allow users to login with any given IdP, you need to
-  give them a link to the python-social-auth "begin"/"auth" URL and include an
-  ``idp`` query parameter that specifies the name of the IdP to use. This is
-  needed since the backend supports multiple IdPs. The names of the IdPs are the
-  keys used in the ``SOCIAL_AUTH_SAML_ENABLED_IDPS`` setting.
+  submit the python-social-auth "begin"/"auth" URL and include an ``idp``
+  parameter that specifies the name of the IdP to use. This is needed since the
+  backend supports multiple IdPs. The names of the IdPs are the keys used in the
+  ``SOCIAL_AUTH_SAML_ENABLED_IDPS`` setting.
 
   Django example::
 
-      # In view:
-      context['testshib_url'] = u"{base}?{params}".format(
-          base=reverse('social:begin', kwargs={'backend': 'saml'}),
-          params=urllib.urlencode({'next': '/home', 'idp': 'testshib'})
-      )
-      # In template:
-      <a href="{{ testshib_url }}">TestShib Login</a>
-      # Result:
-      <a href="/login/saml/?next=%2Fhome&amp;idp=testshib">TestShib Login</a>
+      <form method="post" action="{% url 'social:begin' 'saml' %}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="/home">
+          <input type="hidden" name="idp" value="testshib">
+          <button type="submit">TestShib Login</button>
+      </form>
 
 - Testing with the TestShib_ provider is recommended, as it is known to work
   well.

@@ -17,11 +17,15 @@ And for MongoEngine_ ORM::
 
     $ pip install social-auth-app-django-mongoengine
 
+Current ``social-auth-app-django`` releases follow supported Django versions
+and require Django 5.2 or newer and Python 3.10 or newer.
+
 
 Quickstart
 ----------
 
-This quickstart covers the essential configuration to get social authentication working in your Django project.
+This quickstart covers the essential configuration to get social authentication
+working in your Django project.
 
 **1. Add to INSTALLED_APPS**::
 
@@ -49,7 +53,9 @@ This is where you configure your ``client_id``, ``client_secret``, and ``scope``
         'https://www.googleapis.com/auth/userinfo.profile',
     ]
 
-For other providers, the pattern is ``SOCIAL_AUTH_<PROVIDER>_KEY``, ``SOCIAL_AUTH_<PROVIDER>_SECRET``, and ``SOCIAL_AUTH_<PROVIDER>_SCOPE``. See :doc:`/backends/index` for provider-specific settings.
+For other providers, the pattern is ``SOCIAL_AUTH_<PROVIDER>_KEY``,
+``SOCIAL_AUTH_<PROVIDER>_SECRET``, and ``SOCIAL_AUTH_<PROVIDER>_SCOPE``. See
+:doc:`/backends/index` for provider-specific settings.
 
 .. warning::
    Never commit credentials to version control. Use environment variables instead::
@@ -75,12 +81,17 @@ For other providers, the pattern is ``SOCIAL_AUTH_<PROVIDER>_KEY``, ``SOCIAL_AUT
 
     python manage.py migrate
 
-**7. Add login link in template**::
+**7. Add login form in template**::
 
-    <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+    <form method="post" action="{% url 'social:begin' 'google-oauth2' %}">
+        {% csrf_token %}
+        <button type="submit">Login with Google</button>
+    </form>
 
 .. note::
-   **Database considerations**: SQLite has field length limitations that can cause issues. For production, use PostgreSQL or MySQL. If using MySQL InnoDB or SQLite, add::
+   **Database considerations**: SQLite has field length limitations that can
+   cause issues. For production, use PostgreSQL or MySQL. If using MySQL InnoDB
+   or SQLite, add::
 
        SOCIAL_AUTH_UID_LENGTH = 223
 
@@ -117,13 +128,11 @@ Also ensure to define the MongoEngine_ storage setting::
 Database
 --------
 
-When using PostgreSQL, it's recommended to use the built-in `JSONB`
-field to store the extracted ``extra_data``. To enable it define the setting::
+The built-in models use Django's native ``JSONField`` to store extracted
+``extra_data``.
 
-  SOCIAL_AUTH_JSONFIELD_ENABLED = True
-
-(For Django 1.7 and higher) you need to sync the database to create needed
-models once you added ``social_django`` to your installed apps::
+Sync the database to create needed models once you added ``social_django`` to
+your installed apps::
 
     ./manage.py migrate
 
@@ -148,7 +157,8 @@ or Django won't pick them when trying to authenticate the user.
 Don't miss ``django.contrib.auth.backends.ModelBackend`` if using ``django.contrib.auth``
 application or users won't be able to login by username / password method.
 
-For more documentation about setting backends to specific social applications, please see the :doc:`/backends/index`.
+For more documentation about setting backends to specific social applications,
+please see the :doc:`/backends/index`.
 
 .. _django-urls:
 
@@ -157,11 +167,11 @@ URLs entries
 
 Add URLs entries::
 
-    urlpatterns = patterns('',
+    urlpatterns = [
         ...
         path("", include('social_django.urls', namespace="social")),
         ...
-    )
+    ]
 
 In case you need a custom namespace, this setting is also needed::
 
@@ -175,12 +185,11 @@ In case you need a custom namespace, this setting is also needed::
       SOCIAL_AUTH_URL_NAMESPACE = 'accounts:social'
 
 
-Requiring POST only login
--------------------------
+Starting Login
+--------------
 
-By default login url ``social:begin`` uses ``GET`` request if you would like to require ``POST`` only (for example to comply with SOC audits) logging in then please use::
-
-    SOCIAL_AUTH_REQUIRE_POST = True
+The ``social:begin`` view requires a ``POST`` request. Use a form and include
+the CSRF token in templates that start authentication.
 
 
 Templates
@@ -188,7 +197,10 @@ Templates
 
 Example of google-oauth2 backend usage in template::
 
-    <a href="{% url "social:begin" "google-oauth2" %}">Google</a>
+    <form method="post" action="{% url 'social:begin' 'google-oauth2' %}">
+        {% csrf_token %}
+        <button type="submit">Google</button>
+    </form>
 
 
 Template Context Processors
@@ -318,39 +330,17 @@ kwargs to the query set filter method.
 
 
 
-JSON field support
+JSON field storage
 ------------------
 
-Django 3.1 introduces `JSONField` support for all backends and adds a
-deprecation warning.
+The current Django models use Django's native ``models.JSONField`` for
+``extra_data`` and partial pipeline data. No JSON field setting is needed for
+new installations.
 
-These are the related settings to enabling this integration:
-
-- `SOCIAL_AUTH_JSONFIELD_ENABLED` (boolean)
-
-  Same behavior, setting name updated to match `JSONField` being supported by
-  all systems::
-
-    SOCIAL_AUTH_POSTGRES_JSONFIELD = True  # Before
-    SOCIAL_AUTH_JSONFIELD_ENABLED = True  # After
-
-- `SOCIAL_AUTH_JSONFIELD_CUSTOM` (import path)
-  Allows specifying an import string. This gives better control to setting a
-  custom JSONField.
-
-  For django systems < 3.1 (technically <4), you can set the old `JSONField`
-  to maintain behavior with earlier social-app-django releases::
-
-    SOCIAL_AUTH_JSONFIELD_CUSTOM = 'django.contrib.postgres.fields.JSONField'
-
-  For sites running or upgrading to django 3.1+, then can set this so the new
-  value::
-
-    SOCIAL_AUTH_JSONFIELD_CUSTOM = 'django.db.models.JSONField'
-
-- Deprecating setting: `SOCIAL_AUTH_POSTGRES_JSONFIELD` (bool)
-  Rename this to `SOCIAL_AUTH_JSONFIELD_ENABLED`. The setting will be deprecated
-  in a future release.
+Older migrations still import ``social_django.fields.JSONField`` for migration
+compatibility. The historical ``SOCIAL_AUTH_JSONFIELD_ENABLED``,
+``SOCIAL_AUTH_JSONFIELD_CUSTOM``, and ``SOCIAL_AUTH_POSTGRES_JSONFIELD``
+settings are only relevant while running those legacy migrations.
 
 
 Exceptions Middleware
@@ -367,7 +357,8 @@ Any method can be overridden, but for simplicity these two are recommended::
     get_redirect_uri(request, exception)
 
 By default, the message is the exception message and the URL for the redirect
-is the location specified by the ``LOGIN_ERROR_URL`` setting.
+is the location specified by the ``LOGIN_ERROR_URL`` setting. The middleware
+supports both synchronous and asynchronous Django request handlers.
 
 If a valid backend was detected by ``strategy()`` decorator, it will be
 available at ``request.strategy.backend`` and ``process_exception()`` will

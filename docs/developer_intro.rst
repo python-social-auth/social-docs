@@ -15,9 +15,12 @@ When you add the PSA entry to your ``urls.py``, it looks like this::
 
 that "namespace" part on the end is what keeps the names in the PSA-world from
 colliding with the names in your app, or other 3rd-party apps.  So your login
-link will look like this::
+form will look like this::
 
-    <a href="{% url 'social:begin' 'provider-name' %}">Login</a>
+    <form method="post" action="{% url 'social:begin' 'provider-name' %}">
+        {% csrf_token %}
+        <button type="submit">Login</button>
+    </form>
 
 (See how "social" in the URL mapping matches the value of "namespace" in the
 ``urls.py`` entry?)
@@ -63,11 +66,11 @@ like::
 
     http://example.com/login/github
 
-And clicking on that link will cause the "pipeline" to be started. The pipeline
-is a list of functions that build up data about the user as we go through the
-steps of the authentication process.  (If you really want to understand the
-pipeline, look at the source in ``social/backends/base.py``, and see the
-``run_pipeline()`` function in ``BaseAuth``.)
+Submitting the login form to that URL will cause the "pipeline" to be started.
+The pipeline is a list of functions that build up data about the user as we go
+through the steps of the authentication process.  (If you really want to
+understand the pipeline, look at the source in ``social/backends/base.py``, and
+see the ``run_pipeline()`` function in ``BaseAuth``.)
 
 The design contract for each function in the pipeline is:
 
