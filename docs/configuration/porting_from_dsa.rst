@@ -41,15 +41,18 @@ URLs
 The URLs are namespaced, you can chose your namespace, the `example app`_ uses
 the ``social`` namespace. Replace the old include with::
 
-    urlpatterns = patterns('',
+    urlpatterns = [
         ...
-        url('', include('social_django.urls', namespace='social'))
+        path('', include('social_django.urls', namespace='social')),
         ...
-    )
+    ]
 
-On templates use a namespaced URL::
+On templates use a namespaced URL in a POST form to start login::
 
-    {% url 'social:begin' "google-oauth2" %}
+    <form method="post" action="{% url 'social:begin' 'google-oauth2' %}">
+        {% csrf_token %}
+        <button type="submit">Google</button>
+    </form>
 
 Account disconnection URL would be::
 

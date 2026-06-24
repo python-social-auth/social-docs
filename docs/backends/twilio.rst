@@ -29,9 +29,12 @@ setting.
 
     'social_core.backends.twilio.TwilioAuth',
 
-- Usage example::
+- Usage example for Django templates::
 
-    <a href="/login/twilio">Enter using Twilio</a>
+    <form method="post" action="{% url 'social:begin' 'twilio' %}">
+        {% csrf_token %}
+        <button type="submit">Enter using Twilio</button>
+    </form>
 
 
 .. _Twilio Connect API: https://www.twilio.com/user/account/connect/apps

@@ -36,7 +36,12 @@ VK.com uses OAuth2 for Authentication.
 
 - Add ``'social_core.backends.vk.VKOAuth2'`` into your ``SOCIAL_AUTH_AUTHENTICATION_BACKENDS``.
 
-- Then you can start using ``/login/vk-oauth2`` in your link href.
+- Then you can start authentication from your templates with a POST form::
+
+      <form method="post" action="{% url 'social:begin' 'vk-oauth2' %}">
+          {% csrf_token %}
+          <button type="submit">Sign in with VK</button>
+      </form>
 
 - Also it's possible to define extra permissions with::
 

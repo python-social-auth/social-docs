@@ -41,8 +41,12 @@ Untappd uses OAuth v2 for Authentication, check the `official docs`_.
             ...
         )
 
-- Then you can start using ``{% url social:begin 'untappd' %}`` in
-  your templates
+- Then you can start authentication from your templates with a POST form::
+
+        <form method="post" action="{% url 'social:begin' 'untappd' %}">
+            {% csrf_token %}
+            <button type="submit">Sign in with Untappd</button>
+        </form>
 
 .. _official docs: https://untappd.com/api/docs
 .. _Add App: https://untappd.com/api/register?register=new

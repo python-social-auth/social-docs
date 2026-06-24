@@ -65,7 +65,7 @@ results and others for error situations.
 
 ``SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/logged-in/'``
     Used to redirect the user once the auth process ended successfully. The
-    value of ``?next=/foo`` is used if it was present
+    value of the ``next`` request parameter is used if it was present
 
 ``SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'``
     URL where the user will be redirected in case of an error
@@ -75,8 +75,9 @@ results and others for error situations.
 
 ``SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/new-users-redirect-url/'``
     Used to redirect new registered users, will be used in place of
-    ``SOCIAL_AUTH_LOGIN_REDIRECT_URL`` if defined. Note that ``?next=/foo`` is appended if present,
-    if you want new users to go to next, you'll need to do it yourself.
+    ``SOCIAL_AUTH_LOGIN_REDIRECT_URL`` if defined. Note that the ``next``
+    request parameter is appended if present, if you want new users to go to
+    next, you'll need to do it yourself.
 
 ``SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/new-association-redirect-url/'``
     Like ``SOCIAL_AUTH_NEW_USER_REDIRECT_URL`` but for new associated accounts
