@@ -10,7 +10,6 @@ Authentication backends
 .. automodule:: social_core.backends.base
    :members:
    :undoc-members:
-   :exclude-members: get_user_details
    :show-inheritance:
 
 .. automodule:: social_core.backends.oauth
@@ -26,7 +25,6 @@ Authentication backends
 .. automodule:: social_core.backends.open_id_connect
    :members:
    :undoc-members:
-   :exclude-members: get_user_details
    :show-inheritance:
 
 Pipeline
