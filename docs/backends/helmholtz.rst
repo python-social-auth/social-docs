@@ -50,8 +50,8 @@ Scopes
 
 By default the backend requests, besides ``openid``, ``profile`` and
 ``email``, the scopes ``voperson_id``, ``eduperson_entitlement``,
-``eduperson_scoped_affiliation``, ``voperson_external_affiliation``,
-``eduperson_assurance`` and ``orcid``. You can request additional scopes,
+``eduperson_scoped_affiliation``, ``voperson_external_affiliation`` and
+``eduperson_assurance``. You can request additional scopes,
 for example::
 
     SOCIAL_AUTH_HELMHOLTZ_SCOPE = ['display_name']
