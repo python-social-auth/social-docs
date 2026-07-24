@@ -294,6 +294,33 @@ particular, there are two methods that are designed for subclasses to override:
 Troubleshooting
 ---------------
 
+**Error: "SAML login failed: missing AuthnRequest ID"**
+
+For Service Provider initiated login, the SAML response must match the
+authentication request stored in the user's session. SAML Identity Providers
+usually return the response with a cross-site POST request. Django's default
+``SESSION_COOKIE_SAMESITE = "Lax"`` setting prevents the session cookie from
+being sent with that request.
+
+``social-auth-app-django`` preserves the server-side session identifier in
+SAML ``RelayState`` and restores the session before validating the response.
+Use a current ``social-auth-app-django`` release and a server-side Django
+session engine. In multi-instance deployments, every instance that can handle
+the login or callback must use the same session storage. Database and cached
+database engines meet this requirement when configured with shared services.
+The cache engine must use a shared backend, and the file engine is suitable
+only for a single instance or a shared filesystem. The signed-cookie session
+backend cannot restore session changes through this mechanism.
+
+Also verify that the login was initiated by the same browser, that the Identity
+Provider returns ``RelayState`` unchanged, and that only one SAML login is
+active for the Identity Provider in that browser session.
+
+As a workaround, ``SESSION_COOKIE_SAMESITE`` can be set to ``"None"`` so the
+cookie is sent with the cross-site POST. This requires secure HTTPS cookies and
+reduces the protection provided by the SameSite policy, so prefer server-side
+session restoration.
+
 **Error: "Missing needed parameter first_name (configured by attr_first_name)"**
 
 This error occurs when you have explicitly configured an attribute mapping (like
