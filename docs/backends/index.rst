@@ -93,6 +93,7 @@ Social backends
    gitea
    google
    grafana
+   helmholtz
    instagram
    justgiving
    kakao
