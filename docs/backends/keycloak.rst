@@ -38,8 +38,12 @@ To configure Keycloak:
    * **User Info Signed Response Algorithm**: ``RS256``
    * **Request Object Signature Algorithm**: ``RS256``
 
-6. Get the public key from **Realm Settings** > **Keys** > **RS256**
-7. Create an **Audience Mapper** (**Mappers** > **Create**) to ensure your ``client_id`` is in the JWT's ``aud`` claim
+6. Get the active public key from **Realm Settings** > **Keys** > **RS256**
+7. Create an **Audience Mapper** for the client to ensure its **Client ID** is
+   included in the access token's ``aud`` claim. In recent Keycloak versions,
+   navigate to **Client scopes** > ``<client-id>-dedicated`` > **Add mapper** >
+   **Audience**, select the client under **Included Client Audience**, and enable
+   **Add to access token**.
 8. Note the **Authorization URL** and **Token URL** from the Realm OpenID Endpoint Configuration
 
 Application Configuration
@@ -63,6 +67,44 @@ Configure with values from your Keycloak client::
         'https://iam.example.com/auth/realms/voxcloud-staff/protocol/openid-connect/auth'
     SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL = \
         'https://iam.example.com/auth/realms/voxcloud-staff/protocol/openid-connect/token'
+
+Audience validation
+-------------------
+
+``SOCIAL_AUTH_KEYCLOAK_KEY`` is the OAuth **Client ID**. The backend also uses
+this value as the expected audience when validating the access token. Therefore,
+the exact value configured in ``SOCIAL_AUTH_KEYCLOAK_KEY`` must be present in the
+token's ``aud`` claim.
+
+The ``azp`` (authorized party) claim does not satisfy audience validation. For
+example, with ``SOCIAL_AUTH_KEYCLOAK_KEY = 'test-django-oidc'``, the access token
+should contain claims similar to::
+
+    {
+        "azp": "test-django-oidc",
+        "aud": ["test-django-oidc"]
+    }
+
+If the Client ID is missing from ``aud``, configure the Audience Mapper described
+above. Otherwise, authentication fails with an audience validation error even
+when ``azp`` identifies the correct client.
+
+Signing key rotation
+--------------------
+
+The Keycloak backend verifies access tokens with the single static key configured
+in ``SOCIAL_AUTH_KEYCLOAK_PUBLIC_KEY``. It does not use the JWT header's ``kid``
+(key ID) to select a key and does not fetch keys from Keycloak's JWKS endpoint.
+
+The configured key must therefore be the active RS256 signing key from the same
+realm that issues the token. After a realm signing-key rotation, update
+``SOCIAL_AUTH_KEYCLOAK_PUBLIC_KEY``; otherwise, authentication fails with a
+signature verification error. The token's ``kid`` can be compared with the key
+ID shown under **Realm Settings** > **Keys** to diagnose a mismatch.
+
+For automatic signing-key discovery and rotation, consider using the generic
+:doc:`oidc` backend instead. It uses OpenID Connect discovery, selects keys from
+the provider's JWKS by ``kid``, and refreshes the JWKS when a new key appears.
 
 User ID Configuration
 ---------------------
