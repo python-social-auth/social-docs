@@ -131,13 +131,11 @@ Social backends
    patreon
    pinterest
    pixelpin
-   pocket
    podio
    qiita
    qq
    quizlet
    reddit
-   runkeeper
    salesforce
    seznam
    shopify
