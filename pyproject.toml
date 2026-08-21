@@ -31,6 +31,14 @@ select = ["ALL"]
 [tool.ruff.lint.per-file-ignores]
 "docs/conf.py" = ["INP001"]
 
+[tool.rumdl]
+disable = [
+  # We do not enforce heading
+  "first-line-heading",
+  # Avoid length limit checks
+  "line-length"
+]
+
 [tool.tomlsort]
 ignore_case = true
 sort_inline_arrays = true
