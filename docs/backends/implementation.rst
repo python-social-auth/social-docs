@@ -367,13 +367,6 @@ overridden to customize behavior. Here are some key methods:
     SAML uses its per-IdP permanent-ID mapping. Such backends may intentionally
     ignore ``ID_KEY``, but the behavior must be documented by the backend.
 
-``get_user_id_from_sources(*sources, id_key=None)``
-    Searches response mappings in order for the configured ID key, or for the
-    explicitly passed ``id_key``. Mapping-based ``get_user_id()`` overrides
-    should use this method so a missing or empty selected field raises
-    ``AuthMissingParameter`` instead of creating an ambiguous identifier such
-    as ``"None"``.
-
 ``get_user_details(response)``
     Extracts user details (username, email, first_name, last_name, fullname)
     from the provider's API response. This method should return a dictionary
