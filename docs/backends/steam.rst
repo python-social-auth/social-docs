@@ -19,6 +19,10 @@ setting.
 Steam OpenID works quite straightforward, but to retrieve some user data (known
 as ``player`` on Steam API) a Steam API Key is needed.
 
+The backend validates the asserted OpenID identity URL and extracts the Steam
+ID from it. The generic ``ID_KEY`` setting does not apply to this
+protocol-derived identifier.
+
 Configurable settings:
 
 

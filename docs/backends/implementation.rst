@@ -18,10 +18,11 @@ First, let's check the common attributes for all backend types.
     ``AUTHENTICATION_BACKENDS`` setting.
 
 ``ID_KEY = None``
-    Defines the attribute in the service response that identifies the user as
-    unique to the service, the value is later stored in the ``uid`` attribute
-    in the ``UserSocialAuth`` instance. This can be overridden per-backend
-    via the ``SOCIAL_AUTH_<BACKEND_NAME>_ID_KEY`` setting (see
+    For mapping-based backends, defines the field in the service response that
+    identifies the user as unique to the service. The value is later stored in
+    the ``uid`` attribute in the ``UserSocialAuth`` instance. This can be
+    overridden per-backend via the
+    ``SOCIAL_AUTH_<BACKEND_NAME>_ID_KEY`` setting (see
     `Configurable User ID Key`_).
 
 ``REQUIRES_EMAIL_VALIDATION = False``
@@ -346,16 +347,29 @@ overridden to customize behavior. Here are some key methods:
     both ``details`` and ``response`` dicts for the configured ID key.
 
     Override this method if you need custom logic for extracting the user ID,
-    such as combining multiple fields or performing transformations.
+    such as reading a nested object, combining multiple fields, or performing
+    transformations. Mapping-based overrides must use ``id_key()`` for the
+    selectable leaf field while retaining any required scoping or validation.
 
     Example of custom user ID retrieval::
 
         def get_user_id(self, details, response):
             """Custom user ID retrieval"""
-            id_key = self.id_key()  # Gets configured or default ID_KEY
-            if self.setting("USERNAME_AS_ID", False):
-                id_key = "username"
-            return response.get(id_key)
+            user_id = self.get_user_id_from_sources(response.get("user"))
+            return f"{response['tenant']}:{user_id}"
+
+    Mapping-based overrides should use ``get_user_id_from_sources()`` so a
+    missing or empty selected field raises ``AuthMissingParameter`` instead of
+    creating an ambiguous identifier such as ``"None"``.
+
+    If a backend retains an older identifier selector, an explicitly configured
+    ``ID_KEY`` should take precedence and the older setting should be used
+    only when ``ID_KEY`` is unset.
+
+    Protocol-derived identifiers do not always correspond to a mapping field.
+    For example, generic OpenID and Steam use a validated identity URL, while
+    SAML uses its per-IdP permanent-ID mapping. Such backends may intentionally
+    ignore ``ID_KEY``, but the behavior must be documented by the backend.
 
 ``get_user_details(response)``
     Extracts user details (username, email, first_name, last_name, fullname)

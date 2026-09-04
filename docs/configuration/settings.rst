@@ -237,9 +237,10 @@ generic settings, following the same pattern as other settings in this library.
 Configurable User ID Key
 -------------------------
 
-By default, each backend defines an ``ID_KEY`` class attribute that specifies which
-field in the provider's response should be used as the unique user identifier. This
-identifier is stored in the ``UserSocialAuth.uid`` field.
+By default, mapping-based backends define an ``ID_KEY`` class attribute that
+specifies which field in the provider's response should be used as the unique
+user identifier. This identifier is stored in the ``UserSocialAuth.uid``
+field.
 
 However, some providers may return different user identifier fields depending on the
 API version, configuration, or deployment (e.g., enterprise vs. cloud versions). To
@@ -247,8 +248,17 @@ support these scenarios, the ``ID_KEY`` can be configured per-backend via settin
 
 ``SOCIAL_AUTH_<BACKEND_NAME>_ID_KEY = 'field_name'``
     Override the default ID key for a specific backend. The value should be the
-    name of the field in the provider's response that contains the unique user
-    identifier.
+    name of the field that contains the unique user identifier. For backends
+    with nested responses, the field is read from the same nested object as the
+    default identifier. Backend-specific prefixes, validation, fallbacks, and
+    transformations still apply.
+
+An explicitly configured ``ID_KEY`` takes precedence over older
+backend-specific identifier selectors such as ``USERNAME_AS_ID``,
+``USE_UNIQUE_USER_ID``, and ``IDENTIFIED_BY_PERMANENT_ID``.
+The selected field must be present and non-empty in the provider data;
+otherwise authentication fails with ``AuthMissingParameter`` rather than
+storing an ambiguous user identifier.
 
 Example: Configure Seznam backend to use ``id`` instead of the default ``oauth_user_id``::
 
@@ -257,6 +267,18 @@ Example: Configure Seznam backend to use ``id`` instead of the default ``oauth_u
 Example: Configure Keycloak backend to use ``email`` instead of the default ``sub``::
 
     SOCIAL_AUTH_KEYCLOAK_ID_KEY = 'email'
+
+Example: Configure the Azure AD v2 tenant backend to use its stable,
+application-specific ``sub`` claim instead of the mutable
+``preferred_username``::
+
+    SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_ID_KEY = 'sub'
+
+The generic OpenID backend and Steam derive the identifier from the asserted
+OpenID identity URL, so ``ID_KEY`` does not apply to them. The SAML backend
+uses the per-IdP ``attr_user_permanent_id`` mapping instead. See the
+:doc:`OpenID <../backends/openid>`, :doc:`Steam <../backends/steam>`, and
+:doc:`SAML <../backends/saml>` backend documentation.
 
 .. warning::
     Changing the ``ID_KEY`` for an existing backend will affect how users are

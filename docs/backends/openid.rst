@@ -20,6 +20,11 @@ OpenID_ support is simpler to implement than OAuth_. Google and Yahoo
 providers are supported by default, others are supported by POST method
 providing endpoint URL.
 
+The generic OpenID backend stores the identity URL asserted by the provider as
+the user's unique identifier. Because this identifier is protocol-derived
+rather than selected from a response mapping, the generic ``ID_KEY`` setting
+does not apply.
+
 OpenID_ backends can store extra data in ``UserSocialAuth.extra_data`` field
 by defining a set of values names to retrieve from any of the used schemas,
 AttributeExchange and SimpleRegistration. As their keywords differ we need
