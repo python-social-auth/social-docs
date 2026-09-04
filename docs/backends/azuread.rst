@@ -24,6 +24,42 @@ framework-specific backend setting.
    * - ``azuread-b2c-oauth2``
      - ``social_core.backends.azuread_b2c.AzureADB2COAuth2``
 
+User identifiers
+----------------
+
+The Azure backends use these claims as their default user identifiers:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend name
+     - Default ID key
+   * - ``azuread-oauth2``
+     - ``upn``
+   * - ``azuread-oauth2-v2``
+     - ``upn``
+   * - ``azuread-tenant-oauth2``
+     - ``sub``
+   * - ``azuread-v2-tenant-oauth2``
+     - ``preferred_username``
+   * - ``azuread-b2c-oauth2``
+     - ``sub``
+
+Microsoft documents ``preferred_username`` and ``upn`` as mutable
+human-readable identifiers. The ``sub`` claim is immutable and unique to an
+application ID, while ``oid`` is immutable and remains the same across
+applications within a tenant. Choose the claim that matches the application's
+identity model.
+
+For example, configure the v2 tenant backend to use ``sub``::
+
+    SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_ID_KEY = 'sub'
+
+Changing this setting for a deployed application changes the value stored in
+``UserSocialAuth.uid``. Migrate existing associations before enabling the
+new key. See :doc:`../configuration/settings` and the
+`Microsoft ID token claims reference`_.
+
 IdP Setup
 ---------
 
@@ -246,3 +282,4 @@ The policy should start with `b2c_`. For more information see `Azure AD B2C User
 .. _Azure Authority Hosts: https://docs.microsoft.com/en-us/python/api/azure-identity/azure.identity.azureauthorityhosts?view=azure-python
 .. _Workload Identity Federation: https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation
 .. _Federated identity credentials (Workload Identity): https://azure.github.io/azure-workload-identity/docs/topics/federated-identity-credential.html
+.. _Microsoft ID token claims reference: https://learn.microsoft.com/en-us/entra/identity-platform/id-token-claims-reference

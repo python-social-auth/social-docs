@@ -155,6 +155,10 @@ At a minimum, you must add the following to your project's settings:
   In this example, the attr_user_permanent_id and attr_email are both set to the
   email address passed back in the attribute key 'email'.
 
+  The SAML backend prefixes this permanent identifier with the IdP name. Use
+  ``attr_user_permanent_id`` to choose the identifier attribute; the generic
+  ``ID_KEY`` setting does not apply to SAML identities.
+
   Note: testshib does not provide email as an attribute. This was tested using
   Okta and G Suite (formerly Google Apps for Business).
 
