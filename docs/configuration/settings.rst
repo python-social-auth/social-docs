@@ -256,9 +256,9 @@ support these scenarios, the ``ID_KEY`` can be configured per-backend via settin
 An explicitly configured ``ID_KEY`` takes precedence over older
 backend-specific identifier selectors such as ``USERNAME_AS_ID``,
 ``USE_UNIQUE_USER_ID``, and ``IDENTIFIED_BY_PERMANENT_ID``.
-The selected field must be present and non-empty in the provider data;
-otherwise authentication fails with ``AuthMissingParameter`` rather than
-storing an ambiguous user identifier.
+An explicitly configured field must be present and non-empty in the provider
+data; otherwise authentication fails with ``AuthMissingParameter`` rather
+than storing an ambiguous user identifier.
 
 Example: Configure Seznam backend to use ``id`` instead of the default ``oauth_user_id``::
 

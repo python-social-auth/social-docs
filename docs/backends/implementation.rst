@@ -358,10 +358,6 @@ overridden to customize behavior. Here are some key methods:
             user_id = self.get_user_id_from_sources(response.get("user"))
             return f"{response['tenant']}:{user_id}"
 
-    Mapping-based overrides should use ``get_user_id_from_sources()`` so a
-    missing or empty selected field raises ``AuthMissingParameter`` instead of
-    creating an ambiguous identifier such as ``"None"``.
-
     If a backend retains an older identifier selector, an explicitly configured
     ``ID_KEY`` should take precedence and the older setting should be used
     only when ``ID_KEY`` is unset.
@@ -370,6 +366,13 @@ overridden to customize behavior. Here are some key methods:
     For example, generic OpenID and Steam use a validated identity URL, while
     SAML uses its per-IdP permanent-ID mapping. Such backends may intentionally
     ignore ``ID_KEY``, but the behavior must be documented by the backend.
+
+``get_user_id_from_sources(*sources, id_key=None)``
+    Searches response mappings in order for the configured ID key, or for the
+    explicitly passed ``id_key``. Mapping-based ``get_user_id()`` overrides
+    should use this method so a missing or empty selected field raises
+    ``AuthMissingParameter`` instead of creating an ambiguous identifier such
+    as ``"None"``.
 
 ``get_user_details(response)``
     Extracts user details (username, email, first_name, last_name, fullname)
