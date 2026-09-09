@@ -141,7 +141,6 @@ Social backends
    shopify
    simplelogin
    sketchfab
-   skyrock
    slack
    soundcloud
    spotify
@@ -169,7 +168,6 @@ Social backends
    vimeo
    vk
    weibo
-   withings
    xing
    yahoo
    yammer
