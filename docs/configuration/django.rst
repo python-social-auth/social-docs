@@ -347,12 +347,14 @@ Exceptions Middleware
 ---------------------
 
 A base middleware is provided that handles ``SocialAuthBaseException`` by
-providing a message to the user via the Django messages framework, and then
+providing an error message to the user via configured transport mechanisms (Django
+messages framework, redirect URL query parameters, or both), and then
 responding with a redirect to a URL defined in one of the middleware methods.
 
 The middleware is at ``social_django.middleware.SocialAuthExceptionMiddleware``.
 Any method can be overridden, but for simplicity these two are recommended::
 
+.. code-block:: python
     get_message(request, exception)
     get_redirect_uri(request, exception)
 
@@ -365,21 +367,137 @@ available at ``request.strategy.backend`` and ``process_exception()`` will
 use it to build a backend-dependent redirect URL but fallback to default if not
 defined.
 
+Error Transports
+^^^^^^^^^^^^^^^^
+
+In traditional server-rendered Django applications, social authentication errors
+are stored in Django's flash messages framework (``django.contrib.messages``) and
+rendered by server-side templates (e.g. ``{% if messages %}``).
+
+However, in modern Single Page Applications (SPAs built with React, Vue, Angular,
+etc.) or hybrid architectures, login and authentication views are handled on the
+client side. When ``django.contrib.messages`` is installed (such as for the Django
+Admin), error messages default to session/cookie flash storage and are never
+surfaced on client-side rendered frontend login pages.
+
+To support SPAs and hybrid setups, ``SocialAuthExceptionMiddleware`` provides a
+configurable error transport mechanism via the ``SOCIAL_AUTH_ERROR_TRANSPORT``
+setting.
+
+An ``ErrorTransport`` enum is available in ``social_django.middleware``::
+
+.. code-block:: python
+    from social_django.middleware import ErrorTransport
+
+The supported transport modes are:
+
+``ErrorTransport.MESSAGES`` (or string ``'messages'``)
+    *(Default)* Dispatches errors via ``django.contrib.messages.error`` tagged
+    with ``social-auth`` and the backend name. This maintains 100% backward
+    compatibility with standard Django applications.
+
+``ErrorTransport.QUERY`` (or string ``'query'``)
+    Appends the error message and backend name as URL query parameters to the
+    redirect target (e.g. ``LOGIN_ERROR_URL``), allowing client-side routers
+    (such as Vue Router or React Router) to inspect query parameters (e.g.,
+    ``$route.query`` or ``URLSearchParams``).
+
+Both transports can be configured together to support hybrid applications where
+both Django template views and client-side SPAs handle authentication errors.
+
+Configuration examples::
+
+.. code-block:: python
+    from social_django.middleware import ErrorTransport
+
+    # SPA / Client-side frontend: deliver errors via URL query parameters
+    SOCIAL_AUTH_ERROR_TRANSPORT = [ErrorTransport.QUERY]
+    # or using string notation:
+    # SOCIAL_AUTH_ERROR_TRANSPORT = 'query'
+
+    # Hybrid application: deliver via both Django messages and URL query parameters
+    SOCIAL_AUTH_ERROR_TRANSPORT = [ErrorTransport.MESSAGES, ErrorTransport.QUERY]
+    # or using string notation:
+    # SOCIAL_AUTH_ERROR_TRANSPORT = ['messages', 'query']
+
+The setting accepts an ``ErrorTransport`` enum instance, a string (case-insensitive),
+or an iterable (such as a list or tuple) containing enum values or strings.
+
+Fallback behavior:
+* If ``ErrorTransport.MESSAGES`` is enabled and ``django.contrib.messages`` is
+  not installed or a ``MessageFailure`` occurs, the middleware automatically falls
+  back to appending query parameters (unless ``ErrorTransport.QUERY`` is already active).
+* If an unrecognized transport value is supplied, the middleware safely falls back
+  to the default ``[ErrorTransport.MESSAGES]``.
+
+Query Parameter Customization
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When query parameter transport is active (or triggered via fallback), the redirect
+destination receives two query parameters:
+
+``message = ''``
+    Message from the exception raised. In some cases, this is the error message
+    returned by the provider during the authentication process.
+
+``backend = ''``
+    Backend name that was used, or ``unknown-backend`` if unresolved.
+
+You can customize the query parameter keys globally or per-backend using Django
+settings::
+
+.. code-block:: python
+    SOCIAL_AUTH_ERROR_PARAM_NAME = 'error_msg'       # Default is 'message'
+    SOCIAL_AUTH_BACKEND_PARAM_NAME = 'auth_backend'  # Default is 'backend'
+
+Alternatively, if you subclass ``SocialAuthExceptionMiddleware``, you can override
+the class attributes directly::
+
+.. code-block:: python
+    class CustomExceptionMiddleware(SocialAuthExceptionMiddleware):
+        ERROR_PARAM_NAME = 'error_msg'
+        BACKEND_PARAM_NAME = 'auth_backend'
+
+URL query parameters are safely merged using ``urllib.parse``: any existing query
+parameters are preserved, stale error/backend parameters are updated with the
+latest failure details, and URL fragments (such as ``/login/#/auth-callback``)
+are preserved with query parameters placed before the hash.
+
 Backend-specific settings
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Both the ``LOGIN_ERROR_URL`` and ``RAISE_EXCEPTIONS`` settings can be configured
-on a per-backend basis. This allows you to customize error handling behavior for
-specific authentication backends.
+Error transports, error URLs, parameter names, and exception raising can all be
+configured on a per-backend basis using the ``SOCIAL_AUTH_<BACKEND_NAME>_<SETTING>``
+pattern.
 
-To define backend-specific error URLs, use the backend name in the setting::
+Error transport per-backend::
 
+.. code-block:: python
+    # Default for all backends (Django messages)
+    SOCIAL_AUTH_ERROR_TRANSPORT = [ErrorTransport.MESSAGES]
+
+    # Specific to Facebook (SPA route using query parameters)
+    SOCIAL_AUTH_FACEBOOK_ERROR_TRANSPORT = [ErrorTransport.QUERY]
+
+    # Specific to Google OAuth2 (both messages and query parameters)
+    SOCIAL_AUTH_GOOGLE_OAUTH2_ERROR_TRANSPORT = ['messages', 'query']
+
+Error URLs per-backend::
+
+.. code-block:: python
     SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'  # Default for all backends
     SOCIAL_AUTH_FACEBOOK_LOGIN_ERROR_URL = '/facebook-error/'  # Specific to Facebook
     SOCIAL_AUTH_GOOGLE_OAUTH2_LOGIN_ERROR_URL = '/google-error/'  # Specific to Google OAuth2
 
-Similarly, you can control exception raising on a per-backend basis::
+Query parameter names per-backend::
 
+.. code-block:: python
+    SOCIAL_AUTH_FACEBOOK_ERROR_PARAM_NAME = 'fb_error'
+    SOCIAL_AUTH_FACEBOOK_BACKEND_PARAM_NAME = 'fb_backend'
+
+Exception raising per-backend::
+
+.. code-block:: python
     SOCIAL_AUTH_RAISE_EXCEPTIONS = False  # Default for all backends
     SOCIAL_AUTH_FACEBOOK_RAISE_EXCEPTIONS = True  # Raise exceptions only for Facebook
 
@@ -388,28 +506,14 @@ different authentication providers, such as showing a custom error page for cert
 providers or raising exceptions for debugging specific backends while keeping
 others in production mode.
 
-Exception processing is disabled if any of this settings is defined with a
+Exception processing is disabled if any of these settings is defined with a
 ``True`` value::
 
+.. code-block:: python
     <backend name>_SOCIAL_AUTH_RAISE_EXCEPTIONS = True
     SOCIAL_AUTH_RAISE_EXCEPTIONS = True
     RAISE_EXCEPTIONS = True
     DEBUG = True
-
-The redirect destination will get two ``GET`` parameters:
-
-``message = ''``
-    Message from the exception raised, in some cases it's the message returned
-    by the provider during the auth process.
-
-``backend = ''``
-    Backend name that was used, if it was a valid backend.
-
-The middleware will attempt to use the Django built-in `messages`
-application to store the exception message, and tag it with
-`social-auth` and the backend name. If the application is not enabled,
-or a `MessageFailure` error happens, the app will default to the URL
-format described above.
 
 
 Django Admin
