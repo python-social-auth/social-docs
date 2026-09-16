@@ -355,6 +355,7 @@ The middleware is at ``social_django.middleware.SocialAuthExceptionMiddleware``.
 Any method can be overridden, but for simplicity these two are recommended::
 
 .. code-block:: python
+
     get_message(request, exception)
     get_redirect_uri(request, exception)
 
@@ -387,6 +388,7 @@ setting.
 An ``ErrorTransport`` enum is available in ``social_django.middleware``::
 
 .. code-block:: python
+
     from social_django.middleware import ErrorTransport
 
 The supported transport modes are:
@@ -408,6 +410,7 @@ both Django template views and client-side SPAs handle authentication errors.
 Configuration examples::
 
 .. code-block:: python
+
     from social_django.middleware import ErrorTransport
 
     # SPA / Client-side frontend: deliver errors via URL query parameters
@@ -447,6 +450,7 @@ You can customize the query parameter keys globally or per-backend using Django
 settings::
 
 .. code-block:: python
+
     SOCIAL_AUTH_ERROR_PARAM_NAME = 'error_msg'       # Default is 'message'
     SOCIAL_AUTH_BACKEND_PARAM_NAME = 'auth_backend'  # Default is 'backend'
 
@@ -454,6 +458,7 @@ Alternatively, if you subclass ``SocialAuthExceptionMiddleware``, you can overri
 the class attributes directly::
 
 .. code-block:: python
+
     class CustomExceptionMiddleware(SocialAuthExceptionMiddleware):
         ERROR_PARAM_NAME = 'error_msg'
         BACKEND_PARAM_NAME = 'auth_backend'
@@ -473,6 +478,7 @@ pattern.
 Error transport per-backend::
 
 .. code-block:: python
+
     # Default for all backends (Django messages)
     SOCIAL_AUTH_ERROR_TRANSPORT = [ErrorTransport.MESSAGES]
 
@@ -492,12 +498,14 @@ Error URLs per-backend::
 Query parameter names per-backend::
 
 .. code-block:: python
+
     SOCIAL_AUTH_FACEBOOK_ERROR_PARAM_NAME = 'fb_error'
     SOCIAL_AUTH_FACEBOOK_BACKEND_PARAM_NAME = 'fb_backend'
 
 Exception raising per-backend::
 
 .. code-block:: python
+
     SOCIAL_AUTH_RAISE_EXCEPTIONS = False  # Default for all backends
     SOCIAL_AUTH_FACEBOOK_RAISE_EXCEPTIONS = True  # Raise exceptions only for Facebook
 
@@ -510,6 +518,7 @@ Exception processing is disabled if any of these settings is defined with a
 ``True`` value::
 
 .. code-block:: python
+
     <backend name>_SOCIAL_AUTH_RAISE_EXCEPTIONS = True
     SOCIAL_AUTH_RAISE_EXCEPTIONS = True
     RAISE_EXCEPTIONS = True
