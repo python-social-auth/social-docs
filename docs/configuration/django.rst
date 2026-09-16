@@ -527,6 +527,298 @@ Exception processing is disabled if any of these settings is defined with a
     DEBUG = True
 
 
+Launch Bridge Endpoints
+-----------------------
+
+When the standard ``begin`` view (``social:begin``) was made POST-only to
+protect against Cross-Site Request Forgery (CSRF) vulnerabilities, workflows
+that inherently rely on browser GET requests could no longer initiate
+authentication without disabling CSRF protections.
+
+Common scenarios impacted by this requirement include:
+
+* **Identity Provider (IdP) Initiated Login**: Enterprise Single Sign-On (SSO)
+  platforms (such as Okta or Microsoft Entra ID / Azure AD) that initiate
+  OpenID Connect (OIDC) authentication flows by navigating the user's browser
+  to an application initiation URL with an ``iss`` and ``target_link_uri``.
+* **Single Page Application (SPA) & Frontend Redirects**: Frontend clients or
+  same-origin apps that initiate login redirects via direct link navigation
+  (``window.location.href = '/app-launch/<backend>/'``) rather than building
+  and submitting an HTML form with a CSRF token.
+
+Rather than weakening ``social:begin`` by re-allowing GET requests,
+``social-app-django`` provides two dedicated, defense-in-depth bridge endpoints:
+
+1. ``idp_launch`` (``/idp-launch/<backend>/``): Designed for external OpenID
+   Connect IdP-initiated login flows.
+2. ``app_launch`` (``/app-launch/<backend>/``): Designed for same-origin
+   application and SPA login redirects.
+
+Both views bridge an incoming GET redirect into an auto-submitting POST request
+targeting ``social:begin`` with a valid Django CSRF token, while enforcing
+strict security checks before triggering the backend authentication pipeline.
+
+Enabling Launch Bridges
+^^^^^^^^^^^^^^^^^^^^^^^
+
+For security and backward compatibility, both launch bridge endpoints are
+**opt-in** and disabled by default. When an endpoint is accessed without being
+enabled, it returns an ``Http404`` (404 Not Found).
+
+To enable one or both bridges, configure ``SOCIAL_AUTH_ENABLE_LAUNCH_BRIDGES``
+in your Django ``settings.py``. The setting accepts the ``LaunchBridge`` enum
+from ``social_django.utils`` or equivalent string literals:
+
+.. code-block:: python
+
+    from social_django.utils import LaunchBridge
+
+    # Default (disabled) — both endpoints return 404
+    SOCIAL_AUTH_ENABLE_LAUNCH_BRIDGES = None  # or []
+
+    # Enable both bridges
+    SOCIAL_AUTH_ENABLE_LAUNCH_BRIDGES = [LaunchBridge.APP, LaunchBridge.IDP]
+    # Or using string literals:
+    # SOCIAL_AUTH_ENABLE_LAUNCH_BRIDGES = ['app_launch', 'idp_launch']
+
+    # Enable only App Launch (same-origin app/SPA redirects)
+    SOCIAL_AUTH_ENABLE_LAUNCH_BRIDGES = [LaunchBridge.APP]
+    # SOCIAL_AUTH_ENABLE_LAUNCH_BRIDGES = ['app_launch']
+
+    # Enable only IdP Launch (external IdP-initiated OIDC login)
+    SOCIAL_AUTH_ENABLE_LAUNCH_BRIDGES = [LaunchBridge.IDP]
+    # SOCIAL_AUTH_ENABLE_LAUNCH_BRIDGES = ['idp_launch']
+
+Endpoint Behaviors and Security Architecture
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Both endpoints employ a layered defense model to protect users and your
+application:
+
+IdP Launch (``idp_launch``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Route: ``/idp-launch/<str:backend>/`` (URL name: ``social:idp_launch``)
+
+Designed to handle `OIDC IdP-initiated login per the OpenID Connect Core
+specification <https://openid.net/specs/openid-connect-core-1_0-36.html#ThirdPartyInitiatedLogin>`_. Enforces 8 security layers:
+
+1. **Opt-In Gate**: Raises ``Http404`` if ``LaunchBridge.IDP`` (or
+   ``'idp_launch'``) is not present in ``SOCIAL_AUTH_ENABLE_LAUNCH_BRIDGES``.
+2. **Framing Protection**: Injects an ``X-Frame-Options: DENY`` header and a
+   Content Security Policy (CSP) ``frame-ancestors 'none'`` directive to prevent
+   clickjacking attacks.
+3. **Open Redirect Prevention**: Strictly validates the ``target_link_uri``
+   parameter against allowed hosts using ``is_safe_url``. Untrusted or external
+   destinations are discarded to prevent open redirect vulnerabilities.
+4. **Parameter Whitelisting & Issuer Validation**: Strictly accepts only
+   ``iss`` and ``target_link_uri`` query parameters. Validates ``iss`` against
+   the backend's configured ID token issuer(s) or alias whitelist.
+5. **Authenticated Session Bypass**: If the requesting user is already
+   authenticated in Django, the authentication roundtrip is skipped and the
+   user is immediately redirected to the safe target destination.
+6. **Fetch Metadata Validation**: Inspects ``Sec-Fetch-Dest`` and
+   ``Sec-Fetch-Mode`` headers to detect suspicious framing or non-top-level
+   navigation contexts.
+7. **Manual Fallback**: Automatically disables JavaScript form auto-submission
+   and presents the user with a manual confirmation button if framing or
+   embedding is detected.
+8. **CSRF Protection**: Generates and submits a POST form targeting
+   ``social:begin`` with a fresh, valid Django CSRF token.
+
+App Launch (``app_launch``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Route: ``/app-launch/<str:backend>/`` (URL name: ``social:app_launch``)
+
+Designed for same-origin frontend or SPA redirects. Enforces 9 security layers:
+
+1. **Opt-In Gate**: Raises ``Http404`` if ``LaunchBridge.APP`` (or
+   ``'app_launch'``) is not present in ``SOCIAL_AUTH_ENABLE_LAUNCH_BRIDGES``.
+2. **Origin Validation**: Inspects ``Sec-Fetch-Site`` and requires it to be
+   ``same-origin`` when present.
+3. **Referer Validation**: Validates the ``Referer`` header against allowed
+   hosts when present.
+4. **Framing Protection**: Injects ``X-Frame-Options: DENY`` and CSP
+   ``frame-ancestors 'none'`` headers.
+5. **Open Redirect Prevention**: Validates the ``next`` query parameter
+   against allowed hosts using ``is_safe_url``.
+6. **Authenticated Session Bypass**: Immediately redirects already-authenticated
+   users to the safe ``next`` destination or ``settings.LOGIN_REDIRECT_URL``.
+7. **Fetch Metadata Validation**: Verifies request context using
+   ``Sec-Fetch-*`` headers.
+8. **Manual Fallback**: Falls back to user click confirmation if potential
+   framing is detected.
+9. **CSRF Protection**: Submits a POST form targeting ``social:begin`` with
+   a valid Django CSRF token.
+
+Multi-Tenant and Multiple Issuer Support
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In multi-tenant OpenID Connect environments (or backends that accept multiple
+issuer identifiers), valid issuers can be configured in two ways:
+
+1. **Custom Backends**: Backends where ``id_token_issuer()`` returns a
+   ``list[str]`` or ``tuple[str]``.
+2. **Settings Whitelist**: The ``SOCIAL_AUTH_<BACKEND>_ALLOWED_ID_TOKEN_ISSUERS``
+   setting allows specifying additional permitted issuer URLs.
+
+For example, for a multi-tenant Okta or Entra ID backend:
+
+.. code-block:: python
+
+    SOCIAL_AUTH_OKTA_ALLOWED_ID_TOKEN_ISSUERS = [
+        'https://customer1.okta.com/oauth2/default',
+        'https://customer2.okta.com/oauth2/default',
+    ]
+
+In ``app_launch``, the primary configured issuer is selected by default, or
+callers can pass a specific validated issuer query parameter (e.g.
+``?iss=https://customer1.okta.com/oauth2/default``).
+
+Allowed Redirect Hosts
+^^^^^^^^^^^^^^^^^^^^^^
+
+Safe redirect URL validation for ``next`` and ``target_link_uri`` checks
+the host against ``request.get_host()``, global settings, and backend-specific
+settings:
+
+.. code-block:: python
+
+    # Global allowed hosts for redirects
+    SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = ['app.example.com', 'portal.example.com']
+
+    # Backend-specific allowed hosts
+    SOCIAL_AUTH_GOOGLE_OAUTH2_ALLOWED_REDIRECT_HOSTS = ['subdomain.example.com']
+
+Customizing the Launch Template (``launch.html``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Both bridge views render ``social_django/launch.html``. To customize the
+appearance, loading animation, or branding during the transition, create a
+file named ``social_django/launch.html`` within your project's ``templates``
+directory (ensuring your template loader prioritizes project templates).
+
+Template Context Variables
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The view passes the following context variables to the template:
+
+``action_url``
+    The target URL for the POST submission, which resolves to the
+    ``social:begin`` view for the requested backend (e.g., ``/login/<backend>/``).
+
+``params``
+    A dictionary containing whitelisted key-value parameters to forward to
+    ``social:begin`` (such as ``iss`` and ``next`` / ``target_link_uri``).
+    These should be rendered as hidden input fields.
+
+``auto_submit``
+    A boolean indicating whether automatic JavaScript form submission is
+    safe. When ``False`` (e.g. if the request context indicates framing), the
+    template should render a manual confirmation button instead of
+    auto-submitting.
+
+``csrf_token``
+    The standard Django CSRF token, required for POSTing to ``social:begin``.
+
+Example Custom Template
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Here is an example of a branded, accessible custom template:
+
+.. code-block:: html+django
+
+    {# templates/social_django/launch.html #}
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Authenticating...</title>
+        <style>
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa;
+          }
+          .card {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+          }
+          .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0066cc;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+          }
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+          .btn {
+            background-color: #0066cc;
+            color: #ffffff;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 1rem;
+          }
+          .btn:hover {
+            background-color: #004c99;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <form id="autoLoginForm" method="post" action="{{ action_url }}">
+            {% csrf_token %}
+            {% for key, value in params.items %}
+              <input type="hidden" name="{{ key }}" value="{{ value }}">
+            {% endfor %}
+
+            {% if auto_submit %}
+              <div class="spinner" aria-hidden="true"></div>
+              <p>Signing in, please wait...</p>
+              <noscript>
+                <p>JavaScript is disabled in your browser.</p>
+                <button type="submit" class="btn">Continue to Sign In</button>
+              </noscript>
+            {% else %}
+              <p>Click below to continue signing in.</p>
+              <button type="submit" class="btn">Sign In</button>
+            {% endif %}
+          </form>
+        </div>
+
+        {% if auto_submit %}
+          <script>
+            window.addEventListener('load', function () {
+              var form = document.getElementById('autoLoginForm');
+              if (form) {
+                form.submit();
+              }
+            });
+          </script>
+        {% endif %}
+      </body>
+    </html>
+
+
 Django Admin
 ------------
 
