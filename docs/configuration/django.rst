@@ -352,7 +352,7 @@ messages framework, redirect URL query parameters, or both), and then
 responding with a redirect to a URL defined in one of the middleware methods.
 
 The middleware is at ``social_django.middleware.SocialAuthExceptionMiddleware``.
-Any method can be overridden, but for simplicity these two are recommended::
+Any method can be overridden, but for simplicity these two are recommended:
 
 .. code-block:: python
 
