@@ -427,6 +427,7 @@ The setting accepts an ``ErrorTransport`` enum instance, a string (case-insensit
 or an iterable (such as a list or tuple) containing enum values or strings.
 
 Fallback behavior:
+
 * If ``ErrorTransport.MESSAGES`` is enabled and ``django.contrib.messages`` is
   not installed or a ``MessageFailure`` occurs, the middleware automatically falls
   back to appending query parameters (unless ``ErrorTransport.QUERY`` is already active).
@@ -491,6 +492,7 @@ Error transport per-backend::
 Error URLs per-backend::
 
 .. code-block:: python
+
     SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'  # Default for all backends
     SOCIAL_AUTH_FACEBOOK_LOGIN_ERROR_URL = '/facebook-error/'  # Specific to Facebook
     SOCIAL_AUTH_GOOGLE_OAUTH2_LOGIN_ERROR_URL = '/google-error/'  # Specific to Google OAuth2
