@@ -385,7 +385,7 @@ To support SPAs and hybrid setups, ``SocialAuthExceptionMiddleware`` provides a
 configurable error transport mechanism via the ``SOCIAL_AUTH_ERROR_TRANSPORT``
 setting.
 
-An ``ErrorTransport`` enum is available in ``social_django.middleware``::
+An ``ErrorTransport`` enum is available in ``social_django.middleware``:
 
 .. code-block:: python
 
@@ -407,7 +407,7 @@ The supported transport modes are:
 Both transports can be configured together to support hybrid applications where
 both Django template views and client-side SPAs handle authentication errors.
 
-Configuration examples::
+Configuration examples:
 
 .. code-block:: python
 
@@ -448,7 +448,7 @@ destination receives two query parameters:
     Backend name that was used, or ``unknown-backend`` if unresolved.
 
 You can customize the query parameter keys globally or per-backend using Django
-settings::
+settings:
 
 .. code-block:: python
 
@@ -456,7 +456,7 @@ settings::
     SOCIAL_AUTH_BACKEND_PARAM_NAME = 'auth_backend'  # Default is 'backend'
 
 Alternatively, if you subclass ``SocialAuthExceptionMiddleware``, you can override
-the class attributes directly::
+the class attributes directly:
 
 .. code-block:: python
 
@@ -476,7 +476,7 @@ Error transports, error URLs, parameter names, and exception raising can all be
 configured on a per-backend basis using the ``SOCIAL_AUTH_<BACKEND_NAME>_<SETTING>``
 pattern.
 
-Error transport per-backend::
+Error transport per-backend:
 
 .. code-block:: python
 
@@ -489,7 +489,7 @@ Error transport per-backend::
     # Specific to Google OAuth2 (both messages and query parameters)
     SOCIAL_AUTH_GOOGLE_OAUTH2_ERROR_TRANSPORT = ['messages', 'query']
 
-Error URLs per-backend::
+Error URLs per-backend:
 
 .. code-block:: python
 
@@ -497,14 +497,14 @@ Error URLs per-backend::
     SOCIAL_AUTH_FACEBOOK_LOGIN_ERROR_URL = '/facebook-error/'  # Specific to Facebook
     SOCIAL_AUTH_GOOGLE_OAUTH2_LOGIN_ERROR_URL = '/google-error/'  # Specific to Google OAuth2
 
-Query parameter names per-backend::
+Query parameter names per-backend:
 
 .. code-block:: python
 
     SOCIAL_AUTH_FACEBOOK_ERROR_PARAM_NAME = 'fb_error'
     SOCIAL_AUTH_FACEBOOK_BACKEND_PARAM_NAME = 'fb_backend'
 
-Exception raising per-backend::
+Exception raising per-backend:
 
 .. code-block:: python
 
@@ -517,7 +517,7 @@ providers or raising exceptions for debugging specific backends while keeping
 others in production mode.
 
 Exception processing is disabled if any of these settings is defined with a
-``True`` value::
+``True`` value:
 
 .. code-block:: python
 
