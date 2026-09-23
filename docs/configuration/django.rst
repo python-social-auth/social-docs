@@ -667,7 +667,7 @@ For example, for a multi-tenant Okta or Entra ID backend:
 
 .. code-block:: python
 
-    SOCIAL_AUTH_OKTA_ALLOWED_ID_TOKEN_ISSUERS = [
+    SOCIAL_AUTH_OKTA_OAUTH2_ALLOWED_ID_TOKEN_ISSUERS = [
         'https://customer1.okta.com/oauth2/default',
         'https://customer2.okta.com/oauth2/default',
     ]
