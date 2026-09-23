@@ -567,11 +567,11 @@ enabled, it returns an ``Http404`` (404 Not Found).
 
 To enable one or both bridges, configure ``SOCIAL_AUTH_ENABLE_LAUNCH_BRIDGES``
 in your Django ``settings.py``. The setting accepts the ``LaunchBridge`` enum
-from ``social_django.utils`` or equivalent string literals:
+from ``social_django.constants`` or equivalent string literals:
 
 .. code-block:: python
 
-    from social_django.utils import LaunchBridge
+    from social_django.constants import LaunchBridge
 
     # Default (disabled) — both endpoints return 404
     SOCIAL_AUTH_ENABLE_LAUNCH_BRIDGES = None  # or []
