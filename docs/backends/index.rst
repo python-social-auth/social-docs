@@ -62,6 +62,7 @@ Social backends
    box
    bungie
    cas
+   cesid
    coinbase
    cognito
    coursera
