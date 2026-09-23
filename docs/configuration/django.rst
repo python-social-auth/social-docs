@@ -552,11 +552,25 @@ Rather than weakening ``social:begin`` by re-allowing GET requests,
 1. ``idp_launch`` (``/idp-launch/<backend>/``): Designed for external OpenID
    Connect IdP-initiated login flows.
 2. ``app_launch`` (``/app-launch/<backend>/``): Designed for same-origin
-   application and SPA login redirects.
+   application and SPA login redirects with OpenID Connect backends.
 
 Both views bridge an incoming GET redirect into an auto-submitting POST request
 targeting ``social:begin`` with a valid Django CSRF token, while enforcing
 strict security checks before triggering the backend authentication pipeline.
+
+.. note::
+
+   **OpenID Connect (OIDC) Backend Prerequisite**: Both ``idp_launch`` and
+   ``app_launch`` strictly require an OpenID Connect backend (or a custom backend
+   that provides a valid, RFC-compliant HTTPS ID token issuer via
+   ``backend.id_token_issuer()`` or the ``SOCIAL_AUTH_<BACKEND>_ID_TOKEN_ISSUER``
+   setting).
+
+   If either endpoint is accessed with a backend that does not support ID token
+   issuer validation (such as non-OIDC OAuth 1.0 or OAuth 2.0 backends like Facebook,
+   GitHub, or Twitter), or if the backend does not supply a valid HTTPS issuer URL,
+   the launch bridge immediately rejects the request with HTTP 400 (``BadRequest``).
+
 
 Enabling Launch Bridges
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -613,7 +627,9 @@ specification <https://openid.net/specs/openid-connect-core-1_0-36.html#ThirdPar
    destinations are discarded to prevent open redirect vulnerabilities.
 4. **Parameter Whitelisting & Issuer Validation**: Strictly accepts only
    ``iss`` and ``target_link_uri`` query parameters. Validates ``iss`` against
-   the backend's configured ID token issuer(s) or alias whitelist.
+   the backend's configured ID token issuer(s) or alias whitelist. Requires a
+   valid RFC-compliant HTTPS issuer; backends without issuer support reject
+   requests with HTTP 400 (``BadRequest``).
 5. **Authenticated Session Bypass**: If the requesting user is already
    authenticated in Django, the authentication roundtrip is skipped and the
    user is immediately redirected to the safe target destination.
@@ -631,26 +647,32 @@ App Launch (``app_launch``)
 
 Route: ``/app-launch/<str:backend>/`` (URL name: ``social:app_launch``)
 
-Designed for same-origin frontend or SPA redirects. Enforces 9 security layers:
+Designed for same-origin frontend or SPA redirects with OpenID Connect (OIDC) backends. Enforces 10 security layers:
 
 1. **Opt-In Gate**: Raises ``Http404`` if ``LaunchBridge.APP`` (or
    ``'app_launch'``) is not present in ``SOCIAL_AUTH_ENABLE_LAUNCH_BRIDGES``.
-2. **Origin Validation**: Inspects ``Sec-Fetch-Site`` and requires it to be
+2. **Backend Issuer Validation**: Requires the backend to provide a valid,
+   RFC-compliant HTTPS ID token issuer (via ``id_token_issuer()`` or
+   ``SOCIAL_AUTH_<BACKEND>_ID_TOKEN_ISSUER``). Non-OIDC backends (such as
+   Facebook or GitHub) or backends with non-HTTPS issuers immediately raise
+   HTTP 400 (``BadRequest``). If an optional ``iss`` query parameter is
+   provided, it is validated against the backend's allowed issuers.
+3. **Origin Validation**: Inspects ``Sec-Fetch-Site`` and requires it to be
    ``same-origin`` when present.
-3. **Referer Validation**: Validates the ``Referer`` header against allowed
+4. **Referer Validation**: Validates the ``Referer`` header against allowed
    hosts when present.
-4. **Framing Protection**: Injects ``X-Frame-Options: DENY`` and CSP
+5. **Framing Protection**: Injects ``X-Frame-Options: DENY`` and CSP
    ``frame-ancestors 'none'`` headers.
-5. **Open Redirect Prevention**: Validates the ``next`` query parameter
+6. **Open Redirect Prevention**: Validates the ``next`` query parameter
    against allowed hosts using ``is_safe_url``.
-6. **Authenticated Session Bypass**: Immediately redirects already-authenticated
+7. **Authenticated Session Bypass**: Immediately redirects already-authenticated
    users to the safe ``next`` destination or ``settings.LOGIN_REDIRECT_URL``.
-7. **Fetch Metadata Validation**: Verifies request context using
+8. **Fetch Metadata Validation**: Verifies request context using
    ``Sec-Fetch-*`` headers.
-8. **Manual Fallback**: Falls back to user click confirmation if potential
+9. **Manual Fallback**: Falls back to user click confirmation if potential
    framing is detected.
-9. **CSRF Protection**: Submits a POST form targeting ``social:begin`` with
-   a valid Django CSRF token.
+10. **CSRF Protection**: Submits a POST form targeting ``social:begin`` with
+    a valid Django CSRF token.
 
 Multi-Tenant and Multiple Issuer Support
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -674,7 +696,9 @@ For example, for a multi-tenant Okta or Entra ID backend:
 
 In ``app_launch``, the primary configured issuer is selected by default, or
 callers can pass a specific validated issuer query parameter (e.g.
-``?iss=https://customer1.okta.com/oauth2/default``).
+``?iss=https://customer1.okta.com/oauth2/default``). If the requested backend
+does not configure an issuer or if an unapproved ``iss`` parameter is supplied,
+the view returns HTTP 400 (``BadRequest``).
 
 Allowed Redirect Hosts
 ^^^^^^^^^^^^^^^^^^^^^^
