@@ -103,6 +103,7 @@ Social backends
    lastfm
    launchpad
    lifescience
+   lifescience_eosc
    line
    linkedin
    livejournal
