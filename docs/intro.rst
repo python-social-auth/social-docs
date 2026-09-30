@@ -76,7 +76,7 @@ or extend current one):
 * Stripe_ OAuth2
 * Tripit_ OAuth1
 * Tumblr_ OAuth1
-* Twilio_ Auth
+* Twilio_ Connect association
 * Twitch_ OAuth2
 * Twitter_ OAuth1
 * Upwork_ OAuth1
