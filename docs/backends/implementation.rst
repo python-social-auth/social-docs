@@ -45,6 +45,23 @@ First, let's check the common attributes for all backend types.
     the default GET request.
 
 
+Initiating authentication
+-------------------------
+
+Framework integrations that have the current local user can pass it to
+``social_core.actions.do_auth(backend, user=current_user)``. The optional
+``user`` argument is passed to ``BaseAuth.prepare_auth(user=None)`` after
+the normal redirect and session-field handling, immediately before
+``start()``. The default hook does nothing, so integrations that omit the
+user retain the existing behavior.
+
+Backends can override ``prepare_auth()`` to validate the local user or
+prepare backend-specific state before authentication starts. An exception
+from the hook stops initiation. The user object is passed only to the hook;
+a backend that needs to bind a later callback to the user must decide whether
+and how to persist a stable identifier.
+
+
 OAuth
 -----
 
