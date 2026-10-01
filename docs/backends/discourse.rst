@@ -18,6 +18,10 @@ setting.
 
 Discourse can serve as a Single Sign On provider for Authentication.
 
+The backend binds the local association to Discourse's ``external_id``. Email
+addresses remain profile data and are not account identifiers because they can
+change or later belong to another user.
+
 - Deploy a Discourse application and `configure
   <https://meta.discourse.org/t/using-discourse-as-a-sso-provider/32974>` the
   application to enable Discourse as an SSO provider.

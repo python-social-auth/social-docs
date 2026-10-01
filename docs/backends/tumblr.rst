@@ -18,6 +18,10 @@ setting.
 
 Tumblr uses OAuth 1.0a for authentication.
 
+The backend identifies an account by the UUID of its primary blog. The blog
+name remains available as the local username but is not used for account
+binding because Tumblr names can change and be reused.
+
 - Register a new application at http://www.tumblr.com/oauth/apps
 
 - Set the ``Default callback URL`` to http://[your domain]/
