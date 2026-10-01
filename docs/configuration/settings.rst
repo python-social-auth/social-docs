@@ -234,6 +234,8 @@ Note that backend-specific settings (with the backend name) take precedence over
 generic settings, following the same pattern as other settings in this library.
 
 
+.. _configurable-user-id-key:
+
 Configurable User ID Key
 -------------------------
 
@@ -268,9 +270,8 @@ Example: Configure Keycloak backend to use ``email`` instead of the default ``su
 
     SOCIAL_AUTH_KEYCLOAK_ID_KEY = 'email'
 
-Example: Configure the Azure AD v2 tenant backend to use its stable,
-application-specific ``sub`` claim instead of the mutable
-``preferred_username``::
+Example: Explicitly select the stable, application-specific ``sub`` claim for
+an Azure AD backend::
 
     SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_ID_KEY = 'sub'
 
@@ -280,12 +281,34 @@ uses the per-IdP ``attr_user_permanent_id`` mapping instead. See the
 :doc:`OpenID <../backends/openid>`, :doc:`Steam <../backends/steam>`, and
 :doc:`SAML <../backends/saml>` backend documentation.
 
+Associations store both the identifier value and the name of the provider field
+that supplied it. When a bundled backend changes to a more stable default,
+associations created by older versions have a blank identifier key. On the next
+successful authentication, social-core first attempts to prove the association
+using stable data stored in ``extra_data``. By default it then falls back to the
+current value of the backend's historical identifier and updates the association
+to the stable identifier.
+
+``SOCIAL_AUTH_ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION = True``
+    Allow the compatibility fallback for legacy associations whose stable
+    identity cannot be proved from stored provider data. This is enabled by
+    default so unchanged existing users continue to authenticate.
+
+    Set this to ``False`` to require stable stored data, an administrative data
+    migration, or an authenticated reconnection. Backend-specific variants of
+    the setting are supported.
+
 .. warning::
-    Changing the ``ID_KEY`` for an existing backend will affect how users are
-    identified. Existing users may not be able to log in if the identifier
-    changes. This setting should be configured before users start authenticating
-    with the backend, or a data migration should be performed to update existing
-    ``UserSocialAuth`` records.
+    A legacy association remains keyed by its old identifier until it is
+    migrated. With compatibility fallback enabled, the first provider identity
+    to present that value can claim the migration. Deployments that cannot
+    accept this one-time risk should disable unverified migration before
+    upgrading and migrate associations administratively.
+
+    Explicitly overriding ``ID_KEY`` with a mutable username, email address,
+    UPN, or ``preferred_username`` keeps the corresponding backend vulnerable.
+    Known unsafe overrides emit a warning, but remain supported for
+    compatibility.
 
 Basic information is requested to the different providers in order to create
 a coherent user instance (with first and last name, email and full name), this

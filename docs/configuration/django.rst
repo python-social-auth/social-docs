@@ -81,6 +81,12 @@ For other providers, the pattern is ``SOCIAL_AUTH_<PROVIDER>_KEY``,
 
     python manage.py migrate
 
+Upgrades that add identifier-key tracking must install compatible releases of
+both ``social-auth-core`` and ``social-auth-app-django`` before running this
+command. The Django migration adds a blank ``id_key`` to existing social
+associations; social-core then migrates those rows according to the policy in
+:ref:`the configurable user ID key documentation <configurable-user-id-key>`.
+
 **7. Add login form in template**::
 
     <form method="post" action="{% url 'social:begin' 'google-oauth2' %}">

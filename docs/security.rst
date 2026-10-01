@@ -1,6 +1,30 @@
 Security considerations
 =======================
 
+Stable social account identifiers
+---------------------------------
+
+Social authentication associations are authorization bindings. Their ``uid``
+must therefore come from a provider identifier that is immutable and cannot be
+reassigned, rather than a display name, email address, UPN, or other
+human-readable login name.
+
+Bundled backends use stable provider identifiers where available. Tumblr uses
+the primary blog UUID, Deezer its numeric account ID, Discourse
+``external_id``, SciStarter ``profile_id``, and Microsoft Entra ID/Azure AD
+backends ``sub``. Applications overriding a backend's ``ID_KEY`` are
+responsible for ensuring the selected claim has the same stability properties.
+
+When upgrading an existing deployment, read :ref:`the configurable user ID
+key documentation <configurable-user-id-key>` before authenticating users. The
+default compatibility migration preserves existing logins but accepts a
+one-time first-login race for associations that lack stored stable identity
+data. Security-sensitive deployments should disable that fallback and migrate
+the affected records administratively.
+
+Host header validation
+----------------------
+
 The library may use the incoming HTTP ``Host`` header when generating absolute URLs
 or redirects during the authentication and authorization flow. If the ``Host``
 header is not validated by the deployment stack, it may allow host header

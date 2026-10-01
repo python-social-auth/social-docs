@@ -35,29 +35,33 @@ The Azure backends use these claims as their default user identifiers:
    * - Backend name
      - Default ID key
    * - ``azuread-oauth2``
-     - ``upn``
+     - ``sub``
    * - ``azuread-oauth2-v2``
-     - ``upn``
+     - ``sub``
    * - ``azuread-tenant-oauth2``
      - ``sub``
    * - ``azuread-v2-tenant-oauth2``
-     - ``preferred_username``
+     - ``sub``
    * - ``azuread-b2c-oauth2``
      - ``sub``
 
 Microsoft documents ``preferred_username`` and ``upn`` as mutable
-human-readable identifiers. The ``sub`` claim is immutable and unique to an
-application ID, while ``oid`` is immutable and remains the same across
-applications within a tenant. Choose the claim that matches the application's
-identity model.
+human-readable identifiers that must not be used as authorization identities.
+The backends therefore use ``sub``, which is immutable and pairwise unique to
+an application ID. The ``oid`` claim is immutable across applications within a
+tenant, but is only tenant-unique and must be combined with ``tid`` when used
+across tenants.
 
 For example, configure the v2 tenant backend to use ``sub``::
 
     SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_ID_KEY = 'sub'
 
-Changing this setting for a deployed application changes the value stored in
-``UserSocialAuth.uid``. Migrate existing associations before enabling the
-new key. See :doc:`../configuration/settings` and the
+Older associations using ``upn`` or ``preferred_username`` are migrated to
+``sub`` during authentication. See :doc:`../configuration/settings` for the
+compatibility and strict migration policies. Because ``sub`` is pairwise,
+changing the Azure application/client ID can also require an identity migration.
+The ``sub``, ``oid``, and ``tid`` claims are retained in ``extra_data`` to make
+future verified migrations possible. See the
 `Microsoft ID token claims reference`_.
 
 IdP Setup

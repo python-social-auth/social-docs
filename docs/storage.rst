@@ -10,10 +10,11 @@ Social User
 -----------
 
 This model associates a social account data with a user in the system, it
-contains the provider name and user ID (``uid``) which should identify the
-social account in the remote provider, plus some extra data (``extra_data``)
-which is JSON encoded field with extra information from the provider (usually
-avatars and similar).
+contains the provider name, the user ID (``uid``) which identifies the social
+account in the remote provider, and ``id_key`` naming the provider field from
+which that ID was obtained. It also contains JSON-encoded ``extra_data`` with
+additional provider information. Existing rows created before ``id_key`` was
+introduced use an empty string until social-core migrates them.
 
 When implementing this model, it must inherits from UserMixin_ and extend the
 needed methods:
@@ -63,8 +64,13 @@ needed methods:
 * Social user::
 
     @classmethod
-    def get_social_auth(cls, provider, uid):
-        """Return UserSocialAuth for given provider and uid"""
+    def get_social_auth(cls, provider, uid, id_key=None):
+        """Return UserSocialAuth for the provider, uid, and optional key"""
+        raise NotImplementedError('Implement in subclass')
+
+    @classmethod
+    def get_social_auth_by_extra_data(cls, provider, key, value, id_key=''):
+        """Return one unambiguous association matching stable provider data"""
         raise NotImplementedError('Implement in subclass')
 
     @classmethod
@@ -73,9 +79,18 @@ needed methods:
         raise NotImplementedError('Implement in subclass')
 
     @classmethod
-    def create_social_auth(cls, user, uid, provider):
+    def create_social_auth(cls, user, uid, provider, id_key=''):
         """Create a UserSocialAuth instance for given user"""
         raise NotImplementedError('Implement in subclass')
+
+    @classmethod
+    def migrate_social_auth(cls, social, uid, id_key):
+        """Atomically replace the association identifier and its key"""
+        raise NotImplementedError('Implement in subclass')
+
+Identifier migration must preserve the storage's provider/UID uniqueness
+guarantee, lock the association while updating it, and fail rather than select
+an arbitrary row when stored provider data matches multiple associations.
 
 * Social disconnection::
 
