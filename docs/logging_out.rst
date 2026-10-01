@@ -15,6 +15,12 @@ implies removing cookies, invalidating a session hash, etc. The many frameworks
 have their own ways to logout an account (Django has ``django.contrib.auth.logout``),
 ``flask-login`` has it's own way too with `logout_user()`_.
 
+Some providers also maintain their own sign-in session. Clear the local session
+and redirect the browser to the provider's logout endpoint when provider logout
+is required. Azure AD B2C provides a URL helper and a Django example; see
+:ref:`azure-b2c-logout`. Provider logout does not remove the social account
+association.
+
 Since disconnecting a social account means that the user won't be able to log
 back in with that social provider into the same user, python-social-auth will
 check that the user account is in a valid state for disconnection (it has at

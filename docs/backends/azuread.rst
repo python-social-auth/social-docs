@@ -127,7 +127,7 @@ Fill in ``Client ID`` and ``Client Secret`` settings with values from Azure AD::
   (for example, Kubernetes service account tokens issued via Azure Workload Identity, or other OIDC tokens where you manage
   writing the token to a file). Precedence: if ``SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET`` is set, the backend uses the client
   secret and does not send a client assertion; otherwise it prefers an explicit ``SOCIAL_AUTH_AZUREAD_OAUTH2_CLIENT_ASSERTION``;
-  if no assertion is provided, it reads a token file from ``AZURE_FEDERATED_TOKEN_FILE`` (or ``OAUTH2_FIC_TOKEN_FILE``) or
+  if no assertion is provided, it reads a token file from ``AZURE_FEDERATED_TOKEN_FILE`` (or ``OAUTH2_FEDERATED_TOKEN_FILE``) or
   ``SOCIAL_AUTH_AZUREAD_OAUTH2_FEDERATED_TOKEN_FILE``. The backend will automatically use a client assertion instead of
   ``CLIENT_SECRET`` when the secret is omitted.
 
@@ -148,7 +148,7 @@ Fill in ``Client ID`` and ``Client Secret`` settings with values from Azure AD::
   Minimal configs by approach:
 
   - Token file (workload-issued OIDC token): leave ``SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET`` unset; set either
-    ``AZURE_FEDERATED_TOKEN_FILE`` (or ``OAUTH2_FIC_TOKEN_FILE``) or ``SOCIAL_AUTH_AZUREAD_OAUTH2_FEDERATED_TOKEN_FILE``
+    ``AZURE_FEDERATED_TOKEN_FILE`` (or ``OAUTH2_FEDERATED_TOKEN_FILE``) or ``SOCIAL_AUTH_AZUREAD_OAUTH2_FEDERATED_TOKEN_FILE``
     to the token path. ``CLIENT_ASSERTION_TYPE`` is not needed for this mode.
 
   - Pre-built client assertion: leave ``SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET`` unset; set
@@ -184,13 +184,100 @@ Fill in ``Client ID`` and ``Client Secret`` settings with values from Azure AD::
 
   These settings apply to Azure AD/Entra ID scenarios. For more information on workload identity, see `Workload Identity Federation`_ and `Federated identity credentials (Workload Identity)`_.
 
+Authority configuration
+-----------------------
+
+Use ``AUTHORITY_URL`` to choose the host and sign-in audience together. For
+example, restrict sign-in to work and school accounts with::
+
+    SOCIAL_AUTH_AZUREAD_OAUTH2_AUTHORITY_URL = 'https://login.microsoftonline.com/organizations'
+
+The audience path is ``common`` for work, school, and personal Microsoft accounts,
+``organizations`` for work and school accounts, or ``consumers`` for personal
+accounts. A tenant UUID or tenant domain selects a specific tenant. The app
+registration must also allow the chosen account types. See
+`Microsoft authorization code flow`_.
+
+Specify an HTTPS base authority, including its audience or tenant path. Omit
+``/oauth2/authorize``, ``/oauth2/token``, ``/v2.0``, and discovery suffixes. The
+backend class selects v1 or v2 endpoints. Trailing slashes are normalized;
+credentials, query strings, and fragments are not accepted.
+
+Each backend has its own configuration prefix:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend
+     - Authority setting
+   * - ``azuread-oauth2``
+     - ``SOCIAL_AUTH_AZUREAD_OAUTH2_AUTHORITY_URL``
+   * - ``azuread-oauth2-v2``
+     - ``SOCIAL_AUTH_AZUREAD_OAUTH2_V2_AUTHORITY_URL``
+   * - ``azuread-tenant-oauth2``
+     - ``SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_AUTHORITY_URL``
+   * - ``azuread-v2-tenant-oauth2``
+     - ``SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_AUTHORITY_URL``
+   * - ``azuread-b2c-oauth2``
+     - ``SOCIAL_AUTH_AZUREAD_B2C_OAUTH2_AUTHORITY_URL``
+
+For example, use the v2 backend for organizational accounts::
+
+    SOCIAL_AUTH_AZUREAD_OAUTH2_V2_AUTHORITY_URL = 'https://login.microsoftonline.com/organizations'
+
+Or use a tenant backend with an explicit authority::
+
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_AUTHORITY_URL = 'https://login.microsoftonline.com/your-tenant.onmicrosoft.com'
+    SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_AUTHORITY_URL = 'https://login.microsoftonline.com/your-tenant.onmicrosoft.com'
+
+An explicit authority supplies the base for authorization, token exchange,
+refresh, and discovery. Without it, existing ``AUTHORITY_HOST``, ``TENANT_ID``,
+and ``TENANT_NAME`` configuration continues to work. A UUID ``TENANT_ID`` in a
+tenant backend remains a token validation restriction even when the authority
+is overridden. Individual ``AUTHORIZATION_URL``, ``ACCESS_TOKEN_URL``, and
+``OPENID_CONFIGURATION_URL`` overrides take precedence over the derived URLs.
+Token issuer, signing-key, tenant, and B2C policy validation remain enabled.
+
+For B2C custom domains, end the authority at the tenant domain and configure
+the policy separately::
+
+    SOCIAL_AUTH_AZUREAD_B2C_OAUTH2_TENANT_NAME = 'your-tenant'
+    SOCIAL_AUTH_AZUREAD_B2C_OAUTH2_AUTHORITY_URL = 'https://login.example.com/your-tenant.onmicrosoft.com'
+    SOCIAL_AUTH_AZUREAD_B2C_OAUTH2_POLICY = 'b2c_1_signin'
+
+The backend retains its policy query parameters; do not append the policy to
+``AUTHORITY_URL``.
+
+Proof Key for Code Exchange (PKCE)
+----------------------------------
+
+All five Azure backends support PKCE. It is disabled by default to preserve
+existing integrations. Enable it with the selected backend's setting::
+
+    SOCIAL_AUTH_AZUREAD_OAUTH2_USE_PKCE = True
+    # For the other backends, use the corresponding setting instead:
+    SOCIAL_AUTH_AZUREAD_OAUTH2_V2_USE_PKCE = True
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_USE_PKCE = True
+    SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_USE_PKCE = True
+    SOCIAL_AUTH_AZUREAD_B2C_OAUTH2_USE_PKCE = True
+
+The default challenge method is ``S256``. The backend saves a random verifier
+in the session, sends its SHA-256 challenge at authorization, and sends the
+verifier when redeeming the code. PKCE complements client authentication;
+continue to configure a client secret or federated assertion for confidential
+clients. V2 backends are recommended for new integrations.
+
+Register server-side callbacks as **Web** redirect URIs, including applications
+with a separate frontend. Enabling PKCE alone does not make a server-side flow
+compatible with an Azure **SPA** registration: Microsoft also requires an
+``Origin`` header for SPA token redemption and restricts client credentials
+when that header is present. See `Microsoft authorization code flow`_.
+
 Tenant Support
 --------------
 
 If the app is linked to a specific tenant (vs the common tenant) it's
 possible to use a version of the backend with tenant support.
-
-*Note: The backends are split because of the needed cryptography dependencies which must be installed manually.*
 
 IdP Setup for Tenant
 ^^^^^^^^^^^^^^^^^^^^^
@@ -246,7 +333,7 @@ To enable OAuth2 B2C Tenant support:
       SOCIAL_AUTH_AZUREAD_B2C_OAUTH2_KEY = ''
       SOCIAL_AUTH_AZUREAD_B2C_OAUTH2_SECRET = ''
 
-- Fill in the tenant id::
+- Fill in the tenant name (without ``.onmicrosoft.com``)::
 
       SOCIAL_AUTH_AZUREAD_B2C_OAUTH2_TENANT_NAME = ''
 
@@ -281,9 +368,65 @@ The policy should start with `b2c_`. For more information see `Azure AD B2C User
 
       SOCIAL_AUTH_AZUREAD_B2C_OAUTH2_AUTHORITY_HOST = ''
 
+
+.. _azure-b2c-logout:
+
+B2C provider logout
+-------------------
+
+``AzureADB2COAuth2.logout_url()`` returns the provider logout URL from the
+configured policy's OpenID Connect ``end_session_endpoint``. It preserves
+endpoint query parameters and includes the configured client ID. It does not
+send a request or clear the application's session.
+
+The optional keyword arguments are ``post_logout_redirect_uri``,
+``id_token_hint``, and ``state``. Pass the previously issued ID token from
+``extra_data`` as the hint. Configure a trusted return URL and register it with
+your B2C application. When B2C requires an ID token for logout, it checks the
+return URL against registered redirect URIs. If using ``state``, save it and
+verify it on the return callback. See `Microsoft B2C sign-out`_.
+
+Build the URL using the same policy that authenticated the user. For example,
+a Django view can retrieve the token before clearing the local session:
+
+.. code-block:: python
+
+    from django.contrib.auth import logout
+    from django.contrib.auth.decorators import login_required
+    from django.shortcuts import redirect
+    from django.views.decorators.http import require_POST
+    from social_django.utils import load_backend, load_strategy
+
+    @login_required
+    @require_POST
+    def b2c_logout(request):
+        social = request.user.social_auth.get(provider='azuread-b2c-oauth2')
+        strategy = load_strategy(request)
+        backend = load_backend(
+            strategy, 'azuread-b2c-oauth2', redirect_uri=None
+        )
+        provider_url = backend.logout_url(
+            post_logout_redirect_uri=request.build_absolute_uri('/signed-out/'),
+            id_token_hint=social.extra_data.get('id_token'),
+        )
+        logout(request)
+        return redirect(provider_url)
+
+Use a CSRF-protected POST form to invoke this view. This example assumes an
+authenticated B2C user and a single configured sign-in policy. Applications
+with multiple policies must select the backend for the stored sign-in policy.
+A missing or invalid ``end_session_endpoint`` raises ``AuthMissingParameter``;
+discovery request failures propagate through the usual backend error handling.
+
+Provider logout complements local logout. Disconnecting an account removes
+its association instead; see :doc:`../logging_out`.
+
 .. _Azure AD Application Registration: https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app
 .. _Azure AD B2C User flows and custom policies overview: https://docs.microsoft.com/en-us/azure/active-directory-b2c/user-flow-overview
 .. _Azure Authority Hosts: https://docs.microsoft.com/en-us/python/api/azure-identity/azure.identity.azureauthorityhosts?view=azure-python
 .. _Workload Identity Federation: https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation
 .. _Federated identity credentials (Workload Identity): https://azure.github.io/azure-workload-identity/docs/topics/federated-identity-credential.html
 .. _Microsoft ID token claims reference: https://learn.microsoft.com/en-us/entra/identity-platform/id-token-claims-reference
+
+.. _Microsoft authorization code flow: https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-auth-code-flow
+.. _Microsoft B2C sign-out: https://learn.microsoft.com/en-us/azure/active-directory-b2c/openid-connect#send-a-sign-out-request
