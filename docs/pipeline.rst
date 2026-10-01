@@ -61,13 +61,16 @@ process. Common arguments include:
 * ``strategy`` - The current strategy instance (provides access to storage, settings, and request)
 * ``backend`` - The current backend instance (the social authentication provider)
 * ``user`` - The user instance (``None`` if not yet created or retrieved)
-* ``request`` - The current HTTP request object
 * ``social`` - The ``UserSocialAuth`` instance (``None`` until created)
 * ``uid`` - The unique user ID from the provider
 * ``response`` - The raw response from the authentication provider
 * ``details`` - Processed user details (username, email, etc.)
 * ``is_new`` - Boolean indicating if a user was just created
 * Any values returned as dicts by previous pipeline functions
+
+Read effective request parameters through ``strategy.request_data()``. The native
+framework request is available as ``strategy.request`` when the integration
+provides one. Neither is automatically passed as a pipeline ``request`` argument.
 
 **Important:** Always include ``**kwargs`` in your function signature to handle additional
 arguments that may be passed from other pipeline functions or future versions::
@@ -313,6 +316,8 @@ Pipeline functions receive a ``current_partial`` instance containing:
 
 * ``current_partial.token`` - The unique token for this partial process
 * ``current_partial.backend`` - The backend name
+* ``current_partial.pipeline_type`` - ``authentication`` or ``disconnect``;
+  the saved step can resume only in the matching pipeline
 * Other saved data from the pipeline
 
 Example of using the partial token in a redirect::
@@ -353,7 +358,7 @@ the partial token, even in the browser session that created the partial. The
 first request stores pending resume state in the current browser session and
 asks the Strategy to render a local confirmation response. A later confirmation
 request from the same browser resumes the pipeline and replays the original
-link request data in ``kwargs['request']``.
+link request data through ``strategy.request_data()``.
 
 The confirmation request must include the parameter configured by
 ``SOCIAL_AUTH_PARTIAL_PIPELINE_EXTERNAL_RESUME_CONFIRMATION_PARAMETER``. The
@@ -365,7 +370,13 @@ created, such as a nonce stored in the browser session.
 If your pipeline step needs the original link parameters after confirmation,
 read them like this::
 
-    data = kwargs.get('request') or strategy.request_data()
+    data = strategy.request_data()
+
+Confirmation state is checked against the current framework request before
+replay is activated. Effective data combines the saved link parameters with
+the confirmation request's parameters, with current values taking precedence
+when a key appears in both. Ordinary session-owned partial resumes use current
+request parameters, so newly submitted form values remain available.
 
 For Django, ``social-auth-app-django`` provides the default confirmation page.
 Override the ``social_django/partial_pipeline_external_resume.html`` template to
@@ -409,7 +420,7 @@ that can be used to restart a halted flow.
 The built-in mail validation step is an externally resumable partial. Opening
 the validation link will first show the local confirmation response provided by
 the active Strategy. After confirmation, the pipeline receives the original
-``verification_code`` and ``partial_token`` in ``kwargs['request']``.
+``verification_code`` and ``partial_token`` through ``strategy.request_data()``.
 
 ``code`` is a model instance used to validate the email address, it
 contains three fields:

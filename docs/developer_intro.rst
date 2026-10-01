@@ -69,25 +69,24 @@ like::
 Submitting the login form to that URL will cause the "pipeline" to be started.
 The pipeline is a list of functions that build up data about the user as we go
 through the steps of the authentication process.  (If you really want to
-understand the pipeline, look at the source in ``social/backends/base.py``, and
+understand the pipeline, look at the source in ``social_core/backends/base.py``, and
 see the ``run_pipeline()`` function in ``BaseAuth``.)
 
 The design contract for each function in the pipeline is:
 
-1) The pipeline starts with a four-item dictionary (the accumulative dictionary)
-   which is updated with the results of each function in the pipeline. The
-   initial four values are:
+1) The pipeline starts with an accumulative dictionary, which is updated with
+   the results of each function in the pipeline. Common initial values include:
 
    ``strategy``
      contains a strategy object
    ``backend``
      contains the backend being used during this pipeline run
-   ``request``
-     contains a dictionary of the request keys. Note to Django users -- this is
-     not an HttpRequest object, it is actually the results of
-     ``request.REQUEST``.
    ``details``
      which is an empty dict.
+
+   Read effective request parameters through ``strategy.request_data()``. In
+   Django, ``strategy.request`` holds the native ``HttpRequest``. Neither is
+   automatically passed as a pipeline ``request`` argument.
 
 2) If the function returns a dictionary or something False-ish, add the contents
    of the dictionary to an accumulative dictionary (called ``out`` in
@@ -105,10 +104,11 @@ There is one pipeline for your site as a whole -- if you have backend-specific
 logic, you have to make your pipeline steps smart enough to skip the step if it
 is not relevant.  This is as simple as::
 
-    def my_custom_step(strategy, backend, request, details, *args, **kwargs):
+    def my_custom_step(strategy, backend, details, *args, **kwargs):
         if backend.name != 'my_custom_backend':
             return
-        # otherwise, do the special steps for your custom backend
+        parameters = strategy.request_data()
+        # Perform the special steps for your custom backend using parameters.
 
 Interrupting the Pipeline (and communicating with views)
 --------------------------------------------------------
@@ -133,7 +133,7 @@ In our pipeline code, we would have::
 
     # partial says "we may interrupt, but we will come back here again"
     @partial
-    def collect_password(strategy, backend, request, details, *args, **kwargs):
+    def collect_password(strategy, backend, details, *args, **kwargs):
         # session 'local_password' is set by the pipeline infrastructure
         # because it exists in FIELDS_STORED_IN_SESSION
         local_password = strategy.session_get('local_password', None)
@@ -163,7 +163,7 @@ In our view code, we would have something like::
             form = PasswordForm(request.POST)
             if form.is_valid():
                 # because of FIELDS_STORED_IN_SESSION, this will get copied
-                # to the request dictionary when the pipeline is resumed
+                # to the pipeline's session state when it is resumed
                 request.session['local_password'] = form.cleaned_data['secret_word']
 
                 # once we have the password stashed in the session, we can
