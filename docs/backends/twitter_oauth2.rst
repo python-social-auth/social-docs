@@ -1,5 +1,5 @@
-Twitter API v2
-==============
+X OAuth 2
+=========
 
 Backend class
 -------------

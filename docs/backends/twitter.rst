@@ -1,5 +1,5 @@
-Twitter
-=======
+X (formerly Twitter)
+====================
 
 Backend class
 -------------
