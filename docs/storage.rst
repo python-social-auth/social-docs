@@ -164,8 +164,19 @@ email validation mechanism of sending an email to the user with a unique code.
 This model is used by the partial pipeline ``social_core.pipeline.mail.mail_validation``.
 Check the docs at *Email validation* in `pipeline docs`_.
 
-When implementing the model for your framework only one method needs to be
-overridden::
+The model must inherit from ``CodeMixin`` and persist the ``email``, ``code``,
+``verified``, and ``timestamp`` attributes. ``make_code()`` initializes
+``timestamp`` with the creation time in UTC. A framework-managed creation
+timestamp can also be used. Naive timestamps are interpreted as UTC by the
+default ``is_expired(seconds)`` implementation; override this method if your
+storage uses another timezone. The Django integration interprets naive
+timestamps in Django's configured timezone.
+
+Codes without a timestamp are rejected when expiry is enabled. Existing storage
+integrations must add timestamp persistence and migrate existing data, or have
+users request new codes. Do not assign a new creation time to old codes.
+
+The storage lookup method must also be overridden::
 
     @classmethod
     def get_code(cls, code):
