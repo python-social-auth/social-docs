@@ -266,7 +266,7 @@ redirected.
 Example code::
 
     from social_core.backends.open_id import OpenIdAuth
-    from social_core.exceptions import AuthMissingParameter
+    from social_core.exceptions import AuthInputError
 
 
     class LiveJournalOpenId(OpenIdAuth):
@@ -284,7 +284,7 @@ Example code::
         def openid_url(self):
             """Returns LiveJournal authentication URL"""
             if not self.data.get('openid_lj_user'):
-                raise AuthMissingParameter(self, 'openid_lj_user')
+                raise AuthInputError(self, code="missing_parameter", parameter="openid_lj_user", stage="begin")
             return 'http://%s.livejournal.com' % self.data['openid_lj_user']
 
 
@@ -300,7 +300,7 @@ Example code::
     from google.appengine.api import users
 
     from social_core.backends.base import BaseAuth
-    from social_core.exceptions import AuthException
+    from social_core.exceptions import AuthUnknownError
 
 
     class GoogleAppEngineAuth(BaseAuth):
@@ -329,7 +329,7 @@ Example code::
         def auth_complete(self, *args, **kwargs):
             """Completes login process, must return user instance."""
             if not users.get_current_user():
-                raise AuthException('Authentication error')
+                raise AuthUnknownError(self, code="unknown_error", stage="callback")
             kwargs.update({'response': '', 'backend': self})
             return self.strategy.authenticate(*args, **kwargs)
 
@@ -339,6 +339,12 @@ Common backend methods
 
 All backends inherit from ``BaseAuth`` which provides several methods that can be
 overridden to customize behavior. Here are some key methods:
+
+``process_error(data, *, stage="callback")``
+    Detects provider errors in callbacks and successful HTTP responses. OAuth2
+    backends also call this hook during token exchange and refresh. Overrides
+    must accept the keyword-only ``stage`` argument, pass it to the superclass,
+    and use it when constructing structured exceptions. See :doc:`../exceptions`.
 
 ``id_key()``
     Returns the ID key to use for this backend. By default, this method checks
