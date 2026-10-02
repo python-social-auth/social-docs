@@ -423,7 +423,7 @@ the active Strategy. After confirmation, the pipeline receives the original
 ``verification_code`` and ``partial_token`` through ``strategy.request_data()``.
 
 ``code`` is a model instance used to validate the email address, it
-contains three fields:
+contains four fields:
 
 ``code = '...'``
     Holds an ``uuid.uuid4()`` value and it's the code used to identify the
@@ -434,6 +434,24 @@ contains three fields:
 
 ``verified = True / False``
     Flag marking if the email was verified or not.
+
+``timestamp``
+    Creation time used to enforce the code's lifetime.
+
+Email validation codes are single-use and expire after seven days by default.
+Set their lifetime in seconds with::
+
+    SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD = 604800
+
+Set this to ``None`` or ``0`` to disable expiry. Codes are expired once their
+creation time plus this lifetime is reached. Undated codes are rejected when
+expiry is enabled, and existing codes older than the configured lifetime can no
+longer be used. See :doc:`storage` for timestamp persistence requirements.
+
+Expiry is checked when the code is validated, independently of scheduled
+database cleanup. It does not delete expired codes or limit the lifetime of
+other partial pipeline steps. Django's ``clearsocial`` command handles retention
+of old unused codes and partials separately.
 
 You should use the code in this instance to build the link for email
 validation which should go to
