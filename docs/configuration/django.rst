@@ -256,6 +256,8 @@ format to create the user instance later. On some cases the details are
 already part of the auth response from the provider, but sometimes this
 could hit a provider API.
 
+``social_names`` - Fill missing name representations; see :ref:`name-normalization`.
+
 ``social_uid`` - Get the social uid from whichever service we're authing thru. The uid is
 the unique identifier of the given user in the provider.
 
@@ -289,6 +291,7 @@ Usage example::
 
     SOCIAL_AUTH_PIPELINE = (
         'social_core.pipeline.social_auth.social_details',
+        'social_core.pipeline.social_auth.social_names',
         'social_core.pipeline.social_auth.social_uid',
         'social_core.pipeline.social_auth.social_user',
         'social_core.pipeline.user.get_username',

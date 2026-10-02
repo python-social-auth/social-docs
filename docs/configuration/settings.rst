@@ -393,6 +393,18 @@ address or domain name. To white-list just set any of these settings:
 Miscellaneous settings
 ----------------------
 
+``SOCIAL_AUTH_FIRSTLAST_FROM_FULL = True``
+    Let the ``social_names`` pipeline step split ``fullname`` when neither
+    ``first_name`` nor ``last_name`` is supplied. Set to ``False`` to disable
+    this conversion. Supports backend-specific overrides, such as
+    ``SOCIAL_AUTH_SAML_FIRSTLAST_FROM_FULL``. See :ref:`name-normalization`.
+
+``SOCIAL_AUTH_FULL_FROM_FIRSTLAST = True``
+    Let the ``social_names`` pipeline step generate a missing ``fullname`` from
+    ``first_name`` and/or ``last_name``. Set to ``False`` to disable this
+    conversion. Supports backend-specific overrides, such as
+    ``SOCIAL_AUTH_SAML_FULL_FROM_FIRSTLAST``. See :ref:`name-normalization`.
+
 ``SOCIAL_AUTH_PROTECTED_USER_FIELDS = ['email',]``
     During the pipeline process a ``dict`` named ``details`` will be populated
     with the needed values to create the user instance, but it's also used to

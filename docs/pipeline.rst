@@ -101,6 +101,7 @@ The default pipeline is composed by::
         # already part of the auth response from the provider, but sometimes this
         # could hit a provider API.
         'social_core.pipeline.social_auth.social_details',
+        'social_core.pipeline.social_auth.social_names',
 
         # Get the social uid from whichever service we're authing thru. The uid is
         # the unique identifier of the given user in the provider.
@@ -140,12 +141,58 @@ The default pipeline is composed by::
         'social_core.pipeline.user.user_details',
     )
 
+.. _name-normalization:
+
+Name normalization
+~~~~~~~~~~~~~~~~~~
+
+The default pipeline runs ``social_core.pipeline.social_auth.social_names``
+after ``social_details``. Backends return the names supplied by the provider;
+``social_names`` fills missing representations in ``details`` before user
+creation, extra-data storage, and user updates.
+
+When both ``first_name`` and ``last_name`` are empty, a nonempty ``fullname`` is
+split at the first space. For example, ``Mary Jane Watson`` becomes ``Mary`` and
+``Jane Watson``. A single name becomes ``first_name``, with an empty
+``last_name``. If either component is supplied, it is preserved and the other
+component is not inferred.
+
+A missing ``fullname`` is generated from either or both components. When
+``first_name`` already appears as a complete name component or sequence of
+components in ``last_name`` (matched case-sensitively at whitespace boundaries),
+the full name uses ``last_name`` alone. For example, ``Jane`` and ``Jane Watson``
+produce ``Jane Watson``, while ``Ann`` and ``Anniston`` produce ``Ann Anniston``. Otherwise, the components are joined with a
+space. Surrounding whitespace is removed. Supplied nonempty names take
+precedence, even when the representations differ. Missing or ``None`` names
+are preserved when no nonempty name is available.
+
+Set ``SOCIAL_AUTH_FIRSTLAST_FROM_FULL`` or ``SOCIAL_AUTH_FULL_FROM_FIRSTLAST``
+to ``False`` to disable one direction. Both default to ``True`` and support
+backend-specific overrides, such as
+``SOCIAL_AUTH_SAML_FIRSTLAST_FROM_FULL = False``. These settings are read only
+by ``social_names``.
+
+.. important::
+
+    Existing custom pipelines must add
+    ``social_core.pipeline.social_auth.social_names`` after ``social_details``
+    to retain automatic name conversion. Built-in backends no longer perform
+    this conversion in ``get_user_details()``. Remove or replace ``social_names``
+    to customize normalization, including in backend-specific pipelines.
+
+``BaseAuth.get_user_names()`` is deprecated and emits ``DeprecationWarning``.
+Third-party backends should return provider-supplied names and let the pipeline
+normalize them. The compatibility helper still converts names before the
+pipeline, so the pipeline settings cannot undo conversion performed by callers
+of that helper.
+
 **What Data is Available When?**
 
 Understanding which data is available at each stage is crucial for placing your
 custom functions correctly:
 
 * **After** ``social_details``: ``details`` dict is populated with user info
+* **After** ``social_names``: missing name representations are populated
 * **After** ``social_uid``: ``uid`` contains the provider's user ID
 * **After** ``social_user``: ``social`` may contain the UserSocialAuth instance (if user was previously authenticated)
 * **After** ``get_username``: ``username`` is available
@@ -164,6 +211,7 @@ A pipeline that won't create users, just accepts already registered ones would l
 
     SOCIAL_AUTH_PIPELINE = (
         'social_core.pipeline.social_auth.social_details',
+        'social_core.pipeline.social_auth.social_names',
         'social_core.pipeline.social_auth.social_uid',
         'social_core.pipeline.social_auth.auth_allowed',
         'social_core.pipeline.social_auth.social_user',
@@ -185,6 +233,7 @@ the ``social_user`` step::
 
     SOCIAL_AUTH_PIPELINE = (
         'social_core.pipeline.social_auth.social_details',
+        'social_core.pipeline.social_auth.social_names',
         'social_core.pipeline.social_auth.social_uid',
         'social_core.pipeline.social_auth.auth_allowed',
         'myapp.pipeline.load_user',  # Custom function to load the user
@@ -566,6 +615,7 @@ the pipeline. Since the function uses user instance, we need to put it after
 
     SOCIAL_AUTH_PIPELINE = (
         'social_core.pipeline.social_auth.social_details',
+        'social_core.pipeline.social_auth.social_names',
         'social_core.pipeline.social_auth.social_uid',
         'social_core.pipeline.social_auth.auth_allowed',
         'social_core.pipeline.social_auth.social_user',

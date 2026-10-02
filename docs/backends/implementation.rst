@@ -165,7 +165,7 @@ Example code::
             """Return user details from GitHub account"""
             return {'username': response.get('login'),
                     'email': response.get('email') or '',
-                    'first_name': response.get('name')}
+                    'fullname': response.get('name')}
 
         def user_data(self, access_token, *args, **kwargs):
             """Loads user data from service"""
@@ -220,16 +220,9 @@ Example code::
 
         def get_user_details(self, response):
             """Return user details from TripIt account"""
-            try:
-                first_name, last_name = response['name'].split(' ', 1)
-            except ValueError:
-                first_name = response['name']
-                last_name = ''
             return {'username': response['screen_name'],
                     'email': response['email'],
-                    'fullname': response['name'],
-                    'first_name': first_name,
-                    'last_name': last_name}
+                    'fullname': response['name']}
 
         def user_data(self, access_token, *args, **kwargs):
             """Return user data provided"""
@@ -387,7 +380,9 @@ overridden to customize behavior. Here are some key methods:
 ``get_user_details(response)``
     Extracts user details (username, email, first_name, last_name, fullname)
     from the provider's API response. This method should return a dictionary
-    with the extracted values.
+    with the extracted values. Return provider-supplied names without splitting
+    or joining them; the ``social_names`` pipeline step performs
+    :ref:`name-normalization`. ``BaseAuth.get_user_names()`` is deprecated.
 
 
 .. _Twitter Docs: https://dev.twitter.com/docs/auth/implementing-sign-twitter
