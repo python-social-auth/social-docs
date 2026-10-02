@@ -259,8 +259,8 @@ An explicitly configured ``ID_KEY`` takes precedence over older
 backend-specific identifier selectors such as ``USERNAME_AS_ID``,
 ``USE_UNIQUE_USER_ID``, and ``IDENTIFIED_BY_PERMANENT_ID``.
 An explicitly configured field must be present and non-empty in the provider
-data; otherwise authentication fails with ``AuthMissingParameter`` rather
-than storing an ambiguous user identifier.
+data; otherwise authentication fails with ``AuthResponseError`` and
+``code="missing_claim"`` rather than storing an ambiguous user identifier.
 
 Example: Configure Seznam backend to use ``id`` instead of the default ``oauth_user_id``::
 
@@ -382,11 +382,11 @@ address or domain name. To white-list just set any of these settings:
 ``SOCIAL_AUTH_<BACKEND_NAME>_WHITELISTED_DOMAINS = ['foo.com', 'bar.com']``
     Supply a list of domain names to be white-listed. Any user with an email
     address on any of the allowed domains will login successfully, otherwise
-    ``AuthForbidden`` is raised.
+    ``AuthPolicyError`` is raised.
 
 ``SOCIAL_AUTH_<BACKEND_NAME>_WHITELISTED_EMAILS = ['me@foo.com', 'you@bar.com']``
     Supply a list of email addresses to be white-listed. Any user with an email
-    address in this list will login successfully, otherwise ``AuthForbidden``
+    address in this list will login successfully, otherwise ``AuthPolicyError``
     is raised.
 
 

@@ -496,8 +496,8 @@ When query parameter transport is active (or triggered via fallback), the redire
 destination receives two query parameters:
 
 ``message = ''``
-    Message from the exception raised. In some cases, this is the error message
-    returned by the provider during the authentication process.
+    Safe default message from the exception raised. Provider descriptions are
+    retained in the exception's diagnostic ``detail`` and are not sent to clients.
 
 ``backend = ''``
     Backend name that was used, or ``unknown-backend`` if unresolved.
@@ -580,6 +580,32 @@ Exception processing is disabled if any of these settings is defined with a
     SOCIAL_AUTH_RAISE_EXCEPTIONS = True
     RAISE_EXCEPTIONS = True
     DEBUG = True
+
+
+Structured authentication errors
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+See :ref:`authentication-exceptions` for the exception families and recovery
+contract. The middleware uses safe default messages; provider diagnostics and
+identifying context are not included in client transports.
+
+Enable metadata in query transport (including message-storage fallback) with:
+
+.. code-block:: python
+
+    SOCIAL_AUTH_ERROR_INCLUDE_METADATA = True  # Default: False
+
+The redirect receives ``error_code``, ``error_source``, ``error_stage``, and
+``error_recovery`` alongside the configured message/backend parameters.
+Backend-specific settings are supported. Existing query parameters and fragments
+are preserved; stale metadata values are replaced when metadata is enabled.
+If a configured message/backend parameter name matches a metadata key, the
+configured parameter takes precedence and that metadata field is omitted.
+
+Applications should select their own messages and redirects from stable codes,
+and should decide reporting independently of suggested recovery actions.
+Subclasses overriding ``dispatch_error`` or ``append_query_params`` must accept
+the new optional ``metadata`` argument.
 
 
 Launch Bridge Endpoints
