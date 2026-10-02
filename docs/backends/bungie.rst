@@ -26,8 +26,8 @@ Bungie uses OAuth 2.0 for authentication.
   ``get_user_details`` function to change behavior or redirect your
   users to a partial pipeline flow that gathers missing user data such
   as email, password (local to your site), first name, last name
-  etc. The pipeline flow is best interrupted at the 6th step in the
-  sample pipeline below::
+  etc. Interrupt the pipeline immediately after ``get_username``, as shown
+  in the sample pipeline below::
 
       SOCIAL_AUTH_PIPELINE = (
           # Get the information we can about the user and return it in a simple
@@ -35,6 +35,7 @@ Bungie uses OAuth 2.0 for authentication.
           # already part of the auth response from the provider, but sometimes this
           # could hit a provider API.
           'social_core.pipeline.social_auth.social_details',
+          'social_core.pipeline.social_auth.social_names',
           # Get the social uid from whichever service we're authing thru. The uid is
           # the unique identifier of the given user in the provider.
           'social_core.pipeline.social_auth.social_uid',
