@@ -174,3 +174,21 @@ Social backends
    yahoo
    yammer
    zotero
+
+Display metadata
+----------------
+
+Every shipped backend has a human-readable ``title``. Some also provide an
+``icon`` filename referencing social-core's packaged SVG artwork. Applications choose
+how to render missing icons. Custom backend classes can declare these attributes::
+
+    class CompanyAuth(OpenIdConnectAuth):
+        name = "company"
+        title = "Company account"
+        icon = None
+
+The display title is independent of the stable ``name`` identifier. Changing
+branding does not require renaming stored associations or configuration keys.
+Titles are plain strings; applications localize generic labels such as e-mail
+or password. See :doc:`/configuration/django` for Django template metadata and
+staticfiles integration.

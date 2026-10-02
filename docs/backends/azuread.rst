@@ -1,5 +1,11 @@
-Microsoft Azure Active Directory
-================================
+Microsoft Entra ID and Azure AD B2C
+===================================
+
+Microsoft Entra ID was formerly Azure Active Directory. Login buttons use
+the Microsoft title and logo following `Microsoft sign-in branding guidance
+<https://learn.microsoft.com/en-us/entra/identity-platform/howto-add-branding-in-apps>`_.
+Azure AD B2C retains its separate name. Backend identifiers and settings
+prefixes remain unchanged.
 
 Backend classes
 ---------------

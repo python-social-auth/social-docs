@@ -231,7 +231,7 @@ template context::
   ]
 
 ``backends`` context processor will load a ``backends`` key in the context with
-three entries on it:
+four entries on it:
 
 ``associated``
     It's a list of ``UserSocialAuth`` instances related with the currently
@@ -243,6 +243,52 @@ three entries on it:
 
 ``backends``
     A list of all available backend names.
+
+``metadata``
+    A dictionary of display titles and optional static icon paths, keyed by
+    backend identifier.
+
+Backend display names and icons
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Backend classes expose ``title`` (a human-readable sign-in label) and ``icon``
+(an optional bundled SVG filename). Their ``name`` remains the stable identifier
+used in routes, settings, and stored associations. Custom backends may override
+these attributes; absent titles fall back to ``name`` and absent icons to ``None``.
+
+Register the icon finder after Django's standard finders::
+
+    STATICFILES_FINDERS = [
+        "django.contrib.staticfiles.finders.FileSystemFinder",
+        "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+        "social_django.finders.SocialAuthIconFinder",
+    ]
+
+Run ``collectstatic`` after installing or upgrading. Applications can override
+bundled assets by supplying the same ``social_auth/icons/<filename>`` path.
+Only provider logos are bundled. They retain their respective owners' rights
+and branding terms; they are not relicensed under the Python library's BSD
+license. See the packaged icon provenance notice for official artwork sources and
+branding references. Applications supply their own generic or fallback icons.
+
+The existing context processor adds ``backends.metadata``, a dictionary keyed
+by backend identifier. Each value contains ``title`` and ``icon``; ``icon`` is a
+static path or ``None``, not a URL. For example::
+
+    {% load static %}
+    {% for name, provider in backends.metadata.items %}
+      <form method="post" action="{% url 'social:begin' name %}">
+        {% csrf_token %}
+        <button type="submit">
+          {% if provider.icon %}
+            <img src="{% static provider.icon %}" alt="" aria-hidden="true">
+          {% endif %}
+          {{ provider.title }}
+        </button>
+      </form>
+    {% endfor %}
+
+Existing backend and association lists retain their original formats.
 
 Personalized Configuration
 --------------------------

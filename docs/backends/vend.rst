@@ -1,5 +1,5 @@
-Vend
-====
+Lightspeed Retail (X-Series)
+============================
 
 Backend class
 -------------
