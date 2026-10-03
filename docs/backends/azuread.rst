@@ -421,7 +421,8 @@ a Django view can retrieve the token before clearing the local session:
 Use a CSRF-protected POST form to invoke this view. This example assumes an
 authenticated B2C user and a single configured sign-in policy. Applications
 with multiple policies must select the backend for the stored sign-in policy.
-A missing or invalid ``end_session_endpoint`` raises ``AuthMissingParameter``;
+A missing or invalid ``end_session_endpoint`` raises ``AuthResponseError``
+with ``code="missing_claim"`` or ``code="invalid_claim"``, respectively;
 discovery request failures propagate through the usual backend error handling.
 
 Provider logout complements local logout. Disconnecting an account removes

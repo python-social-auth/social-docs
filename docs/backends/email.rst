@@ -56,6 +56,9 @@ Password handling
 
 Here's an example of password handling to add to the pipeline::
 
+    from social_core.exceptions import AuthCredentialError
+
+
     def user_password(strategy, backend, user, is_new=False, *args, **kwargs):
         if backend.name != 'email':
             return
@@ -66,7 +69,14 @@ Here's an example of password handling to add to the pipeline::
             user.save()
         elif not user.validate_password(password):
             # return {'user': None, 'social': None}
-            raise AuthForbidden(backend)
+            raise AuthCredentialError(
+                backend,
+                code="credential_rejected",
+                source="request",
+                stage="pipeline",
+                parameter="password",
+                recovery="correct_input",
+            )
 
 .. _python-social-auth: https://github.com/python-social-auth
 .. _EmailAuth: https://github.com/python-social-auth/social-core/blob/master/social_core/backends/email.py
