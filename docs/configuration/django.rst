@@ -522,11 +522,14 @@ For example, an application can change the status used for explicit cancellation
                 return 400
             return super().get_error_status(request, exception)
 
-Rendered 4xx failures are logged at warning level and 5xx failures at error level
-using safe classification fields. Rendering a 500 handles the exception instead
-of propagating it, so exception-based monitoring may no longer receive it.
-Configure monitoring for the logs or override ``render_error()`` to integrate your
-reporting. Unrelated exceptions still propagate through Django normally.
+Rendered 4xx failures are logged at warning level using safe classification
+fields, without tracebacks. Rendered 5xx failures are logged at error level with
+the original exception and traceback so server-side defects remain diagnosable.
+Tracebacks are included only in server logs, not in the rendered page.
+Rendering a 500 handles the exception instead of propagating it, so
+exception-based monitoring may no longer receive it. Configure monitoring for
+the logs or override ``render_error()`` to integrate your reporting. Unrelated
+exceptions still propagate through Django normally.
 
 Error Transports
 ^^^^^^^^^^^^^^^^
