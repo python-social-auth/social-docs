@@ -68,10 +68,16 @@ results and others for error situations.
     value of the ``next`` request parameter is used if it was present
 
 ``SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'``
-    URL where the user will be redirected in case of an error
+    URL where the user will be redirected in case of an error. With Django's
+    ``SocialAuthExceptionMiddleware``, leaving this unset or empty renders the
+    bundled error page instead. See :doc:`django` for status mappings and
+    customization. The Django exception middleware does not fall back to
+    ``SOCIAL_AUTH_LOGIN_URL``.
 
 ``SOCIAL_AUTH_LOGIN_URL = '/login-url/'``
-    Is used as a fallback for ``LOGIN_ERROR_URL``
+    Fallback login URL used by authentication actions when a more specific
+    redirect URL is unavailable. It is not a fallback for Django's exception
+    middleware.
 
 ``SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/new-users-redirect-url/'``
     Used to redirect new registered users, will be used in place of

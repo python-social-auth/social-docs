@@ -401,27 +401,110 @@ settings are only relevant while running those legacy migrations.
 Exceptions Middleware
 ---------------------
 
-A base middleware is provided that handles ``SocialAuthBaseException`` by
-providing an error message to the user via configured transport mechanisms (Django
-messages framework, redirect URL query parameters, or both), and then
-responding with a redirect to a URL defined in one of the middleware methods.
-
-The middleware is at ``social_django.middleware.SocialAuthExceptionMiddleware``.
-Any method can be overridden, but for simplicity these two are recommended:
+A base middleware handles ``SocialAuthBaseException`` by redirecting to a
+configured error URL or rendering an error page. It supports both synchronous
+and asynchronous Django request handlers. Add it to ``MIDDLEWARE``, after your
+session, authentication, and message middleware:
 
 .. code-block:: python
 
-    get_message(request, exception)
-    get_redirect_uri(request, exception)
+    MIDDLEWARE = [
+        # ...
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'social_django.middleware.SocialAuthExceptionMiddleware',
+    ]
 
-By default, the message is the exception message and the URL for the redirect
-is the location specified by the ``LOGIN_ERROR_URL`` setting. The middleware
-supports both synchronous and asynchronous Django request handlers.
+To redirect failures to an application error page, configure:
 
-If a valid backend was detected by ``strategy()`` decorator, it will be
-available at ``request.strategy.backend`` and ``process_exception()`` will
-use it to build a backend-dependent redirect URL but fallback to default if not
-defined.
+.. code-block:: python
+
+    SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'
+    SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+
+The redirect uses the configured error transports described below. The default
+message is the safe exception message. A backend attached by the ``psa()``
+decorator is available at ``request.backend``; backend-specific settings take
+precedence over global settings.
+
+Without this middleware, Social Auth exceptions are left to Django's exception
+handling and can produce an HTTP 500 response.
+
+Fallback error page
+^^^^^^^^^^^^^^^^^^^
+
+When ``SOCIAL_AUTH_LOGIN_ERROR_URL`` is unset, ``None``, or an empty string, the
+middleware renders ``social_django/error.html`` directly. It does not use flash
+messages or query parameters, so the page works even when session cookies are
+unavailable. Explicit exception propagation still takes precedence, as described
+under exception raising below.
+
+The response status depends on the failure:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Exception family or reason
+     - HTTP status
+   * - ``AuthInputError``
+     - 400
+   * - ``AuthSessionError``, ``AuthCredentialError``, ``AuthPolicyError``, ``AuthCanceled``
+     - 403
+   * - ``AuthAssociationError``
+     - 409
+   * - ``AuthResponseError``
+     - 502
+   * - ``AuthProviderError``: connection, unavailability, rate limit, or custom codes
+     - 503
+   * - ``AuthProviderError``: ``timeout``
+     - 504
+   * - ``AuthProviderError``: ``tls_error`` or ``http_error``
+     - 502
+   * - Configuration errors, unknown errors, or other base exceptions
+     - 500
+
+The reason codes ``response_expired`` and ``nonce_mismatch`` override the family
+status with 403; ``invalid_expiry`` overrides it with 500. Other custom codes
+inherit the family's status. Provider HTTP statuses are not forwarded directly.
+
+The bundled page shows the safe message and guidance selected from the suggested
+recovery action. Only ``session_context_missing`` adds a hint about session expiry,
+cookies, and restarting login in the same browser and container. These are possible
+causes, not a diagnosis. The page does not automatically retry authentication.
+
+Override ``social_django/error.html`` in your application's templates to customize
+its presentation. The middleware supplies ``message``, ``error_code``,
+``error_source``, ``error_stage``, and ``error_recovery``; it does not supply the raw
+exception, provider diagnostics, or identifying context. Normal Django template
+context processors still apply. The response includes headers preventing caching.
+
+You can also subclass the middleware and replace its ``MIDDLEWARE`` entry with
+your subclass. The following methods accept ``request`` and ``exception``:
+
+* ``get_message()`` customizes the message for redirects and rendered pages.
+* ``get_redirect_uri()`` selects the error redirect URL.
+* ``get_error_status()`` selects the rendered response's HTTP status.
+* ``render_error()`` customizes the rendered response and its reporting.
+
+For example, an application can change the status used for explicit cancellation:
+
+.. code-block:: python
+
+    from social_core.exceptions import AuthCanceled
+    from social_django.middleware import SocialAuthExceptionMiddleware
+
+    class CustomExceptionMiddleware(SocialAuthExceptionMiddleware):
+        def get_error_status(self, request, exception):
+            if isinstance(exception, AuthCanceled):
+                return 400
+            return super().get_error_status(request, exception)
+
+Rendered 4xx failures are logged at warning level and 5xx failures at error level
+using safe classification fields. Rendering a 500 handles the exception instead
+of propagating it, so exception-based monitoring may no longer receive it.
+Configure monitoring for the logs or override ``render_error()`` to integrate your
+reporting. Unrelated exceptions still propagate through Django normally.
 
 Error Transports
 ^^^^^^^^^^^^^^^^
@@ -571,15 +654,18 @@ different authentication providers, such as showing a custom error page for cert
 providers or raising exceptions for debugging specific backends while keeping
 others in production mode.
 
-Exception processing is disabled if any of these settings is defined with a
-``True`` value:
+Exception processing is disabled when the effective ``RAISE_EXCEPTIONS``
+setting is true. Settings are checked in this order, and the first configured
+value wins:
 
-.. code-block:: python
+1. ``SOCIAL_AUTH_<BACKEND>_RAISE_EXCEPTIONS`` (uppercase backend name, with
+   hyphens replaced by underscores).
+2. ``SOCIAL_AUTH_RAISE_EXCEPTIONS``.
+3. ``RAISE_EXCEPTIONS``.
+4. ``DEBUG`` as the default when none of these settings is configured.
 
-    <backend name>_SOCIAL_AUTH_RAISE_EXCEPTIONS = True
-    SOCIAL_AUTH_RAISE_EXCEPTIONS = True
-    RAISE_EXCEPTIONS = True
-    DEBUG = True
+For example, ``SOCIAL_AUTH_RAISE_EXCEPTIONS = False`` enables handling even with
+``DEBUG = True``; a backend-specific true value overrides that global false value.
 
 
 Structured authentication errors
