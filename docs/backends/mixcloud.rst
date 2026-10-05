@@ -16,7 +16,7 @@ setting.
    * - ``mixcloud``
      - ``social_core.backends.mixcloud.MixcloudOAuth2``
 
-The `Mixcloud API`_ offers support for authorization. To this backend support:
+The `Mixcloud API`_ offers support for authorization. To enable this backend:
 
 - Register a new application at `Mixcloud Developers`_
 
@@ -41,6 +41,11 @@ The `Mixcloud API`_ offers support for authorization. To this backend support:
 
   as a list of tuples ``(response name, alias)`` to store user profile data on
   the ``UserSocialAuth.extra_data``.
+
+Mixcloud does not expose a documented stable account identifier. The backend is
+association-only: an authenticated local user must initiate and complete the
+connection. Mixcloud cannot create a local user or authenticate a logged-out
+user.
 
 .. _Mixcloud API: http://www.mixcloud.com/developers/documentation
 .. _Mixcloud Developers: http://www.mixcloud.com/developers

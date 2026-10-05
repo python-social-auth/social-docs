@@ -18,6 +18,10 @@ setting.
 
 Trello provides OAuth1 support for their authentication process.
 
+Accounts are associated by Trello's stable member ``id``. Associations created
+by older social-core releases used ``username`` and migrate on the next
+successful authentication.
+
 In order to enable it, follow:
 
 - Generate an Application Key pair at `Trello Developers API Keys`_

@@ -9,11 +9,12 @@ must therefore come from a provider identifier that is immutable and cannot be
 reassigned, rather than a display name, email address, UPN, or other
 human-readable login name.
 
-Bundled backends use stable provider identifiers where available. Tumblr uses
-the primary blog UUID, Deezer its numeric account ID, Discourse
-``external_id``, SciStarter ``profile_id``, and Microsoft Entra ID/Azure AD
-backends ``sub``. Applications overriding a backend's ``ID_KEY`` are
-responsible for ensuring the selected claim has the same stability properties.
+Bundled backends use stable provider identifiers where available, including
+OIDC ``sub`` claims, provider account IDs, UUIDs, and verified OpenID identity
+URLs. Applications overriding a backend's ``ID_KEY`` are responsible for
+ensuring the selected claim has the same stability properties. Backends whose
+provider responses expose no stable identifier, including Drip, Last.fm, and
+Mixcloud, are association-only and require an authenticated local user.
 
 When upgrading an existing deployment, read :ref:`the configurable user ID
 key documentation <configurable-user-id-key>` before authenticating users. The

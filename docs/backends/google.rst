@@ -152,8 +152,13 @@ As of September 30, 2014, Orkut has been `shut down`_.
 User identification
 -------------------
 
-Optional support for static and unique Google Profile ID identifiers instead of
-using the e-mail address for account association can be enabled with::
+Google OAuth2, OpenID Connect, and One Tap use the stable ``sub`` claim for
+account association. The legacy OAuth1 backend uses Google's stable ``id``.
+Associations created by older social-core releases used the email address and
+migrate to the stable identifier on the next successful authentication.
+
+The following legacy settings remain accepted, but stable identifiers are now
+the default::
 
       SOCIAL_AUTH_GOOGLE_OAUTH_USE_UNIQUE_USER_ID = True
 
@@ -162,6 +167,11 @@ or::
       SOCIAL_AUTH_GOOGLE_OAUTH2_USE_UNIQUE_USER_ID = True
 
 depending on the backends in use.
+
+See `Configurable User ID Key`_ for migration controls and custom identifier
+settings.
+
+.. _Configurable User ID Key: ../configuration/settings.html#configurable-user-id-key
 
 
 Refresh Tokens

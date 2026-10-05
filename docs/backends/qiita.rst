@@ -33,9 +33,10 @@ Qiita
 
   See auth scopes at `Qiita Scopes docs`_.
 
-- Default behavior is to identify users by their `id`. However, this can be changed by renaming accounts, etc.
-
-  If you want to identify each user with a unique `permanent_id`, set the following::
+- Users are identified by the stable ``permanent_id``. Associations created by
+  older social-core releases used the renameable ``id`` and migrate on the next
+  successful authentication. The following legacy setting remains accepted,
+  but no longer changes the default::
 
       SOCIAL_AUTH_QIITA_IDENTIFIED_BY_PERMANENT_ID = True
 

@@ -18,6 +18,10 @@ setting.
 
 ArcGIS uses OAuth2 for authentication.
 
+Accounts are associated by the provider's stable user ``id``. Associations
+created by older social-core releases used ``username`` and migrate on the next
+successful authentication.
+
 - Register a new application at `ArcGIS Developer Center`_.
 
 

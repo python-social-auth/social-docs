@@ -69,3 +69,13 @@ https://dev-123456.okta.com/oauth2)`` settings with the values from the IdP setu
     SOCIAL_AUTH_OKTA_OPENIDCONNECT_KEY = ''
     SOCIAL_AUTH_OKTA_OPENIDCONNECT_SECRET = ''
     SOCIAL_AUTH_OKTA_OPENIDCONNECT_API_URL = ''
+
+User identification
+-------------------
+
+Both Okta backends identify users by the stable ``sub`` claim. Associations
+created by older social-core releases used ``preferred_username`` and migrate
+to ``sub`` on the next successful authentication. See `Configurable User ID
+Key`_ for migration controls and custom identifier settings.
+
+.. _Configurable User ID Key: ../configuration/settings.html#configurable-user-id-key

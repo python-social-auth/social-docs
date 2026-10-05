@@ -29,4 +29,9 @@ order to enable the support for it just:
 
 - Enable the backend in ``AUTHENTICATION_BACKENDS`` setting.
 
+Last.fm does not expose a stable account identifier in its authentication
+session response. The backend is therefore association-only: an authenticated
+local user must initiate and complete the connection. Last.fm cannot create a
+local user or authenticate a logged-out user.
+
 .. _Get an API Account: http://www.last.fm/api/account/create

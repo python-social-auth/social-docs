@@ -25,4 +25,8 @@ openSUSE OpenID
 openSUSE OpenID works straightforward, not settings are needed. Domains or emails
 whitelists can be applied too, check the whitelists_ settings for details.
 
+The backend uses the verified OpenID identity URL for account association.
+Associations created by older social-core releases used ``nickname`` and
+migrate on the next successful authentication.
+
 .. _whitelists: ../configuration/settings.html#whitelists

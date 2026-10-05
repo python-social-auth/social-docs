@@ -26,6 +26,11 @@ Mail.ru uses OAuth2 workflow. `Register new application`_ to use it and fill in 
 
 Add ``social_core.backends.mailru.MRGOAuth2`` to ``AUTHENTICATION_BACKENDS`` to activate Mail.ru authorization.
 
+The ``mailru`` backend identifies users by the stable ``id`` returned by the
+userinfo endpoint. Associations created by older social-core releases used the
+email address and migrate on the next successful authentication. The legacy
+``mailru-oauth2`` backend already uses its stable ``uid`` field.
+
 Legacy OAuth2 authorization
 ---------------------------
 

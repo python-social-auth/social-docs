@@ -276,10 +276,12 @@ an Azure AD backend::
     SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_ID_KEY = 'sub'
 
 The generic OpenID backend and Steam derive the identifier from the asserted
-OpenID identity URL, so ``ID_KEY`` does not apply to them. The SAML backend
-uses the per-IdP ``attr_user_permanent_id`` mapping instead. See the
-:doc:`OpenID <../backends/openid>`, :doc:`Steam <../backends/steam>`, and
-:doc:`SAML <../backends/saml>` backend documentation.
+OpenID identity URL, so ``ID_KEY`` does not apply to them. The Ubuntu,
+openSUSE, and Yandex OpenID backends expose that protocol identifier as
+``identity_url`` and allow an explicit override. The SAML backend uses the
+per-IdP ``attr_user_permanent_id`` mapping instead. See the :doc:`OpenID
+<../backends/openid>`, :doc:`Steam <../backends/steam>`, and :doc:`SAML
+<../backends/saml>` backend documentation.
 
 Associations store both the identifier value and the name of the provider field
 that supplied it. When a bundled backend changes to a more stable default,

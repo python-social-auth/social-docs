@@ -18,6 +18,10 @@ setting.
 
 DailyMotion uses OAuth2. In order to enable the backend follow:
 
+Accounts are associated by the stable provider ``id``. Associations created by
+older social-core releases used the renameable screen name and migrate on the
+next successful authentication.
+
 - Register an application at `DailyMotion Developer Portal`_
 
 - Fill in the **Client Id** and **Client Secret** values in your settings::
