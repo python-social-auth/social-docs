@@ -34,14 +34,34 @@ working in your Django project.
         'social_django',
     )
 
-**2. Configure authentication backends** (example for Google OAuth2)::
+**2. Add the exception middleware**:
+
+Add ``SocialAuthExceptionMiddleware`` to your existing ``MIDDLEWARE`` list,
+after the session, authentication, and message middleware::
+
+    MIDDLEWARE = [
+        ...
+        'social_django.middleware.SocialAuthExceptionMiddleware',
+    ]
+
+This is recommended so expected authentication failures, such as an expired
+login session or declined authorization, show a useful error page instead of
+an HTTP 500 response. No error URL is required; configure
+``SOCIAL_AUTH_LOGIN_ERROR_URL`` if you prefer a redirect to your own error page.
+See :ref:`django-exception-middleware` for customization and reporting behavior.
+
+With ``DEBUG = True``, exceptions propagate by default to aid debugging. Set
+``SOCIAL_AUTH_RAISE_EXCEPTIONS = False`` to preview the error page during local
+development.
+
+**3. Configure authentication backends** (example for Google OAuth2)::
 
     AUTHENTICATION_BACKENDS = (
         'social_core.backends.google.GoogleOAuth2',
         'django.contrib.auth.backends.ModelBackend',  # Keep for username/password login
     )
 
-**3. Add OAuth credentials to settings.py**:
+**4. Add OAuth credentials to settings.py**:
 
 This is where you configure your ``client_id``, ``client_secret``, and ``scope`` for each provider::
 
@@ -64,20 +84,20 @@ For other providers, the pattern is ``SOCIAL_AUTH_<PROVIDER>_KEY``,
        SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('GOOGLE_OAUTH2_KEY')
        SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('GOOGLE_OAUTH2_SECRET')
 
-**4. Add URLs to urls.py**::
+**5. Add URLs to urls.py**::
 
     urlpatterns = [
         ...
         path('', include('social_django.urls', namespace='social')),
     ]
 
-**5. Configure redirect URLs**::
+**6. Configure redirect URLs**::
 
     LOGIN_URL = '/login/'
     LOGIN_REDIRECT_URL = '/'
     LOGOUT_REDIRECT_URL = '/'
 
-**6. Run migrations**::
+**7. Run migrations**::
 
     python manage.py migrate
 
@@ -87,7 +107,7 @@ command. The Django migration adds a blank ``id_key`` to existing social
 associations; social-core then migrates those rows according to the policy in
 :ref:`the configurable user ID key documentation <configurable-user-id-key>`.
 
-**7. Add login form in template**::
+**8. Add login form in template**::
 
     <form method="post" action="{% url 'social:begin' 'google-oauth2' %}">
         {% csrf_token %}
@@ -397,6 +417,8 @@ compatibility. The historical ``SOCIAL_AUTH_JSONFIELD_ENABLED``,
 ``SOCIAL_AUTH_JSONFIELD_CUSTOM``, and ``SOCIAL_AUTH_POSTGRES_JSONFIELD``
 settings are only relevant while running those legacy migrations.
 
+
+.. _django-exception-middleware:
 
 Exceptions Middleware
 ---------------------
