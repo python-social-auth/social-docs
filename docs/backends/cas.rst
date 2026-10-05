@@ -32,6 +32,13 @@ This class functions identically to the generic OIDC backend, but hides
 the differences in implementation details of the OIDC implementation in
 Apereo CAS.
 
+User identification
+-------------------
+
+Accounts are associated by the OpenID Connect ``sub`` claim. Associations
+created by older social-core releases used the normalized username and migrate
+on the next successful authentication.
+
 Note that despite the naming of the backend, this is NOT an implementation
 of the CAS protocol, also supported by Apereo CAS. The CAS backend is only
 intended as a way to use the Apereo CAS identity provider as an

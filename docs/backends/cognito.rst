@@ -19,6 +19,10 @@ setting.
 Cognito implemented OAuth2 protocol for their authentication mechanism. To
 enable ``python-social-auth`` support follow this steps:
 
+Accounts are associated by the immutable ``sub`` claim. Associations created
+by older social-core releases used ``username`` and migrate on the next
+successful authentication.
+
 1. Go to `AWS Cognito Console`_ and select ``Manage User Pools``.
 
 2. Choose an existing pool or create a new one following the `Cognito Pool

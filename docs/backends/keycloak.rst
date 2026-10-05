@@ -118,10 +118,14 @@ by setting::
 This can be useful if you want to use email, username, or another field as the unique
 identifier instead of the ``sub`` field.
 
+Associations created by older social-core releases used the normalized
+``preferred_username`` value and migrate to ``sub`` on the next successful
+authentication.
+
 .. warning::
-    Changing the ID key after users have already authenticated will prevent them from
-    logging in, as their stored ``uid`` will not match the new identifier. Configure
-    this setting before users start authenticating, or perform a data migration.
+    Usernames and email addresses can change or be reassigned. Selecting one as
+    ``ID_KEY`` can allow a different provider account to match a stale local
+    association.
 
 See the `Configurable User ID Key`_ documentation for more information about this feature.
 
