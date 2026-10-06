@@ -31,6 +31,31 @@ The remaining configuration will be auto-detected, by fetching::
 This class can be used standalone, but is also the base class for some other
 backends.
 
+Nonce lifetime
+--------------
+
+Each login attempt stores a one-use nonce with its creation time and lifetime.
+The nonce expires after 30 minutes by default. Configure a different positive
+integer duration in seconds with::
+
+    SOCIAL_AUTH_OIDC_NONCE_LIFETIME = 1800
+
+For other backends inheriting from this class, replace ``OIDC`` with the backend's
+settings prefix. This duration bounds the time from starting authentication to
+validating the ID token; it is independent of ``ID_TOKEN_MAX_AGE``, which limits
+the age of the ID token itself. An expired nonce rejects the login, so the user
+must start again. Successful validation consumes the nonce. Refresh requests
+and resumed partial pipelines do not reuse it.
+
+LinkedIn OpenID Connect does not create or send nonces because its backend does
+not validate them. Custom subclasses can set the class attribute ``USE_NONCE``
+to ``False`` when their protocol-specific validation does not use server-created
+nonces; this is not a deployment setting.
+
+Failed and abandoned attempts can leave nonce records behind. Django deployments
+should regularly run ``manage.py clearsocial``; see
+:doc:`/configuration/django` for cleanup and upgrade guidance.
+
 IdP Setup
 ---------
 
