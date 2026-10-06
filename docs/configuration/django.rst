@@ -186,6 +186,54 @@ application or users won't be able to login by username / password method.
 For more documentation about setting backends to specific social applications,
 please see the :doc:`/backends/index`.
 
+.. _django-custom-login:
+
+Logging in users from custom views
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When multiple authentication backends are configured, Django's
+``django.contrib.auth.login()`` needs to know which backend to store in the
+session. Pass its dotted import path as the ``backend`` argument, or use a user
+instance whose ``backend`` attribute was set by ``authenticate()``. This attribute
+is not a model field: a user created directly or loaded again from the database
+does not automatically have it.
+
+For example, a custom account activation view using ``ModelBackend`` can log in
+the user after validating the activation token and activating the account::
+
+    from django.contrib.auth import login
+
+    # Validate the activation token and activate the account before this call.
+    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+
+Use the backend appropriate for your authentication flow, and ensure it is listed
+in ``AUTHENTICATION_BACKENDS``. Adding a ``backend`` parameter to your own view's
+signature only helps if you pass it to ``login()``.
+
+Without an explicit backend or ``user.backend``, Django raises ``ValueError``
+when more than one backend is configured, with the message
+``You have multiple authentication backends configured and therefore must provide
+the `backend` argument or set the `backend` attribute on the user.``
+
+``django.contrib.auth.authenticate()`` has a different purpose: it checks
+credentials against the configured backends. For username/password login, use::
+
+    from django.contrib.auth import authenticate, login
+
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+
+Do not pass a dotted import path as ``backend`` to ``authenticate()`` to select a
+backend. Its keyword arguments are forwarded to the authentication backends;
+social auth backends expect a backend instance for that argument. Passing a
+string can cause ``AttributeError: 'str' object has no attribute 'name'``.
+
+The standard ``social:complete`` view selects the social backend automatically
+before calling ``login()``, including when resuming an email validation pipeline.
+For details about Django's backend selection, see `Selecting the authentication
+backend <https://docs.djangoproject.com/en/stable/topics/auth/default/#selecting-the-authentication-backend>`_.
+
 .. _django-urls:
 
 URLs entries
