@@ -65,6 +65,7 @@ process. Common arguments include:
 * ``uid`` - The unique user ID from the provider
 * ``response`` - The raw response from the authentication provider
 * ``details`` - Processed user details (username, email, etc.)
+* ``groups`` - Normalized external memberships, or ``None`` when extraction is disabled; see :doc:`groups`
 * ``is_new`` - Boolean indicating if a user was just created
 * Any values returned as dicts by previous pipeline functions
 

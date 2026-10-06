@@ -53,3 +53,9 @@ Fill in the settings like so::
       SOCIAL_AUTH_DISCOURSE_FOO_SERVER_URL = "https://my-discourse-foo-site.com"
       SOCIAL_AUTH_DISCOURSE_BAR_SECRET = "myDiscourseBarSecret"
       SOCIAL_AUTH_DISCOURSE_BAR_SERVER_URL = "https://my-discourse-bar-site.com"
+
+External memberships
+--------------------
+
+See :doc:`/groups` for opt-in extraction, group-based login restrictions, and
+local group synchronization. No separate extraction pipeline step is needed.
