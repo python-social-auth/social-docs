@@ -1120,3 +1120,26 @@ to the user model by definig the following setting::
 .. _django@dc43fbc: https://github.com/django/django/commit/dc43fbc2f21c12e34e309d0e8a121020391aa03a
 .. _SOUTH_MIGRATION_MODULES: http://south.readthedocs.org/en/latest/settings.html#south-migration-modules
 .. _pypi: http://pypi.python.org/pypi/social-auth-app-django/
+
+
+Authentication storage cleanup
+------------------------------
+
+Schedule ``manage.py clearsocial`` regularly, for example hourly. It removes
+unused verification codes and partial pipelines older than ``--age`` days
+(default: 14), and expired OpenID associations and OpenID Connect nonces.
+Association expiry uses each record's ``issued`` timestamp and ``lifetime``;
+``--age`` does not change this policy. Active associations and linked user
+accounts are preserved.
+
+Applications with their own scheduled tasks can call
+``social_django.models.Association.cleanup_expired()`` directly. Expiry is
+checked during OIDC login validation even when scheduled cleanup has not run.
+
+When upgrading to nonce lifetime enforcement, stop old login-serving processes,
+apply the social-auth-app-django migrations, and start processes with the
+coordinated social-auth-core and social-auth-app-django versions. The migration
+gives existing OIDC nonce records with an empty secret, ``issued=0``, and
+``lifetime=0`` a 30-minute grace period. After that period, validation rejects
+them and the next cleanup removes them. Other storage integrations need their
+own equivalent upgrade conversion; see :doc:`/storage`.

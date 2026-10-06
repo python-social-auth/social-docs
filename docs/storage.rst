@@ -134,8 +134,28 @@ the needed methods::
 Association
 -----------
 
-Another OpenID helper class, it stores basic data to keep the OpenID
-association. Like Nonce_ this is for internal use only.
+This internal model stores OpenID protocol associations and temporary OpenID
+Connect login nonces. It is separate from the model linking a user to a provider.
+For OIDC, ``handle`` stores the nonce, ``secret`` is empty, and ``assoc_type``
+stores OAuth state. ``issued`` is the integer Unix creation timestamp and
+``lifetime`` is the duration in seconds.
+
+``AssociationMixin.is_expired(now=None)`` returns whether the lifetime has
+elapsed, including the exact expiry boundary. Nonpositive lifetimes are expired.
+OIDC validation removes matching expired records and rejects the login.
+
+Storage integrations must preserve ``issued`` and ``lifetime``. During upgrade,
+existing OIDC nonce records with an empty secret and both values zero can receive
+the upgrade timestamp and a 1,800-second grace period. Other unbounded records
+are rejected. Stop old login-serving processes before this conversion so they
+do not create additional undated nonces afterward.
+
+Django provides ``Association.cleanup_expired(now=None)``, which deletes expired
+OpenID associations and OIDC nonces and returns the deleted record count.
+``now`` is an optional integer Unix timestamp; it defaults to the current time.
+Other integrations should implement scheduled cleanup using the same expiry
+rule. OpenID's existing on-demand cleanup only visits associations for the
+provider being queried.
 
 When implementing this model, it must inherits from AssociationMixin_, and
 override the needed methods::
