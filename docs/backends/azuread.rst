@@ -94,6 +94,70 @@ To configure Azure AD:
    * Add delegated permissions: ``User.Read``, ``email``, ``openid``, ``profile``
    * Click **Grant admin consent** if required
 
+Scopes, tokens, and app roles
+--------------------------------
+
+An ID token identifies the signed-in user to your application. An access
+token authorizes calls to a particular API. Delegated API permissions are
+represented by the ``scp`` claim in the access token, not in the ID token.
+Requesting a scope such as ``api://<api-application-id>/user_impersonation``
+does not add ``scp`` to the ID token. See the
+`Microsoft access token claims reference`_.
+
+The ``roles`` claim can appear in an ID token when app roles are defined for
+the sign-in application and assigned to the user or group through
+**Enterprise applications**. When calling a separate API, define and assign
+roles for that API; those roles appear in its access token instead. Requesting
+API scopes does not assign app roles. See `Microsoft app role configuration`_.
+
+Social-auth stores the original ID token in ``UserSocialAuth.extra_data['id_token']``
+and makes its validated claims available in the authentication pipeline's
+``response``. It does not add claims to the issued token. Decoded roles are
+not stored separately by default. To retain roles already present in the
+ID token, configure the selected backend's ``EXTRA_DATA`` setting::
+
+    SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_EXTRA_DATA = [('roles', 'roles')]
+
+This stores the claim as ``UserSocialAuth.extra_data['roles']``; it does not
+assign Django groups or permissions.
+
+V2 tenant configuration
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Use ``AzureADV2TenantOAuth2`` for a tenant-specific integration using v2
+scopes. For example, to request a delegated permission exposed by your API::
+
+    AUTHENTICATION_BACKENDS = (
+        'social_core.backends.azuread_tenant.AzureADV2TenantOAuth2',
+        'django.contrib.auth.backends.ModelBackend',
+    )
+
+    SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_KEY = '<client-application-id>'
+    SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_SECRET = '<client-secret>'
+    SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_TENANT_ID = '<directory-tenant-id>'
+    SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_SCOPE = [
+        'api://<api-application-id>/user_impersonation',
+    ]
+
+Replace the scope with the exact identifier exposed by your API, configure
+the client's delegated API permission, and obtain consent as required.
+Register the matching **Web** redirect URI::
+
+    https://your-domain.com/complete/azuread-v2-tenant-oauth2/
+
+Configured scopes extend this backend's defaults: ``openid``, ``profile``,
+and ``offline_access``. To replace the defaults instead, set
+``SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_IGNORE_DEFAULT_SCOPE = True`` and include
+the required OpenID Connect scopes in ``SCOPE`` yourself. See
+:doc:`../configuration/settings`.
+
+The v1 backends ``AzureADOAuth2`` and ``AzureADTenantOAuth2`` use ``RESOURCE``
+to select the target API. V2 backends use resource-qualified scopes instead.
+When switching to v2, change the backend class, settings prefix, and registered
+callback together. Switching versions does not make ``scp`` appear in an ID
+token or guarantee that app roles have been assigned. See
+`Microsoft scopes and permissions`_.
+
 Application Configuration
 -------------------------
 
@@ -102,11 +166,12 @@ Fill in ``Client ID`` and ``Client Secret`` settings with values from Azure AD::
     SOCIAL_AUTH_AZUREAD_OAUTH2_KEY = ''
     SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = ''
 
-- Also it's possible to define extra permissions with::
+- For this v1 backend, select the target API with::
 
       SOCIAL_AUTH_AZUREAD_OAUTH2_RESOURCE = ''
 
-  This is the resource you would like to access after authentication succeeds.
+  This identifies the resource you would like to access after authentication
+  succeeds; configure the permissions for that resource in the app registration.
   Some of the possible values are: ``https://graph.windows.net`` or
   ``https://<your Sharepoint site name>-my.sharepoint.com``.
 
@@ -312,11 +377,12 @@ Fill in ``Client ID``, ``Client Secret``, and ``Tenant ID`` settings::
     SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = ''
     SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = ''
 
-- Also it's possible to define extra permissions with::
+- For this v1 backend, select the target API with::
 
       SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_RESOURCE = ''
 
-  This is the resource you would like to access after authentication succeeds.
+  This identifies the resource you would like to access after authentication
+  succeeds; configure the permissions for that resource in the app registration.
   Some of the possible values are: ``https://graph.windows.net`` or
   ``https://<your Sharepoint site name>-my.sharepoint.com``.
 
@@ -454,3 +520,7 @@ External memberships
 
 See :doc:`/groups` for opt-in extraction, group-based login restrictions, and
 local group synchronization. No separate extraction pipeline step is needed.
+
+.. _Microsoft access token claims reference: https://learn.microsoft.com/en-us/entra/identity-platform/access-token-claims-reference
+.. _Microsoft app role configuration: https://learn.microsoft.com/en-us/entra/identity-platform/howto-add-app-roles-in-apps
+.. _Microsoft scopes and permissions: https://learn.microsoft.com/en-us/entra/identity-platform/scopes-oidc
