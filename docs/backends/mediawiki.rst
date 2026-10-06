@@ -55,3 +55,9 @@ Code based on
 -------------
 
 https://github.com/mediawiki-utilities/python-mwoauth
+
+External memberships
+--------------------
+
+See :doc:`/groups` for opt-in extraction, group-based login restrictions, and
+local group synchronization. No separate extraction pipeline step is needed.

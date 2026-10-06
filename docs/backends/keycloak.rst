@@ -130,3 +130,9 @@ authentication.
 See the `Configurable User ID Key`_ documentation for more information about this feature.
 
 .. _Configurable User ID Key: ../configuration/settings.html#configurable-user-id-key
+
+External memberships
+--------------------
+
+See :doc:`/groups` for opt-in extraction, group-based login restrictions, and
+local group synchronization. No separate extraction pipeline step is needed.

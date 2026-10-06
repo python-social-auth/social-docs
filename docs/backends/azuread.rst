@@ -437,3 +437,9 @@ its association instead; see :doc:`../logging_out`.
 
 .. _Microsoft authorization code flow: https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-auth-code-flow
 .. _Microsoft B2C sign-out: https://learn.microsoft.com/en-us/azure/active-directory-b2c/openid-connect#send-a-sign-out-request
+
+External memberships
+--------------------
+
+See :doc:`/groups` for opt-in extraction, group-based login restrictions, and
+local group synchronization. No separate extraction pipeline step is needed.

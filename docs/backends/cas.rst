@@ -69,3 +69,9 @@ and you can prevent the inclusion of the default scopes using::
     SOCIAL_AUTH_CAS_IGNORE_DEFAULT_SCOPE = True
 
 .. _CAS: https://apereo.github.io/cas/6.6.x/authentication/OIDC-Authentication.html
+
+External memberships
+--------------------
+
+See :doc:`/groups` for opt-in extraction, group-based login restrictions, and
+local group synchronization. No separate extraction pipeline step is needed.

@@ -27,6 +27,7 @@ Code and other contributions are welcome. The code is hosted on GitHub_.
    security
    configuration/index
    pipeline
+   groups
    strategies
    storage
    exceptions

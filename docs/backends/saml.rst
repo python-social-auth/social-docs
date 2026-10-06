@@ -369,3 +369,9 @@ its built-in mappings::
 .. _python3-saml: https://github.com/onelogin/python3-saml
 .. _TestShib: https://www.testshib.org/
 .. _metadata: https://www.testshib.org/metadata/testshib-providers.xml
+
+External memberships
+--------------------
+
+See :doc:`/groups` for opt-in extraction, group-based login restrictions, and
+local group synchronization. No separate extraction pipeline step is needed.

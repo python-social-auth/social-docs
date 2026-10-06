@@ -41,3 +41,13 @@ If your GitLab setup resides in another domain, then add the following setting::
 it must be the **full url** to your GitLab setup.
 
 .. _GitLab Applications: https://gitlab.com/-/profile/applications
+
+External memberships
+--------------------
+
+See :doc:`/groups` for opt-in extraction, group-based login restrictions, and
+local group synchronization. No separate extraction pipeline step is needed.
+When ``SOCIAL_AUTH_GITLAB_GROUPS_ENABLED = True``, the backend automatically
+requests ``read_api`` unless the requested scopes already contain ``read_api``
+or ``api``. Enable the corresponding scope in your GitLab OAuth application
+alongside ``read_user``; ``read_user`` alone cannot retrieve memberships.

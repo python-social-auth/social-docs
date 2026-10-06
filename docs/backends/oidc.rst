@@ -142,3 +142,9 @@ and you can prevent the inclusion of the default scopes using::
     SOCIAL_AUTH_OIDC_IGNORE_DEFAULT_SCOPE = True
 
 .. _OIDC: https://openid.net/connect/
+
+External memberships
+--------------------
+
+See :doc:`/groups` for opt-in extraction, group-based login restrictions, and
+local group synchronization. No separate extraction pipeline step is needed.
