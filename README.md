@@ -12,6 +12,23 @@ This is the documentation repository for the
 
 Project documentation is available at <https://python-social-auth.readthedocs.io/>.
 
+For AI assistants, use the [documentation index](https://python-social-auth.readthedocs.io/llms.txt)
+to find individual Markdown pages, or download the
+[complete documentation](https://python-social-auth.readthedocs.io/llms-full.txt)
+as a single Markdown file. These exports are generated from the same sources as
+the HTML documentation.
+
+To build the documentation locally:
+
+```sh
+uv sync --group docs
+uv run --group docs sphinx-build -b html -W docs docs/_build/html
+```
+
+The HTML pages, Markdown pages, `llms.txt`, and `llms-full.txt` are written to
+`docs/_build/html`. Each page is available as both `page.html.md` and `page.md`;
+the index links to the `page.html.md` version. Generated files are not committed.
+
 ## Contributing
 
 Contributions are welcome!

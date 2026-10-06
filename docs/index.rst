@@ -17,6 +17,10 @@ responsibilities and improve reusability.
 
 Code and other contributions are welcome. The code is hosted on GitHub_.
 
+For AI assistants, the `documentation index <llms.txt>`_ links to Markdown
+versions of the pages. The `complete documentation <llms-full.txt>`_ is also
+available as a single Markdown file.
+
 .. toctree::
    :maxdepth: 2
    :hidden:
