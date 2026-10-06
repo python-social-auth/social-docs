@@ -127,6 +127,22 @@ The key points on these backends are:
     and cannot be used anymore. This attribute should point to that API
     endpoint.
 
+``get_refresh_token(extra_data) -> str | None``
+    Selects the stored credential passed to ``refresh_token()``. The default
+    implementation returns a nonempty string from ``extra_data['refresh_token']``
+    or ``None`` when it is unavailable. Custom backends that renew by exchanging
+    an access token must override this hook; storage no longer falls back to
+    the access token automatically. For example::
+
+        def get_refresh_token(self, extra_data):
+            token = extra_data.get('access_token')
+            return token if isinstance(token, str) and token else None
+
+    This selects the credential only. The backend's ``refresh_token_params()``
+    must still construct the provider's required exchange request. Facebook
+    uses this hook with its ``fb_exchange_token`` grant. See
+    :ref:`oauth-token-renewal` for missing-credential behavior.
+
 ``RESPONSE_TYPE``
     The response type expected on the auth process, default value is ``code``
     as dictated by OAuth2 definition. Override it if default value doesn't fit

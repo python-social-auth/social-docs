@@ -231,6 +231,18 @@ is credential rejection. The latter does not establish expiry. Explicit
 receive retry-later guidance; TLS verification failures require administrator
 attention without suggesting that verification be disabled.
 
+Token renewal failures
+----------------------
+
+A stored account with a known expired access token and no usable renewal
+credential raises ``AuthCredentialError`` with
+``code='reauthentication_required'``, ``source='storage'``, ``stage='refresh'``,
+and ``recovery='reauthenticate'``. This applies to explicit ``refresh_token()``
+and automatic renewal through ``get_access_token()``. No token request is
+sent, and stored credentials remain unchanged. Applications should arrange
+another provider login when handling this error. See :ref:`oauth-token-renewal`
+for valid tokens, unknown expiry, and backend-specific renewal credentials.
+
 Migration from legacy exceptions
 --------------------------------
 

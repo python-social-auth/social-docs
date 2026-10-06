@@ -279,6 +279,17 @@ compatible with an Azure **SPA** registration: Microsoft also requires an
 ``Origin`` header for SPA token redemption and restricts client credentials
 when that header is present. See `Microsoft authorization code flow`_.
 
+Token renewal
+-------------
+
+``backend.get_auth_token(user_id)`` returns the stored access token and renews
+it when its stored expiry indicates it has expired. Renewal requires a stored
+refresh token. If the token is expired and no refresh token is available, it
+raises ``AuthCredentialError`` with ``code='reauthentication_required'`` and
+``stage='refresh'`` instead of returning the expired token. Arrange another
+provider login to obtain new credentials. See :ref:`oauth-token-renewal` for
+the shared renewal behavior.
+
 Tenant Support
 --------------
 

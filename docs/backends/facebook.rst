@@ -24,6 +24,16 @@ Python Social Auth provides multiple backends for Facebook authentication:
 - **FacebookAppOAuth2** (``social_core.backends.facebook.FacebookAppOAuth2``) - For Facebook Canvas Applications
 - **FacebookLimitedLogin** (``social_core.backends.facebook_limited.FacebookLimitedLogin``) - For Facebook Limited Login (iOS SDK)
 
+Token renewal
+-------------
+
+Facebook OAuth2 and Facebook App renew credentials by exchanging the stored
+access token with ``grant_type=fb_exchange_token``. A stored ``refresh_token``
+is not required for these backends. Use ``social.refresh_token(strategy)``
+for an explicit exchange or ``social.get_access_token(strategy)`` to exchange
+when the stored access token has expired. See :ref:`oauth-token-renewal` for
+expiry handling and renewal failures.
+
 OAuth2
 ------
 
