@@ -520,6 +520,11 @@ On Flask::
     url = url_for('social.complete', backend=strategy.backend_name,
                   _external=True) + '?verification_code=' + code.code + '&partial_token=' + partial_token
 
+For Django, resume email validation through ``social:complete`` so the normal
+pipeline completion selects the login backend. If you implement a separate
+account activation view that calls ``django.contrib.auth.login()`` directly,
+follow :ref:`django-custom-login` when multiple backends are configured.
+
 This pipeline can be used globally with any backend if this setting is defined::
 
     SOCIAL_AUTH_FORCE_EMAIL_VALIDATION = True
