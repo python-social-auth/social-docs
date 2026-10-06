@@ -28,4 +28,61 @@ response. If not present, then this check is avoided and the value will replace
 any data.
 
 
+.. _oauth-token-renewal:
+
+Token renewal
+-------------
+
+Use the stored social account to renew credentials explicitly::
+
+    social.refresh_token(strategy=strategy)
+
+To renew only when the stored access token has expired, use::
+
+    access_token = social.get_access_token(strategy)
+
+Tokens with five seconds or less remaining are considered expired. The
+backend selects the renewal credential through ``get_refresh_token()``.
+Standard OAuth2 backends require a nonempty stored ``refresh_token``; they
+never send an access token in its place. Facebook OAuth2 and Facebook App
+instead exchange the stored access token using ``fb_exchange_token``.
+
+When no renewal credential is available, ``refresh_token()`` raises
+``AuthCredentialError`` with ``code='reauthentication_required'``,
+``source='storage'``, ``stage='refresh'``, and ``recovery='reauthenticate'``
+if the stored access token is known to have expired. ``get_access_token()``
+propagates this error. Applications should catch this credential error and
+arrange another provider login. See :doc:`/exceptions`.
+
+If expiry is unknown or the access token is still valid, an explicit refresh
+without a renewal credential returns without a request or changes to stored
+credentials. ``get_access_token()`` returns the stored access token in those
+cases; unknown expiry does not guarantee the token remains valid. A missing
+backend or a backend without a refresh method remains a no-op. Invalid expiry
+data raises the existing ``AuthResponseError`` with ``code='invalid_expiry'``.
+
+Refresh tokens are optional. Depending on the provider, requesting one may
+require additional scopes such as ``offline_access`` or explicit consent.
+Configure these requirements for the provider rather than assuming every login
+issues a refresh token.
+
+Backends must store issued refresh tokens in ``EXTRA_DATA``. To retain an
+existing token when a refresh response omits a replacement, use::
+
+    EXTRA_DATA = [('refresh_token', 'refresh_token', True)]
+
+Zoom and PayPal, including PayPal Sandbox, store refresh tokens by default and
+save replacements returned during renewal. Existing associations that lack a
+refresh token require another provider login to obtain and store one.
+
+Migration
+~~~~~~~~~
+
+Earlier versions fell back to the access token when no refresh token was
+stored. Applications refreshing expired accounts must now handle
+``reauthentication_required``. Custom backends that deliberately exchange
+access tokens must override ``get_refresh_token()`` as described in
+:doc:`implementation`.
+
+
 .. _OAuth: http://oauth.net/
