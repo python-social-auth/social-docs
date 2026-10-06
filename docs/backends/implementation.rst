@@ -103,6 +103,26 @@ Shared attributes
     if it differs.
 
 
+User details
+************
+
+``get_user_details()`` returns provider-supplied names under ``fullname``,
+``first_name``, and ``last_name``. Omit unavailable names or return ``None``;
+do not use empty strings as placeholders for missing information. Preserve
+strings supplied by the provider, including explicitly empty strings.
+
+The :ref:`name-normalization` pipeline step fills missing or blank name
+representations when a nonempty value can be derived. It preserves unavailable
+components when derivation produces nothing. Leave this conversion to the
+pipeline rather than performing it in the backend.
+
+During profile updates, omitted keys and ``None`` preserve existing user
+fields, while empty strings can clear them. Custom pipelines consuming raw
+backend details should handle ``None`` for unavailable names. During user
+creation, unavailable configured name fields are omitted so the user model
+can supply its defaults.
+
+
 OAuth2
 ******
 
@@ -333,10 +353,7 @@ Example code::
             """Return user basic information (id and email only)."""
             user = users.get_current_user()
             return {'username': user.user_id(),
-                    'email': user.email(),
-                    'fullname': '',
-                    'first_name': '',
-                    'last_name': ''}
+                    'email': user.email()}
 
         def auth_url(self):
             """Build and return complete URL."""
