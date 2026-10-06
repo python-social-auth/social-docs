@@ -70,6 +70,77 @@ https://dev-123456.okta.com/oauth2)`` settings with the values from the IdP setu
     SOCIAL_AUTH_OKTA_OPENIDCONNECT_SECRET = ''
     SOCIAL_AUTH_OKTA_OPENIDCONNECT_API_URL = ''
 
+Scopes and external groups
+--------------------------
+
+Both backends request ``openid``, ``profile``, and ``email`` by default.
+For the org authorization server (``/oauth2/v1/authorize``), request the
+``groups`` scope with the setting matching your backend::
+
+    # social_core.backends.okta.OktaOAuth2
+    SOCIAL_AUTH_OKTA_OAUTH2_SCOPE = ['groups']
+
+    # social_core.backends.okta_openidconnect.OktaOpenIdConnect
+    SOCIAL_AUTH_OKTA_OPENIDCONNECT_SCOPE = ['groups']
+
+These settings add to the default scopes. ``SOCIAL_AUTH_OIDC_SCOPE`` applies
+only to the generic OpenID Connect backend.
+
+For a custom authorization server (``/oauth2/{authorizationServerId}/v1/authorize``,
+including ``default``), ``groups`` is not an automatically defined scope.
+Configure the groups claim for any scope or for specific scopes, then request
+any scope associated with that claim using the matching ``SCOPE`` setting.
+If the claim is available with the default scopes, no additional scope is
+needed; Okta's custom-server example requests only ``openid``. Request
+``groups`` only if you have defined that scope on the custom server and
+associated it with the claim; requesting an undefined scope causes
+``invalid_scope``.
+
+Configure Okta to issue a groups claim with an appropriate group filter;
+requesting a scope alone does not configure the claim. See
+`Okta's groups claim guide <https://developer.okta.com/docs/guides/customize-tokens-groups-claim/main/>`_
+for org and custom authorization server configuration.
+
+Group extraction and local synchronization are opt-in. For ``OktaOAuth2``,
+configure the literal claim name and map external groups to existing Django
+group names::
+
+    SOCIAL_AUTH_OKTA_OAUTH2_GROUPS_KEY = 'groups'
+    SOCIAL_AUTH_OKTA_OAUTH2_GROUPS_MAP = {
+        'engineering': ['Engineering'],
+    }
+
+    from social_core.pipeline import DEFAULT_AUTH_PIPELINE
+
+    SOCIAL_AUTH_PIPELINE = (
+        *DEFAULT_AUTH_PIPELINE,
+        'social_core.pipeline.user.sync_groups',
+    )
+
+For ``OktaOpenIdConnect``, use the corresponding settings with the same
+pipeline::
+
+    SOCIAL_AUTH_OKTA_OPENIDCONNECT_GROUPS_KEY = 'groups'
+    SOCIAL_AUTH_OKTA_OPENIDCONNECT_GROUPS_MAP = {
+        'engineering': ['Engineering'],
+    }
+
+``OktaOAuth2`` reads the claim from UserInfo. ``OktaOpenIdConnect`` prefers the
+validated ID token and falls back to UserInfo only when its subject matches
+the ID token. Enabling extraction does not automatically request additional
+scopes.
+
+Synchronization adds desired mapped memberships and removes obsolete mapped
+memberships, preserving unrelated Django groups. It does not create groups.
+An empty claim clears managed memberships; a missing configured claim fails
+authentication by default. If Okta omits the claim for users with no groups,
+explicitly set ``SOCIAL_AUTH_OKTA_OAUTH2_GROUPS_MISSING_AS_EMPTY = True`` or
+``SOCIAL_AUTH_OKTA_OPENIDCONNECT_GROUPS_MISSING_AS_EMPTY = True`` for your
+backend. Malformed claims still fail authentication.
+
+See :doc:`../groups` for validation, authentication restrictions, and
+synchronization behavior.
+
 User identification
 -------------------
 
