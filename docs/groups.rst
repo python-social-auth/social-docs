@@ -7,10 +7,19 @@ Both capabilities are opt-in. Extraction does not grant local permissions.
 Enable extraction
 -----------------
 
-For OpenID Connect and Keycloak, select a literal claim name::
+For OpenID Connect, Keycloak, and Okta, select a literal claim name::
 
     SOCIAL_AUTH_OIDC_GROUPS_KEY = 'groups'
     SOCIAL_AUTH_KEYCLOAK_GROUPS_KEY = 'groups'
+    SOCIAL_AUTH_OKTA_OAUTH2_GROUPS_KEY = 'groups'
+    SOCIAL_AUTH_OKTA_OPENIDCONNECT_GROUPS_KEY = 'groups'
+
+Okta OAuth2 reads UserInfo; Okta OpenID Connect uses the validated ID token
+first, then UserInfo with a matching subject. Configure Okta to issue the
+claim. Org authorization servers require the ``groups`` scope; custom
+authorization servers require any scope associated with the claim, if any.
+See :doc:`backends/okta`
+for backend-specific scopes and a Django synchronization example.
 
 For Azure, use the setting corresponding to the selected authentication backend:
 
