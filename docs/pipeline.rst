@@ -154,9 +154,9 @@ creation, extra-data storage, and user updates.
 
 When both ``first_name`` and ``last_name`` are empty, a nonempty ``fullname`` is
 split at the first space. For example, ``Mary Jane Watson`` becomes ``Mary`` and
-``Jane Watson``. A single name becomes ``first_name``, with an empty
-``last_name``. If either component is supplied, it is preserved and the other
-component is not inferred.
+``Jane Watson``. A single name becomes ``first_name``; an unavailable
+``last_name`` remains unavailable. If either component is nonempty, it is
+preserved and the other component is not inferred.
 
 A missing ``fullname`` is generated from either or both components. When
 ``first_name`` already appears as a complete name component or sequence of
@@ -164,8 +164,19 @@ components in ``last_name`` (matched case-sensitively at whitespace boundaries),
 the full name uses ``last_name`` alone. For example, ``Jane`` and ``Jane Watson``
 produce ``Jane Watson``, while ``Ann`` and ``Anniston`` produce ``Ann Anniston``. Otherwise, the components are joined with a
 space. Surrounding whitespace is removed. Supplied nonempty names take
-precedence, even when the representations differ. Missing or ``None`` names
-are preserved when no nonempty name is available.
+precedence, even when the representations differ. Omitted, ``None``, and blank
+fields can be filled when a nonempty value can be derived. When derivation
+produces no value, omitted fields stay omitted and ``None`` stays ``None``.
+Explicitly supplied blank strings remain blank after trimming. This also
+applies when a conversion direction is disabled.
+
+The ``user_details`` step skips omitted and ``None`` fields, preserving the
+existing user values. Empty strings are valid updates and can clear existing
+fields. Backends therefore return ``None`` or omit names that the provider
+does not supply, rather than inventing empty strings. For example, a supplied
+``first_name`` with ``last_name=None`` can generate a full name without clearing
+the existing surname. Explicitly blank components can still be filled from a
+nonempty full name.
 
 Set ``SOCIAL_AUTH_FIRSTLAST_FROM_FULL`` or ``SOCIAL_AUTH_FULL_FROM_FIRSTLAST``
 to ``False`` to disable one direction. Both default to ``True`` and support
