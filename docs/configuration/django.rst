@@ -164,6 +164,55 @@ Django user. It is not a separate authentication user model. By default,
 ``UserSocialAuth.user`` references ``settings.AUTH_USER_MODEL``, so social login
 and Django's username/password login use the same user model.
 
+.. _django-manual-disconnection:
+
+Disconnecting social accounts in code
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+With the default Django ORM storage, you can remove social account associations
+directly through the user's ``social_auth`` related manager. Given a saved
+Django ``user`` instance::
+
+    # Remove all social account associations for this user.
+    user.social_auth.all().delete()
+
+    # Remove only this user's GitHub associations.
+    user.social_auth.filter(provider="github").delete()
+
+These operations preserve the Django user and application data related only
+to that user. Application models that reference ``UserSocialAuth`` follow
+their own relationship's ``on_delete`` behavior: ``CASCADE`` deletes dependent
+rows, while ``PROTECT`` or ``RESTRICT`` can prevent deletion. Check those
+relationships before removing associations.
+
+To remove a single association using the storage API::
+
+    from social_django.models import UserSocialAuth
+
+    association = user.social_auth.get(pk=association_id)
+    UserSocialAuth.disconnect(association)
+
+Direct deletion bypasses the :ref:`disconnection-pipeline`, including the check
+that the user has another login method, optional provider token revocation,
+and any custom pipeline steps. Use it when your application intentionally
+handles these responsibilities itself. For user-facing disconnection, use the
+normal disconnection view so the configured pipeline runs.
+
+Deleting a Django user
+^^^^^^^^^^^^^^^^^^^^^^
+
+The ``UserSocialAuth.user`` foreign key uses ``on_delete=models.CASCADE``.
+Deleting a user through Django's ORM, for example with ``user.delete()``,
+automatically deletes their social account associations. You do not need to
+disconnect those associations in a user-deletion hook first. Cascading deletion
+does not run the disconnection pipeline or revoke provider tokens.
+
+Other application models that reference the user follow their own deletion
+rules. If user deletion raises a foreign key error naming another application's
+table, inspect that model's relationship, migrations, and deletion code.
+Removing social account associations does not remove references from unrelated
+tables.
+
 Custom authentication user models
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
