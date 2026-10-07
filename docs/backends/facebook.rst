@@ -24,6 +24,33 @@ Python Social Auth provides multiple backends for Facebook authentication:
 - **FacebookAppOAuth2** (``social_core.backends.facebook.FacebookAppOAuth2``) - For Facebook Canvas Applications
 - **FacebookLimitedLogin** (``social_core.backends.facebook_limited.FacebookLimitedLogin``) - For Facebook Limited Login (iOS SDK)
 
+Access tokens in Django
+-----------------------
+
+After a user logs in with ``FacebookOAuth2``, the default authentication
+pipeline stores the Facebook access token in ``UserSocialAuth.extra_data``.
+In a Django view, retrieve it from the authenticated user's linked Facebook
+account::
+
+    social = request.user.social_auth.get(provider='facebook')
+    access_token = social.access_token
+    # Equivalent: social.extra_data.get('access_token')
+
+This example assumes the user has a linked Facebook account. If they do not,
+the query raises ``UserSocialAuth.DoesNotExist``; ask them to connect Facebook
+before retrieving a token. If your application allows multiple Facebook
+accounts per user, select the intended account by its ``uid`` as well.
+
+If you customize ``SOCIAL_AUTH_PIPELINE``, retain
+``social_core.pipeline.social_auth.load_extra_data`` so that the token is
+saved. You do not need to add ``access_token`` to
+``SOCIAL_AUTH_FACEBOOK_EXTRA_DATA``.
+
+Use this token for server-side Facebook Graph API requests. The data available
+depends on the permissions granted to the token. Request additional permissions
+with ``SOCIAL_AUTH_FACEBOOK_SCOPE``; ``SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS``
+controls which profile fields are requested during login.
+
 Token renewal
 -------------
 
@@ -33,6 +60,19 @@ is not required for these backends. Use ``social.refresh_token(strategy)``
 for an explicit exchange or ``social.get_access_token(strategy)`` to exchange
 when the stored access token has expired. See :ref:`oauth-token-renewal` for
 expiry handling and renewal failures.
+
+For expiry-aware retrieval in a Django view::
+
+    from social_django.utils import load_strategy
+
+    social = request.user.social_auth.get(provider='facebook')
+    access_token = social.get_access_token(load_strategy(request))
+
+Reading ``social.access_token`` returns the stored token without attempting
+renewal. ``get_access_token()`` attempts renewal when the stored expiry
+indicates that the token has expired. It does not guarantee that Facebook
+still accepts the token: handle renewal and Graph API failures, and ask the
+user to authenticate with Facebook again when necessary.
 
 OAuth2
 ------
