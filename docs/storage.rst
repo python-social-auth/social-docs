@@ -101,8 +101,8 @@ an arbitrary row when stored provider data matches multiple associations.
         raise NotImplementedError('Implement in subclass')
 
     @classmethod
-    def disconnect(cls, name, user, association_id=None):
-        """Disconnect the social account for the given user"""
+    def disconnect(cls, entry):
+        """Remove the given social account association"""
         raise NotImplementedError('Implement in subclass')
 
 

@@ -272,6 +272,8 @@ such as ``SOCIAL_AUTH_TWITTER_PIPELINE``. Backend-specific pipelines will overri
 the default and ``SOCIAL_AUTH_PIPELINE`` settings.
 
 
+.. _disconnection-pipeline:
+
 Disconnection Pipeline
 ----------------------
 
