@@ -635,6 +635,10 @@ account. Once linked, a later login with either provider account resolves to
 the same local user. Custom login views must also pass the authenticated user
 to the authentication flow to preserve this linking behavior.
 
+For local users authenticated with Django REST framework tokens, see
+:ref:`drf-account-linking` for a token-authenticated linking endpoint and
+the additional identity handling required for provider redirects.
+
 ``associate_by_email`` is optional and disabled by default. It finds an existing
 local user with the same email returned by the provider when no user has
 already been selected. It does not group different Gmail addresses into a
