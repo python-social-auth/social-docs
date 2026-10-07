@@ -135,6 +135,145 @@ to be used.
           it as a query string in the form ``oauth_token=123&oauth_token_secret=456``.
 
 
+.. _drf-account-linking:
+
+Linking accounts with Django REST framework tokens
+------------------------------------------------------------
+
+To link a provider account to an existing local user authenticated with a
+Django REST framework (DRF) token, authenticate the linking endpoint with
+``TokenAuthentication`` and require ``IsAuthenticated``. DRF authentication
+runs inside DRF views; configuring it does not make the standard
+``social_django`` views authenticate the local user from a token header.
+
+There are two separate credentials in this flow:
+
+* The DRF token identifies the existing local user and is sent in the
+  ``Authorization: Token <local-token>`` header.
+* The provider's OAuth access token identifies the social account to link
+  and is sent in the POST body as ``access_token``.
+
+For an OAuth2 backend that supports ``do_auth()``, pass the authenticated
+local user explicitly. The following example assumes the usual Django
+integration, including session middleware, a configured provider backend,
+and a pipeline that completes without interactive partial steps:
+
+.. code-block:: python
+
+    from rest_framework import serializers
+    from rest_framework.authentication import TokenAuthentication
+    from rest_framework.decorators import (
+        api_view,
+        authentication_classes,
+        permission_classes,
+    )
+    from rest_framework.exceptions import APIException, PermissionDenied
+    from rest_framework.permissions import IsAuthenticated
+    from rest_framework.response import Response
+    from social_core.exceptions import (
+        AuthAssociationError,
+        AuthCanceled,
+        AuthCredentialError,
+        AuthInputError,
+        AuthPolicyError,
+        AuthProviderError,
+        AuthResponseError,
+        AuthSessionError,
+        SocialAuthBaseException,
+    )
+    from social_django.utils import psa
+
+    class LinkAccountSerializer(serializers.Serializer):
+        access_token = serializers.CharField(trim_whitespace=False, write_only=True)
+
+    class SocialAuthAPIError(APIException):
+        default_detail = 'This social account could not be linked.'
+        default_code = 'social_auth_error'
+
+        def __init__(self, error):
+            self.status_code = 500
+            family_statuses = (
+                (AuthInputError, 400),
+                (AuthSessionError, 403),
+                (AuthCredentialError, 403),
+                (AuthPolicyError, 403),
+                (AuthCanceled, 403),
+                (AuthAssociationError, 409),
+                (AuthResponseError, 502),
+            )
+            for family, status_code in family_statuses:
+                if isinstance(error, family):
+                    self.status_code = status_code
+                    break
+            if isinstance(error, AuthProviderError):
+                self.status_code = {
+                    'timeout': 504,
+                    'tls_error': 502,
+                    'http_error': 502,
+                }.get(error.code, 503)
+            self.status_code = {
+                'response_expired': 403,
+                'nonce_mismatch': 403,
+                'invalid_expiry': 500,
+            }.get(error.code, self.status_code)
+            super().__init__()
+
+    @api_view(['POST'])
+    @authentication_classes([TokenAuthentication])
+    @permission_classes([IsAuthenticated])
+    @psa('social:complete')
+    def link_account(request, backend):
+        serializer = LinkAccountSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        try:
+            user = request.backend.do_auth(
+                serializer.validated_data['access_token'],
+                user=request.user,
+            )
+        except SocialAuthBaseException as error:
+            raise SocialAuthAPIError(error) from error
+        if user is None:
+            raise PermissionDenied('Provider authentication failed.')
+        return Response({'linked': True})
+
+Add a URL such as ``path('link-account/<str:backend>/', link_account)`` to
+your application's URL configuration. The decorator order above ensures
+that DRF authenticates the user before ``psa`` loads the social backend.
+Use HTTPS when sending either token.
+
+Provider token rejection normally raises an exception rather than returning
+``None``. The adapter above translates Social Auth failures into DRF JSON
+errors using the status mapping documented in :doc:`configuration/django`:
+rejected credentials return 403, association conflicts return 409, invalid
+provider responses return 502, and provider availability failures return
+503 or 504. Configuration and unknown Social Auth failures remain 500
+responses. The API message is fixed so provider descriptions and account
+identifiers are not exposed to the client. Request validation errors, such
+as a missing ``access_token``, still return 400 through the serializer.
+
+Keep the normal ``social_user``, ``create_user``, and ``associate_user``
+pipeline steps. With ``user=request.user``, user creation is skipped and
+the provider account is associated with that local user. An account already
+linked to another user raises an association error. There is no need to
+replace ``associate_user`` or call Django's ``login()`` for this API flow.
+Linking still runs the normal user-detail updates described in
+:doc:`configuration/django`.
+
+This example submits an already obtained provider access token. For a
+browser redirect flow, authenticating only the initial request with a DRF
+token is insufficient: the provider callback does not carry that token
+header. Keep the target local user authenticated in a Django session through
+the callback, or implement a linking transaction that securely binds the
+verified local user to the provider authentication flow and supplies that
+user at completion. Do not select the target user from an unverified user
+ID or token passed in a callback URL.
+
+See the `DRF authentication guide`_ for token setup and authentication
+configuration.
+
+.. _DRF authentication guide: https://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication
+
+
 Multiple scopes per provider
 ----------------------------
 
