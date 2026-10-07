@@ -97,6 +97,9 @@ For other providers, the pattern is ``SOCIAL_AUTH_<PROVIDER>_KEY``,
     LOGIN_REDIRECT_URL = '/'
     LOGOUT_REDIRECT_URL = '/'
 
+If you need a custom authentication user model, configure it before creating
+or applying your initial migrations. See :ref:`django-user-models`.
+
 **7. Run migrations**::
 
     python manage.py migrate
@@ -149,6 +152,117 @@ And for MongoEngine_ ORM::
 Also ensure to define the MongoEngine_ storage setting::
 
     SOCIAL_AUTH_STORAGE = 'social_django_mongoengine.models.DjangoStorage'
+
+
+.. _django-user-models:
+
+User models and application data
+--------------------------------
+
+``UserSocialAuth`` stores the association between a provider account and your
+Django user. It is not a separate authentication user model. By default,
+``UserSocialAuth.user`` references ``settings.AUTH_USER_MODEL``, so social login
+and Django's username/password login use the same user model.
+
+Custom authentication user models
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For a new project, a simple custom user model can extend Django's
+``AbstractUser``. For example, in ``accounts/models.py``::
+
+    from django.contrib.auth.models import AbstractUser
+
+    class User(AbstractUser):
+        pass
+
+Add ``accounts`` to ``INSTALLED_APPS`` and configure the model in
+``settings.py``::
+
+    AUTH_USER_MODEL = 'accounts.User'
+
+Leave ``SOCIAL_AUTH_USER_MODEL`` unset: social auth uses ``AUTH_USER_MODEL``
+automatically. Setting both to the same model is redundant.
+
+``AbstractUser`` supplies the standard authentication fields and a user manager,
+so this example needs no custom manager. If you change the authentication fields,
+follow `Django's custom user model and manager guidance
+<https://docs.djangoproject.com/en/stable/topics/auth/customizing/#specifying-a-custom-user-model>`_.
+The Django storage uses ``USERNAME_FIELD`` and ``EMAIL_FIELD`` (defaulting to
+``username`` and ``email``) and calls the model's default manager's
+``create_user()`` method. Ensure that the arguments supplied by your pipeline
+satisfy that method, including any additional required fields.
+
+Configure a replacement user model before creating migrations or running
+``migrate`` for the first time. Changing ``AUTH_USER_MODEL`` in an existing
+project requires a separate schema and data migration strategy; changing the
+setting alone does not migrate existing users or social associations.
+
+Storing application data
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+For information unrelated to authentication, use ordinary related models.
+A profile stores one record per user, while a foreign key can store many user
+actions. For example, in ``accounts/models.py``::
+
+    from django.conf import settings
+    from django.db import models
+
+    class Profile(models.Model):
+        user = models.OneToOneField(
+            settings.AUTH_USER_MODEL,
+            on_delete=models.CASCADE,
+            related_name='profile',
+        )
+        biography = models.TextField(blank=True)
+
+    class UserAction(models.Model):
+        user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+        name = models.CharField(max_length=100)
+        created = models.DateTimeField(auto_now_add=True)
+
+Profiles are not created automatically. Your application can initialize them
+when needed::
+
+    from accounts.models import Profile, UserAction
+
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    UserAction.objects.create(user=request.user, name='completed_tutorial')
+
+No custom authentication pipeline is needed to save data from ordinary site
+actions. Add a pipeline step only when you want to initialize or populate a
+profile during login; see :ref:`django-profile-pipeline`.
+
+All apps in the same project can use these relationships. Use
+``settings.AUTH_USER_MODEL`` in model relationships and ``get_user_model()``
+when you need the user class at runtime::
+
+    from django.contrib.auth import get_user_model
+
+    User = get_user_model()
+    user = User.objects.get(pk=user_id)
+
+See `Django's authentication customization documentation
+<https://docs.djangoproject.com/en/stable/topics/auth/customizing/>`_ for profile
+models, custom users, managers, and admin integration.
+
+Admin and social login
+^^^^^^^^^^^^^^^^^^^^^^
+
+Use the same authentication model for admin and social login, with
+``is_staff`` and permissions controlling admin access. Keep application data
+in related models as shown above.
+
+``SOCIAL_AUTH_USER_MODEL`` overrides the social-account foreign key; it does
+not create independent authentication sessions. Django's standard authentication
+session represents one logged-in user at a time.
+
+If ``SOCIAL_AUTH_USER_MODEL`` targets a different model from ``AUTH_USER_MODEL``,
+an admin user supplied as ``request.user`` can cause
+``ValueError: Cannot query "...": Must be "..." instance.`` For example, the
+social-auth context processor queries associations for ``request.user`` and
+Django rejects a user instance that does not match the foreign key's model.
+An override alone therefore does not provide two independent authentication
+systems with simultaneous admin and social logins.
 
 
 Database

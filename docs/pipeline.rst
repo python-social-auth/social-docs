@@ -587,14 +587,36 @@ Your function should accept the common parameters and ``**kwargs``::
 
 See :ref:`common-function-parameters` for details on the parameters available to pipeline functions.
 
+.. _django-profile-pipeline:
+
 Practical Example: Saving User Profile Data
 --------------------------------------------
 
-This example creates a ``Profile`` instance to store additional user information from Facebook.
+This Django example creates a ``Profile`` instance to store additional user
+information from Facebook. See :ref:`django-user-models` for when to use a
+profile instead of changing your authentication user model.
+
+Define the relationship and fields in ``accounts/models.py``, then create and
+apply migrations for your app::
+
+    from django.conf import settings
+    from django.db import models
+
+    class Profile(models.Model):
+        user = models.OneToOneField(
+            settings.AUTH_USER_MODEL,
+            on_delete=models.CASCADE,
+            related_name='profile',
+        )
+        gender = models.CharField(max_length=100, blank=True)
+        link = models.URLField(blank=True)
+        timezone = models.FloatField(null=True, blank=True)
 
 **Understanding the Facebook Response**
 
-The ``response`` parameter from Facebook typically looks like::
+The following response is illustrative. Fields available from Facebook depend
+on the API version, permissions, and information returned for the user; do not
+assume every field below is available::
 
     {
         'username': 'foobar',
@@ -616,13 +638,13 @@ The ``response`` parameter from Facebook typically looks like::
 Let's say we are interested in storing the user profile link, the gender and
 the timezone in our ``Profile`` model::
 
+    from accounts.models import Profile
+
     def save_profile(backend, user, response, *args, **kwargs):
         if backend.name == 'facebook':
-            profile = user.get_profile()
-            if profile is None:
-                profile = Profile(user_id=user.id)
-            profile.gender = response.get('gender')
-            profile.link = response.get('link')
+            profile, created = Profile.objects.get_or_create(user=user)
+            profile.gender = response.get('gender') or ''
+            profile.link = response.get('link') or ''
             profile.timezone = response.get('timezone')
             profile.save()
 
@@ -649,13 +671,13 @@ the pipeline. Since the function uses user instance, we need to put it after
 The function above returns ``None``, which is fine if subsequent functions don't need
 the profile. To make the ``profile`` available to later pipeline functions, return a dict::
 
+    from accounts.models import Profile
+
     def save_profile(backend, user, response, *args, **kwargs):
         if backend.name == 'facebook':
-            profile = user.get_profile()
-            if profile is None:
-                profile = Profile(user_id=user.id)
-            profile.gender = response.get('gender')
-            profile.link = response.get('link')
+            profile, created = Profile.objects.get_or_create(user=user)
+            profile.gender = response.get('gender') or ''
+            profile.link = response.get('link') or ''
             profile.timezone = response.get('timezone')
             profile.save()
             return {'profile': profile}  # Make profile available to next functions
