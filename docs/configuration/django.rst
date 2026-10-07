@@ -197,6 +197,82 @@ Configure a replacement user model before creating migrations or running
 project requires a separate schema and data migration strategy; changing the
 setting alone does not migrate existing users or social associations.
 
+.. _django-email-user:
+
+Email-only users and custom name fields
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A user model does not need ``username``, ``first_name``, or ``last_name`` fields.
+For example, an alternative to the simple ``AbstractUser`` subclass above can
+use email for authentication and store a single ``full_name``. Define this model
+and its manager in ``accounts/models.py``::
+
+    from django.contrib.auth.base_user import BaseUserManager
+    from django.contrib.auth.models import AbstractUser
+    from django.db import models
+
+    class UserManager(BaseUserManager):
+        def create_user(self, email, password=None, **extra_fields):
+            if not email:
+                raise ValueError('An email address is required')
+            user = self.model(email=self.normalize_email(email), **extra_fields)
+            user.set_password(password)
+            user.save(using=self._db)
+            return user
+
+        def create_superuser(self, email, password=None, **extra_fields):
+            extra_fields.setdefault('is_staff', True)
+            extra_fields.setdefault('is_superuser', True)
+            if not extra_fields['is_staff'] or not extra_fields['is_superuser']:
+                raise ValueError('A superuser must have is_staff and is_superuser set')
+            return self.create_user(email, password, **extra_fields)
+
+    class User(AbstractUser):
+        username = None
+        first_name = None
+        last_name = None
+        email = models.EmailField(unique=True)
+        full_name = models.CharField(max_length=255, blank=True)
+
+        USERNAME_FIELD = 'email'
+        EMAIL_FIELD = 'email'
+        REQUIRED_FIELDS = []
+        objects = UserManager()
+
+        def get_full_name(self):
+            return self.full_name
+
+        def get_short_name(self):
+            return self.full_name
+
+Configure social auth to create users using email and update their custom name
+field in ``settings.py``::
+
+    AUTH_USER_MODEL = 'accounts.User'
+    SOCIAL_AUTH_USER_FIELDS = ['email']
+    SOCIAL_AUTH_USER_FIELD_MAPPING = {'fullname': 'full_name'}
+
+``SOCIAL_AUTH_USER_FIELDS`` controls the arguments passed by the default
+``create_user`` pipeline step. Omitting ``username`` also makes ``get_username``
+skip username generation. Use the prefixed setting, rather than ``USER_FIELDS``.
+The provider must supply an email, or your pipeline must obtain one before
+``create_user`` runs.
+
+Providers use the normalized detail key ``fullname``, while this model uses
+``full_name``. ``SOCIAL_AUTH_USER_FIELD_MAPPING`` applies that mapping during
+``user_details``, after user creation; it does not rename arguments to
+``create_user``. The example therefore allows a blank name initially. If your
+manager requires a name at creation, add a step before ``create_user`` that
+returns ``{'full_name': details.get('fullname') or ''}`` and include
+``full_name`` in ``SOCIAL_AUTH_USER_FIELDS``. Obtain or validate any required
+name in that step instead of relying on an empty default.
+
+Keep ``social_names`` in the pipeline to normalize provider names, and
+``user_details`` to apply the mapping. Details for missing model attributes,
+such as ``first_name``, are skipped. Adapt Django's admin fieldsets and user
+forms to the fields on this model; the default configurations reference the
+removed fields.
+
 Storing application data
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -529,6 +605,56 @@ Usage example::
         'social_core.pipeline.social_auth.load_extra_data',
         'social_core.pipeline.user.user_details',
     )
+
+
+.. _django-link-social-accounts:
+
+Linking multiple social accounts to one user
+--------------------------------------------------
+
+One Django user can have multiple ``UserSocialAuth`` associations, including
+multiple accounts from the same provider. Each provider account can belong to
+only one local user; trying to link an account already owned by another user
+raises an association error.
+
+To link an additional account, log in to the target local user first, then
+start the normal social-auth flow from an account settings page. For example,
+show this form only to authenticated users::
+
+    <form method="post" action="{% url 'social:begin' 'google-oauth2' %}">
+        {% csrf_token %}
+        <button type="submit">Link a Google account</button>
+    </form>
+
+Select the additional account at the provider and complete authentication while
+remaining logged in locally. The standard Django views pass ``request.user``
+to the pipeline, and ``associate_user`` links the provider account to that user
+instead of creating a new local user. If the provider automatically selects an
+already linked account, use its account-selection controls to choose the other
+account. Once linked, a later login with either provider account resolves to
+the same local user. Custom login views must also pass the authenticated user
+to the authentication flow to preserve this linking behavior.
+
+``associate_by_email`` is optional and disabled by default. It finds an existing
+local user with the same email returned by the provider when no user has
+already been selected. It does not group different Gmail addresses into a
+shared Customer Support account. Enable it only for providers whose returned
+email ownership you can trust; see the verification constraints in the
+pipeline guidance above.
+
+For staff sharing a local support account, explicitly link each authorized
+provider account as above, or implement a pipeline step with an application
+policy that selects the permitted target user. Place such a step after
+``social_user`` and before ``create_user`` and ``associate_user``; return the
+selected ``user`` only after validating authorization and any existing
+association. Do not select a shared user solely because someone supplies an
+email address or uses Gmail. Separate staff users with shared permissions are
+an alternative when you need actions attributed to individual staff members.
+
+Linking runs the normal pipeline, including user-detail updates. If a shared
+account's name should remain unchanged, protect the model field, for example
+``SOCIAL_AUTH_PROTECTED_USER_FIELDS = ['full_name']`` for the email-only model
+above.
 
 
 ORMs

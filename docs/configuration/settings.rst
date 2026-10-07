@@ -119,6 +119,10 @@ Normally, set only ``AUTH_USER_MODEL`` for a custom Django user model and leave
 ``username`` field is not required. See :ref:`django-user-models` for examples
 and the constraints on using different models.
 
+For a model using email for authentication and a custom name field, see
+:ref:`django-email-user`. For associating several provider accounts with one
+local user, see :ref:`django-link-social-accounts`.
+
 Other integrations configure the user model using an import path, for example::
 
     SOCIAL_AUTH_USER_MODEL = 'foo.bar.User'
@@ -425,6 +429,17 @@ Miscellaneous settings
     ``first_name`` and/or ``last_name``. Set to ``False`` to disable this
     conversion. Supports backend-specific overrides, such as
     ``SOCIAL_AUTH_SAML_FULL_FROM_FIRSTLAST``. See :ref:`name-normalization`.
+
+``SOCIAL_AUTH_USER_FIELDS = ['username', 'email']``
+    Fields passed to the user manager by the default ``create_user`` pipeline
+    step. Values come from pipeline arguments or provider ``details``. Omit
+    ``username`` to skip username generation in ``get_username``. See
+    :ref:`django-email-user` for an email-only Django example.
+
+``SOCIAL_AUTH_USER_FIELD_MAPPING = {'fullname': 'full_name'}``
+    Map provider detail keys to user model attributes during ``user_details``.
+    This setting does not rename arguments passed by ``create_user``; required
+    creation fields must be supplied separately. The default mapping is empty.
 
 ``SOCIAL_AUTH_PROTECTED_USER_FIELDS = ['email',]``
     During the pipeline process a ``dict`` named ``details`` will be populated
