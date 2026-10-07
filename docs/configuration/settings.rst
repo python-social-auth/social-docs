@@ -103,18 +103,31 @@ fallback to ``SOCIAL_AUTH_LOGIN_ERROR_URL``.
 User model
 ----------
 
-``UserSocialAuth`` instances keep a reference to the ``User`` model of your
-project, since this is not known, the ``User`` model must be configured by
-a setting::
+``UserSocialAuth`` instances keep a reference to your project's user model.
+Configuration depends on the framework integration.
+
+For Django's ORM integration, this reference defaults to ``AUTH_USER_MODEL``
+(Django's built-in ``auth.User`` unless you configure a custom model).
+``SOCIAL_AUTH_USER_MODEL`` overrides the target of the ``UserSocialAuth.user``
+foreign key and uses Django's ``app_label.ModelName`` format::
+
+    SOCIAL_AUTH_USER_MODEL = 'accounts.User'
+
+Normally, set only ``AUTH_USER_MODEL`` for a custom Django user model and leave
+``SOCIAL_AUTH_USER_MODEL`` unset. Django models can use ``USERNAME_FIELD`` and
+``EMAIL_FIELD`` to identify their username and email fields; a literal
+``username`` field is not required. See :ref:`django-user-models` for examples
+and the constraints on using different models.
+
+Other integrations configure the user model using an import path, for example::
 
     SOCIAL_AUTH_USER_MODEL = 'foo.bar.User'
 
-``User`` model must have a ``username`` and ``email`` field, these are
-required.
-
-Also an ``is_authenticated`` and ``is_active`` boolean flags are recommended,
-these can be methods if necessary (must return ``True`` or ``False``). If the
-model lacks them a ``True`` value is assumed.
+See your framework's configuration page for its model requirements. The default
+storage and pipeline expect username and email information, commonly provided
+by ``username`` and ``email`` fields. Social auth's generic user helpers assume
+``True`` when ``is_authenticated`` or ``is_active`` is absent. Django's
+authentication and admin integration require a Django-compatible user model.
 
 
 Tweaking some fields length
