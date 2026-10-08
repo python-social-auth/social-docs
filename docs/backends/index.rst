@@ -71,7 +71,6 @@ Social backends
    discord
    discourse
    disqus
-   docker
    douban
    dribbble
    drip
