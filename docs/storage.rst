@@ -13,8 +13,9 @@ This model associates a social account data with a user in the system, it
 contains the provider name, the user ID (``uid``) which identifies the social
 account in the remote provider, and ``id_key`` naming the provider field from
 which that ID was obtained. It also contains JSON-encoded ``extra_data`` with
-additional provider information. Existing rows created before ``id_key`` was
-introduced use an empty string until social-core migrates them.
+additional provider information. Django backfills historical identifier keys
+through a data migration; unknown or explicitly skipped setups retain an empty
+key. See :doc:`configuration/identifier-migration`.
 
 When implementing this model, it must inherits from UserMixin_ and extend the
 needed methods:
@@ -70,7 +71,7 @@ needed methods:
 
     @classmethod
     def get_social_auth_by_extra_data(cls, provider, key, value, id_key=''):
-        """Return one unambiguous association matching stable provider data"""
+        """Compatibility API; no longer used by the authentication pipeline"""
         raise NotImplementedError('Implement in subclass')
 
     @classmethod
@@ -84,13 +85,22 @@ needed methods:
         raise NotImplementedError('Implement in subclass')
 
     @classmethod
-    def migrate_social_auth(cls, social, uid, id_key):
-        """Atomically replace the association identifier and its key"""
+    def migrate_social_auth(cls, social, uid, id_key, *, evidence_key=None):
+        """Atomically replace identifiers and revalidate supplied evidence"""
         raise NotImplementedError('Implement in subclass')
 
-Identifier migration must preserve the storage's provider/UID uniqueness
-guarantee, lock the association while updating it, and fail rather than select
-an arbitrary row when stored provider data matches multiple associations.
+Identifier migration must preserve provider/UID uniqueness, lock the association,
+and reject concurrent identifier changes. When ``evidence_key`` is supplied,
+require its stored scalar value to match the new UID, and recheck that evidence
+under the lock before updating. Nulls, booleans, and compound values are not
+identifier evidence. Missing evidence must fail rather than silently bypassing
+the proof requested by the pipeline. Django also rejects concurrent changes to
+extra data, including new contradictory evidence during an unverified migration.
+
+Authentication finds candidates using ``get_social_auth()`` and rejects multiple
+distinct matches. The public extra-data lookup remains available for callers,
+but is no longer part of automatic authentication. Custom storage implementations
+must accept the new keyword-only argument before upgrading social-core.
 
 * Social disconnection::
 

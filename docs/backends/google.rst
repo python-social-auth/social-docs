@@ -154,8 +154,11 @@ User identification
 
 Google OAuth2, OpenID Connect, and One Tap use the stable ``sub`` claim for
 account association. The legacy OAuth1 backend uses Google's stable ``id``.
-Associations created by older social-core releases used the email address and
-migrate to the stable identifier on the next successful authentication.
+Older default setups used email addresses. Historical associations can migrate
+through indexed email lookups, subject to the policy in
+:doc:`../configuration/identifier-migration`. Google retains the default
+unverified compatibility allowance only for its audited email-to-stable-ID
+transitions; conflicting stored evidence always blocks migration.
 
 The following legacy settings remain accepted, but stable identifiers are now
 the default::
@@ -166,7 +169,10 @@ or::
 
       SOCIAL_AUTH_GOOGLE_OAUTH2_USE_UNIQUE_USER_ID = True
 
-depending on the backends in use.
+depending on the backends in use. If these settings were already enabled before
+identifier-key tracking, configure the Django backfill's
+``SOCIAL_AUTH_OLD_ID_KEYS`` with ``sub`` for OAuth2, OpenID Connect, and One Tap,
+or ``id`` for OAuth1. The historical default backfill otherwise uses ``email``.
 
 See `Configurable User ID Key`_ for migration controls and custom identifier
 settings.

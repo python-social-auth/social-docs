@@ -16,12 +16,20 @@ ensuring the selected claim has the same stability properties. Backends whose
 provider responses expose no stable identifier, including Drip, Last.fm, and
 Mixcloud, are association-only and require an authenticated local user.
 
-When upgrading an existing deployment, read :ref:`the configurable user ID
-key documentation <configurable-user-id-key>` before authenticating users. The
-default compatibility migration preserves existing logins but accepts a
-one-time first-login race for associations that lack stored stable identity
-data. Security-sensitive deployments should disable that fallback and migrate
-the affected records administratively.
+When upgrading an existing deployment, read
+:doc:`configuration/identifier-migration` before authenticating users. Candidate
+lookup uses historical keys and values; authorization to migrate requires
+matching stored current-identifier evidence. Conflicting evidence always blocks
+migration.
+
+Only audited historical transitions that lacked evidence retain default
+unverified migration. This compatibility allowance accepts a first-login race
+through mutable identifiers. Security-sensitive deployments should set
+``SOCIAL_AUTH_ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION = False`` and use recovery
+or authenticated linking where evidence is unavailable. Explicit ``True`` is an
+unsafe escape hatch, not a verification mechanism. Configuration-driven changes
+and custom backends require evidence by default.
+
 
 Host header validation
 ----------------------

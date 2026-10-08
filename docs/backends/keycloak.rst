@@ -136,3 +136,12 @@ External memberships
 
 See :doc:`/groups` for opt-in extraction, group-based login restrictions, and
 local group synchronization. No separate extraction pipeline step is needed.
+
+
+Changing account identifier configuration
+-----------------------------------------
+
+For explicit identifier changes, configure previous ``LEGACY_ID_KEYS`` and
+ensure the new stable identifier was stored before changing ``ID_KEY``.
+See :doc:`../configuration/identifier-migration`. Merely recording the old key
+or presenting a matching username does not prove ownership of the association.

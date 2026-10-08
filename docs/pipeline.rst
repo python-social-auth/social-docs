@@ -734,3 +734,20 @@ Log pipeline execution to understand the flow::
 
 .. _python-social-auth: https://github.com/python-social-auth
 .. _example applications: https://github.com/python-social-auth/social-examples
+
+
+Identifier migration parameters
+-------------------------------
+
+``social_uid`` supplies the current ``uid`` and ``id_key``, plus
+``legacy_identifiers`` containing previous ``(id_key, uid)`` pairs.
+``legacy_uids`` remains available as an unkeyed compatibility parameter; new
+custom pipelines should pass keyed pairs. Persisted partial pipelines may
+restore pairs as lists, which are accepted.
+
+``social_user`` performs indexed candidate lookup and applies the evidence
+policy before account creation. Missing or conflicting proof raises
+``AuthAssociationError`` with code ``identifier_migration_conflict`` unless
+missing proof is explicitly permitted for that transition. The association
+retry path passes the same identifiers and applies the same checks.
+See :doc:`configuration/identifier-migration`.
