@@ -1,12 +1,12 @@
 Evernote OAuth
 ==============
 
-Backend classes
----------------
+Backend class
+-------------
 
-For Django, choose from these class paths for ``AUTHENTICATION_BACKENDS``.
-For other integrations, use the same class paths in the
-framework-specific backend setting.
+For Django, add this class path to ``AUTHENTICATION_BACKENDS``. For other
+integrations, use the same class path in the framework-specific backend
+setting.
 
 .. list-table::
    :header-rows: 1
@@ -15,10 +15,8 @@ framework-specific backend setting.
      - Class path
    * - ``evernote``
      - ``social_core.backends.evernote.EvernoteOAuth``
-   * - ``evernote-sandbox``
-     - ``social_core.backends.evernote.EvernoteSandboxOAuth``
 
-Evernote OAuth 1.0 for its authentication workflow.
+Evernote uses OAuth 1.0 for its production authentication workflow.
 
 - Register a new application at `Evernote API Key form`_.
 
@@ -27,15 +25,5 @@ Evernote OAuth 1.0 for its authentication workflow.
       SOCIAL_AUTH_EVERNOTE_KEY = ''
       SOCIAL_AUTH_EVERNOTE_SECRET = ''
 
-
-Sandbox
--------
-
-Evernote supports a sandbox mode for testing, there's a custom backend for it
-which name is ``evernote-sandbox`` instead of ``evernote``. Same settings apply
-but use these instead::
-
-      SOCIAL_AUTH_EVERNOTE_SANDBOX_KEY = ''
-      SOCIAL_AUTH_EVERNOTE_SANDBOX_SECRET = ''
 
 .. _Evernote API Key form: http://dev.evernote.com/support/api_key.php

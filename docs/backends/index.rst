@@ -55,7 +55,6 @@ Social backends
    auth0_openidconnect
    azuread
    battlenet
-   behance
    belgium_eid
    bitbucket
    bitbucket_datacenter_oauth2
@@ -107,7 +106,6 @@ Social backends
    line
    linkedin
    livejournal
-   live
    loginradius
    lyft
    mailchimp
@@ -122,7 +120,6 @@ Social backends
    nationbuilder
    naver
    nfdi
-   ngpvan_actionid
    odnoklassnikiru
    okta
    openstreetmap_oauth2
@@ -132,7 +129,6 @@ Social backends
    osso
    patreon
    pinterest
-   pixelpin
    podio
    qiita
    qq

@@ -35,7 +35,6 @@ Several supported service by simple backends definition (easy to add new ones
 or extend current one):
 
 * Angel_ OAuth2
-* Behance_ OAuth2
 * Bitbucket_ OAuth1
 * Box_ OAuth2
 * Dailymotion_ OAuth2
@@ -56,12 +55,10 @@ or extend current one):
 * Kakao_ OAuth2
 * Keycloak_ OpenID
 * Linkedin_ OAuth1
-* Live_ OAuth2
 * Livejournal_ OpenID
 * Mailru_ OAuth2
 * MineID_ OAuth2
 * Mixcloud_ OAuth2
-* `NGPVAN ActionID`_ OpenID
 * Odnoklassniki_ OAuth2 and Application Auth
 * OpenID_
 * Podio_ OAuth2
@@ -114,7 +111,6 @@ section.
 .. _OAuth: http://oauth.net/
 .. _myOpenID: https://www.myopenid.com/
 .. _Angel: https://angel.co
-.. _Behance: https://www.behance.net
 .. _Bitbucket: https://bitbucket.org
 .. _Box: https://www.box.com
 .. _Dailymotion: https://dailymotion.com
@@ -135,12 +131,10 @@ section.
 .. _Kakao: https://kakao.com
 .. _Keycloak: https://www.keycloak.org
 .. _Linkedin: https://www.linkedin.com
-.. _Live: https://www.live.com
 .. _Livejournal: http://livejournal.com
 .. _Mailru: https://mail.ru
 .. _MineID: https://www.mineid.org
 .. _Mixcloud: https://www.mixcloud.com
-.. _NGPVAN ActionID: http://developers.ngpvan.com/action-id
 .. _Odnoklassniki: http://www.odnoklassniki.ru
 .. _Podio: https://podio.com
 .. _Shopify: http://shopify.com
