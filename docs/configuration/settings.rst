@@ -307,28 +307,36 @@ per-IdP ``attr_user_permanent_id`` mapping instead. See the :doc:`OpenID
 <../backends/saml>` backend documentation.
 
 Associations store both the identifier value and the name of the provider field
-that supplied it. When a bundled backend changes to a more stable default,
-associations created by older versions have a blank identifier key. On the next
-successful authentication, social-core first attempts to prove the association
-using stable data stored in ``extra_data``. By default it then falls back to the
-current value of the backend's historical identifier and updates the association
-to the stable identifier.
+that supplied it. Authentication first looks up the current identity, then
+previous ``(id_key, uid)`` pairs using indexed queries. It does not search all
+associations' JSON data. Candidates are migrated only after applying the stored
+evidence and compatibility policy described in :doc:`identifier-migration`.
 
-``SOCIAL_AUTH_ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION = True``
-    Allow the compatibility fallback for legacy associations whose stable
-    identity cannot be proved from stored provider data. This is enabled by
-    default so unchanged existing users continue to authenticate.
+``SOCIAL_AUTH_<BACKEND_NAME>_LEGACY_ID_KEYS = []``
+    Additional previous identifier keys to extract from the provider response.
+    They supplement the backend's built-in historical keys and work when
+    ``ID_KEY`` is explicitly configured. This enables candidate discovery;
+    it does not authorize migration without evidence.
 
-    Set this to ``False`` to require stable stored data, an administrative data
-    migration, or an authenticated reconnection. Backend-specific variants of
-    the setting are supported.
+    Before changing keys, store the proposed new identifier through
+    ``EXTRA_DATA`` settings while associations still use their previous key.
+
+``SOCIAL_AUTH_ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION``
+    Permit migration when a candidate lacks stored current-identifier evidence.
+    The default is transition-specific: enabled only for the audited built-in
+    transitions in :ref:`historical-identifier-audit`, and disabled for custom
+    backends and configuration-driven changes. Backend-specific settings take
+    precedence over the global setting.
+
+    Explicit ``False`` requires stored evidence. Explicit ``True`` enables the
+    unsafe compatibility fallback even outside the default transition list.
+    Neither setting permits conflicting or invalid stored evidence.
 
 .. warning::
-    A legacy association remains keyed by its old identifier until it is
-    migrated. With compatibility fallback enabled, the first provider identity
-    to present that value can claim the migration. Deployments that cannot
-    accept this one-time risk should disable unverified migration before
-    upgrading and migrate associations administratively.
+    Unverified migration through a mutable identifier can let its new owner
+    claim an old association. A backfilled identifier key does not remove this
+    risk. Disable unverified migration if this is unacceptable and use account
+    recovery or authenticated linking for associations without evidence.
 
     Explicitly overriding ``ID_KEY`` with a mutable username, email address,
     UPN, or ``preferred_username`` keeps the corresponding backend vulnerable.

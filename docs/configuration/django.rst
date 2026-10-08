@@ -104,11 +104,38 @@ or applying your initial migrations. See :ref:`django-user-models`.
 
     python manage.py migrate
 
-Upgrades that add identifier-key tracking must install compatible releases of
-both ``social-auth-core`` and ``social-auth-app-django`` before running this
-command. The Django migration adds a blank ``id_key`` to existing social
-associations; social-core then migrates those rows according to the policy in
-:ref:`the configurable user ID key documentation <configurable-user-id-key>`.
+Install compatible releases of both ``social-auth-core`` and
+``social-auth-app-django`` before running this command. Indexed identifier
+migration requires social-auth-core 6.1 or later. A data migration backfills
+empty ``id_key`` values using frozen pre-v7 backend defaults; it preserves UIDs,
+existing keys, extra data, and timestamps.
+
+If your previous setup used custom identifiers, configure
+``SOCIAL_AUTH_OLD_ID_KEYS`` **before running migrations**::
+
+    SOCIAL_AUTH_OLD_ID_KEYS = {
+        "google-oauth2": "sub",  # Previously used USE_UNIQUE_USER_ID=True.
+        "custom-provider": "old_subject",
+        "trello": None,         # Leave this provider unchanged.
+    }
+
+Each entry describes the historical setup, not the current configuration.
+Unlisted known providers use frozen defaults. Unknown providers remain
+unchanged. A nonempty key must fit the model's ``id_key`` field; ``None`` skips
+that provider. Invalid overrides fail before any updates.
+
+The migration executes one SQL update per provider without loading associations
+into Python. It commits each provider separately and can resume after failure
+without overwriting completed backfills. Each large update can still hold locks
+and generate substantial transaction logs; schedule it during your deployment
+maintenance window. Reversing the migration preserves identifier metadata.
+Changing overrides after it has completed does not rerun it or rewrite populated
+keys; review incorrect historical mappings before serving authentication.
+
+Backfilling a key does not prove that a mutable identifier still belongs to the
+same account. Read :doc:`identifier-migration` for the migration policy,
+configuration changes, and recovery requirements. Run migrations before serving
+upgraded authentication traffic.
 
 **8. Add login form in template**::
 

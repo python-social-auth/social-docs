@@ -16,6 +16,7 @@ Contents:
    :maxdepth: 2
 
    settings
+   identifier-migration
    django
    flask
    pyramid

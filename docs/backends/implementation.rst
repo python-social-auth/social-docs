@@ -389,6 +389,22 @@ overridden to customize behavior. Here are some key methods:
     special logic for determining the ID key. Instead, use the
     ``SOCIAL_AUTH_<BACKEND_NAME>_ID_KEY`` setting to configure it.
 
+``get_legacy_user_identifiers(details, response)``
+    Returns previous ``(id_key, uid)`` pairs from built-in ``LEGACY_ID_KEYS`` and
+    backend-scoped configuration. Missing claims are omitted; other provider
+    response errors propagate. Override this hook when historical identifiers
+    need special extraction or scoping. ``get_legacy_user_ids()`` remains a
+    compatibility wrapper returning values only. The pipeline invokes both
+    hooks and uses additional values from existing custom overrides to find
+    empty-key associations, subject to the same evidence requirements. Prefer
+    the keyed hook for new overrides and associations with recorded keys.
+
+``get_stored_user_id_keys(id_key)``
+    Returns stored extra-data fields containing evidence for the current
+    identifier. The default returns ``(id_key,)``. Historical OIDC subjects may
+    also be stored under ``id``. Only declare aliases known to represent the
+    same identifier; every present evidence field must agree.
+
 ``get_user_id(details, response)``
     Returns a unique ID for the current user from the provider's response or
     from the details dict. This method uses ``id_key()`` to determine which
