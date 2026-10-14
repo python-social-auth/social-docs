@@ -293,9 +293,8 @@ password in your pipeline function. Check *Partial Pipeline* below.
 In order to override the disconnection pipeline, just define the setting::
 
     SOCIAL_AUTH_DISCONNECT_PIPELINE = (
-        # Verifies that the social association can be disconnected from the current
-        # user (ensure that the user login mechanism is not compromised by this
-        # disconnection).
+        # Verifies that the user has a usable password or another association
+        # whose provider is present in AUTHENTICATION_BACKENDS.
         'social_core.pipeline.disconnect.allowed_to_disconnect',
 
         # Collects the social associations to disconnect.

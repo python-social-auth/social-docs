@@ -219,11 +219,14 @@ To remove a single association using the storage API::
     association = user.social_auth.get(pk=association_id)
     UserSocialAuth.disconnect(association)
 
-Direct deletion bypasses the :ref:`disconnection-pipeline`, including the check
-that the user has another login method, optional provider token revocation,
-and any custom pipeline steps. Use it when your application intentionally
-handles these responsibilities itself. For user-facing disconnection, use the
-normal disconnection view so the configured pipeline runs.
+Direct deletion bypasses the :ref:`disconnection-pipeline`, including the
+default check that the user has a usable password or another association whose
+provider is present in ``AUTHENTICATION_BACKENDS``, optional provider token
+revocation, and any custom pipeline steps. The default check does not contact
+the provider or verify that the remaining account and credentials still work.
+Use direct deletion when your application intentionally handles these
+responsibilities itself. For user-facing disconnection, use the normal
+disconnection view so the configured pipeline runs.
 
 Deleting a Django user
 ^^^^^^^^^^^^^^^^^^^^^^
