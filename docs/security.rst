@@ -1,6 +1,12 @@
 Security considerations
 =======================
 
+The canonical `social-auth-core threat model`_ and
+`social-auth-app-django threat model`_ document the packages' respective trust
+boundaries, security properties, downstream responsibilities, and vulnerability
+triage rules. This page provides complementary deployment and configuration
+guidance.
+
 Stable social account identifiers
 ---------------------------------
 
@@ -109,3 +115,5 @@ For more information on Django security settings, refer to the `Django security
 documentation`_.
 
 .. _Django security documentation: https://docs.djangoproject.com/en/stable/topics/security/
+.. _social-auth-app-django threat model: https://github.com/python-social-auth/social-app-django/blob/master/THREAT_MODEL.md
+.. _social-auth-core threat model: https://github.com/python-social-auth/social-core/blob/master/THREAT_MODEL.md
