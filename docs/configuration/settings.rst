@@ -368,12 +368,13 @@ Processing requests and redirects
 The application issues several redirects and API calls. The following settings
 allow some tweaks to the behavior of these.
 
-``SOCIAL_AUTH_SANITIZE_REDIRECTS = False``
+``SOCIAL_AUTH_SANITIZE_REDIRECTS = True``
     The auth process finishes with a redirect, by default it's done to the
-    value of ``SOCIAL_AUTH_LOGIN_REDIRECT_URL`` but can be overridden with
-    ``next`` GET argument. If this setting is ``True``, this application will
-    vary the domain of the final URL and only redirect to it if it's on the
-    same domain.
+    value of ``SOCIAL_AUTH_LOGIN_REDIRECT_URL`` but can be overridden with the
+    ``next`` GET argument. By default, request-derived redirects are accepted
+    only when their host and scheme are allowed; otherwise the configured
+    redirect URL is used. Setting this to ``False`` disables that validation
+    and should be done only when equivalent validation is provided elsewhere.
 
 ``SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = ['foo', 'bar']``
     To allow redirection to certain domains while keeping the more restrictive
