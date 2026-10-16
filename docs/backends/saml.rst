@@ -320,6 +320,12 @@ Also verify that the login was initiated by the same browser, that the Identity
 Provider returns ``RelayState`` unchanged, and that only one SAML login is
 active for the Identity Provider in that browser session.
 
+If the callback carries an authenticated Django session for a different user
+than the session restored from ``RelayState``, ``social-auth-app-django``
+rejects it with a ``user_mismatch`` error and preserves the current session.
+Restart the SAML login while signed in as the account that should receive the
+association.
+
 As a workaround, ``SESSION_COOKIE_SAMESITE`` can be set to ``"None"`` so the
 cookie is sent with the cross-site POST. This requires secure HTTPS cookies and
 reduces the protection provided by the SameSite policy, so prefer server-side
