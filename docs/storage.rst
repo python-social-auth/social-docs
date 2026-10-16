@@ -132,13 +132,18 @@ the needed methods::
 
     @classmethod
     def get(cls, server_url, salt):
-        """Retrieve a Nonce instance"""
+        """Retrieve a Nonce instance, or None if no match exists"""
         raise NotImplementedError('Implement in subclass')
 
     @classmethod
     def delete(cls, nonce):
         """Delete a Nonce instance"""
         raise NotImplementedError('Implement in subclass')
+
+``get(server_url, salt)`` must return ``None`` when no matching nonce exists,
+including after deletion. The :doc:`Discourse backend <backends/discourse>` uses
+this result to reject unknown or already consumed nonces through the configured
+authentication error handling.
 
 
 Association
