@@ -67,6 +67,18 @@ You may also use::
 
 Defaults to empty tuple, for the list of available fields see `Documentation on user.getInfo`_
 
+The IFrame launch parameters are signed by Odnoklassniki, but they are not
+bound to an authentication request initiated by the receiving browser and do
+not provide an age limit or single-use protection. Consequently,
+``odnoklassniki-app`` does not create account associations from an already
+authenticated local session. Such a launch is accepted only when its OK
+identity is already associated with the same local user.
+
+Use the state-bound ``odnoklassniki-oauth2`` backend when a user needs to link
+a new Odnoklassniki identity to an existing local account. Applications that
+require protection against login CSRF or replay for anonymous IFrame launches
+must add an application-level initiation and single-use confirmation step.
+
 .. _OAuth registration form: https://apiok.ru/wiki/pages/viewpage.action?pageId=42476652
 .. _Rules for application developers: https://apiok.ru/wiki/display/ok/Odnoklassniki.ru+Third+Party+Platform
 .. _Developers registration form: https://apiok.ru/wiki/pages/viewpage.action?pageId=5668937
