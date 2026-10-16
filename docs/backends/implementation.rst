@@ -310,9 +310,11 @@ input it's handle (or full URL). The backend must override the ``openid_url()``
 method to retrieve it and return a full URL to where the user will be
 redirected.
 
-Setting a fixed ``URL`` also enables callback binding to the exact HTTPS
-provider endpoint discovered during authentication initiation. A backend that
-computes a URL for one provider must override
+Every OpenID backend binds positive callbacks to backend-scoped discovery state
+from the initiating or provider-authenticated restored browser session. Setting
+a fixed ``URL`` additionally enables binding to the exact HTTPS provider
+endpoint discovered during initiation. A backend that computes a URL for one
+provider must override
 ``requires_openid_provider_binding()`` to return ``True``. Leave the default
 unchanged only when users intentionally select arbitrary OpenID providers, as
 with the generic ``openid`` backend.

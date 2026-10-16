@@ -25,7 +25,8 @@ work, beside being defined on ``AUTHENTICATION_BACKENDS```::
         ...
     )
 
-LiveJournal OpenID is provided by URLs in the form ``http://<username>.livejournal.com``,
-this application retrieves the ``username`` from the data in the current
+LiveJournal OpenID is provided by URLs in the form
+``https://<username>.livejournal.com``. This application retrieves the ``username``
+from the data in the current
 request by checking a parameter named ``openid_lj_user`` which can be sent by
 ``POST`` or ``GET``.
