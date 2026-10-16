@@ -294,7 +294,8 @@ In order to override the disconnection pipeline, just define the setting::
 
     SOCIAL_AUTH_DISCONNECT_PIPELINE = (
         # Verifies that the user has a usable password or another association
-        # whose provider is present in AUTHENTICATION_BACKENDS.
+        # whose provider is present in AUTHENTICATION_BACKENDS and is not
+        # association-only.
         'social_core.pipeline.disconnect.allowed_to_disconnect',
 
         # Collects the social associations to disconnect.
