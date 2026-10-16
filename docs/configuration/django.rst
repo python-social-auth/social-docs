@@ -228,9 +228,12 @@ To remove a single association using the storage API::
 
 Direct deletion bypasses the :ref:`disconnection-pipeline`, including the
 default check that the user has a usable password or another association whose
-provider is present in ``AUTHENTICATION_BACKENDS``, optional provider token
-revocation, and any custom pipeline steps. The default check does not contact
-the provider or verify that the remaining account and credentials still work.
+provider is present in ``AUTHENTICATION_BACKENDS`` and is not
+association-only, optional provider token revocation, and any custom pipeline
+steps. Association-only backends link provider access to an already
+authenticated user and cannot provide a login fallback. The default check does
+not contact the provider or verify that the remaining account and credentials
+still work.
 Use direct deletion when your application intentionally handles these
 responsibilities itself. For user-facing disconnection, use the normal
 disconnection view so the configured pipeline runs.
