@@ -422,6 +422,13 @@ asks the Strategy to render a local confirmation response. A later confirmation
 request from the same browser resumes the pipeline and replays the original
 link request data through ``strategy.request_data()``.
 
+An authenticated user can confirm only a flow that was initiated for that same
+local user. A flow initiated anonymously must be confirmed while anonymous;
+opening or submitting its confirmation while signed in is rejected because it
+cannot be distinguished from an attempt to attach somebody else's provider
+identity to the signed-in account. External resume never replaces the user
+stored in the partial pipeline with the user from the confirming request.
+
 The confirmation request must include the parameter configured by
 ``SOCIAL_AUTH_PARTIAL_PIPELINE_EXTERNAL_RESUME_CONFIRMATION_PARAMETER``. The
 default parameter name is ``partial_pipeline_confirm``. A hidden field such as
