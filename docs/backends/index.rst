@@ -164,6 +164,7 @@ Social backends
    vend
    vimeo
    vk
+   weblate
    weibo
    xing
    yahoo
