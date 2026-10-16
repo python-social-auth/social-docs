@@ -58,6 +58,19 @@ an application ID. The ``oid`` claim is immutable across applications within a
 tenant, but is only tenant-unique and must be combined with ``tid`` when used
 across tenants.
 
+Azure AD B2C user flows should set **Subject (sub) claim** to ``ObjectID``.
+The legacy ``Not supported`` compatibility setting emits
+``Not supported currently. Use oid claim.`` instead of a unique subject, so
+the backend rejects it. If a flow cannot be changed, include **User's Object
+ID** in its application claims and select ``oid`` explicitly::
+
+    SOCIAL_AUTH_AZUREAD_B2C_OAUTH2_ID_KEY = 'oid'
+
+Existing associations whose UID is
+``Not supported currently. Use oid claim.`` cannot be attributed to a specific
+B2C account. Review and remove those rows, then require affected users to
+authenticate again.
+
 For example, configure the v2 tenant backend to use ``sub``::
 
     SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_ID_KEY = 'sub'
