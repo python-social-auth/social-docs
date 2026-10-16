@@ -39,11 +39,16 @@ Backend settings
     or if it goes to your view, then your view should complete the process
     calling ``social_core.actions.do_complete``.
 
+    With Django, submit the form using ``POST`` and include ``{% csrf_token %}``.
+    The ``social:complete`` view rejects e-mail login forms submitted by
+    ``GET`` or without a valid CSRF token.
+
 ``SOCIAL_AUTH_EMAIL_FORM_HTML = 'login_form.html'``
     The template will be used to render the login/signup form to the user, it
     must have at least one field named ``email``. Form submit should go to
     ``/complete/email``, or if it goes to your view, then your view should
-    complete the process calling ``social_core.actions.do_complete``.
+    complete the process calling ``social_core.actions.do_complete``. Django
+    forms must use ``POST`` and include ``{% csrf_token %}``.
 
 
 Email validation
