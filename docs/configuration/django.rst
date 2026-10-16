@@ -132,6 +132,13 @@ maintenance window. Reversing the migration preserves identifier metadata.
 Changing overrides after it has completed does not rerun it or rewrite populated
 keys; review incorrect historical mappings before serving authentication.
 
+Migration ``0021_repair_twitch_id_keys`` corrects Twitch OpenID Connect rows
+labelled ``id`` by the 7.1.0 backfill. It uses frozen built-in backend class paths
+and historical overrides to select the Twitch key. This repair is an exception
+to preserving populated keys: it changes only Twitch rows labelled ``id`` to
+``sub`` when the selected historical key is ``sub``. See
+:ref:`twitch-identifier-backfill` for selection rules and recovery guidance.
+
 Backfilling a key does not prove that a mutable identifier still belongs to the
 same account. Read :doc:`identifier-migration` for the migration policy,
 configuration changes, and recovery requirements. Run migrations before serving
