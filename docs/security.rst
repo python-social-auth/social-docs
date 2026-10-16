@@ -37,6 +37,27 @@ unsafe escape hatch, not a verification mechanism. Configuration-driven changes
 and custom backends require evidence by default.
 
 
+Legacy OpenID provider binding
+------------------------------
+
+Fixed-provider OpenID backends accept positive assertions only from the exact
+HTTPS provider endpoint discovered during authentication initiation in the
+same browser session. Do not expose an alternate callback path that bypasses
+the backend's normal authentication start. The generic OpenID backend is
+different: it intentionally accepts a provider selected by the application
+user and should be exposed only when that behavior and its outbound discovery
+traffic are appropriate for the deployment.
+
+Deployments upgrading from a release without fixed-provider binding should
+review OpenID associations created or migrated from unexpected identity URLs,
+especially Ubuntu, openSUSE, and Yandex associations migrated from historical
+nickname or email identifiers. Such records cannot be repaired automatically;
+confirm ownership through account recovery or authenticated relinking. Setting
+``ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION`` to ``False`` limits migration risk but
+does not replace provider binding, so affected backends should be disabled
+until the fixed release is installed.
+
+
 Host header validation
 ----------------------
 

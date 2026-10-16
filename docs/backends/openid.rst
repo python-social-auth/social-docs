@@ -25,6 +25,27 @@ the user's unique identifier. Because this identifier is protocol-derived
 rather than selected from a response mapping, the generic ``ID_KEY`` setting
 does not apply.
 
+Provider binding
+----------------
+
+OpenID backends configured for one provider require the authentication flow to
+start in the same browser session that receives the callback. The callback's
+``openid.op_endpoint`` and the endpoint verified by the OpenID consumer must
+exactly match the HTTPS endpoint discovered at the start of that flow. A
+missing session, a cleartext endpoint, or a different provider requires the
+user to restart authentication.
+
+This requirement applies to the bundled Ubuntu, openSUSE, Yandex, Launchpad,
+Fedora, Belgium eID, OpenStack, OpenInfra, LiveJournal, and Steam backends. The
+generic ``openid`` backend remains provider-selectable because the application
+user supplies its provider URL.
+
+Custom backends with a fixed ``URL`` receive provider binding automatically.
+A custom backend that computes a fixed-provider URL in ``openid_url()`` must
+override ``requires_openid_provider_binding()`` to return ``True``. Provider
+discovery URLs and discovered provider endpoints must use HTTPS; there is no
+setting to disable this validation.
+
 OpenID_ backends can store extra data in ``UserSocialAuth.extra_data`` field
 by defining a set of values names to retrieve from any of the used schemas,
 AttributeExchange and SimpleRegistration. As their keywords differ we need
