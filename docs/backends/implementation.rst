@@ -17,6 +17,17 @@ First, let's check the common attributes for all backend types.
     backend can take precedence if it's listed before in the
     ``AUTHENTICATION_BACKENDS`` setting.
 
+``title = None`` and ``icon = None``
+    Optional display metadata. ``title`` is the default sign-in label and ``icon``
+    is a filename under the packaged ``social_auth/icons`` static directory.
+
+``get_title(strategy)``
+    Class method returning the sign-in label for a framework strategy. The default
+    returns ``title`` or falls back to ``name``. Override it for a label that
+    depends on configuration, resolving settings through the supplied strategy.
+    This method must not contact the provider. Integrations should use it when
+    available and retain the static-title fallback for older core versions.
+
 ``ID_KEY = None``
     For mapping-based backends, defines the field in the service response that
     identifies the user as unique to the service. The value is later stored in
