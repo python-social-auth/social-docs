@@ -179,6 +179,18 @@ If using the legacy iframe JavaScript SDK, load it over HTTPS::
 
 Serve the iframe application through the HTTPS URL registered with VK.
 
+The iframe launch parameters are signed by VK, but they are not bound to an
+authentication request initiated by the receiving browser and do not provide
+an age limit or single-use protection. Consequently, ``vk-app`` does not create
+account associations from an already authenticated local session. Such a
+launch is accepted only when its VK identity is already associated with the
+same local user.
+
+Use the state-bound ``vk-id`` or ``vk-oauth2`` backend when a user needs to link
+a new VK identity to an existing local account. Applications that require
+protection against login CSRF or replay for anonymous iframe launches must add
+an application-level initiation and single-use confirmation step.
+
 Legacy OpenAPI
 --------------
 
