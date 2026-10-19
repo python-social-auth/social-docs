@@ -478,6 +478,11 @@ Miscellaneous settings
     web framework's session length setting and set user session lengths to
     match the ``expires`` value from the auth provider.
 
+    In Django, the session timeout is resolved before the user is logged in.
+    If enabled provider expiration data cannot be parsed, the login fails
+    without authenticating the session, whether the error is rendered or
+    redirected to ``SOCIAL_AUTH_LOGIN_ERROR_URL``.
+
 ``SOCIAL_AUTH_OPENID_PAPE_MAX_AUTH_AGE = <int value>``
     Enable `OpenID PAPE`_ extension support by defining this setting.
 
