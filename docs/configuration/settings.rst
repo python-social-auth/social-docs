@@ -373,7 +373,9 @@ allow some tweaks to the behavior of these.
     value of ``SOCIAL_AUTH_LOGIN_REDIRECT_URL`` but can be overridden with the
     ``next`` GET argument. By default, request-derived redirects are accepted
     only when their host and scheme are allowed; otherwise the configured
-    redirect URL is used. Setting this to ``False`` disables that validation
+    redirect URL is used. The ``next`` value must be a redirect URL, not a
+    setting name; a bare name never selects a setting as the destination.
+    Setting this to ``False`` disables that validation
     and should be done only when equivalent validation is provided elsewhere.
 
 ``SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = ['foo', 'bar']``
