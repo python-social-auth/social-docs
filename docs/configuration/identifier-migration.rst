@@ -54,13 +54,23 @@ Compatibility policy
 specific built-in transitions marked "Yes" below. It requires the audited
 backend class and current built-in key. Custom subclasses, newly added legacy
 keys, and other configuration-driven transitions require evidence by default.
-Explicitly selecting the same built-in current key retains that transition's
-default. Other current keys do not.
+When ``ID_KEY`` is configured, a match through the historical key requires
+evidence even if the configured value equals the current built-in default.
+Pre-6.0 associations may already hold that configured identifier, despite
+having an empty stored ``id_key``. A login with the same current UID can still
+stamp the key without changing account ownership. Other current keys also
+require evidence.
 
 The global ``SOCIAL_AUTH_ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION`` setting and its
 backend-specific variants override that default. Explicit ``False`` always
 requires evidence. Explicit ``True`` permits missing evidence even outside the
 audited list, but cannot override conflicting or invalid evidence.
+
+Values returned only by the compatibility ``get_legacy_user_ids`` hook have no
+identifier-key provenance. Policy hooks receive an empty old key for them. When
+``ID_KEY`` is configured, these matches require stored evidence unless
+``ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION`` is explicitly ``True`` and the policy
+hook also approves the empty key.
 
 .. warning::
 
@@ -69,6 +79,21 @@ audited list, but cannot override conflicting or invalid evidence.
    compatibility policy preserves that behavior for known historical setups;
    it does not make those migrations safe. Disable it before upgrading if this
    risk is unacceptable.
+
+If you selected a stable ``ID_KEY`` before upgrading from social-core 5.x,
+retain that setting until all older associations have been keyed correctly.
+Removing it can make an unkeyed association indistinguishable from one created
+under the historical identifier. An attacker whose historical identifier equals
+another account's stable ID could then claim that account. Audit and repair
+existing associations using independently verified provider identifiers before
+removing the setting. Do not infer a row's original key from its UID alone.
+
+For Django, set ``SOCIAL_AUTH_OLD_ID_KEYS`` to the identifiers that actually
+created your associations before running the historical-key backfill migration.
+Its built-in defaults describe the old backend defaults, not custom settings.
+If the migration has already labeled rows with the wrong key, audit and correct
+those rows using trusted records; changing the setting afterwards does not
+repair persisted ``id_key`` values.
 
 .. _historical-identifier-audit:
 

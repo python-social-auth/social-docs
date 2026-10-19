@@ -118,9 +118,16 @@ by setting::
 This can be useful if you want to use email, username, or another field as the unique
 identifier instead of the ``sub`` field.
 
-Associations created by older social-core releases used the normalized
-``preferred_username`` value and migrate to ``sub`` on the next successful
-authentication.
+With the old default, associations created by older social-core releases used
+the normalized ``preferred_username`` value and migrate to ``sub`` on the next
+successful authentication.
+
+Deployments that selected ``SOCIAL_AUTH_KEYCLOAK_ID_KEY = "sub"`` before
+social-core 6.0 already stored subjects in their older associations. Keep that
+setting until those associations have been keyed correctly. A username equal
+to another account's subject must not be used to migrate its association;
+see :doc:`../configuration/identifier-migration` for the evidence requirement
+and Django backfill guidance.
 
 .. warning::
     Usernames and email addresses can change or be reassigned. Selecting one as
