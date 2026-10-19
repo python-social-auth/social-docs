@@ -1259,8 +1259,9 @@ Designed for same-origin frontend or SPA redirects with OpenID Connect (OIDC) ba
    provided, it is validated against the backend's allowed issuers.
 3. **Origin Validation**: Inspects ``Sec-Fetch-Site`` and requires it to be
    ``same-origin`` when present.
-4. **Referer Validation**: Validates the ``Referer`` header against allowed
-   hosts when present.
+4. **Referer Validation**: Requires the ``Referer`` authority (host and any
+   explicit port) to match ``request.get_host()`` exactly when present.
+   Redirect host allowlists do not expand the allowed Referer authorities.
 5. **Framing Protection**: Injects ``X-Frame-Options: DENY`` and CSP
    ``frame-ancestors 'none'`` headers.
 6. **Open Redirect Prevention**: Validates the ``next`` query parameter
@@ -1311,13 +1312,20 @@ missing or rejected, ``LOGIN_REDIRECT_URL`` is used and may be a Django URL
 pattern name.
 
 Safe redirect URL validation for ``next`` and ``target_link_uri`` checks
-the host against ``request.get_host()``, global settings, and backend-specific
-settings:
+the full URL authority (host and any explicit port) against
+``request.get_host()``, global settings, and backend-specific settings using
+exact string comparisons, as in the regular authentication flow. A bare hostname
+entry does not allow other ports, even an explicit default port such as ``:443``.
+Userinfo prefixes and differences in hostname case also prevent a match unless
+the complete authority is explicitly allowlisted. The request host already
+includes its port when supplied, so URLs using that same authority are accepted.
+For example, to allow a frontend served on port 8443, include
+``'app.example.com:8443'`` in the allowlist:
 
 .. code-block:: python
 
     # Global allowed hosts for redirects
-    SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = ['app.example.com', 'portal.example.com']
+    SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = ['app.example.com:8443', 'portal.example.com']
 
     # Backend-specific allowed hosts
     SOCIAL_AUTH_GOOGLE_OAUTH2_ALLOWED_REDIRECT_HOSTS = ['subdomain.example.com']
