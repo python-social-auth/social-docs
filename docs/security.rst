@@ -60,6 +60,22 @@ does not replace provider binding, so affected backends should be disabled
 until the fixed release is installed. Authentication attempts initiated before
 upgrading lack backend-scoped state and must be restarted.
 
+OAuth2 transaction state
+------------------------
+
+Each OAuth2 authorization start uses a distinct state bound to the initiating
+browser session. A callback consumes that transaction before exchanging its
+authorization code. Other pending starts in the same session remain valid and
+can finish in either order. Expired and repeated callbacks must start again.
+OAuth2 authorizations begun before upgrading to this behavior also must restart.
+
+``SOCIAL_AUTH_STATE_LIFETIME`` sets the maximum age in seconds, defaulting to
+1800. A provider-specific ``SOCIAL_AUTH_<BACKEND_NAME>_STATE_LIFETIME`` takes
+precedence. The value must be a positive integer. Framework storage integrations
+must implement ``NonceMixin.consume()`` as an atomic conditional claim shared
+by all application workers; a session read followed by a write cannot prevent
+two simultaneous callbacks from using the same state.
+
 
 Host header validation
 ----------------------
