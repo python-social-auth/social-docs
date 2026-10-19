@@ -799,6 +799,30 @@ compatibility. The historical ``SOCIAL_AUTH_JSONFIELD_ENABLED``,
 settings are only relevant while running those legacy migrations.
 
 
+Partial pipeline serialization
+------------------------------
+
+``DjangoStrategy.to_session_value()`` encodes model references and escapes
+ordinary dictionaries that could be mistaken for encoded values.
+``DjangoStrategy.from_session_value()`` restores each saved value without
+interpreting dictionary contents recursively. This keeps request parameters
+and provider response dictionaries intact when a partial pipeline resumes.
+Custom strategies overriding either method must preserve the matching
+encode/decode behavior; consumers of saved values should use the decoder
+rather than inspect the encoded representation.
+
+Existing partials and pending confirmations remain readable without a database
+migration. Legacy model references containing exactly ``pk`` and ``ctype``,
+with an integer ``ctype``, still resolve to model instances. An old ordinary
+dictionary with that exact shape remains indistinguishable from a model
+reference; newly encoded dictionaries do not have this ambiguity.
+
+Deploy all application workers together: older package versions cannot decode
+values written in the new format. Before rolling back, finish or invalidate
+partials and pending confirmations saved by the new version, so affected users
+can restart their authentication flows.
+
+
 .. _django-exception-middleware:
 
 Exceptions Middleware
