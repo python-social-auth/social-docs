@@ -1279,6 +1279,13 @@ the view returns HTTP 400 (``BadRequest``).
 Allowed Redirect Hosts
 ^^^^^^^^^^^^^^^^^^^^^^
 
+For authenticated users, validated ``next`` and ``target_link_uri`` values
+are treated as literal URLs, without resolving Django URL pattern names.
+Relative references resolve against the launch endpoint URL in the browser;
+use a leading slash for a path relative to the site root. If the target is
+missing or rejected, ``LOGIN_REDIRECT_URL`` is used and may be a Django URL
+pattern name.
+
 Safe redirect URL validation for ``next`` and ``target_link_uri`` checks
 the host against ``request.get_host()``, global settings, and backend-specific
 settings:
