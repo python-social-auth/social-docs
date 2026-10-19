@@ -41,6 +41,13 @@ Configured historical keys supplement the backend's built-in keys, and work
 with an explicit current ``ID_KEY``. Custom backends must implement extraction
 for their historical keys when identifiers require transformations or scoping.
 
+If legacy evidence is stored in a nested field, a backend can override
+``get_legacy_social_auth(uid, id_key, response, user=None)`` to return an
+evidenced legacy association. The hook must only look up and validate the
+candidate. The core pipeline checks that an authenticated local user owns it
+before asking storage to migrate it. An authenticated owner can also recover
+an association whose old provider data lacks migration evidence.
+
 If an email or username has changed and its old value is no longer returned,
 indexed lookup cannot recover the old association. There is no global JSON
 search fallback. Use account recovery or an authenticated linking flow.
