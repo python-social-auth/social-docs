@@ -423,6 +423,24 @@ address or domain name. To white-list just set any of these settings:
     address in this list will login successfully, otherwise ``AuthPolicyError``
     is raised.
 
+These restrictions apply to authentication and account linking through the
+``social_core.pipeline.social_auth.auth_allowed`` pipeline step. Keep this step
+before user creation and association in custom pipelines. When either list is
+non-empty, the provider must supply a matching email address; missing, empty,
+non-string, or malformed addresses are refused. Matching is case-insensitive,
+and an address matching either configured list is accepted.
+
+Ensure that the provider and the granted scopes allow the backend to retrieve
+an email address. Requesting an email scope does not guarantee that an address
+will be supplied. The allowlist does not itself verify ownership of the address;
+choose providers and email-verification requirements appropriate for your policy.
+
+The global ``SOCIAL_AUTH_WHITELISTED_DOMAINS`` and
+``SOCIAL_AUTH_WHITELISTED_EMAILS`` settings apply across backends unless overridden
+by backend-specific settings. Previously, identities without an email address
+skipped these checks. After upgrading, those logins and account-linking attempts
+are refused. If some enabled backends cannot supply email, scope the lists to
+compatible backends rather than applying a global email restriction.
 
 Miscellaneous settings
 ----------------------
