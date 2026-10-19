@@ -62,7 +62,15 @@ HTTP header; applications must interpret it before using it.
 ``str(exception)`` and ``exception.args`` contain a safe default message.
 Provider descriptions are available separately in ``detail``. ``context`` is
 an explicitly supplied mapping for diagnostic identifiers, such as user ID and
-provider UID. Original exceptions remain available through exception chaining.
+provider UID. Original exception objects remain available through exception
+chaining. HTTP and transport exception messages have request URLs replaced with
+``<redacted-url>``, including URL paths and query strings. Other diagnostic text
+and attached request and response objects remain available.
+
+This redaction covers ordinary formatted tracebacks. Attached request and
+response objects and captured traceback local variables can still contain
+credentials; configure error trackers to scrub these separately.
+
 Do not send diagnostics, raw responses, or identifying context to client URLs
 or flash messages. Do not log tokens, cookies, or full authentication assertions.
 
