@@ -22,6 +22,11 @@ The backend binds the local association to Discourse's ``external_id``. Email
 addresses remain profile data and are not account identifiers because they can
 change or later belong to another user.
 
+Discourse authentication must finish in the browser session that started it.
+If the session is lost before the Discourse callback, the login fails and the
+user must start again. Logins already in progress when upgrading to a version
+that enforces this check must also be restarted.
+
 - Deploy a Discourse application and `configure
   <https://meta.discourse.org/t/using-discourse-as-a-sso-provider/32974>` the
   application to enable Discourse as an SSO provider.
