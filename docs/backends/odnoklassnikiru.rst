@@ -67,9 +67,11 @@ You may also use::
 
 Defaults to empty tuple, for the list of available fields see `Documentation on user.getInfo`_
 
-The IFrame launch parameters are signed by Odnoklassniki, but they are not
-bound to an authentication request initiated by the receiving browser and do
-not provide an age limit or single-use protection. Consequently,
+The IFrame backend checks the launch signature and confirms that the
+``logged_user_id`` belongs to the supplied Odnoklassniki session before
+accepting its profile. The launch is not bound to an authentication request
+initiated by the receiving browser and has no age limit or single-use
+protection. Consequently,
 ``odnoklassniki-app`` does not create account associations from an already
 authenticated local session. Such a launch is accepted only when its OK
 identity is already associated with the same local user.
