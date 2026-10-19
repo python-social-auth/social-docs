@@ -119,8 +119,10 @@ must accept the new keyword-only argument before upgrading social-core.
 Nonce
 -----
 
-This is a helper class for OpenID mechanism, it stores a one-use number,
-shouldn't be used by the project since it's for internal use only.
+This helper stores one-use numbers for OpenID and OAuth2 transaction claims.
+The legacy ``server_url`` field is the nonce's scope key: OpenID and Discourse
+use a provider URL, while OAuth2 uses a protocol-and-backend identifier. A
+record needs only this one scope value; no separate namespace field is required.
 
 When implementing this model, it must inherit from NonceMixin_, and override
 the needed methods::
@@ -139,6 +141,16 @@ the needed methods::
     def delete(cls, nonce):
         """Delete a Nonce instance"""
         raise NotImplementedError('Implement in subclass')
+
+    @classmethod
+    def consume(cls, server_url, timestamp, salt):
+        """Atomically delete one exact match and return whether it existed"""
+        raise NotImplementedError('Implement in subclass')
+
+``consume()`` must be a single atomic operation across application workers.
+OAuth2 uses it to reject simultaneous callbacks for the same transaction.
+Persistent stores should periodically remove abandoned OAuth2 claims; the
+Django integration uses :ref:`authentication-storage-cleanup` for this.
 
 ``get(server_url, salt)`` must return ``None`` when no matching nonce exists,
 including after deletion. The :doc:`Discourse backend <backends/discourse>` uses

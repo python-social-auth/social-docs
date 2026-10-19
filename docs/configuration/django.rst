@@ -1497,12 +1497,16 @@ to the user model by definig the following setting::
 .. _pypi: http://pypi.python.org/pypi/social-auth-app-django/
 
 
+.. _authentication-storage-cleanup:
+
 Authentication storage cleanup
 ------------------------------
 
 Schedule ``manage.py clearsocial`` regularly, for example hourly. It removes
-unused verification codes and partial pipelines older than ``--age`` days
-(default: 14), and expired OpenID associations and OpenID Connect nonces.
+unused verification codes, partial pipelines, and authentication nonces older
+than ``--age`` days (default: 14), and expired OpenID associations and OpenID
+Connect nonces. Cleaning up an old nonce can require restarting an unfinished
+authentication attempt; it does not end an established login session.
 Association expiry uses each record's ``issued`` timestamp and ``lifetime``;
 ``--age`` does not change this policy. Active associations and linked user
 accounts are preserved.
