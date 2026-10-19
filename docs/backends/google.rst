@@ -123,6 +123,9 @@ on the client side. Because of this `start` url is not available, only a `comple
     SOCIAL_AUTH_GOOGLE_ONETAP_IGNORE_MISSING_CSRF_COOKIE = True / False
 
   ``SOCIAL_AUTH_GOOGLE_ONETAP_KEY`` corresponds to the variable ``CLIENT ID``.
+  This setting is required for One Tap sign-in and must match the client ID in
+  ``data-client_id`` below. Without a configured client ID, the callback fails
+  because the ID token's audience cannot be verified.
   ``SOCIAL_AUTH_GOOGLE_ONETAP_IGNORE_MISSING_CSRF_COOKIE`` disabled the CSRF checks
   if the token is missing from the cookies. This is an optional setting
   because the cookie is not being set if authentication process started on a different
