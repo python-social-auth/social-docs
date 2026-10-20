@@ -542,7 +542,23 @@ Starting Login
 --------------
 
 The ``social:begin`` view requires a ``POST`` request. Use a form and include
-the CSRF token in templates that start authentication.
+the CSRF token in templates that start authentication. The disconnection view
+likewise requires an authenticated, CSRF-protected POST.
+
+Provider completion callbacks are intentionally exempt from Django's CSRF token
+check and rely on the selected core backend's protocol validation. Legacy
+email and username login forms have no provider callback proof: submit them to
+``social:complete`` using a CSRF-protected POST instead. Do not exempt these
+forms or expose an alternate completion route bypassing validation.
+
+During authenticated account linking, preserve the initiating local user across
+the callback; reject or restart a flow if the principal changes. For externally
+resumed partials, preserve the explicit confirmation and nonce checks described
+under :ref:`partial-pipeline`.
+
+Restorable cross-site flows require shared server-side sessions and the same
+browser context. See :doc:`../backends/saml` for supported session arrangements,
+restoration, and upgrade troubleshooting.
 
 
 Templates
@@ -1206,8 +1222,12 @@ from ``social_django.constants`` or equivalent string literals:
 Endpoint Behaviors and Security Architecture
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Both endpoints employ a layered defense model to protect users and your
-application:
+Both endpoints preserve issuer, redirect, framing, and CSRF checks. Fetch
+Metadata headers influence navigation checks and automatic submission; they
+are optional browser context signals, not credentials. Missing headers do not
+remove the remaining checks. Keep these controls when overriding templates.
+Bridge target validation remains active even if general
+``SOCIAL_AUTH_SANITIZE_REDIRECTS`` validation is disabled.
 
 IdP Launch (``idp_launch``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1215,7 +1235,7 @@ IdP Launch (``idp_launch``)
 Route: ``/idp-launch/<str:backend>/`` (URL name: ``social:idp_launch``)
 
 Designed to handle `OIDC IdP-initiated login per the OpenID Connect Core
-specification <https://openid.net/specs/openid-connect-core-1_0-36.html#ThirdPartyInitiatedLogin>`_. Enforces 8 security layers:
+specification <https://openid.net/specs/openid-connect-core-1_0-36.html#ThirdPartyInitiatedLogin>`_. Its behavior is:
 
 1. **Opt-In Gate**: Raises ``Http404`` if ``LaunchBridge.IDP`` (or
    ``'idp_launch'``) is not present in ``SOCIAL_AUTH_ENABLE_LAUNCH_BRIDGES``.
@@ -1247,7 +1267,8 @@ App Launch (``app_launch``)
 
 Route: ``/app-launch/<str:backend>/`` (URL name: ``social:app_launch``)
 
-Designed for same-origin frontend or SPA redirects with OpenID Connect (OIDC) backends. Enforces 10 security layers:
+Designed for same-origin frontend or SPA redirects with OpenID Connect (OIDC)
+backends. Its behavior is:
 
 1. **Opt-In Gate**: Raises ``Http404`` if ``LaunchBridge.APP`` (or
    ``'app_launch'``) is not present in ``SOCIAL_AUTH_ENABLE_LAUNCH_BRIDGES``.
@@ -1333,10 +1354,13 @@ For example, to allow a frontend served on port 8443, include
 Customizing the Launch Template (``launch.html``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Both bridge views render ``social_django/launch.html``. To customize the
-appearance, loading animation, or branding during the transition, create a
-file named ``social_django/launch.html`` within your project's ``templates``
-directory (ensuring your template loader prioritizes project templates).
+Both bridge views render ``social_django/launch.html``. Overrides must retain
+the CSRF token, forward only the supplied parameters, and honor ``auto_submit``:
+when false, show a manual confirmation button instead of submitting the form
+automatically. To customize the appearance, loading animation, or branding
+during the transition, create ``social_django/launch.html`` within your
+project's ``templates`` directory (ensuring your template loader prioritizes
+project templates).
 
 Template Context Variables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -57,6 +57,21 @@ Enable the auth backend:
     ...
   )
 
+Security requirements
+---------------------
+
+The client supplies the signed ID token in the ``access_token`` parameter.
+The backend verifies the provider signature and applicable issuer, audience,
+subject, and time claims. It intentionally does not enforce the token's nonce,
+because the backend did not generate it server-side.
+
+Signature validation alone does not bind this token to an authentication
+initiated by the receiving browser or make it single-use. Applications requiring
+login-CSRF or account-linking replay protection must add an application-level
+initiation and single-use binding. Preserve the initiating authenticated local
+user through linking; do not treat an arbitrary client nonce as proof of that
+binding. See :doc:`../security` for shared deployment requirements.
+
 .. _Facebook App Creation: https://developers.facebook.com/apps/creation/
 .. _Facebook Limited Login: https://developers.facebook.com/docs/facebook-login/limited-login/
 .. _hosts file: https://en.wikipedia.org/wiki/Hosts_(file)

@@ -308,6 +308,8 @@ being sent with that request.
 
 ``social-auth-app-django`` preserves the server-side session identifier in
 SAML ``RelayState`` and restores the session before validating the response.
+The restored session key is rotated before continued use; do not override
+restoration in a way that retains the old key or changes the initiating user.
 Use a current ``social-auth-app-django`` release and a server-side Django
 session engine. In multi-instance deployments, every instance that can handle
 the login or callback must use the same session storage. Database and cached

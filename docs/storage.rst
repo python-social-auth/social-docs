@@ -116,6 +116,8 @@ must accept the new keyword-only argument before upgrading social-core.
         raise NotImplementedError('Implement in subclass')
 
 
+.. _nonce-storage:
+
 Nonce
 -----
 
@@ -149,6 +151,8 @@ the needed methods::
 
 ``consume()`` must be a single atomic operation across application workers.
 OAuth2 uses it to reject simultaneous callbacks for the same transaction.
+A session read followed by a write is insufficient across workers. See
+:ref:`oauth2-transaction-state` for transaction behavior and lifetime settings.
 Persistent stores should periodically remove abandoned OAuth2 claims; the
 Django integration uses :ref:`authentication-storage-cleanup` for this.
 
