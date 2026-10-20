@@ -58,4 +58,17 @@ Telegram uses a widget-based authentication method for login.
   - Last name
   - Photo URL (if available)
 
+Security requirements
+---------------------
+
+The callback HMAC authenticates the Telegram data, and the backend rejects data
+more than 24 hours old. It does not bind the callback to a login initiated by
+the receiving browser or make it single-use. A valid signed callback can be
+replayed within its accepted age.
+
+Applications requiring login-CSRF or account-linking replay protection must add
+an application-controlled initiation and single-use binding before completing
+the login or association. Preserve the initiating authenticated local user
+through account linking. Serve the application and widget callback over HTTPS.
+
 .. _BotFather: https://t.me/botfather

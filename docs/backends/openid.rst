@@ -28,9 +28,15 @@ does not apply.
 Session and provider binding
 ----------------------------
 
-All OpenID backends require a positive assertion to match backend-scoped
-discovery state from the browser session that initiated authentication. When
-the framework supports restoring sessions, only a session identifier carried
+All OpenID backends require a positive assertion whose provider-signed return
+URL carries a session-held, one-use transaction value. The verified response
+must also match backend-scoped discovery state from the browser session that
+initiated authentication. A second OpenID start in the same session replaces
+the first transaction; the earlier callback is rejected. Unsolicited assertions
+are rejected, including for anonymous users. Always use the normal backend
+initiation path.
+
+When the framework supports restoring sessions, only a session identifier carried
 by the provider-signed ``openid.return_to`` can select that session. Missing or
 mismatched state requires the user to restart authentication.
 
@@ -48,6 +54,28 @@ discovery URLs and discovered provider endpoints must use HTTPS; there is no
 setting to disable this validation. Custom strategies that implement session
 restoration must restore the complete OpenID session state and update
 session-derived pipeline arguments, including the authenticated user.
+
+Custom backends overriding authorization URL or HTML generation must include
+the transaction value in the provider-signed return URL, for example by calling
+``_return_to_for_login()``.
+
+Upgrading binding requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Authentication attempts initiated before upgrading to session, transaction, or
+fixed-provider binding must restart. Deployments upgrading from a release
+without fixed-provider binding should review associations created or migrated
+from unexpected identity URLs, especially Ubuntu, openSUSE, and Yandex rows
+migrated from nickname or email identifiers. Confirm ownership through recovery
+or authenticated relinking; those records cannot be repaired automatically.
+
+Setting ``SOCIAL_AUTH_ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION = False`` limits
+migration risk but does not replace provider binding. Disable affected backends
+until the fixed release is installed. See
+:doc:`../configuration/identifier-migration` for evidence and recovery policy.
+
+Extra data
+----------
 
 OpenID_ backends can store extra data in ``UserSocialAuth.extra_data`` field
 by defining a set of values names to retrieve from any of the used schemas,

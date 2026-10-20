@@ -362,6 +362,8 @@ For OAuth backends::
     ]
 
 
+.. _request-redirect-settings:
+
 Processing requests and redirects
 ---------------------------------
 
@@ -383,6 +385,16 @@ allow some tweaks to the behavior of these.
     ``SOCIAL_AUTH_SANITIZE_REDIRECTS = True`` setting. This will redirect to the
     ``next`` GET argument if the hostname is on the list, otherwise it defaults
     to the value of ``SOCIAL_AUTH_LOGIN_REDIRECT_URL``.
+
+``SOCIAL_AUTH_ALLOWED_REDIRECT_SCHEMES = ['http', 'https']``
+    Select the schemes accepted for request-derived completion redirects.
+    HTTP(S) URLs must also pass the host allowlist. For a native application,
+    explicitly add its private-use scheme, for example
+    ``['http', 'https', 'com.example.app']``. Private-use destinations are
+    authorized by scheme alone; their host-like component is not checked against
+    ``ALLOWED_REDIRECT_HOSTS``. Approve only schemes controlled by the intended
+    application. These checks do not provide general URL safety or SSRF
+    protection. Backend-specific settings take precedence over global values.
 
 ``SOCIAL_AUTH_REDIRECT_IS_HTTPS = False``
     On projects behind a reverse proxy that uses HTTPS, the redirect URIs
@@ -470,14 +482,21 @@ Miscellaneous settings
     This setting does not rename arguments passed by ``create_user``; required
     creation fields must be supplied separately. The default mapping is empty.
 
-``SOCIAL_AUTH_PROTECTED_USER_FIELDS = ['email',]``
-    During the pipeline process a ``dict`` named ``details`` will be populated
-    with the needed values to create the user instance, but it's also used to
-    update the user instance. Any value in it will be checked as an attribute
-    in the user instance (first by doing ``hasattr(user, name)``). Usually
-    there are attributes that cannot be updated (like ``username``, ``id``,
-    ``email``, etc.), those fields need to be *protect*. Set any field name that
-    requires *protection* in this setting, and it won't be updated.
+``SOCIAL_AUTH_PROTECTED_USER_FIELDS = []``
+    Add local field names that ``user_details`` must not update from provider
+    profile data. By default, ``username``, ``id``, ``pk``, ``email``,
+    ``password``, ``is_active``, ``is_staff``, and ``is_superuser`` are already
+    protected. Configured fields supplement that list. Protection applies to
+    the destination field after ``USER_FIELD_MAPPING`` is resolved; it governs
+    updates, not which fields are passed to initial user creation.
+
+``SOCIAL_AUTH_NO_DEFAULT_PROTECTED_USER_FIELDS = False``
+    Explicit ``True`` removes the default protected fields; any fields listed
+    in ``PROTECTED_USER_FIELDS`` remain protected. This transfers responsibility
+    for identity and authorization-sensitive updates to the application.
+    Preserve equivalent protection before allowing provider data to update
+    local account identifiers, credentials, activity, or privilege fields.
+    Both settings support backend-specific overrides.
 
 
 ``SOCIAL_AUTH_IMMUTABLE_USER_FIELDS = ['email',]``

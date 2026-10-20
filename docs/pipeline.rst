@@ -81,6 +81,30 @@ arguments that may be passed from other pipeline functions or future versions::
         pass
 
 
+.. _pipeline-security:
+
+Pipeline security
+-----------------
+
+Custom pipeline steps execute with application authority. Preserve protocol
+validation, identity selection, policy checks, and association ordering. Keep
+``auth_allowed`` before user creation or linking. Request and provider values
+retain their provenance when saved in sessions, associations, or partials;
+revalidate them before using them for a new security decision. Confirmed resume
+parameters are effective request data, not independently trusted identity claims.
+
+Provider email and profile fields do not establish local authorization or
+account ownership by themselves. ``associate_by_email`` is disabled by default;
+enable it only with an explicit verified-email and account-recovery policy.
+Review protected local fields in :doc:`configuration/settings` and partial
+ownership and confirmation requirements under :ref:`partial-pipeline`.
+
+The optional ``social_core.pipeline.debug.debug`` step prints the provider
+response, details, positional arguments, and pipeline keyword arguments to
+standard output. These may include tokens, validation codes, personal data,
+and other secrets. Use it only with controlled development data; do not enable
+it in production. Custom diagnostics must avoid logging raw authentication data.
+
 Authentication Pipeline
 -----------------------
 
@@ -311,6 +335,8 @@ In order to override the disconnection pipeline, just define the setting::
 Backend specific disconnection pipelines can also be defined with a setting such as
 ``SOCIAL_AUTH_TWITTER_DISCONNECT_PIPELINE``.
 
+
+.. _partial-pipeline:
 
 Partial Pipeline
 ----------------
