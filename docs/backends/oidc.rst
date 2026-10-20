@@ -35,6 +35,9 @@ Nonce lifetime
 --------------
 
 Each login attempt stores a one-use nonce with its creation time and lifetime.
+The nonce is also bound to the initiating browser session and OAuth2 state.
+An ID token from another login attempt is rejected even if its nonce is still
+valid. Logins started before this binding was deployed must be restarted.
 The nonce expires after 30 minutes by default. Configure a different positive
 integer duration in seconds with::
 
