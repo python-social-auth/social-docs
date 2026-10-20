@@ -40,14 +40,21 @@ and custom backends require evidence by default.
 Legacy OpenID session and provider binding
 ------------------------------------------
 
-OpenID backends accept positive assertions only when they match backend-scoped
-discovery state from the initiating browser session or a session selected by
-the provider-signed return URL. Do not expose an alternate callback path that
-bypasses the backend's normal authentication start. The generic OpenID backend
-still accepts a provider selected by the application user and should be exposed
-only when that behavior and its outbound discovery traffic are appropriate for
-the deployment. Fixed-provider backends additionally require the exact HTTPS
-provider endpoint discovered during initiation.
+OpenID backends accept positive assertions only when their provider-signed
+return URL carries a session-held, one-use transaction value and the verified
+response matches backend-scoped discovery state from the initiating browser
+session or a session selected by the signed return URL. A second OpenID
+start in the same session replaces the first transaction. The first callback
+is rejected, and the user must begin authentication again. Unsolicited assertions
+are rejected, including for anonymous users. Do not expose an
+alternate callback path that bypasses the backend's normal authentication
+start. The generic OpenID backend still accepts a provider selected by the
+application user and should be exposed only when that behavior and its outbound
+discovery traffic are appropriate for the deployment. Fixed-provider backends
+additionally require the exact HTTPS provider endpoint discovered during
+initiation. Custom OpenID backends overriding authorization URL or HTML
+generation must include the transaction value in the provider-signed return
+URL, for example by calling ``_return_to_for_login()``.
 
 Deployments upgrading from a release without fixed-provider binding should
 review OpenID associations created or migrated from unexpected identity URLs,
@@ -58,7 +65,7 @@ confirm ownership through account recovery or authenticated relinking. Setting
 migration risk but
 does not replace provider binding, so affected backends should be disabled
 until the fixed release is installed. Authentication attempts initiated before
-upgrading lack backend-scoped state and must be restarted.
+upgrading to either binding requirement must be restarted.
 
 OAuth2 transaction state
 ------------------------
