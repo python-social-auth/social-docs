@@ -36,9 +36,11 @@ the first transaction; the earlier callback is rejected. Unsolicited assertions
 are rejected, including for anonymous users. Always use the normal backend
 initiation path.
 
-When the framework supports restoring sessions, only a session identifier carried
-by the provider-signed ``openid.return_to`` can select that session. Missing or
-mismatched state requires the user to restart authentication.
+The signed ``openid.return_to`` cannot select a session. OpenID callbacks use
+the browser's current session and reject the former session identifier in the
+return URL or callback. Missing or mismatched state requires the user to
+restart authentication. In-progress logins started before this change must
+also restart.
 
 The generic ``openid`` backend remains provider-selectable because the
 application user supplies its provider URL. Backends configured for one
@@ -51,9 +53,9 @@ Custom backends with a fixed ``URL`` receive provider binding automatically.
 A custom backend that computes a fixed-provider URL in ``openid_url()`` must
 override ``requires_openid_provider_binding()`` to return ``True``. Provider
 discovery URLs and discovered provider endpoints must use HTTPS; there is no
-setting to disable this validation. Custom strategies that implement session
-restoration must restore the complete OpenID session state and update
-session-derived pipeline arguments, including the authenticated user.
+setting to disable this validation. Custom backends must validate callbacks
+against the initiating browser session. The old strategy session-restoration
+methods have been removed; custom backends that used them must migrate.
 
 Custom backends overriding authorization URL or HTML generation must include
 the transaction value in the provider-signed return URL, for example by calling

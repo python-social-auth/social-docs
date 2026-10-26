@@ -306,32 +306,32 @@ usually return the response with a cross-site POST request. Django's default
 ``SESSION_COOKIE_SAMESITE = "Lax"`` setting prevents the session cookie from
 being sent with that request.
 
-``social-auth-app-django`` preserves the server-side session identifier in
-SAML ``RelayState`` and restores the session before validating the response.
-The restored session key is rotated before continued use; do not override
-restoration in a way that retains the old key or changes the initiating user.
-Use a current ``social-auth-app-django`` release and a server-side Django
-session engine. In multi-instance deployments, every instance that can handle
-the login or callback must use the same session storage. Database and cached
-database engines meet this requirement when configured with shared services.
-The cache engine must use a shared backend, and the file engine is suitable
-only for a single instance or a shared filesystem. The signed-cookie session
-backend cannot restore session changes through this mechanism.
+``social-auth-core`` first returns a short page on the application origin.
+That page automatically reposts the SAML response to the completion endpoint;
+the browser's SameSite=Lax session cookie accompanies the second POST. If
+automatic submission is blocked, the user can select **Continue signing in**.
+The backend then checks the signed response against the AuthnRequest in that
+browser session. Use ``social-auth-core`` 7.0.0 or later. Integrations with
+custom strategy responses must support the headers described in
+:doc:`Strategies <../strategies>`. The older session identifier in
+``RelayState`` is ignored. In-progress SAML logins started before upgrading
+must restart.
 
-Also verify that the login was initiated by the same browser, that the Identity
-Provider returns ``RelayState`` unchanged, and that only one SAML login is
-active for the Identity Provider in that browser session.
+Verify that login was initiated by the same browser and that only one SAML
+login is active for the Identity Provider in that browser session. Browser
+policies blocking automatic form submission may require the user to select
+the continuation button.
 
-If the callback carries an authenticated Django session for a different user
-than the session restored from ``RelayState``, ``social-auth-app-django``
-rejects it with a ``user_mismatch`` error and preserves the current session.
-Restart the SAML login while signed in as the account that should receive the
-association.
+SAML responses without a matching SP AuthnRequest are rejected by default.
+Deployments that require IdP-initiated SSO can set
+``SOCIAL_AUTH_SAML_ALLOW_IDP_INITIATED = True``. This accepts unsolicited
+signed responses for anonymous browsers and therefore permits login CSRF:
+someone with a trusted IdP account can cause another anonymous browser to
+sign in as them. Do not enable it where browser-bound login is required.
 
-As a workaround, ``SESSION_COOKIE_SAMESITE`` can be set to ``"None"`` so the
-cookie is sent with the cross-site POST. This requires secure HTTPS cookies and
-reduces the protection provided by the SameSite policy, so prefer server-side
-session restoration.
+``SESSION_COOKIE_SAMESITE = "None"`` also sends the cookie with the initial
+cross-site POST, but requires secure HTTPS cookies and reduces SameSite
+protection. The browser return page works with the default ``"Lax"`` setting.
 
 **Error: "Missing needed parameter first_name (configured by attr_first_name)"**
 

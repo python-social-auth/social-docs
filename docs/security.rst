@@ -63,7 +63,7 @@ Review the selected backend's limits, especially :doc:`backends/telegram`,
 :doc:`backends/vk` and :doc:`backends/odnoklassnikiru`.
 
 For Django, see :doc:`configuration/django` for protected routes and launch
-bridges, :doc:`backends/saml` for cross-site session restoration, and
+bridges, :doc:`backends/saml` for the SAML browser return flow, and
 :ref:`partial-pipeline` for confirmation and template requirements.
 
 .. _oauth2-transaction-state:

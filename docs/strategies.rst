@@ -54,6 +54,11 @@ Session::
         """Pop session value for given key"""
         raise NotImplementedError('Implement in subclass')
 
+``get_session_id()`` and ``restore_session()`` have been removed from the
+strategy interface. Callbacks must use the initiating browser's session;
+custom backends that used these methods need to migrate to browser-bound
+correlation.
+
 
 Settings::
 
@@ -75,6 +80,12 @@ Responses::
     def render_html(self, tpl=None, html=None, context=None):
         """Render given template or raw html with given context"""
         raise NotImplementedError('Implement in subclass')
+
+``BaseStrategy.html_with_headers(content, headers)`` is a required strategy
+hook for returning HTML with the specified HTTP headers. SAML POST callbacks
+use it for a protected browser return page. Integrations must implement this
+hook using their framework's response API. A custom strategy without the hook
+fails closed during SAML completion. The Django strategy implements it.
 
 
 Effective pipeline request data
