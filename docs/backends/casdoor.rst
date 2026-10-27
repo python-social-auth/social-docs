@@ -33,6 +33,11 @@ remaining configuration is auto-detected by fetching::
 
     <SOCIAL_AUTH_CASDOOR_OIDC_ENDPOINT>/.well-known/openid-configuration
 
+The backend uses the authorization code flow with S256 PKCE enabled by
+default, which Casdoor supports. You can turn it off if needed::
+
+    SOCIAL_AUTH_CASDOOR_USE_PKCE = False
+
 User details
 ------------
 
