@@ -233,7 +233,8 @@ HTTP status alone does not establish cancellation, expired credentials, or a
 local policy rejection. Shared HTTP handling retains status and structured
 provider codes. Unknown provider codes remain provider errors.
 
-For OAuth, ``invalid_client`` is a configuration failure and ``invalid_grant``
+For OAuth, ``invalid_request`` and ``invalid_client`` are configuration failures
+and ``invalid_grant``
 is credential rejection. The latter does not establish expiry. Explicit
 ``access_denied`` indicates authorization refusal. HTTP 429 and server errors
 receive retry-later guidance; TLS verification failures require administrator
@@ -312,3 +313,18 @@ confirmed expiry boundary with::
     )
 
 Do not translate that text into a code elsewhere in the application.
+
+Provider classification hook
+----------------------------
+
+Backends can override ``get_provider_error(data, *, stage="callback",
+status_code=None, retry_after=None)`` to return a structured social-auth
+exception or ``None``. The default uses the shared provider classifier.
+OAuth2 callback errors and shared HTTP failures use this hook. Delegate unknown
+errors to ``super()`` and preserve the operation stage and HTTP metadata.
+Existing ``process_error()`` overrides continue to work.
+
+Azure AD logs fixed administrator guidance for ``AADSTS9002325`` without
+including the raw provider description. The public error remains the shared
+configuration failure ``invalid_setting``. See :doc:`backends/azuread` for
+remediation.

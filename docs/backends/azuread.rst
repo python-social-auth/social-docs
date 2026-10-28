@@ -537,3 +537,30 @@ local group synchronization. No separate extraction pipeline step is needed.
 .. _Microsoft access token claims reference: https://learn.microsoft.com/en-us/entra/identity-platform/access-token-claims-reference
 .. _Microsoft app role configuration: https://learn.microsoft.com/en-us/entra/identity-platform/howto-add-app-roles-in-apps
 .. _Microsoft scopes and permissions: https://learn.microsoft.com/en-us/entra/identity-platform/scopes-oidc
+
+Troubleshooting PKCE requirements
+---------------------------------
+
+Microsoft error ``AADSTS9002325`` indicates that the request does not meet
+Microsoft's PKCE requirements. The backend reports a configuration failure
+(``invalid_setting``) and logs guidance to check the redirect platform registration.
+Applications should direct users to their administrator rather than display
+Microsoft's raw diagnostic description.
+
+In the Microsoft Entra admin center, open the app registration matching your
+configured client ID and inspect its authentication platform settings. A callback
+handled by your application's server belongs under the **Web** platform.
+Registering it as a **Single-page application** (SPA) can trigger this error.
+For Weblate, the callback path is
+``/accounts/complete/azuread-tenant-oauth2/`` when using that backend.
+
+Check that the actual ``redirect_uri`` in the outgoing authorization request
+exactly matches the registered external HTTPS callback, including its path and
+trailing slash. When TLS terminates at a reverse proxy, verify the external URL
+rather than relying only on internal request URLs in error reports.
+
+When enabling PKCE using the settings above, the authorization request must
+include an S256 ``code_challenge`` and the token exchange must include its matching
+``code_verifier``. Enabling PKCE alone does not correct a server callback registered
+as an SPA. Correct the platform registration and start a fresh login attempt.
+The backend does not change platform registrations or enable PKCE automatically.
