@@ -88,6 +88,32 @@ hook using their framework's response API. A custom strategy without the hook
 fails closed during SAML completion. The Django strategy implements it.
 
 
+Response types
+--------------
+
+Starting with social-auth-core 7, strategies declare their framework response
+type through ``BaseStrategy``'s type parameter. The Django integration uses::
+
+    from django.http import HttpResponse
+    from social_core.strategy import BaseStrategy
+
+    class DjangoStrategy(BaseStrategy[HttpResponse]):
+        ...
+
+Response-producing hooks such as ``redirect()``, ``html()``, and
+``html_with_headers()`` return that type. ``render_html()`` still returns a
+string. Custom Django strategies inherit the response type from
+``DjangoStrategy``; custom backends can annotate it as
+``BaseAuth[HttpResponse]``. Using ``BaseStrategy[HttpResponse]`` at runtime
+requires social-auth-core 7 or later.
+
+Pipeline steps decorated with ``partial`` or ``partial_step()`` may return an
+``HttpResponse`` containing a rendered page to pause the pipeline. Annotate
+these responses with the framework response type; they do not need a ``url``
+attribute. ``HttpResponseProtocol`` remains importable for compatibility but
+is deprecated.
+
+
 Effective pipeline request data
 -------------------------------
 
