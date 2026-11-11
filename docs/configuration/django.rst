@@ -49,6 +49,10 @@ login session or declined authorization, show a useful error page instead of
 an HTTP 500 response. No error URL is required; configure
 ``SOCIAL_AUTH_LOGIN_ERROR_URL`` if you prefer a redirect to your own error page.
 See :ref:`django-exception-middleware` for customization and reporting behavior.
+Keep the middleware enabled in production so consumed callback state is saved
+when a handled provider failure renders a 5xx page. If ``ATOMIC_REQUESTS`` is
+enabled or exceptions bypass this middleware, review how failed callbacks
+retain one-use state and nonce claims.
 
 With ``DEBUG = True``, exceptions propagate by default to aid debugging. Set
 ``SOCIAL_AUTH_RAISE_EXCEPTIONS = False`` to preview the error page during local
@@ -750,6 +754,8 @@ already been selected. It does not group different Gmail addresses into a
 shared Customer Support account. Enable it only for providers whose returned
 email ownership you can trust; see the verification constraints in the
 pipeline guidance above.
+The lookup accepts case-only differences in the stored address. Database
+collations cannot expand the set of addresses eligible for association.
 
 For staff sharing a local support account, explicitly link each authorized
 provider account as above, or implement a pipeline step with an application
@@ -1531,6 +1537,8 @@ unused verification codes, partial pipelines, and authentication nonces older
 than ``--age`` days (default: 14), and expired OpenID associations and OpenID
 Connect nonces. Cleaning up an old nonce can require restarting an unfinished
 authentication attempt; it does not end an established login session.
+Partial-pipeline expiry is also enforced when a flow resumes, independently of
+this scheduled cleanup; see :ref:`partial-pipeline`.
 Association expiry uses each record's ``issued`` timestamp and ``lifetime``;
 ``--age`` does not change this policy. Active associations and linked user
 accounts are preserved.

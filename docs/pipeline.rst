@@ -455,6 +455,9 @@ opening or submitting its confirmation while signed in is rejected because it
 cannot be distinguished from an attempt to attach somebody else's provider
 identity to the signed-in account. External resume never replaces the user
 stored in the partial pipeline with the user from the confirming request.
+The same ownership rule applies when a partial token is already in the browser
+session: signing in by another method does not turn an anonymous flow into an
+account link. Start a new linking flow after signing in.
 
 The confirmation request must include the parameter configured by
 ``SOCIAL_AUTH_PARTIAL_PIPELINE_EXTERNAL_RESUME_CONFIRMATION_PARAMETER``. The
@@ -545,9 +548,16 @@ expiry is enabled, and existing codes older than the configured lifetime can no
 longer be used. See :doc:`storage` for timestamp persistence requirements.
 
 Expiry is checked when the code is validated, independently of scheduled
-database cleanup. It does not delete expired codes or limit the lifetime of
-other partial pipeline steps. Django's ``clearsocial`` command handles retention
-of old unused codes and partials separately.
+database cleanup. In Django, a partial pipeline also expires when resumed
+through the Django strategy.
+Its default lifetime matches the effective email validation lifetime; set
+``SOCIAL_AUTH_PARTIAL_PIPELINE_EXPIRED_THRESHOLD`` to a number of seconds to
+choose a different limit, or to ``None`` or ``0`` to disable partial expiry.
+This limit applies to every suspended pipeline step, including custom steps.
+Backend-prefixed settings use the backend saved with the partial, including
+when the strategy resumes it without a request.
+Existing partials older than the limit cannot resume after upgrading. Django's
+``clearsocial`` command still handles retention of unused codes and partials.
 
 You should use the code in this instance to build the link for email
 validation which should go to

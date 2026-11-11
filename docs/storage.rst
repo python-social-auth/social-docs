@@ -187,6 +187,12 @@ OpenID associations and OIDC nonces and returns the deleted record count.
 Other integrations should implement scheduled cleanup using the same expiry
 rule. OpenID's existing on-demand cleanup only visits associations for the
 provider being queried.
+OpenID association storage must compare the requested provider ``server_url``
+and association ``handle`` exactly before returning a shared secret. A database
+collation that treats distinct URLs or handles as equal cannot establish that
+the stored secret belongs to the requested provider.
+Django rejects a new OpenID association when that collation makes its URL and
+handle collide with an existing association, preserving the existing secret.
 
 When implementing this model, it must inherits from AssociationMixin_, and
 override the needed methods::
