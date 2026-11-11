@@ -522,6 +522,13 @@ Miscellaneous settings
     without authenticating the session, whether the error is rendered or
     redirected to ``SOCIAL_AUTH_LOGIN_ERROR_URL``.
 
+``SOCIAL_AUTH_MAX_SESSION_LENGTH = None``
+    In Django, limit a social login session to this many seconds from login.
+    When both this setting and provider session expiration apply, the shorter
+    lifetime wins. Later writes to the Django session do not extend either
+    deadline. Existing sessions retain their previous expiry until they end
+    or the user signs in again.
+
 ``SOCIAL_AUTH_OPENID_PAPE_MAX_AUTH_AGE = <int value>``
     Enable `OpenID PAPE`_ extension support by defining this setting.
 
