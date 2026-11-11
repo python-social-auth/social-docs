@@ -458,6 +458,9 @@ stored in the partial pipeline with the user from the confirming request.
 The same ownership rule applies when a partial token is already in the browser
 session: signing in by another method does not turn an anonymous flow into an
 account link. Start a new linking flow after signing in.
+For Django sites with UUID user IDs, this ownership binding requires
+``social-auth-core`` 7.1.0 or later and a compatible
+``social-auth-app-django`` release.
 
 The confirmation request must include the parameter configured by
 ``SOCIAL_AUTH_PARTIAL_PIPELINE_EXTERNAL_RESUME_CONFIRMATION_PARAMETER``. The
