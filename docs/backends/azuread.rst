@@ -335,21 +335,36 @@ The backend retains its policy query parameters; do not append the policy to
 Proof Key for Code Exchange (PKCE)
 ----------------------------------
 
-All five Azure backends support PKCE. It is disabled by default to preserve
-existing integrations. Enable it with the selected backend's setting::
+All five Azure backends enable PKCE by default, using the ``S256`` challenge
+method. The backend saves a random verifier in the session for each login
+transaction, sends its SHA-256 challenge at authorization, and sends the
+matching verifier when redeeming the code. This binds authorization codes to
+the initiating login transaction.
 
-    SOCIAL_AUTH_AZUREAD_OAUTH2_USE_PKCE = True
+PKCE complements client authentication; continue to configure a client secret
+or federated assertion for confidential clients. V2 backends are recommended
+for new integrations.
+
+After upgrading to a release that enables PKCE by default, restart any login
+attempts that were already in progress. Their session transactions have no
+PKCE verifier and cannot complete. Existing associations and refresh tokens
+require no migration.
+
+When using a custom ``AUTHORITY_URL``, ``AUTHORITY_HOST``, or overridden OAuth
+endpoints, verify that the authorization server enforces PKCE. If an authority
+does not support it, the selected backend's existing setting can disable it::
+
+    SOCIAL_AUTH_AZUREAD_OAUTH2_USE_PKCE = False
     # For the other backends, use the corresponding setting instead:
-    SOCIAL_AUTH_AZUREAD_OAUTH2_V2_USE_PKCE = True
-    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_USE_PKCE = True
-    SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_USE_PKCE = True
-    SOCIAL_AUTH_AZUREAD_B2C_OAUTH2_USE_PKCE = True
+    SOCIAL_AUTH_AZUREAD_OAUTH2_V2_USE_PKCE = False
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_USE_PKCE = False
+    SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_USE_PKCE = False
+    SOCIAL_AUTH_AZUREAD_B2C_OAUTH2_USE_PKCE = False
 
-The default challenge method is ``S256``. The backend saves a random verifier
-in the session, sends its SHA-256 challenge at authorization, and sends the
-verifier when redeeming the code. PKCE complements client authentication;
-continue to configure a client secret or federated assertion for confidential
-clients. V2 backends are recommended for new integrations.
+Disabling PKCE removes this authorization-code binding. State validation alone
+does not prevent a disclosed, unused code from being redeemed in a different
+login transaction. The backend does not automatically fall back to non-PKCE
+authentication when a provider rejects PKCE.
 
 Register server-side callbacks as **Web** redirect URIs, including applications
 with a separate frontend. Enabling PKCE alone does not make a server-side flow
@@ -559,8 +574,8 @@ exactly matches the registered external HTTPS callback, including its path and
 trailing slash. When TLS terminates at a reverse proxy, verify the external URL
 rather than relying only on internal request URLs in error reports.
 
-When enabling PKCE using the settings above, the authorization request must
+With PKCE enabled (the default), the authorization request must
 include an S256 ``code_challenge`` and the token exchange must include its matching
 ``code_verifier``. Enabling PKCE alone does not correct a server callback registered
 as an SPA. Correct the platform registration and start a fresh login attempt.
-The backend does not change platform registrations or enable PKCE automatically.
+The backend does not change platform registrations.
