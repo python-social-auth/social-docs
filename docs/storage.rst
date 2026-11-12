@@ -62,6 +62,14 @@ needed methods:
         """Return user instance for given id"""
         raise NotImplementedError('Implement in subclass')
 
+The default ``user_details`` pipeline step calls
+``UserMixin.changed_fields(user, fields)`` with the names of attributes it
+assigned. Storage implementations may override this hook to save only those
+fields and preserve concurrent changes to other user fields. The default hook
+calls ``changed(user)``, so existing storage implementations continue to work.
+Custom pipeline steps can call ``changed_fields()`` when they know which
+attributes they modified; ``changed()`` remains available for other updates.
+
 * Social user::
 
     @classmethod
