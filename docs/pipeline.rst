@@ -562,6 +562,13 @@ when the strategy resumes it without a request.
 Existing partials older than the limit cannot resume after upgrading. Django's
 ``clearsocial`` command still handles retention of unused codes and partials.
 
+Other framework integrations can enable the same load-time policy by setting
+``EXPIRE_PARTIAL_PIPELINES_ON_LOAD = True`` on their ``BaseStrategy`` subclass.
+The default remains disabled for existing integrations. The shared strategy
+resolves expiry settings using the backend name saved in the partial; storage
+must persist its original creation timestamp and provide ``is_expired()``.
+See :doc:`storage` for this optional storage hook.
+
 You should use the code in this instance to build the link for email
 validation which should go to
 ``/complete/email?verification_code=<code here>&partial_token=<token here>``.

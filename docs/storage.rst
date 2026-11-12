@@ -248,6 +248,17 @@ The storage lookup method must also be overridden::
         """Return the Code instance with the given code value"""
         raise NotImplementedError('Implement in subclass')
 
+Partial pipeline expiry
+-----------------------
+
+Strategies that opt into load-time partial expiry call the storage partial's
+``is_expired(seconds)`` method when available. Storage must persist the
+partial's original creation ``timestamp`` and implement this method for expiry
+to take effect. Django's implementation treats a missing timestamp as expired
+and interprets naive timestamps in its configured timezone. Strategies without
+the opt-in and storage implementations without the method retain their previous
+behavior.
+
 
 Storage interface
 -----------------
