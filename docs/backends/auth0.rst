@@ -63,15 +63,20 @@ enterprise connections, this skips the Universal Login provider selection page
 and redirects to the selected identity provider. See Auth0's
 `connection selection guidance`_.
 
-To let users choose a connection through a login link, explicitly allow the
+To let users choose a connection when starting login, explicitly allow the
 request parameter to override the configured default::
 
     SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS_OVERRIDE_ALLOWLIST = ['connection']
 
 Keep ``connection`` in ``SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS`` as shown above.
-For example, in a Django template::
+For Django, start login with a POST form containing the CSRF token and the
+selected connection::
 
-    <a href="{% url 'social:begin' 'auth0' %}?connection=google-oauth2">Continue with Google</a>
+    <form method="post" action="{% url 'social:begin' 'auth0' %}">
+        {% csrf_token %}
+        <input type="hidden" name="connection" value="google-oauth2">
+        <button type="submit">Continue with Google</button>
+    </form>
 
 Without the override allowlist, the configured connection is used even when the
 request supplies another value. The allowlist controls which parameter names
