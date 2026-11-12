@@ -1,48 +1,69 @@
 Testing python-social-auth
-==========================
+============================
 
-Testing the application is fairly simple, just met the dependencies and run the
-testing suite.
+The instructions below apply to ``social-auth-core``. Framework integrations
+have their own test suites and dependency requirements; follow the contributing
+instructions in the integration's repository when changing framework behavior.
+See :doc:`development` for working with local checkouts.
 
-The testing suite uses HTTPretty_ to mock server responses, it's not a live
-test against the providers API, to do it that way, a browser and a tool like
-Selenium are needed, that's slow, prone to errors on some cases, and some of
-the application examples must be running to perform the testing. Plus real Key
-and Secret pairs, in the end it's a mess to test functionality which is the
-real point.
-
-By mocking the server responses, we can test the backends functionality (and
-other areas too) easily and quick.
-
+The core test suite uses pytest_ and responses_ to mock provider HTTP responses.
+Tests do not require live provider accounts, application keys, or secrets. Keep
+provider traffic mocked when adding regression tests.
 
 Installing dependencies
------------------------
+-------------------------
 
-Go to the tests_ directory and install the dependencies listed in the
-requirements.txt_. Then run with ``nosetests`` command, or with the
-``run_tests.sh`` script.
+From the root of the ``social-core`` checkout, install uv_ and synchronize the
+development dependencies and all optional backend dependencies::
+
+    uv sync --all-extras --dev
+
+The SAML dependencies require system libraries, including libxml2 and xmlsec
+development packages when building their Python bindings. The core's
+`test workflow`_ records the system setup used in CI.
+
+Running tests
+---------------
+
+Run the core suite from the checkout root::
+
+    uv run pytest
+
+During development, start with the test module relevant to the change, for
+example::
+
+    uv run pytest social_core/tests/backends/test_github.py
+
+Add regression tests for changed behavior. Changes shared by several providers
+should cover the common protocol implementation and representative backends.
+Changes to framework integration contracts also need tests in the affected
+integration repository.
 
 Tox
----
+-----
 
-You can use tox_ to test compatibility against all supported Python versions:
+Use tox_ to test compatibility across the environments configured in the core's
+``tox.ini``::
 
-.. code-block:: bash
+    uvx tox
 
-    $ pip install tox  # if not present
-    $ tox
+To select one Python environment, for example Python 3.14::
 
+    uvx tox -e py314
 
-Pending
--------
+The selected Python interpreters must be available. Consult ``tox.ini`` for the
+current environment list.
 
-At the moment only OAuth1, OAuth2 and OpenID backends are being tested, and
-just login and partial pipeline features are covered by the test. There's still
-a lot to work on, like:
+Linting
+---------
 
-* Frameworks support
+Run the repository's configured formatting and linting hooks before submitting
+changes::
 
-.. _HTTPretty: https://github.com/gabrielfalcao/HTTPretty
-.. _tests: https://github.com/python-social-auth/social-core/tree/master/social_core/tests
-.. _requirements.txt: https://github.com/python-social-auth/social-core/blob/master/social_core/tests/requirements.txt
-.. _tox: http://tox.readthedocs.org/
+    uvx prek run --all-files
+
+.. _pytest: https://docs.pytest.org/
+.. _responses: https://github.com/getsentry/responses
+.. _uv: https://docs.astral.sh/uv/getting-started/installation/
+.. _tox: https://tox.wiki/
+.. _test workflow: https://github.com/python-social-auth/social-core/blob/master/.github/workflows/test.yml
