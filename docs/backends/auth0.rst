@@ -47,6 +47,39 @@ To enable Auth0 OAuth2 support:
         ...
     )
 
+Selecting a connection
+**********************
+
+To send users directly to a social or enterprise identity provider, pass the
+Auth0 ``connection`` parameter using :ref:`auth-extra-arguments`::
+
+    SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS = {
+        'connection': 'google-oauth2',
+    }
+
+Use the connection name configured in Auth0, rather than its connection ID.
+The connection must be enabled for your Auth0 application. For social and
+enterprise connections, this skips the Universal Login provider selection page
+and redirects to the selected identity provider. See Auth0's
+`connection selection guidance`_.
+
+To let users choose a connection through a login link, explicitly allow the
+request parameter to override the configured default::
+
+    SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS_OVERRIDE_ALLOWLIST = ['connection']
+
+Keep ``connection`` in ``SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS`` as shown above.
+For example, in a Django template::
+
+    <a href="{% url 'social:begin' 'auth0' %}?connection=google-oauth2">Continue with Google</a>
+
+Without the override allowlist, the configured connection is used even when the
+request supplies another value. The allowlist controls which parameter names
+can be overridden; it does not restrict the connection values users can submit.
+Connection selection controls login routing. Enforce any restrictions on which
+connections a user may authenticate through in Auth0 or your application's
+server-side authentication policy.
+
 Scopes
 ******
 
@@ -58,3 +91,5 @@ The backend will handle JWT token validation and extract user details including
 username, email, full name, and profile picture.
 
 .. _Auth0 Dashboard: https://manage.auth0.com/
+
+.. _connection selection guidance: https://support.auth0.com/center/s/article/Authenticating-users-through-a-specific-Connection-database-social-etc

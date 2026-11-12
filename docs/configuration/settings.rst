@@ -193,6 +193,8 @@ to control username generation.
     in the format of an import path.
 
 
+.. _auth-extra-arguments:
+
 Extra arguments on auth processes
 ---------------------------------
 
@@ -214,6 +216,17 @@ example to request Facebook to re-authenticate the user, define::
 For other providers, just define settings in the form::
 
       SOCIAL_AUTH_<uppercase backend name>_AUTH_EXTRA_ARGUMENTS = {...}
+
+Configured values are used by default, even when the request contains a
+parameter with the same name. To allow matching request parameters to override
+specific configured values, list their names in::
+
+      SOCIAL_AUTH_<uppercase backend name>_AUTH_EXTRA_ARGUMENTS_OVERRIDE_ALLOWLIST = ['prompt']
+
+Each listed name must also be present in ``AUTH_EXTRA_ARGUMENTS``. Request-only
+parameters are not added automatically. Only allow overrides for parameters
+whose values users may choose; the allowlist restricts parameter names, not
+values. See :doc:`/backends/auth0` for a connection-selection example.
 
 Also, you can send extra parameters on request token process by defining
 settings in the same way explained above but with this other suffix::
