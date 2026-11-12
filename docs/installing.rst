@@ -38,7 +38,8 @@ components are:
 Dependencies
 ------------
 
-Dependencies are properly defined in the requirements files.
+Dependencies are defined in each component's package metadata (``pyproject.toml``
+for the core and Django integration).
 There are some ``extras`` defined to install the corresponding
 dependencies since they are required to build extensions that, unless
 used, are undesired.
@@ -62,10 +63,18 @@ From PyPI_::
 
     $ pip install social-auth-<component>
 
-Or, grab the relevant repository from GitHub_, then::
+Or, clone the relevant repository from GitHub_ and install it in a virtual
+environment. For example, to install the core library from source::
 
-    $ cd social-auth-<component>
-    $ sudo python setup.py install
+    $ git clone https://github.com/python-social-auth/social-core.git
+    $ cd social-core
+    $ python -m venv .venv
+    $ . .venv/bin/activate
+    $ python -m pip install .
+
+On Windows, activate the environment with ``.venv\Scripts\activate`` instead.
+For editable installations and working on multiple components together, see
+:doc:`development`.
 
 
 Using the ``extras`` options

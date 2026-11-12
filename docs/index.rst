@@ -39,7 +39,9 @@ available as a single Markdown file.
    api/index
    developer_intro
    logging_out
+   development
    tests
+   releasing
    use_cases
    thanks
    copyright
