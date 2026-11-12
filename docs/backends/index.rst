@@ -124,6 +124,7 @@ Social backends
    okta
    openstreetmap_oauth2
    oidc
+   onelogin
    orbi
    orcid
    osso
