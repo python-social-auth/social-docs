@@ -17,6 +17,14 @@ also stops authentication unless the compatibility policy below permits it.
 Migration updates both identifier fields atomically and revalidates evidence
 under the association lock.
 
+Stored identifier fields include only the declared ``EXTRA_DATA`` aliases
+selected by the backend's ``get_stored_user_id_keys(id_key)`` hook. Subjects
+inside previous ID token context or stored tokens are checked for conflicts
+when their audience and format are comparable; they cannot alone prove
+ownership. Historical placeholder values such as ``None`` are never offered as
+legacy identifiers. Rows with conflicting evidence need independently verified
+administrative repair, not a relaxed migration setting.
+
 Configuration changes
 ---------------------
 
@@ -63,6 +71,7 @@ backend class and current built-in key. Custom subclasses, newly added legacy
 keys, and other configuration-driven transitions require evidence by default.
 When ``ID_KEY`` is configured, a match through the historical key requires
 evidence even if the configured value equals the current built-in default.
+Google's historical ``USE_UNIQUE_USER_ID`` switch has the same requirement.
 Pre-6.0 associations may already hold that configured identifier, despite
 having an empty stored ``id_key``. A login with the same current UID can still
 stamp the key without changing account ownership. Other current keys also
@@ -111,7 +120,8 @@ This table describes default storage declarations in social-core 5.2.0 for the
 25 built-in backend variants that now declare historical identifier keys.
 Three stored the new identifier directly; Fence and CAS stored ``sub`` under
 ``id``. The remaining 20 lacked a directly usable stable identifier field.
-Stored ID tokens are not decoded as migration evidence. Actual data can differ
+Stored ID tokens can rule out a conflicting migration but do not by themselves
+prove ownership. Actual data can differ
 because of older releases, custom pipelines, or extra-data configuration.
 
 .. list-table:: Historical transitions and default compatibility allowances

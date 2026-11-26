@@ -21,6 +21,12 @@ Bitbucket Data Center (previously Bitbucket Server) supports the `OAuth 2.0`_ pr
 1. Authorization code with `Proof Key for Code Exchange (PKCE)`_
 2. Authorization code
 
+The profile returned for an access token must match the token owner's login
+name. A mismatch is rejected. Administrators should separately verify the
+local account owner and check whether two provider accounts share a stored
+slug before relinking. Follow :ref:`identifier-migration` for evidence and
+recovery rules.
+
 Configuration
 --------------
 
