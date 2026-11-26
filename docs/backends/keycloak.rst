@@ -106,6 +106,26 @@ For automatic signing-key discovery and rotation, consider using the generic
 :doc:`oidc` backend instead. It uses OpenID Connect discovery, selects keys from
 the provider's JWKS by ``kid``, and refreshes the JWKS when a new key appears.
 
+Proof Key for Code Exchange (PKCE)
+----------------------------------
+
+PKCE is disabled by default. Enable it with::
+
+    SOCIAL_AUTH_KEYCLOAK_USE_PKCE = True
+
+The backend then saves a random verifier in the session for each login
+transaction, sends its ``S256`` challenge at authorization, and sends the
+matching verifier when redeeming the code. This binds authorization codes to
+the initiating login transaction. PKCE complements client authentication; keep
+configuring the client secret.
+
+To make Keycloak reject authorization requests without PKCE, turn on **Require
+PKCE** and set **PKCE Method** to ``S256`` under the client's **Capability
+config**. Older Keycloak versions have this as **Proof Key for Code Exchange
+Code Challenge Method** in the client's **Advanced** tab. Enable the setting
+above first, and restart any login attempts that were already in progress when
+it changed.
+
 User ID Configuration
 ---------------------
 
