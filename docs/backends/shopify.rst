@@ -18,6 +18,10 @@ setting.
 
 Shopify uses OAuth 2 for authentication.
 
+The request's ``shop`` value must resolve to a plain Shopify shop label.
+Malformed hosts, escaped dots, and browser URL delimiters are rejected before
+the authorization URL is built. Use a normal ``<shop>.myshopify.com`` domain.
+
 To use this backend, you must:
 
 - Install the `Shopify python library`_::
