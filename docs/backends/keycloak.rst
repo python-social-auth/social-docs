@@ -18,6 +18,12 @@ setting.
 
 Keycloak is an open source IAM and SSO system.
 
+With an email or domain allowlist, the Keycloak response must contain the
+boolean ``email_verified`` claim set to true. Enable email verification and
+ensure the client receives the claim from the same UserInfo response or ID
+token as the selected email. If a different email claim is configured, set
+``SOCIAL_AUTH_KEYCLOAK_EMAIL_VERIFIED_KEY`` to its matching verification claim.
+
 IdP Setup
 ---------
 

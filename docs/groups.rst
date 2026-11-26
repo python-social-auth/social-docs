@@ -60,6 +60,8 @@ for stable numeric IDs, represented as strings. Paths are readable but renames,
 moves, and reuse can change authorization. Memberships are fetched from every
 page on the configured ``API_URL``; visible groups without membership do not
 qualify. Insufficient scope or a failed page aborts authentication.
+Group pages that redirect outside the authenticated GitLab API request are
+also rejected, since a public listing is not membership evidence.
 
 For SAML, configure each identity provider independently::
 
@@ -93,6 +95,21 @@ application roles or configure application-scoped groups.
 
 Only trust group claims from the intended issuer and tenant. In particular,
 restrict Azure's common endpoint appropriately before granting local access.
+When an Azure authority accepts more than one tenant and group extraction is
+enabled, configure the matching ``GROUPS_TENANT_IDS`` setting with a list
+of trusted tenant GUIDs. Role and group claims from other tenants are rejected
+before local group synchronization. For example, use
+``SOCIAL_AUTH_AZUREAD_OAUTH2_GROUPS_TENANT_IDS`` for ``azuread-oauth2``,
+``SOCIAL_AUTH_AZUREAD_OAUTH2_V2_GROUPS_TENANT_IDS`` for ``azuread-oauth2-v2``,
+``SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_GROUPS_TENANT_IDS`` for
+``azuread-tenant-oauth2``, or
+``SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_GROUPS_TENANT_IDS`` for
+``azuread-v2-tenant-oauth2``. Set the corresponding
+``SOCIAL_AUTH_AZUREAD_OAUTH2_GROUPS_ALLOW_ANY_TENANT`` (or matching backend
+prefix) to ``True``
+only if assignments from every accepted tenant intentionally carry local
+authority. A tenant domain name in a backend's ``TENANT_ID`` setting does not
+pin a multi-tenant authority; use its GUID for that configuration.
 
 Restrict authentication
 -----------------------
@@ -111,7 +128,9 @@ nonempty allow list or group mapping is configured, or when
 ``SOCIAL_AUTH_CAS_GROUPS_ENABLED = True`` explicitly enables extraction for a
 custom pipeline. With group handling disabled, CAS ignores the group attribute
 and returns ``None``. When enabled, CAS validates the membership list and
-continues to treat a missing claim as empty membership.
+rejects a missing claim by default. Set
+``SOCIAL_AUTH_CAS_GROUPS_MISSING_AS_EMPTY = True`` only if CAS reliably omits
+the claim for users with no memberships.
 
 Synchronize Django groups
 -------------------------
