@@ -438,6 +438,12 @@ allow some tweaks to the behavior of these.
     If set, it will be passed as the ``proxies`` parameter to ``requests.request``
     calls. To learn more, check the `Requests' Proxies page`_.
 
+Provider requests refuse redirects from HTTPS to an insecure scheme and ignore
+credentials in the application's ``.netrc`` file. Explicit proxy and TLS
+settings, including environment proxy and CA bundle settings, still apply.
+Fixed-provider OpenID discovery also refuses insecure intermediate redirects
+whether python3-openid uses its urllib or curl fetcher.
+
 Whitelists
 ----------
 
