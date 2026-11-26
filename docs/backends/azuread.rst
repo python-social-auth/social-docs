@@ -318,7 +318,9 @@ An explicit authority supplies the base for authorization, token exchange,
 refresh, and discovery. Without it, existing ``AUTHORITY_HOST``, ``TENANT_ID``,
 and ``TENANT_NAME`` configuration continues to work. A UUID ``TENANT_ID`` in a
 tenant backend remains a token validation restriction even when the authority
-is overridden. Individual ``AUTHORIZATION_URL``, ``ACCESS_TOKEN_URL``, and
+is overridden. A tenant domain in ``TENANT_ID`` requires an authority URL
+ending in that same domain; an override for another tenant is rejected.
+Individual ``AUTHORIZATION_URL``, ``ACCESS_TOKEN_URL``, and
 ``OPENID_CONFIGURATION_URL`` overrides take precedence over the derived URLs.
 Token issuer, signing-key, tenant, and B2C policy validation remain enabled.
 

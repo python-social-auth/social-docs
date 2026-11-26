@@ -351,6 +351,14 @@ that signs only the Assertion must include ``InResponseTo`` in signed bearer
 correlate the login. If the IdP omits that field, configure it to sign the
 Response or include the signed confirmation value.
 
+Logout redirects derived from ``RelayState`` use the application's allowed
+redirect hosts and schemes. Configure ``SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS``
+and ``SOCIAL_AUTH_ALLOWED_REDIRECT_SCHEMES`` for an intentionally permitted
+external destination, or use the backend-specific
+``SOCIAL_AUTH_SAML_ALLOWED_REDIRECT_HOSTS`` and
+``SOCIAL_AUTH_SAML_ALLOWED_REDIRECT_SCHEMES`` overrides. See
+:doc:`../configuration/settings` for redirect policy.
+
 Verify that login was initiated by the same browser and that only one SAML
 login is active for the Identity Provider in that browser session. Browser
 policies blocking automatic form submission may require the user to select

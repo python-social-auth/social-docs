@@ -18,6 +18,12 @@ setting.
 
 Keycloak is an open source IAM and SSO system.
 
+With an email or domain allowlist, the Keycloak response must contain the
+boolean ``email_verified`` claim set to true. Enable email verification and
+ensure the client receives the claim from the same UserInfo response or ID
+token as the selected email. If a different email claim is configured, set
+``SOCIAL_AUTH_KEYCLOAK_EMAIL_VERIFIED_KEY`` to its matching verification claim.
+
 IdP Setup
 ---------
 
@@ -105,6 +111,28 @@ ID shown under **Realm Settings** > **Keys** to diagnose a mismatch.
 For automatic signing-key discovery and rotation, consider using the generic
 :doc:`oidc` backend instead. It uses OpenID Connect discovery, selects keys from
 the provider's JWKS by ``kid``, and refreshes the JWKS when a new key appears.
+
+Proof Key for Code Exchange (PKCE)
+----------------------------------
+
+PKCE is disabled by default. Enable it with::
+
+    SOCIAL_AUTH_KEYCLOAK_USE_PKCE = True
+
+The backend then saves a random verifier in the session for each login
+transaction, sends its challenge at authorization, and sends the matching
+verifier when redeeming the code. The challenge method is ``S256`` unless
+``SOCIAL_AUTH_KEYCLOAK_PKCE_CODE_CHALLENGE_METHOD`` says otherwise; keep it at
+``S256`` when Keycloak requires that method. This binds authorization codes to
+the initiating login transaction. PKCE complements client authentication; keep
+configuring the client secret.
+
+To make Keycloak reject authorization requests without PKCE, turn on **Require
+PKCE** and set **PKCE Method** to ``S256`` under the client's **Capability
+config**. Older Keycloak versions have this as **Proof Key for Code Exchange
+Code Challenge Method** in the client's **Advanced** tab. Enable the setting
+above first, and restart any login attempts that were already in progress when
+it changed.
 
 User ID Configuration
 ---------------------

@@ -16,7 +16,22 @@ setting.
    * - ``shopify``
      - ``social_core.backends.shopify.ShopifyOAuth2``
 
-Shopify uses OAuth 2 for authentication.
+Shopify uses OAuth 2 for store association. A shop domain identifies a store,
+not the individual who approved access. Start this backend only for an already
+authenticated local user; anonymous Shopify sign-in is rejected. Existing
+store associations remain available to their local owners.
+Protect the Shopify initiation route with local authentication. If a store
+association was previously the only way to sign in, provide another local
+sign-in or independently verified account recovery route before upgrading;
+then the user can associate the store again from their authenticated session.
+If the shop changes owner, independently verify the current owner, remove the
+old owner's stale shop association, and only then let the current owner
+associate the shop from an authenticated session. Do not transfer the existing
+association solely from a shop domain or a claim made in a callback.
+
+The request's ``shop`` value must resolve to a plain Shopify shop label.
+Malformed hosts, escaped dots, and browser URL delimiters are rejected before
+the authorization URL is built. Use a normal ``<shop>.myshopify.com`` domain.
 
 To use this backend, you must:
 

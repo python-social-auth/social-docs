@@ -36,6 +36,9 @@ that enforces this check must also be restarted.
       SOCIAL_AUTH_DISCOURSE_SECRET = "myDiscourseSecret"
       SOCIAL_AUTH_DISCOURSE_SERVER_URL = "https://my-discourse-site.com"
 
+  Each configured shared secret must be non-empty. Empty secrets are rejected
+  before generating or verifying SSO signatures.
+
 
 Using multiple Discourse instances
 ----------------------------------
