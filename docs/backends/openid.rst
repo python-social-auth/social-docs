@@ -49,6 +49,12 @@ match the exact HTTPS endpoint discovered at initiation. This applies to the
 bundled Ubuntu, openSUSE, Yandex, Launchpad, Fedora, Belgium eID, OpenStack,
 OpenInfra, LiveJournal, and Steam backends.
 
+The generic backend accepts only absolute HTTP or HTTPS provider endpoints
+for browser redirects and form actions. Endpoints containing backslashes or
+control characters are rejected because browsers can interpret them
+differently. Discovery of an endpoint with another scheme requires the user
+to choose a different provider.
+
 Custom backends with a fixed ``URL`` receive provider binding automatically.
 A custom backend that computes a fixed-provider URL in ``openid_url()`` must
 override ``requires_openid_provider_binding()`` to return ``True``. Provider

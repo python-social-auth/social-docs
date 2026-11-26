@@ -56,6 +56,10 @@ Register the backends you plan to use, on Django framework use the usual
         ...
     )
 
+The enabled backend list is checked for each strategy, including when a worker
+has previously loaded the same backend class for another site. Multi-site
+deployments must configure each site's intended backend list separately.
+
 
 URLs options
 ------------
@@ -463,6 +467,44 @@ non-empty, the provider must supply a matching email address; missing, empty,
 non-string, or malformed addresses are refused. Matching is case-insensitive,
 and an address matching either configured list is accepted.
 
+Allowlisted addresses must use literal email syntax; encoded words, comments,
+and surrounding whitespace are rejected. Where a fixed provider supplies a
+reliable verification marker, an unverified or missing marker is rejected. The
+generic user-selected OpenID backend cannot use an arbitrary provider's email
+claim to satisfy an email allowlist. Configure a trusted fixed provider or
+separate email validation if that is your policy. These checks affect both
+new logins and account linking when the allowlist is enabled.
+
+For OpenID Connect, the ``email_verified`` claim is checked from the same
+UserInfo response or validated ID token that supplied the selected ``email``.
+An explicit non-true value rejects the address. Valid quoted-pair local parts
+are accepted; comments, encoded words, and surrounding whitespace remain
+invalid for allowlist matching. If ``EMAIL_KEY`` selects a
+different claim, set ``SOCIAL_AUTH_<BACKEND_NAME>_EMAIL_VERIFIED_KEY`` to the
+matching verification claim in that same source. The generic OIDC backend
+accepts an absent marker when using a trusted provider. Fixed backends that
+require the marker, including Keycloak, reject an absent or non-true value.
+Use a separate email validation step if your policy requires proof when the
+provider omits a marker.
+
+For an Azure AD backend using a multi-tenant authority such as ``/common``,
+an email allowlist also requires
+``SOCIAL_AUTH_<AZURE_BACKEND>_EMAIL_TENANT_IDS``. Set it to the GUIDs of
+tenants trusted to assert allowlisted addresses, for example::
+
+    SOCIAL_AUTH_AZUREAD_OAUTH2_EMAIL_TENANT_IDS = [
+        '11111111-2222-3333-4444-555555555555',
+    ]
+
+The backend checks the tenant ID in the validated ID token before applying
+the email allowlist. A missing tenant list rejects the login. A tenant-pinned
+authority with a single tenant GUID does not need this additional list. A
+tenant-domain authority also needs its path to match ``TENANT_ID`` and a
+concrete issuer from discovery. Before upgrading, configure the
+trusted tenant IDs or switch to a tenant-pinned authority for any Azure
+backend with an email allowlist. An email claim is mutable, so use a stable
+provider account ID for account association.
+
 Ensure that the provider and the granted scopes allow the backend to retrieve
 an email address. Requesting an email scope does not guarantee that an address
 will be supplied. The allowlist does not itself verify ownership of the address;
@@ -504,10 +546,13 @@ Miscellaneous settings
 ``SOCIAL_AUTH_PROTECTED_USER_FIELDS = []``
     Add local field names that ``user_details`` must not update from provider
     profile data. By default, ``username``, ``id``, ``pk``, ``email``,
-    ``password``, ``is_active``, ``is_staff``, and ``is_superuser`` are already
-    protected. Configured fields supplement that list. Protection applies to
+    ``password``, ``is_active``, ``active``, ``verified``, ``email_verified``,
+    ``created_at``, ``is_staff``, and ``is_superuser`` are already protected.
+    Configured fields supplement that list. Protection applies to
     the destination field after ``USER_FIELD_MAPPING`` is resolved; it governs
     updates, not which fields are passed to initial user creation.
+    Private and special attributes such as ``__dict__`` and ``_state`` are
+    never written from provider details, even if default protection is disabled.
 
 ``SOCIAL_AUTH_NO_DEFAULT_PROTECTED_USER_FIELDS = False``
     Explicit ``True`` removes the default protected fields; any fields listed
@@ -549,7 +594,15 @@ Miscellaneous settings
     or the user signs in again.
 
 ``SOCIAL_AUTH_OPENID_PAPE_MAX_AUTH_AGE = <int value>``
-    Enable `OpenID PAPE`_ extension support by defining this setting.
+    Request a maximum OpenID authentication age in seconds through `OpenID
+    PAPE`_. The signed PAPE response must contain an ``auth_time`` within the
+    requested age at the time the flow started. Providers that do not return
+    signed PAPE authentication time cannot satisfy this setting.
+
+``SOCIAL_AUTH_OPENID_PAPE_AUTH_TIME_LEEWAY = 1``
+    Maximum allowed seconds that a signed PAPE ``auth_time`` may be ahead of
+    the current time when maximum age is configured. This is one second by
+    default; use a nonnegative integer to allow known provider clock skew.
 
 ``SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['foo',]``
     If you want to store extra parameters from POST or GET in session, like it

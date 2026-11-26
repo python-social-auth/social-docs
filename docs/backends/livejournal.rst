@@ -34,3 +34,14 @@ request by checking a parameter named ``openid_lj_user`` which can be sent by
 Some LiveJournal callbacks assert a legacy ``http://`` journal identity. The
 backend verifies that identity against the journal's HTTPS discovery document
 and keeps the asserted HTTP identifier as the account key.
+
+Journal names can change owner. LiveJournal is therefore available only to
+associate a journal with an already authenticated local user; it cannot sign
+users in anonymously or create local users. Existing associations remain
+available for association management, but applications that used LiveJournal
+for login must offer another sign-in method. A user who can no longer sign in
+must recover their local account through an independently verified method.
+After confirming the current journal owner, an administrator can remove a stale
+association from the previous local account; the current owner can then sign
+in locally and associate the journal again. Do not transfer an association
+solely because a journal name matches.

@@ -16,7 +16,10 @@ setting.
    * - ``stripe``
      - ``social_core.backends.stripe.StripeOAuth2``
 
-Stripe uses OAuth2 for its authorization service. To setup Stripe backend:
+Stripe Connect identifies an account shared by its members. This backend only
+associates a Stripe account with an already authenticated local user; anonymous
+Stripe sign-in is rejected. Existing associations remain available to their
+local owners. To set up the backend:
 
 - Register a new application at `Stripe App Creation`_, and
 

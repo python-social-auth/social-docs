@@ -30,7 +30,9 @@ Telegram uses a widget-based authentication method for login.
 
 - Fill the ``Bot Token`` value in the settings::
 
-    SOCIAL_AUTH_TELEGRAM_BOT_TOKEN = ''
+    SOCIAL_AUTH_TELEGRAM_BOT_TOKEN = 'your-bot-token'
+
+  The token must be non-empty at both login initiation and callback validation.
 
 - Add the Telegram Login Widget to your login page. The widget should be configured
   to send authentication data to your callback URL, which should be something like
