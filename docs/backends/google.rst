@@ -97,6 +97,22 @@ To allow user selecting Google account to use, add the ``prompt`` parameter with
 
 To restrict authentication to specific domains (useful for G Suite/Google Workspace organizations), use domain whitelisting. Check the whitelists_ settings for details.
 
+Applications that pass a Google access token directly to the ``google-oauth2``
+backend's ``do_auth()`` method must supply a token issued to an accepted OAuth
+client ID. The backend asks Google's token-info endpoint for the token's
+``aud`` value before using it. By default, only
+``SOCIAL_AUTH_GOOGLE_OAUTH2_KEY`` is accepted. If an application also accepts
+tokens issued to its mobile or other clients, list those client IDs explicitly::
+
+    SOCIAL_AUTH_GOOGLE_OAUTH2_AUDIENCE = [
+        SOCIAL_AUTH_GOOGLE_OAUTH2_KEY,
+        'mobile-client-id',
+    ]
+
+This setting also accepts one client ID as a string. The normal authorization
+code callback does not make an extra token-info request. Verify which clients
+may authenticate to the same local account before expanding the list.
+
 
 Google One Tap
 ---------------
@@ -130,6 +146,12 @@ on the client side. Because of this `start` url is not available, only a `comple
   if the token is missing from the cookies. This is an optional setting
   because the cookie is not being set if authentication process started on a different
   domain (for more details check out the `related issue`_).
+
+  One Tap validates Google's signed ID token and normally compares the posted
+  CSRF token with Google's double-submit cookie. It has no server-issued,
+  single-use initiation nonce. Disabling the cookie check weakens its browser
+  binding further; use it only when the cross-domain flow requires it and the
+  application supplies another appropriate binding.
 
 
 * Add the `One Tap snippet`_ to your page::
