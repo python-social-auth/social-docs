@@ -114,8 +114,10 @@ PKCE is disabled by default. Enable it with::
     SOCIAL_AUTH_KEYCLOAK_USE_PKCE = True
 
 The backend then saves a random verifier in the session for each login
-transaction, sends its ``S256`` challenge at authorization, and sends the
-matching verifier when redeeming the code. This binds authorization codes to
+transaction, sends its challenge at authorization, and sends the matching
+verifier when redeeming the code. The challenge method is ``S256`` unless
+``SOCIAL_AUTH_KEYCLOAK_PKCE_CODE_CHALLENGE_METHOD`` says otherwise; keep it at
+``S256`` when Keycloak requires that method. This binds authorization codes to
 the initiating login transaction. PKCE complements client authentication; keep
 configuring the client secret.
 
