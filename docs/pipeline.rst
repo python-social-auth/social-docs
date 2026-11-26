@@ -551,23 +551,29 @@ expiry is enabled, and existing codes older than the configured lifetime can no
 longer be used. See :doc:`storage` for timestamp persistence requirements.
 
 Expiry is checked when the code is validated, independently of scheduled
-database cleanup. In Django, a partial pipeline also expires when resumed
-through the Django strategy.
-Its default lifetime matches the effective email validation lifetime; set
+database cleanup. Every partial pipeline also expires when resumed, through
+the shared strategy. Its default lifetime is seven days, independent of the
+email validation lifetime. Set
 ``SOCIAL_AUTH_PARTIAL_PIPELINE_EXPIRED_THRESHOLD`` to a number of seconds to
-choose a different limit, or to ``None`` or ``0`` to disable partial expiry.
+choose a different limit. Setting it to ``None`` or ``0`` explicitly disables
+partial expiry and leaves old provider assertions resumable indefinitely.
 This limit applies to every suspended pipeline step, including custom steps.
 Backend-prefixed settings use the backend saved with the partial, including
 when the strategy resumes it without a request.
-Existing partials older than the limit cannot resume after upgrading. Django's
+With expiry enabled, existing partials older than the limit or without a
+trustworthy creation timestamp cannot resume after upgrading. Users must
+restart those authentication flows. Partials saved before initiator binding was added must
+also restart, even if their Django creation timestamp is valid. Django's
 ``clearsocial`` command still handles retention of unused codes and partials.
+When an older Django partial halts again after resuming, its original database
+creation time remains the basis for the expiry limit.
 
-Other framework integrations can enable the same load-time policy by setting
-``EXPIRE_PARTIAL_PIPELINES_ON_LOAD = True`` on their ``BaseStrategy`` subclass.
-The default remains disabled for existing integrations. The shared strategy
-resolves expiry settings using the backend name saved in the partial; storage
-must persist its original creation timestamp and provide ``is_expired()``.
-See :doc:`storage` for this optional storage hook.
+The shared strategy resolves expiry settings using the backend name saved in
+the partial. Custom storage must persist the original creation timestamp and
+provide ``is_expired()``; a partial without that method is refused when expiry
+is enabled. Storage must also preserve the initiating user binding; partials
+saved without it must restart even when their timestamp is valid. See
+:doc:`storage` for this storage contract.
 
 You should use the code in this instance to build the link for email
 validation which should go to

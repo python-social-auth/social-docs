@@ -251,13 +251,16 @@ The storage lookup method must also be overridden::
 Partial pipeline expiry
 -----------------------
 
-Strategies that opt into load-time partial expiry call the storage partial's
-``is_expired(seconds)`` method when available. Storage must persist the
-partial's original creation ``timestamp`` and implement this method for expiry
-to take effect. Django's implementation treats a missing timestamp as expired
-and interprets naive timestamps in its configured timezone. Strategies without
-the opt-in and storage implementations without the method retain their previous
-behavior.
+The shared strategy calls a storage partial's ``is_expired(seconds)`` method
+when loading a suspended flow. Storage must preserve the original creation
+time across re-halts. The base partial mixin records it with the saved pipeline
+arguments; Django uses its model timestamp and interprets naive timestamps in
+its configured timezone. Missing timestamps and missing expiry methods reject
+the partial when expiry is enabled. Only an explicit
+``SOCIAL_AUTH_PARTIAL_PIPELINE_EXPIRED_THRESHOLD`` value of ``None`` or ``0`` disables the
+check.
+Storage must persist the initiating user binding with the partial. A partial
+saved without it must restart regardless of its creation timestamp.
 
 
 Storage interface
