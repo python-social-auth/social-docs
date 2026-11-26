@@ -17,9 +17,8 @@ configuration, migration, and recovery guidance here.
 ## Verification and review handoff
 
 - Run `uvx prek run --all-files` for the configured repository checks.
-- After the final edit to documentation source, run a Sphinx build using the
-  project's `docs` dependency group. An `AGENTS.md`-only change does not need a
-  Sphinx build.
+- After the final edit to documentation source, run `uv run --group docs sphinx-build -W -b html docs docs/_build/html`.
+  An `AGENTS.md`-only change does not need a Sphinx build.
 - After amending or rebasing a review branch, rerun checks affected by the
   change. Before calling a pushed branch ready, inspect CI for its latest head
   and report local results separately from CI results. Identify queued, failed,
