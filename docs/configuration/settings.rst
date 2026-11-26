@@ -56,6 +56,10 @@ Register the backends you plan to use, on Django framework use the usual
         ...
     )
 
+The enabled backend list is checked for each strategy, including when a worker
+has previously loaded the same backend class for another site. Multi-site
+deployments must configure each site's intended backend list separately.
+
 
 URLs options
 ------------
