@@ -159,6 +159,34 @@ At a minimum, you must add the following to your project's settings:
   ``attr_user_permanent_id`` to choose the identifier attribute; the generic
   ``ID_KEY`` setting does not apply to SAML identities.
 
+  Without an explicit ``attr_user_permanent_id``, a signed persistent NameID
+  is preferred over a login name. If the IdP does not supply a persistent
+  NameID, the backend retains its login-name fallback; configure an immutable
+  identifier if login names can be reassigned. New persistent and fallback
+  associations use distinct ``<idp>:persistent:<base64url-utf8-name-id>`` and
+  ``<idp>:fallback:<base64url-utf8-identifier>`` keys. Existing fallback
+  associations keep their original ``<idp>:<identifier>`` keys when saved
+  identity evidence does not conflict with the current assertion. A historical
+  ``<idp>:<identifier>`` key may begin with the new ``persistent:`` or
+  ``fallback:`` prefix and collide with a new namespaced key. Such collisions,
+  or a saved nonpersistent NameID format on a candidate for persistent
+  migration, stop login. An operator must verify the local account owner and
+  the IdP's current immutable identifier independently, then repair or remove
+  the conflicting association before the user signs in again. A legacy
+  fallback row without saved NameID evidence can still match by its old key;
+  ensure that the login identifier cannot be reassigned. A legacy
+  login-name row is migrated only when its saved NameID matches the current
+  assertion. Rows without matching evidence require independently verified
+  administrative repair. Review existing associations before enabling
+  persistent NameIDs or changing the identifier mapping.
+
+  If the IdP must use a particular NameID format, set ``name_id_format`` in
+  that IdP's configuration to its exact SAML format URI. This also pins the
+  format when the service provider requests ``unspecified``; a different or
+  missing format is rejected. With no format expectation, the backend accepts
+  the IdP's format. A custom format setting should match the IdP's actual
+  signed responses before rollout.
+
   Note: testshib does not provide email as an attribute. This was tested using
   Okta and G Suite (formerly Google Apps for Business).
 
@@ -316,6 +344,12 @@ custom strategy responses must support the headers described in
 :doc:`Strategies <../strategies>`. The older session identifier in
 ``RelayState`` is ignored. In-progress SAML logins started before upgrading
 must restart.
+
+The response's request ID must be protected by a verified signature. An IdP
+that signs only the Assertion must include ``InResponseTo`` in signed bearer
+``SubjectConfirmationData``; an unsigned outer Response attribute cannot
+correlate the login. If the IdP omits that field, configure it to sign the
+Response or include the signed confirmation value.
 
 Verify that login was initiated by the same browser and that only one SAML
 login is active for the Identity Provider in that browser session. Browser
