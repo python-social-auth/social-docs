@@ -498,10 +498,13 @@ Miscellaneous settings
 ``SOCIAL_AUTH_PROTECTED_USER_FIELDS = []``
     Add local field names that ``user_details`` must not update from provider
     profile data. By default, ``username``, ``id``, ``pk``, ``email``,
-    ``password``, ``is_active``, ``is_staff``, and ``is_superuser`` are already
-    protected. Configured fields supplement that list. Protection applies to
+    ``password``, ``is_active``, ``active``, ``verified``, ``email_verified``,
+    ``created_at``, ``is_staff``, and ``is_superuser`` are already protected.
+    Configured fields supplement that list. Protection applies to
     the destination field after ``USER_FIELD_MAPPING`` is resolved; it governs
     updates, not which fields are passed to initial user creation.
+    Private and special attributes such as ``__dict__`` and ``_state`` are
+    never written from provider details, even if default protection is disabled.
 
 ``SOCIAL_AUTH_NO_DEFAULT_PROTECTED_USER_FIELDS = False``
     Explicit ``True`` removes the default protected fields; any fields listed

@@ -69,6 +69,9 @@ fields and preserve concurrent changes to other user fields. The default hook
 calls ``changed(user)``, so existing storage implementations continue to work.
 Custom pipeline steps can call ``changed_fields()`` when they know which
 attributes they modified; ``changed()`` remains available for other updates.
+Custom storage that saves an entire stale user object in ``changed()`` can
+still overwrite concurrent local account changes. Implement ``changed_fields``
+to persist only the named fields if the storage supports partial updates.
 
 * Social user::
 
