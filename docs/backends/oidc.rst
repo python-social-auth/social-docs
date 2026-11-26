@@ -59,6 +59,22 @@ Failed and abandoned attempts can leave nonce records behind. Django deployments
 should regularly run ``manage.py clearsocial``; see
 :doc:`/configuration/django` for cleanup and upgrade guidance.
 
+Requested authentication strength
+---------------------------------
+
+``SOCIAL_AUTH_OIDC_ACR_VALUES`` requests one or more space-separated
+authentication context values. The validated ID token must contain one of
+those values in ``acr``. ``SOCIAL_AUTH_OIDC_MAX_AGE`` requests a maximum age
+in seconds, including ``0`` to require a fresh login. The validated ID token
+must contain a finite numeric ``auth_time`` no older than the requested limit
+at the start of the browser flow. Missing or non-matching response claims
+reject login. ``SOCIAL_AUTH_OIDC_JWT_LEEWAY`` defaults to one second and allows
+that much clock skew for timestamp checks. Set it to another number of seconds
+when the provider clock requires it. Replace ``OIDC`` with the selected
+backend's settings prefix where applicable. Values sent through
+``AUTH_EXTRA_ARGUMENTS`` for ``max_age`` or ``acr_values`` are subject to the
+same signed-claim checks as the settings above.
+
 IdP Setup
 ---------
 

@@ -546,7 +546,15 @@ Miscellaneous settings
     or the user signs in again.
 
 ``SOCIAL_AUTH_OPENID_PAPE_MAX_AUTH_AGE = <int value>``
-    Enable `OpenID PAPE`_ extension support by defining this setting.
+    Request a maximum OpenID authentication age in seconds through `OpenID
+    PAPE`_. The signed PAPE response must contain an ``auth_time`` within the
+    requested age at the time the flow started. Providers that do not return
+    signed PAPE authentication time cannot satisfy this setting.
+
+``SOCIAL_AUTH_OPENID_PAPE_AUTH_TIME_LEEWAY = 1``
+    Maximum allowed seconds that a signed PAPE ``auth_time`` may be ahead of
+    the current time when maximum age is configured. This is one second by
+    default; use a nonnegative integer to allow known provider clock skew.
 
 ``SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['foo',]``
     If you want to store extra parameters from POST or GET in session, like it
