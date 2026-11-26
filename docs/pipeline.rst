@@ -523,6 +523,9 @@ The built-in mail validation step is an externally resumable partial. Opening
 the validation link will first show the local confirmation response provided by
 the active Strategy. After confirmation, the pipeline receives the original
 ``verification_code`` and ``partial_token`` through ``strategy.request_data()``.
+The code is accepted only while resuming that partial. A callback containing
+an email address and verification code without its partial cannot validate the
+address; the user must start a new flow and follow its complete link.
 
 ``code`` is a model instance used to validate the email address, it
 contains four fields:
@@ -541,6 +544,9 @@ contains four fields:
     Creation time used to enforce the code's lifetime.
 
 Email validation codes are single-use and expire after seven days by default.
+Each new code is bound to the partial pipeline that issued it. A code from
+another partial, even for the same address, is rejected without consuming it.
+Validation links issued before this binding was stored must be restarted.
 Set their lifetime in seconds with::
 
     SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD = 604800
