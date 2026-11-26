@@ -30,3 +30,7 @@ LiveJournal OpenID is provided by URLs in the form
 from the data in the current
 request by checking a parameter named ``openid_lj_user`` which can be sent by
 ``POST`` or ``GET``.
+
+Some LiveJournal callbacks assert a legacy ``http://`` journal identity. The
+backend verifies that identity against the journal's HTTPS discovery document
+and keeps the asserted HTTP identifier as the account key.

@@ -53,7 +53,17 @@ Custom backends with a fixed ``URL`` receive provider binding automatically.
 A custom backend that computes a fixed-provider URL in ``openid_url()`` must
 override ``requires_openid_provider_binding()`` to return ``True``. Provider
 discovery URLs and discovered provider endpoints must use HTTPS; there is no
-setting to disable this validation. Custom backends must validate callbacks
+setting to disable this validation. Fixed-provider discovery also rejects
+cleartext identifier and XRDS URLs, including callback rediscovery. A failed
+begin cannot reuse another backend's discovered services; restart the login
+after a discovery error or an upgrade. Steam callbacks require a Steam claimed
+identifier, and LiveJournal verifies its own provider and identity hosts.
+LiveJournal can still accept its provider's legacy ``http://`` journal identity:
+callback verification reads the journal's ``https://`` discovery document and
+requires that document to delegate to the exact asserted HTTP identity. The
+stored OpenID identifier retains its original scheme.
+
+Custom backends must validate callbacks
 against the initiating browser session. The old strategy session-restoration
 methods have been removed; custom backends that used them must migrate.
 
