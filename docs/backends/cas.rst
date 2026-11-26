@@ -32,6 +32,10 @@ This class functions identically to the generic OIDC backend, but hides
 the differences in implementation details of the OIDC implementation in
 Apereo CAS.
 
+For an email allowlist, CAS uses one UserInfo response for both the selected
+address and its verification marker. See :doc:`../configuration/settings` for
+the general OIDC email source and verification policy.
+
 User identification
 -------------------
 
