@@ -1533,18 +1533,23 @@ Authentication storage cleanup
 ------------------------------
 
 Schedule ``manage.py clearsocial`` regularly, for example hourly. It removes
-unused verification codes, partial pipelines, and authentication nonces older
-than ``--age`` days (default: 14), and expired OpenID associations and OpenID
-Connect nonces. Cleaning up an old nonce can require restarting an unfinished
+unused verification codes and authentication nonces older than ``--age`` days
+(default: 14), plus expired partial pipelines, OpenID associations, and OpenID
+Connect nonces. Partial cleanup uses the backend saved with each partial and
+the same expiry setting and original creation time used when the flow resumes; see
+:ref:`partial-pipeline`. ``--age`` does not limit partial retention. Setting a
+partial expiry threshold to ``None`` or ``0`` disables automatic cleanup of
+those partials. Cleaning up an old nonce can require restarting an unfinished
 authentication attempt; it does not end an established login session.
-Partial-pipeline expiry is also enforced when a flow resumes, independently of
-this scheduled cleanup; see :ref:`partial-pipeline`.
+Cleanup loads the configured ``SOCIAL_AUTH_STRATEGY`` without a request. Custom
+strategies that resolve partial expiry settings must support this context.
 Association expiry uses each record's ``issued`` timestamp and ``lifetime``;
 ``--age`` does not change this policy. Active associations and linked user
 accounts are preserved.
 
 Applications with their own scheduled tasks can call
-``social_django.models.Association.cleanup_expired()`` directly. Expiry is
+``social_django.models.Association.cleanup_expired()`` and
+``social_django.models.Partial.cleanup_expired()`` directly. Expiry is
 checked during OIDC login validation even when scheduled cleanup has not run.
 
 When upgrading to nonce lifetime enforcement, stop old login-serving processes,

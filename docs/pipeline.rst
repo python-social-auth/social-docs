@@ -570,7 +570,9 @@ With expiry enabled, existing partials older than the limit or without a
 trustworthy creation timestamp cannot resume after upgrading. Users must
 restart those authentication flows. Partials saved before initiator binding was added must
 also restart, even if their Django creation timestamp is valid. Django's
-``clearsocial`` command still handles retention of unused codes and partials.
+``clearsocial`` command removes partials using this expiry policy. Disabling
+partial expiry also disables this cleanup; ``--age`` applies only to verification
+codes and authentication nonces.
 When an older Django partial halts again after resuming, its original database
 creation time remains the basis for the expiry limit.
 
